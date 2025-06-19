@@ -102,7 +102,7 @@ export function RegisterForm({
 									Register
 								</Button>
 								<Button variant="outline" className="w-full">
-									Register with Github
+									Login with GitHub
 								</Button>
 							</div>
 						</div>
