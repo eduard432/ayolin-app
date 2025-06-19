@@ -1,0 +1,4 @@
+- Instalar react-query
+- Setup next-auth
+- Instalar zod
+- 
