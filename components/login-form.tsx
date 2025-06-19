@@ -36,9 +36,9 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Inicia sesión en tu cuenta</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Ingresa tu correo electrónico para iniciar sesión en tu cuenta
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -49,7 +49,7 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="nom@ejemplo.com"
                   {...register("email", { required: "Email is required" })}
                 />
                 {errors.email && (
@@ -58,12 +58,12 @@ export function LoginForm({
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Contraseña</Label>
                   <a
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    Olvidaste tu contraseña?
                   </a>
                 </div>
                 <Input 
@@ -80,14 +80,14 @@ export function LoginForm({
                   Login
                 </Button>
                 <Button variant="outline" className="w-full">
-                  Login with GitHub
+                  Login con GitHub
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              No tienes cuenta?{" "}
               <Link href="/register" className="underline underline-offset-4">
-                Sign up
+                Registrarse
               </Link>
             </div>
           </form>
