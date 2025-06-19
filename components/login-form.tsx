@@ -80,7 +80,7 @@ export function LoginForm({
                   Login
                 </Button>
                 <Button variant="outline" className="w-full">
-                  Login with Github
+                  Login with GitHub
                 </Button>
               </div>
             </div>
