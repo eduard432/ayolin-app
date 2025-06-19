@@ -42,9 +42,9 @@ export function RegisterForm({
 		<div className={cn('flex flex-col gap-6', className)} {...props}>
 			<Card>
 				<CardHeader>
-					<CardTitle>Register</CardTitle>
+					<CardTitle>Registrarse</CardTitle>
 					<CardDescription>
-						Enter your email and password below to registar an account
+						Ingresa tu correo electrónico y contraseña para crear una cuenta
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -55,7 +55,7 @@ export function RegisterForm({
 								<Input
 									id="email"
 									type="email"
-									placeholder="m@example.com"
+									placeholder="nom@ejemplo.com"
 									{...register('email', { required: 'Email is required' })}
 								/>{' '}
 								{errors.email && (
@@ -65,7 +65,7 @@ export function RegisterForm({
 								)}
 							</div>
 							<div className="grid gap-3">
-								<Label htmlFor="password">Password</Label>
+								<Label htmlFor="password">Contraseña</Label>
 								<Input
 									id="password1"
 									type="password1"
@@ -81,7 +81,7 @@ export function RegisterForm({
 								)}
 							</div>
 							<div className="grid gap-3">
-								<Label htmlFor="password-confirm">Confirm Password</Label>
+								<Label htmlFor="password-confirm">Confirmar contraseña</Label>
 								<Input
 									id="password2"
 									type="password2"
@@ -99,17 +99,17 @@ export function RegisterForm({
 							</div>
 							<div className="flex flex-col gap-3">
 								<Button type="submit" className="w-full">
-									Register
+									Registrarse
 								</Button>
 								<Button variant="outline" className="w-full">
-									Login with GitHub
+									Login con GitHub
 								</Button>
 							</div>
 						</div>
 						<div className="mt-4 text-center text-sm">
-							Do you have an account?{' '}
+							No tienes cuenta?{' '}
 							<Link href="/login" className="underline underline-offset-4">
-								Sign in
+								Login
 							</Link>
 						</div>
 					</form>
