@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { error } from "console";
 
 type Inputs = {
   email: string 
@@ -26,7 +24,6 @@ export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter();
 
   const{register, handleSubmit, watch, formState : {errors} } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
