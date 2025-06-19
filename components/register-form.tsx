@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { error } from "console";
 
 type Inputs = {
   email: string 
@@ -56,7 +57,9 @@ export function RegisterForm({
                   type="email"
                   placeholder="m@example.com"
                   {...register("email", { required: "Email is required" })}
-                />
+                /> {errors.email && (
+                <span className="text-red-500 text-sm">{errors.email.message}</span>
+              )}
 
               </div>
               <div className="grid gap-3">
@@ -64,16 +67,22 @@ export function RegisterForm({
                 <Input 
                 id="password1" 
                 type="password1" 
-                {...register("password1", { required: "Password is required" })}
+                {...register("password1", { required: "Password is required", minLength: {value: 6, message: "Minimo 6 caracteres"}, })}
               />
+              {errors.password1 && (
+                <span className="text-red-500 text-sm">{errors.password1.message}</span>
+              )}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="password-confirm">Confirm Password</Label>
                 <Input 
                 id="password2" 
                 type="password2" 
-                {...register("password2", { required: "Password2 is required" })}
+                {...register("password2", { required: "Por favor confirmar la contraseña", validate: (value) => value === password1 || "No son iguales las contraseñas"})}
               />
+              {errors.password2 && (
+                <span className="text-red-500 text-sm">{errors.password2.message}</span>
+              )}
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
