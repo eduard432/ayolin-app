@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
+
 import React from "react";
 import {
   FaMessage,
@@ -12,133 +15,146 @@ import {
 } from "react-icons/fa6";
 
 import Link from "next/link";
+import Image from "next/image";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const features = [
   {
     icon: <FaMessage className="h-5 w-5" />,
-    title: "Natural Conversations",
+    title: "Conversaciones Naturales",
     description:
-      "Chat with Ayolin as naturally as you would with a friend. Experience human-like interactions powered by advanced AI.",
+      "Chatea con Ayolin de forma tan natural como lo harías con un amigo. Experimenta interacciones humanas impulsadas por IA avanzada.",
   },
   {
     icon: <FaBrain className="h-5 w-5" />,
-    title: "Contextual Understanding",
+    title: "Comprensión Contextual",
     description:
-      "Ayolin understands context and remembers your conversations, making each interaction more meaningful.",
+      "Ayolin entiende el contexto y recuerda tus conversaciones, haciendo que cada interacción sea más significativa.",
   },
   {
     icon: <FaHeart className="h-5 w-5" />,
-    title: "Empathetic Responses",
+    title: "Respuestas Empáticas",
     description:
-      "More than just answers - Ayolin provides thoughtful, empathetic responses that truly connect.",
+      "Más que solo respuestas: Ayolin ofrece respuestas empáticas y reflexivas que realmente conectan.",
   },
   {
     icon: <FaBolt className="h-5 w-5" />,
-    title: "Lightning Fast",
+    title: "Velocidad Relámpago",
     description:
-      "Get instant responses 24/7, powered by state-of-the-art AI technology.",
+      "Recibe respuestas instantáneas las 24 horas, todos los días, gracias a tecnología de IA de última generación.",
   },
   {
     icon: <FaShield className="h-5 w-5" />,
-    title: "Secure & Private",
+    title: "Seguro y Privado",
     description:
-      "Your conversations with Ayolin are encrypted and completely private. Your data stays yours.",
+      "Tus conversaciones con Ayolin están encriptadas y son completamente privadas. Tus datos siguen siendo tuyos.",
   },
   {
     icon: <FaGlobe className="h-5 w-5" />,
-    title: "Multilingual Support",
+    title: "Soporte Multilingüe",
     description:
-      "Communicate with Ayolin in multiple languages, breaking down language barriers effortlessly.",
+      "Comunícate con Ayolin en varios idiomas, eliminando barreras de lenguaje sin esfuerzo.",
   },
   {
     icon: <FaWandMagicSparkles className="h-5 w-5" />,
-    title: "Smart Learning",
+    title: "Aprendizaje Inteligente",
     description:
-      "Ayolin continuously learns and adapts to provide increasingly personalized and accurate responses.",
+      "Ayolin aprende y se adapta continuamente para ofrecer respuestas cada vez más precisas y personalizadas.",
   },
   {
     icon: <FaClock className="h-5 w-5" />,
-    title: "Always Available",
+    title: "Disponible Siempre",
     description:
-      "Get support anytime, anywhere. Ayolin is ready to help 24/7, never taking a break.",
+      "Obtén ayuda en cualquier momento y lugar. Ayolin está disponible las 24/7, sin descansos.",
   },
 ];
 
+
 const useCases = [
   {
-    title: "Customer Support",
-    description: "Provide instant support to your customers around the clock.",
+    title: "Soporte al Cliente",
+    description: "Brinda soporte instantáneo a tus clientes las 24 horas del día.",
   },
   {
-    title: "Personal Assistant",
+    title: "Asistente Personal",
     description:
-      "Let Ayolin help manage your schedule, reminders, and daily tasks.",
+      "Deja que Ayolin te ayude a gestionar tu agenda, recordatorios y tareas diarias.",
   },
   {
-    title: "Learning Companion",
-    description: "Get help with research, homework, and learning new subjects.",
+    title: "Compañero de Aprendizaje",
+    description: "Obtén ayuda con investigaciones, tareas y nuevos temas de estudio.",
   },
   {
-    title: "Creative Partner",
+    title: "Socio Creativo",
     description:
-      "Brainstorm ideas and get creative inspiration for your projects.",
+      "Genera ideas y recibe inspiración creativa para tus proyectos.",
   },
 ];
 
 export default function Home() {
+
+  useEffect(() => {
+    AOS.init({
+      duration: 800, 
+      once: true,     
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
       {/* Hero Section */}
       <div className="container mx-auto px-4 pt-20 pb-16">
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="text-center max-w-4xl mx-auto" data-aos="fade-up">
           <div className="mb-6 text-neutral-800 text-lg font-semibold">
             Conoce a tu asistente personal
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
+          <h1 className="text-9xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
             Dile Hola a Ayolin
           </h1>
           <p className="text-xl md:text-2xl text-neutral-500 mb-8">
-            Your intelligent AI companion that understands, learns, and grows
-            with you. Experience the next evolution in conversational AI.
+            Milies de posibilidades es un solo lugar, que esperas!!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <form>
               <button
-                className="h-11 rounded-md px-8 flex items-center text-lg border semibold bg-neutral-900 text-neutral-50 font font-semibold"
+                className="h-20 rounded-md px-8 flex items-center text-lg border semibold bg-neutral-900 text-neutral-50 font font-semibold"
                 type="submit"
               >
-                Chat With Ayolin
+                Chatea con Ayolin
               </button>
             </form>
           </div>
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-neutral-500">
-            <div className="flex items-center gap-2">
-              <FaShield className="h-5 w-5" />
-              <span>Enterprise-grade security</span>
+            <div className="mt-12 flex flex-wrap justify-center gap-8 text-neutral-700" data-aos="fade-up">
+              <div className="flex items-center gap-2" >
+                <FaShield className="h-5 w-5" />
+                <span>Seguridad de nivel empresarial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaGlobe className="h-5 w-5" />
+                <span>Más de 100 idiomas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaRegClock className="h-5 w-5" />
+                <span>Disponibilidad 24/7</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <FaGlobe className="h-5 w-5" />
-              <span>100+ languages</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <FaRegClock className="h-5 w-5" />
-              <span>24/7 availability</span>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Features Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Why Choose Ayolin?</h2>
+          <h2 className="text-3xl font-bold mb-4">¿Por qué elegir Ayolin?</h2>
           <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
-            Discover how Ayolin combines cutting-edge AI technology with a
-            genuine understanding of human interaction to deliver an
-            unparalleled conversational experience.
+            Descubre cómo Ayolin combina tecnología de inteligencia artificial de vanguardia
+            con una comprensión genuina de la interacción humana para ofrecer una experiencia
+            conversacional sin igual.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -158,12 +174,11 @@ export default function Home() {
 
       {/* Use Cases Section */}
       <div className="container mx-auto px-4 py-16">
-        <div className="bg-white rounded-xl p-8 shadow-lg">
+        <div className="bg-white rounded-xl p-8 shadow-lg" data-aos="fade-up">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Endless Possibilities</h2>
+            <h2 className="text-3xl font-bold mb-4">Posibilidades Infinitas</h2>
             <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
-              From personal assistance to professional support, Ayolin adapts to
-              your needs.
+              Desde asistencia personal hasta soporte profesional, Ayolin se adapta a tus necesidades.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -184,17 +199,16 @@ export default function Home() {
 
       {/* Demo Section */}
       <div id="demo" className="container mx-auto px-4 py-16">
-        <div className="bg-white rounded-xl p-8 shadow-lg">
+        <div className="bg-white rounded-xl p-8 shadow-lg" data-aos="fade-up">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">See Ayolin in Action</h2>
+            <h2 className="text-3xl font-bold mb-4">Mira a Ayolin en Acción</h2>
             <p className="text-neutral-500 text-lg">
-              Watch how Ayolin handles real conversations, providing intelligent
-              and contextual responses that make every interaction feel natural
-              and meaningful.
+              Observa cómo Ayolin maneja conversaciones reales, ofreciendo respuestas inteligentes
+              y contextuales que hacen que cada interacción se sienta natural y significativa.
             </p>
           </div>
           <div className="aspect-video rounded-lg bg-neutral-200 flex items-center justify-center">
-            <div className="text-neutral-500">Interactive Demo Coming Soon</div>
+            <div className="text-neutral-500">Demostración interactiva próximamente</div>
           </div>
         </div>
       </div>
@@ -231,43 +245,43 @@ export default function Home() {
             <div className="flex flex-col text-left gap-2">
               <h2 className="mb-4 text-lg font-bold text-white">Sobre Nosotros</h2>
               <a href="/sign__up" className="text-sm hover:underline">Cómo funciona</a>
-              <a href="/" className="text-sm hover:underline">Testimonios</a>
-              <a href="/" className="text-sm hover:underline">Carreras</a>
-              <a href="/" className="text-sm hover:underline">Términos del servicio</a>
+              <Link href="/" className="text-sm hover:underline">Testimonios</Link>
+              <Link href="/" className="text-sm hover:underline">Carreras</Link>
+              <Link href="/" className="text-sm hover:underline">Términos del servicio</Link>
             </div>
 
             {/* Columna 2 */}
             <div className="flex flex-col text-left gap-2">
               <h2 className="mb-4 text-lg font-bold text-white">Contáctanos</h2>
-              <a href="/" className="text-sm hover:underline">Contacto</a>
-              <a href="/" className="text-sm hover:underline">Soporte</a>
-              <a href="/" className="text-sm hover:underline">Destinos</a>
+              <Link href="/" className="text-sm hover:underline">Contacto</Link>
+              <Link href="/" className="text-sm hover:underline">Soporte</Link>
+              <Link href="/" className="text-sm hover:underline">Destinos</Link>
             </div>
 
             {/* Columna 3 */}
             <div className="flex flex-col text-left gap-2">
               <h2 className="mb-4 text-lg font-bold text-white">Videos</h2>
-              <a href="/" className="text-sm hover:underline">Enviar video</a>
-              <a href="/" className="text-sm hover:underline">Embajadores</a>
-              <a href="/" className="text-sm hover:underline">Agencia</a>
+              <Link href="/" className="text-sm hover:underline">Enviar video</Link>
+              <Link href="/" className="text-sm hover:underline">Embajadores</Link>
+              <Link href="/" className="text-sm hover:underline">Agencia</Link>
             </div>
 
             {/* Columna 4 */}
             <div className="flex flex-col text-left gap-2">
               <h2 className="mb-4 text-lg font-bold text-white">Redes Sociales</h2>
-              <a href="/" className="text-sm hover:underline">Instagram</a>
-              <a href="/" className="text-sm hover:underline">Facebook</a>
-              <a href="/" className="text-sm hover:underline">YouTube</a>
-              <a href="/" className="text-sm hover:underline">Twitter</a>
+              <Link href="/" className="text-sm hover:underline">Instagram</Link>
+              <Link href="/" className="text-sm hover:underline">Facebook</Link>
+              <Link href="/" className="text-sm hover:underline">YouTube</Link>
+              <Link href="/" className="text-sm hover:underline">Twitter</Link>
             </div>
           </div>
 
           {/* Línea separadora */}
           <div className="w-full border-t border-gray-700 mt-12 pt-6">
             <div className="flex flex-col md:flex-row items-center justify-between w-[90%] max-w-6xl mx-auto">
-              <a href="/" className="text-2xl font-semibold text-white mb-4 md:mb-0">
+              <Link href="/" className="text-2xl font-semibold text-white mb-4 md:mb-0">
                 AYOLIN
-              </a>
+              </Link>
               <p className="text-sm text-white mb-4 md:mb-0">
                 © AYOLIN 2025. Todos los derechos reservados
               </p>
@@ -280,13 +294,14 @@ export default function Home() {
                   "tik-tok.png",
                   "whatsapp.png",
                 ].map((icon, idx) => (
-                  <a key={idx} href="/" target="_blank" rel="noopener noreferrer">
-                    <img
-                      src={`img/${icon}`}
-                      alt={icon}
-                      className="w-8 h-8 rounded-full hover:scale-105 transition-transform"
-                    />
-                  </a>
+                  <Image
+                    key={icon}
+                    src={`/img/${icon}`}
+                    alt={icon}
+                    width={35}
+                    height={35}
+                    className="w-8 h-8 rounded-full  hover:scale-105 transition-transform" // hay que hacer que se vean mejor los logos de las redes
+                  />
                 ))}
               </div>
             </div>
