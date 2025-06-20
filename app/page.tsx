@@ -92,10 +92,10 @@ export default function Home() {
       <div className="container mx-auto px-4 pt-20 pb-16">
         <div className="text-center max-w-4xl mx-auto">
           <div className="mb-6 text-neutral-800 text-lg font-semibold">
-            Meet Your AI Companion
+            Conoce a tu asistente personal
           </div>
           <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
-            Say Hello to Ayolin
+            Dile Hola a Ayolin
           </h1>
           <p className="text-xl md:text-2xl text-neutral-500 mb-8">
             Your intelligent AI companion that understands, learns, and grows
@@ -110,12 +110,6 @@ export default function Home() {
                 Chat With Ayolin
               </button>
             </form>
-            <Link
-              href="#demo"
-              className="flex items-center h-11 rounded-md px-8 text-lg border semibold text-neutral-950 font-semibold"
-            >
-              Watch Demo
-            </Link>
           </div>
           <div className="mt-12 flex flex-wrap justify-center gap-8 text-neutral-500">
             <div className="flex items-center gap-2">
