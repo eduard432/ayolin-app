@@ -228,6 +228,40 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <div className="bg-stone-100 py-20 px-6" data-aos="fade-up">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-12 text-black bg-clip-text">
+            ¿Cómo funciona Ayolin?
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Paso 1 */}
+            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all ">
+              <div className="text-6xl mb-4"></div>
+              <h3 className="text-xl font-bold text-neutral-800 mb-2">1. Inicia sesión</h3>
+              <p className="text-neutral-500 text-lg">Necesitas una cuenta para poder usar AYOLIN.</p>
+            </div>
+
+            {/* Paso 2 */}
+            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
+              <div className="text-6xl mb-4"></div>
+              <h3 className="text-xl font-bold text-neutral-800 mb-2">2. Personalízalo</h3>
+              <p className="text-neutral-500 text-lg">AYOLIN te da las herramientas para crear tu IA como quieras.</p>
+            </div>
+
+            {/* Paso 3 */}
+            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
+              <div className="text-6xl mb-4"></div>
+              <h3 className="text-xl font-bold text-neutral-800 mb-2">3. ¡Utilízalo!</h3>
+              <p className="text-neutral-500 text-lg">Una vez configurada tu IA, úsala para tus proyectos o empresa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
       {/*Seccion de footer   */}
       <Fotter/>
     </div>
