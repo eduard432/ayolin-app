@@ -230,6 +230,7 @@ export default function Home() {
       </div>
       
       {/* TENEMOS QUE ARREGLAR ESTE, ME QUEDO FEO CON GANAS
+      
       <div className="bg-stone-100 py-20 px-6" data-aos="fade-up">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-12 text-black bg-clip-text">

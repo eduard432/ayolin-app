@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { cn } from "@/lib/utils"
+import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import {useForm, SubmitHandler} from "react-hook-form"
 import {
@@ -12,24 +14,24 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { LoginSchema } from "@/schemas"
 import Link from "next/link"
+import {zodResolver} from "@hookform/resolvers/zod"
 
-type Inputs = {
-  email: string 
-  password: string
-}
+
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
-  const{register, handleSubmit, formState : {errors} } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("Email: ", data.email)
-    console.log("Password: ", data.password)
-  
-  }
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema), 
+    defaultValues: {
+      email: "",
+      password: "",
+    }
+  });
   
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -41,7 +43,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form  onSubmit={handleSubmit(onSubmit)}>
+          <form  onSubmit={}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -49,11 +51,9 @@ export function LoginForm({
                   id="email"
                   type="email"
                   placeholder="nom@ejemplo.com"
-                  {...register("email", { required: "Email is required" })}
+                  
                 />
-                {errors.email && (
-                  <span className="text-red-500 text-sm">{errors.email.message} </span>
-                )}
+                
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -68,11 +68,9 @@ export function LoginForm({
                 <Input 
                   id="password" 
                   type="password" 
-                  {...register("password", { required: "Password is required" })}
+                  
                 />
-                {errors.password && (
-                  <span className="text-red-500 text-sm">{errors.password.message} </span>
-                )}
+                
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
