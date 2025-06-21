@@ -13,12 +13,28 @@ import {
   FaClock,
   FaGlobe,
 } from "react-icons/fa6";
-
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedinIn,
+  FaTiktok,
+  FaWhatsapp,
+} from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+const icons = [
+  { icon: <FaFacebookF />, link: "/" },
+  { icon: <FaInstagram />, link: "/" },
+  { icon: <FaYoutube />, link: "/" },
+  { icon: <FaLinkedinIn />, link: "/" },
+  { icon: <FaTiktok />, link: "/" },
+  { icon: <FaWhatsapp />, link: "/" },
+];
 
 const features = [
   {
@@ -145,7 +161,7 @@ export default function Home() {
 
       {/* Features Section */}
       <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="zoom-in">
           <h2 className="text-3xl font-bold mb-4">¿Por qué elegir Ayolin?</h2>
           <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
             Descubre cómo Ayolin combina tecnología de inteligencia artificial de vanguardia
@@ -238,6 +254,7 @@ export default function Home() {
         </div>
       </div>
       */}
+      {/*Seccion de footer   */}
         <footer className="bg-neutral-900 text-white mt-5 py-12">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full max-w-6xl flex flex-wrap justify-center gap-12">
@@ -286,22 +303,15 @@ export default function Home() {
                 © AYOLIN 2025. Todos los derechos reservados
               </p>
               <div className="flex gap-4">
-                {[
-                  "facebook.png",
-                  "instagram.png",
-                  "youtube.png",
-                  "linkedin.png",
-                  "tik-tok.png",
-                  "whatsapp.png",
-                ].map((icon, idx) => (
-                  <Image
-                    key={icon}
-                    src={`/img/${icon}`}
-                    alt={icon}
-                    width={35}
-                    height={35}
-                    className="w-8 h-8 rounded-full  hover:scale-105 transition-transform" // hay que hacer que se vean mejor los logos de las redes
-                  />
+                {icons.map((item, idx) => (
+                  <a
+                    key={idx}
+                    href={item.link}
+                    target="_blank"
+                    className="w-10 h-10 flex items-center justify-center rounded-full border border-white text-white hover:bg-white hover:text-black transition-colors"
+                  >
+                    {item.icon}
+                  </a>
                 ))}
               </div>
             </div>
