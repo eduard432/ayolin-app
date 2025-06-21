@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/referencia/ui/button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import {
 	Card,
@@ -9,9 +9,9 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from '@/referencia/ui/card'
+import { Input } from '@/referencia/ui/input'
+import { Label } from '@/referencia/ui/label'
 import Link from 'next/link'
 
 type Inputs = {
