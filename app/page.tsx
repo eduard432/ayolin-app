@@ -22,8 +22,6 @@ import "aos/dist/aos.css";
 import Navbar from "@/components/navbar";
 import Fotter from "@/components/Fotter";
 
-
-
 const features = [
   {
     icon: <FaMessage className="h-5 w-5" />,
@@ -106,9 +104,23 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.getElementById('navbar')
+      if (window.scrollY > 10) {
+        nav?.classList.add('shadow-md', 'bg-white', 'nav-scrolled')
+      } else {
+        nav?.classList.remove('shadow-md', 'bg-white', 'nav-scrolled')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
-      <Navbar />
+      <Navbar/>
       {/* Hero Section */}
       <div id="home" className="container mx-auto px-4 pt-20 pb-16 mt-10">
         <div className="text-center max-w-4xl mx-auto" data-aos="fade-up">
@@ -216,6 +228,11 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/*Seccion de footer   */}
+      <Fotter/>
+    </div>
+  );
+}
 
       {/* CTA Section */}
       {/*
@@ -242,9 +259,3 @@ export default function Home() {
         </div>
       </div>
       */}
-      
-      {/*Seccion de footer   */}
-      <Fotter/>
-    </div>
-  );
-}
