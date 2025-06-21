@@ -26,6 +26,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Navbar from "@/components/navbar";
 
 const icons = [
   { icon: <FaFacebookF />, link: "/" },
@@ -120,8 +121,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
+      <Navbar />
       {/* Hero Section */}
-      <div className="container mx-auto px-4 pt-20 pb-16">
+      <div id="home" className="container mx-auto px-4 pt-20 pb-16 mt-10">
         <div className="text-center max-w-4xl mx-auto" data-aos="fade-up">
           <div className="mb-6 text-neutral-800 text-lg font-semibold">
             Conoce a tu asistente personal
