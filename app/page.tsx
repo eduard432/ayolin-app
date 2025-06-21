@@ -132,12 +132,11 @@ export default function Home() {
             Dile Hola a Ayolin
           </h1>
           <p className="text-xl md:text-2xl text-neutral-500 mb-8">
-            Milies de posibilidades es un solo lugar, que esperas!!
-          </p>
+            Miles de posibilidades en un solo lugar. ¿Qué esperas?          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <form>
               <button
-                className="h-20 rounded-md px-8 flex items-center text-lg border semibold bg-neutral-900 text-neutral-50 font font-semibold"
+                className="h-20 rounded-md px-8 flex items-center text-lg border font-semibold bg-neutral-900 text-neutral-50 hover:bg-gradient-to-r hover:from-neutral-900 hover:to-blue-600 transition-colors duration-300"
                 type="submit"
               >
                 Chatea con Ayolin

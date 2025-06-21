@@ -8,8 +8,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-black shadow z-50">
-      <div className="container mx-auto px-4 py-8 flex justify-between items-center">
+    <nav className="fixed rounded-b-md top-0 left-0 w-full bg-neutral-900 shadow z-50">
+      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         <Link href="/" className="text-3xl font-bold text-sky-700">
           AYOLIN
         </Link>
@@ -23,16 +23,16 @@ export default function Navbar() {
         </div>
         <ul className={`md:flex md:space-x-8 font-semibold ${isOpen ? 'block mt-6 md:mt-0' : 'hidden'} md:block`}>
           <li>
-            <Link href="#home" className="text-white hover:text-cyan-600">Inicio</Link>
+            <Link href="#contact" className="text-white hover:text-cyan-600">Inicio</Link>
           </li>
           <li>
-            <Link href="#features" className="text-white hover:text-cyan-600">TEXTO</Link>
+            <Link href="#" className="text-white hover:text-cyan-600">TEXTO</Link>
           </li>
           <li>
-            <Link href="#demo" className="text-white hover:text-cyan-600">TEXTO</Link>
+            <Link href="#" className="text-white hover:text-cyan-600">TEXTO</Link>
           </li>
           <li>
-            <Link href="#contact" className="text-white hover:text-cyan-600">TEXTO</Link>
+            <Link href="#" className="text-white hover:text-cyan-600">Login</Link>
           </li>
         </ul>
       </div>
