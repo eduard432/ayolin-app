@@ -44,7 +44,7 @@ export const LoginForm = () => {
                 className="space-y-6"    
             >
                 <div className="space-y-4">
-                    <FormField
+                    <FormField 
                         control={form.control}
                         name = "email"
                         render={({field}) => (
@@ -55,6 +55,7 @@ export const LoginForm = () => {
                                         {...field}
                                         placeholder="ejem@gmail.com"
                                         type="email"
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage className="text-red-500 mb-2"/>
@@ -66,12 +67,17 @@ export const LoginForm = () => {
                         name = "password"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>Contraseña</FormLabel>
+                                <FormLabel
+                                    className="mt-4"
+                                >
+                                    Contraseña
+                                </FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
                                         placeholder="*********"
                                         type="password"
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage className="text-red-500 mb-2"/>
@@ -81,7 +87,7 @@ export const LoginForm = () => {
                 </div>
                 <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full mt-4 h-11"
                 >
                     Inicia Sesion
                 </Button>
