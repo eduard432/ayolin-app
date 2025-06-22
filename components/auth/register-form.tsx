@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form"
 import { Button } from "../ui/button"
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -57,6 +57,28 @@ export const LoginForm = () => {
                                         {...field}
                                         placeholder="ejem@gmail.com"
                                         type="email"
+                                        
+                                    />
+                                </FormControl>
+                                <FormMessage className="text-red-500 mb-2"/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name = "password"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel
+                                    className="mt-4"
+                                >
+                                    Contraseña
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        placeholder="*********"
+                                        type="password"
                                         
                                     />
                                 </FormControl>

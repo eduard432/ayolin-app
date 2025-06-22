@@ -3,6 +3,7 @@
 "use client"
 
 import * as z from "zod"
+import { useState, useTransition } from "react"
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,6 +11,7 @@ import { LoginSchema } from "@/schemas"
 import { Input } from "../ui/input"
 import { FormError} from "@/components/form-error"
 import { FormSucces } from "@/components/form-succes"
+import { login } from "@/actions/login"
 import {
     Form,
     FormControl, 
@@ -22,6 +24,10 @@ import { Button } from "../ui/button"
 
 export const LoginForm = () => {
 
+    const [error, setError] = useState<string | undefined>("")
+    const [succes, setSucces] = useState<string | undefined>("")
+    const [isPending, startTransition] = useTransition();
+
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -30,7 +36,16 @@ export const LoginForm = () => {
         }
     }) 
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        
+        setError("")
+        setSucces("")
+
+        startTransition(() => {
+            login(values)
+            .then((data) => {
+                setError(data.error)
+                setSucces(data.succes)
+            })
+        })
     }
 
     return(
@@ -51,9 +66,11 @@ export const LoginForm = () => {
                         name = "email"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                {/*Quiero hacer que se vea negro siempre, falta checar */}
+                                <FormLabel className="text-black">Email</FormLabel>
                                 <FormControl>
                                     <Input
+                                        disabled={isPending}
                                         {...field}
                                         placeholder="ejem@gmail.com"
                                         type="email"
@@ -76,6 +93,7 @@ export const LoginForm = () => {
                                 </FormLabel>
                                 <FormControl>
                                     <Input
+                                        disabled={isPending}
                                         {...field}
                                         placeholder="*********"
                                         type="password"
@@ -87,9 +105,10 @@ export const LoginForm = () => {
                         )}
                     />
                 </div>
-                <FormError message="Algo salio mal"/>
-                <FormSucces message="Se mando bien"/>
+                <FormError message={error}/>
+                <FormSucces message={succes}/>
                 <Button
+                    disabled={isPending}
                     type="submit"
                     className="w-full mt-4 h-11"
                 >

@@ -2,4 +2,3 @@
 - Setup next-auth
 - Instalar zod
 - Autentificacion
-- Hay que checar por que no se ven los colores del form succes y error
