@@ -73,7 +73,7 @@ export const RegisterForm = () => {
                                     <Input
                                         disabled={isPending}
                                         {...field}
-                                        placeholder="Jose Eduardo"
+                                        placeholder="Eugenio Dervez"
                                     />
                                 </FormControl>
                                 <FormMessage className="text-red-500 mb-2"/>
@@ -105,9 +105,7 @@ export const RegisterForm = () => {
                         name = "password"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel
-                                    className="mt-4"
-                                >
+                                <FormLabel>
                                     Contraseña
                                 </FormLabel>
                                 <FormControl>
