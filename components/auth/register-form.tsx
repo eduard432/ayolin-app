@@ -3,13 +3,15 @@
 "use client"
 
 import * as z from "zod"
+import { useState, useTransition } from "react"
 import { CardWrapper } from "@/components/auth/card-wrapper"
 import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LoginSchema } from "@/schemas"
+import { RegisterSchema } from "@/schemas"
 import { Input } from "../ui/input"
 import { FormError} from "@/components/form-error"
 import { FormSucces } from "@/components/form-succes"
+import { register } from "@/actions/register"
 import {
     Form,
     FormControl, 
@@ -22,22 +24,36 @@ import { Button } from "../ui/button"
 
 export const RegisterForm = () => {
 
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const [error, setError] = useState<string | undefined>("")
+    const [succes, setSucces] = useState<string | undefined>("")
+    const [isPending, startTransition] = useTransition();
+
+    const form = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             email: "",
             password: "",
+            name: "",
         }
     }) 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        
+    const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+        setError("")
+        setSucces("")
+
+        startTransition(() => {
+            register(values)
+            .then((data) => {
+                setError(data.error)
+                setSucces(data.succes)
+            })
+        })
     }
 
     return(
        <CardWrapper
-            headerLabel="Bienvenido de vuelta"
+            headerLabel="Crea tu cuenta"
             backButtonLabel="Ya tienes una cuenta?"
-            backButtonHref="/auth/register"
+            backButtonHref="/auth/login"
             showSocial
         >
         <Form {...form}>
@@ -48,12 +64,32 @@ export const RegisterForm = () => {
                 <div className="space-y-4">
                     <FormField 
                         control={form.control}
+                        name = "name"
+                        render={({field}) => (
+                            <FormItem>
+                                {/*Quiero hacer que se vea negro siempre, falta checar */}
+                                <FormLabel className="text-black">Nombre</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={isPending}
+                                        {...field}
+                                        placeholder="Jose Eduardo"
+                                    />
+                                </FormControl>
+                                <FormMessage className="text-red-500 mb-2"/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
                         name = "email"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                {/*Quiero hacer que se vea negro siempre, falta checar */}
+                                <FormLabel className="text-black">Email</FormLabel>
                                 <FormControl>
                                     <Input
+                                        disabled={isPending}
                                         {...field}
                                         placeholder="ejem@gmail.com"
                                         type="email"
@@ -76,28 +112,7 @@ export const RegisterForm = () => {
                                 </FormLabel>
                                 <FormControl>
                                     <Input
-                                        {...field}
-                                        placeholder="*********"
-                                        type="password"
-                                        
-                                    />
-                                </FormControl>
-                                <FormMessage className="text-red-500 mb-2"/>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name = "password"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel
-                                    className="mt-4"
-                                >
-                                    Contraseña
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
+                                        disabled={isPending}
                                         {...field}
                                         placeholder="*********"
                                         type="password"
@@ -109,13 +124,14 @@ export const RegisterForm = () => {
                         )}
                     />
                 </div>
-                <FormError message="Algo salio mal"/>
-                <FormSucces message="Se mando bien"/>
+                <FormError message={error}/>
+                <FormSucces message={succes}/>
                 <Button
+                    disabled={isPending}
                     type="submit"
                     className="w-full mt-4 h-11"
                 >
-                    Inicia Sesion
+                    Crea tu cuenta
                 </Button>
             </form>
         </Form>
