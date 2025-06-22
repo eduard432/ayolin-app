@@ -8,6 +8,8 @@ import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginSchema } from "@/schemas"
 import { Input } from "../ui/input"
+import { FormError} from "@/components/form-error"
+import { FormSucces } from "@/components/form-succes"
 import {
     Form,
     FormControl, 
@@ -85,6 +87,8 @@ export const LoginForm = () => {
                         )}
                     />
                 </div>
+                <FormError message="Algo salio mal"/>
+                <FormSucces message="Se mando bien"/>
                 <Button
                     type="submit"
                     className="w-full mt-4 h-11"
