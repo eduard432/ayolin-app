@@ -97,8 +97,7 @@ export const LoginForm = () => {
                         name = "email"
                         render={({field}) => (
                             <FormItem>
-                                {/*Quiero hacer que se vea negro siempre, falta checar */}
-                                <FormLabel className="text-black">Email</FormLabel>
+                                <FormLabel >Email</FormLabel>
                                 <FormControl>
                                     <Input
                                         disabled={isPending}
