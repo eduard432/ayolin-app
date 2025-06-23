@@ -34,6 +34,7 @@ export const RegisterForm = () => {
             email: "",
             password: "",
             name: "",
+            password2: ""
         }
     }) 
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
@@ -114,6 +115,27 @@ export const RegisterForm = () => {
                                         {...field}
                                         placeholder="*********"
                                         type="password"
+                                        
+                                    />
+                                </FormControl>
+                                <FormMessage className="text-red-500 mb-2"/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name = "password2"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Verificar Contraseña 
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={isPending}
+                                        {...field}
+                                        placeholder="*********"
+                                        type="password2"
                                         
                                     />
                                 </FormControl>

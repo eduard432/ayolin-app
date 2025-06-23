@@ -10,17 +10,25 @@ export const LoginSchema = z.object({
   code: z.optional(z.string()),
 });
 
-export const RegisterSchema = z.object({
-  email: z.string().email({
-    message: "Se requiere un correo electrónico válido",
-  }),
-  password: z.string().min(6, {
-    message: "Se requieren al menos 6 caracteres",
-  }),
-  name: z.string().min(1, {
-    message: "El nombre es obligatorio",
-  }),
-});
+export const RegisterSchema = z
+  .object({
+    email: z.string().email({
+      message: "Se requiere un correo electrónico válido",
+    }),
+    password: z.string().min(6, {
+      message: "Se requieren al menos 6 caracteres",
+    }),
+    name: z.string().min(1, {
+      message: "El nombre es obligatorio",
+    }),
+    password2: z.string().min(1, {
+      message: "Deben coincidir las contraseñas",
+    }),
+  })
+  .refine((data) => data.password === data.password2, {
+    path: ["password2"], // Apunta el error al campo password2
+    message: "Las contraseñas no coinciden",
+  });
 
 export const ResetSchema = z.object({
   email: z.string().email({
