@@ -20,7 +20,7 @@ export const authRoutes = [
  * Routes that start with this preffix are used for API authentication purposes
  * @type {string}
  */
-export const apiAuthPrefix = "/api/auth"
+export const apiAuthPrefix = "/api/v1/auth"
 
 
 /**
