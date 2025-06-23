@@ -135,7 +135,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <form>
               <button
-                className="h-20 rounded-md px-8 flex items-center text-lg border font-semibold bg-neutral-900 text-neutral-50 hover:bg-gradient-to-r hover:from-neutral-900 hover:to-blue-600 transition-colors duration-300"
+                className="h-20 rounded-md px-8 flex items-center text-lg border font-semibold bg-neutral-900 text-neutral-50"
                 type="submit"
               >
                 Chatea con Ayolin

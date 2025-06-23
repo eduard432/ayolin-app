@@ -65,7 +65,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-                href="/"
+                href="/auth/login"
                 className={`hover:text-cyan-600 ${
                     isScrolled ? 'text-black' : 'text-white'
                 }`}
