@@ -16,6 +16,7 @@ enum UserRole {
 }
 
 model User {
+  // Fields for Authjs:
   id                      String                 @id @default(auto()) @map("_id") @db.ObjectId
   name                    String?
   email                   String?                @unique
@@ -27,6 +28,9 @@ model User {
   isTwoFactorEnabled      Boolean                @default(false)
   twoFactorConfirmation   TwoFactorConfirmation?
   twoFactorConfirmationId String?                @db.ObjectId
+
+  // Extra fields for app:
+  chatbots                ChatBot[]
 }
 
 model Account {
@@ -82,4 +86,30 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+type Usage {
+  inputTokens  Int
+  outputTokens Int
+}
+
+model ChatBot {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  model       String
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  defaultChat String? @db.ObjectId
+  chats       Chat[]
+  usage       Usage
+  totalMessages Int @default(0)
+}
+
+model Chat {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
+  chatbotId   String   @db.ObjectId
+  chatbot     ChatBot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  messages    Json[]
+  lastActive  DateTime @default(now())
 }
