@@ -30,7 +30,7 @@ model User {
   twoFactorConfirmationId String?                @db.ObjectId
 
   // Extra fields for app:
-  chatbots                ChatBot[]
+  chatbots                Chatbot[]
 }
 
 model Account {
@@ -93,7 +93,7 @@ type Usage {
   outputTokens Int
 }
 
-model ChatBot {
+model Chatbot {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   model       String
@@ -109,7 +109,7 @@ model Chat {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String?
   chatbotId   String   @db.ObjectId
-  chatbot     ChatBot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
   messages    Json[]
   lastActive  DateTime @default(now())
 }
