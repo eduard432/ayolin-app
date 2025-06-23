@@ -1,13 +1,26 @@
-'use client'
-import React, { useState } from 'react'
+import React from 'react'
+import { auth, signOut } from '@/auth'
 
-const page = () => {
+const page = async () => {
+	const session = await auth()
+	return (
+		<div className="" >
+			{JSON.stringify(session)}
+			<form
+				action={async () => {
+					'use server'
 
-    const [first, setfirst] = useState(1)
-
-  return (
-    <div>Dashboad</div>
-  )
+					await signOut({
+						redirectTo: '/auth/login',
+					})
+				}}
+			>
+				<button className="bg-black text-white px-2 py-1" type="submit">
+					Sign Out
+				</button>
+			</form>
+		</div>
+	)
 }
 
 export default page
