@@ -11,7 +11,6 @@ import { LoginSchema } from "@/schemas"
 import { Input } from "../ui/input"
 import { FormError} from "@/components/form-error"
 import { FormSucces } from "@/components/form-succes"
-import { login } from "@/actions/login"
 import {
     Form,
     FormControl, 
@@ -35,17 +34,49 @@ export const LoginForm = () => {
             password: "",
         }
     }) 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        setError("")
-        setSucces("")
 
-        startTransition(() => {
-            login(values)
-            .then((data) => {
-                setError(data.error)
-                setSucces(data.succes)
+    const login = async (values: z.infer<typeof LoginSchema>) => {
+        try{    
+            const res = await fetch("api/v1/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
             })
+
+            const data = await res.json();
+
+            return{
+                error: data.error,
+                succes: data.success,
+            }
+        } catch (error) {
+            return {
+                error: "Algo salio mal"
+            }
+        }
+    }
+
+    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError("")
+    setSucces("")
+
+    startTransition(() => {
+        login(values).then((data) => {
+        if (data.error) {
+            setError(data.error)
+        }
+
+        if (data.succes) {
+            setSucces("Inicio de sesión exitoso!")
+            // Redirige después de 1 segundo, por ejemplo:
+            {/*setTimeout(() => {
+            window.location.href = "/dashboard";
+            }, 1000);*/}
+        }
         })
+    })
     }
 
     return(
@@ -66,8 +97,7 @@ export const LoginForm = () => {
                         name = "email"
                         render={({field}) => (
                             <FormItem>
-                                {/*Quiero hacer que se vea negro siempre, falta checar */}
-                                <FormLabel className="text-black">Email</FormLabel>
+                                <FormLabel >Email</FormLabel>
                                 <FormControl>
                                     <Input
                                         disabled={isPending}
