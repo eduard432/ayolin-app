@@ -4,11 +4,20 @@ import { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 const links = [
-  { name: "General", href: "/1" },
-  { name: "Miembros", href: "/2" },
-  { name: "Facturación", href: "/3" },
-  { name: "Preferencias", href: "/4" },
+  { name: "General", href: "/configuracion/general" },
+  { name: "Miembros", href: "/configuracion/miembros" },
+  { name: "Facturación", href: "/configuracion/facturacion" },
+  { name: "Preferencias", href: "/configuracion/preferencias" },
+  { name: "Seguridad", href: "/configuracion/seguridad" },
+  { name: "Autenticación", href: "/configuracion/autenticacion" },
+  { name: "Notificaciones", href: "/configuracion/notificaciones" },
+  { name: "Integraciones", href: "/configuracion/integraciones" },
+  { name: "Dominios", href: "/configuracion/dominios" },
+  { name: "Historial de actividad", href: "/configuracion/historial" },
+  { name: "Accesos API", href: "/configuracion/api" },
+  { name: "Eliminar cuenta", href: "/configuracion/eliminar" }
 ]
+
 
 export default function ConfiguracionLayout({ children }: { children: ReactNode }) {
   return (
