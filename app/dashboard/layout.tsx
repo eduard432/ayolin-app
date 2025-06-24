@@ -12,7 +12,7 @@ const layout = ({
     <>
       <Navbar/>
       <NavbarDashboard/>
-      <>{children}</>
+      <main className='pt-32'>{children}</main>
     </>
   )
 }

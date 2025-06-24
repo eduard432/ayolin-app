@@ -23,7 +23,7 @@ export default function NavbarDashboard() {
     : dashboardFeatures
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-neutral-900 shadow z-50">
+    <nav className="fixed top-16 left-0 w-full bg-neutral-900 shadow z-40 rounded-b-md">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
 
         {/* Botón hamburguesa */}
