@@ -1,6 +1,6 @@
 
 export const dashboardFeatures = [
-  { name: 'Panorama', href: '/dashboard/panorama' },
+  { name: 'Panorama', href: '/dashboard/overview' },
   { name: 'Integraciones', href: '/dashboard/integraciones' },
   { name: 'Uso', href: '/dashboard/uso' },
   { name: 'Almacenamiento', href: '/dashboard/almacenamiento' },
