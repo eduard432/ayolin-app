@@ -4,7 +4,7 @@ import { auth, signOut } from '@/auth'
 const page = async () => {
 	const session = await auth()
 	return (
-		<div className="" >
+		<div className="pt-7" >
 			{JSON.stringify(session)}
 			<form
 				action={async () => {
@@ -15,7 +15,7 @@ const page = async () => {
 					})
 				}}
 			>
-				<button className="bg-black text-white px-2 py-1" type="submit">
+				<button className="bg-black text-white px-2 py-1 pt-7" type="submit">
 					Sign Out
 				</button>
 			</form>
