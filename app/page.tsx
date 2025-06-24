@@ -19,7 +19,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbarLanding";
 import Fotter from "@/components/Fotter";
 
 const features = [
