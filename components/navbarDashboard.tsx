@@ -13,6 +13,9 @@ interface Feature {
   href: string
 }
 
+{/*No me encanta como se ve, podemos cambiar el hover pero no 
+  se como se puede ver mejor */}
+
 export default function NavbarDashboard() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
