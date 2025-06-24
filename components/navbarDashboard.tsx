@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/Navbar.tsx
 'use client'
 
@@ -6,7 +7,7 @@ import Link from 'next/link'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import React from 'react'
 import { usePathname } from 'next/navigation'
-import { dashboardFeatures, chatbotFeatures } from '@/lib/navbarData'
+import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 
 interface Feature {
   name: string
@@ -20,10 +21,11 @@ export default function NavbarDashboard() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
-  const features: Feature[] =
-    pathname?.includes('/dashboard/') && pathname?.split('/').length > 3
-      ? chatbotFeatures
-      : dashboardFeatures
+  const pathParts = pathname?.split('/')
+  const isChatbot = pathParts?.length > 3 && pathParts[1] === 'dashboard'
+
+  const chatbotId = isChatbot ? pathParts[2] : ''
+  const features = isChatbot ? getChatbotFeatures(chatbotId) : dashboardFeatures
 
   return (
     <nav className="fixed top-16 left-0 w-full bg-neutral-900 shadow-md z-40 rounded-b-xl">
@@ -45,7 +47,7 @@ export default function NavbarDashboard() {
             isOpen ? 'block mt-4 space-y-2' : 'hidden'
           } md:block md:mt-0 md:space-y-0`}
         >
-          {features.map((item: Feature) => {
+          {features.map((item) => {
             const isActive = pathname === item.href
             return (
               <li key={item.name}>
