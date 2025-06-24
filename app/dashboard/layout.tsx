@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
+import NavbarDashboard from '@/components/navbarDashboard'
 
 const layout = ({
   children,
@@ -6,7 +8,10 @@ const layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <>{children}</>
+    <>
+      <NavbarDashboard/>
+      <>{children}</>
+    </>
   )
 }
 
