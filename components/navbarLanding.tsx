@@ -50,7 +50,7 @@ export default function Navbar() {
                     isScrolled ? 'text-black' : 'text-white'
                 }`}
                 >
-                TEXTO
+                Servicios
             </Link>
           </li>
           <li>
@@ -60,7 +60,7 @@ export default function Navbar() {
                     isScrolled ? 'text-black' : 'text-white'
                 }`}
                 >
-                TEXTO
+                Prueba
             </Link>
           </li>
           <li>
