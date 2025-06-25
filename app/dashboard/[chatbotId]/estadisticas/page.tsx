@@ -74,9 +74,15 @@ export default function EstadisticasPage(){
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
-          <div className='bg-muted p-4 rounded-lg'>
-            <p className='text-black font-medium'>Nombre del chatbot:</p>
-            <p className='text-muted-foreground'>ventas-asistente</p>
+          <div className='grid grid-cols-2 gap-4'>
+            <div className='bg-muted p-4 rounded-lg'>
+              <p className='text-black font-medium'>Nombre del chatbot:</p>
+              <p className='text-muted-foreground'>{formatName(chatbotId)}</p>
+            </div>
+            <div className='bg-muted p-4 rounded-lg'>
+              <p className='text-black font-medium'>Hecho para:</p>
+              <p className='text-muted-foreground'>ventas-asistente</p>
+            </div>
           </div>
 
           <div className='flex items-center justify-between'>
