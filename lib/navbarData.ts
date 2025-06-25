@@ -8,10 +8,10 @@ export const dashboardFeatures = [
   { name: 'Configuración', href: '/dashboard/settings' },
 ]
 
-export const chatbotFeatures = [
-  { name: 'Estadísticas', href: '/dashboard/[chatbotid]/estadisticas' },
-  { name: 'Almacenamiento', href: '/dashboard/[chatbotid]/almacenamiento' },
-  { name: 'Configuración', href: '/dashboard/[chatbotid]/configuracion' },
-  { name: 'Chats', href: '/dashboard/[chatbotid]/chats' },
-  { name: 'Integraciones', href: '/dashboard/[chatbotid]/integraciones' },
+export const getChatbotFeatures = (chatbotId: string) => [
+  { name: 'Estadísticas', href: `/dashboard/${chatbotId}/estadisticas` },
+  { name: 'Almacenamiento', href: `/dashboard/${chatbotId}/almacenamiento` },
+  { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
+  { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
+  { name: 'Configuración', href: `/dashboard/${chatbotId}/configuracion` },
 ]

@@ -8,7 +8,7 @@ import FastDataCard  from '@/components/dataCardUsos'
 
 export default function UsoPage() {
   return (
-    <div className="p-8 space-y-8 bg-white min-h-screen mt-7">
+    <div className="p-8 space-y-8 mt-7">
         <h1 className="text-4xl font-bold pr-4">Uso</h1>
         <FiltrosUso />
 

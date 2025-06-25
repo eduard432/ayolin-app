@@ -10,12 +10,14 @@ export default function Navbar() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center h-full">
             <Link href="/" className="text-3xl font-bold text-sky-700">AYOLIN</Link>
             {/*Esto lo quitamos despues */}
-            <button 
-              className=" text-white px-2 py-1 pt-7 font-black" 
-              type="submit"
-            >
-              Sign Out
-            </button>
+            <form>
+              <button 
+                className=" text-white px-2 py-1 pt-7 font-black" 
+                type="submit"
+              >
+                Sign Out
+              </button>
+            </form>
         </div>
     </nav>
   )

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/Navbar.tsx
 'use client'
 
@@ -6,31 +7,35 @@ import Link from 'next/link'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import React from 'react'
 import { usePathname } from 'next/navigation'
-import { dashboardFeatures, chatbotFeatures } from '@/lib/navbarData'
+import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 
 interface Feature {
   name: string
   href: string
 }
 
+{/*No me encanta como se ve, podemos cambiar el hover pero no 
+  se como se puede ver mejor */}
+
 export default function NavbarDashboard() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
-  // Decide qué menú mostrar según la ruta
-  const features: Feature[] = pathname?.includes('/dashboard/') && pathname?.split('/').length > 3
-    ? chatbotFeatures
-    : dashboardFeatures
+  const pathParts = pathname?.split('/')
+  const isChatbot = pathParts?.length > 3 && pathParts[1] === 'dashboard'
+
+  const chatbotId = isChatbot ? pathParts[2] : ''
+  const features = isChatbot ? getChatbotFeatures(chatbotId) : dashboardFeatures
 
   return (
-    <nav className="fixed top-16 left-0 w-full bg-neutral-900 shadow z-40 rounded-b-md">
+    <nav className="fixed top-16 left-0 w-full bg-neutral-900 shadow-md z-40 rounded-b-xl">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
 
-        {/* Botón hamburguesa */}
+        {/* Botón hamburguesa (mobile) */}
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-2xl text-white"
+            className="text-2xl text-white focus:outline-none"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -38,20 +43,28 @@ export default function NavbarDashboard() {
 
         {/* Enlaces */}
         <ul
-          className={`md:flex md:space-x-8 font-semibold text-white transition-all duration-300 ${
-            isOpen ? 'block mt-4' : 'hidden'
-          } md:block`}
+          className={`md:flex md:space-x-6 font-medium text-white transition-all duration-300 ease-in-out ${
+            isOpen ? 'block mt-4 space-y-2' : 'hidden'
+          } md:block md:mt-0 md:space-y-0`}
         >
-          {features.map((item: Feature) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                className="block py-2 px-3 rounded hover:bg-sky-700 hover:text-white transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
+          {features.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <li key={item.name}>
+                <Link
+                  href={item.href}
+                  className={`block py-2 px-4 rounded-md transition-all duration-200
+                    ${
+                      isActive
+                        ? 'bg-sky-700 text-white'
+                        : 'hover:bg-neutral-800 hover:text-sky-300'
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </nav>
