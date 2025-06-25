@@ -22,7 +22,7 @@ export default function EstadisticasPage(){
         id.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
 
   return(
-    <div className='p-6 space-y-6'>
+    <div className='px-15 space-y-6 pt-8'>
       <div>
         <h1 className='text-4xl font-semibold tracking-tight text-black'>
           Estadisticas {formatName(chatbotId)}

@@ -7,7 +7,7 @@ const layout = ({
 }>) => {
   return (
     <div className='bg-neutral-200 min-h-screen'>
-      <main className=' px-6'>{children}</main>
+      <main>{children}</main>
     </div>
   )
 }

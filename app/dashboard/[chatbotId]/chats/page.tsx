@@ -50,10 +50,10 @@ const dummyChart = [
 
 export default function ChatsPage(){
     return(
-        <div className='p-6 space-y-6'>
+        <div className='px-15 space-y-6 pt-8'>
 
             <div>
-                <h1 className='text-3xl font-semibold tracking-tight text-black'>
+                <h1 className='text-4xl font-semibold tracking-tight text-black'>
                     Historial de chats
                 </h1>
                 <p className='text-sm text-muted-foreground'>
