@@ -120,3 +120,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Util for not moving all page when open dialog, modal, ... */
+body[data-scroll-locked][data-scroll-locked] {
+      overflow: auto !important;
+      margin-right: 0 !important;
+}
