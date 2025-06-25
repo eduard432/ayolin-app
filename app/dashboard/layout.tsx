@@ -22,7 +22,7 @@ const layout = async ({
 			<div className="bg-neutral-200 min-h-screen">
 				<Navbar />
 				<NavbarDashboard />
-				<main>{children}</main>
+				<main className="pt-8 px-10" >{children}</main>
 			</div>
 		</SessionProvider>
 	)

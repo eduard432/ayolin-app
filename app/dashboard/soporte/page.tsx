@@ -4,7 +4,7 @@ import { MessageCircle, Mail, HelpCircle, AlertCircle, ShieldCheck, BookOpen } f
 
 export default function SupportPage() {
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen">
       <div className="mb-8 text-center mt-4">
         <h1 className="text-4xl font-bold text-neutral-800 dark:text-white flex items-center justify-center gap-2">
           <HelpCircle className="w-8 h-8" />

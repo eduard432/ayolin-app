@@ -19,7 +19,7 @@ const chats = [
 
 export default function StoragePage() {
   return (
-    <div className="min-h-screen p-8 ">
+    <div className="min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-neutral-800 dark:text-white">Almacenamiento</h1>
 
       <Card className="shadow-lg">

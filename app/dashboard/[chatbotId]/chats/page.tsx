@@ -50,7 +50,7 @@ const dummyChart = [
 
 export default function ChatsPage(){
     return(
-        <div className='px-15 space-y-6 pt-8'>
+        <div className='space-y-6'>
 
             <div>
                 <h1 className='text-4xl font-semibold tracking-tight text-black'>
