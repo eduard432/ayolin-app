@@ -32,7 +32,7 @@ export function FiltrosUso() {
         {/* Calendario */}
         <Popover>
         <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[240px] h-10 justify-start text-left font-normal">
+            <Button variant="outline" className="w-[270px] h-10 justify-start text-left font-normal">
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? format(date, "PPPP", { locale: es }) : <span>Seleccionar fecha</span>}
             </Button>

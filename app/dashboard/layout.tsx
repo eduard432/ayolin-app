@@ -13,7 +13,7 @@ const layout = ({
 			<SessionProvider basePath="/api/v1/auth" >
 				<Navbar />
 				<NavbarDashboard />
-				<main className="px-16 py-8">{children}</main>
+				<main className="">{children}</main>
 			</SessionProvider>
 		</div>
 	)

@@ -21,11 +21,11 @@ const links = [
 
 export default function ConfiguracionLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white flex">
+    <div className="min-h-screen bg-neutral-200 text-black flex">
       
-      <aside className="w-70 bg-neutral-900 border-r border-neutral-800 p-6">
+      <aside className="w-[260px] bg-white p-6 border-r border-neutral-300 text-black">
         <nav className="space-y-4">
-          <h2 className="font-semibold mb-6 text-2xl mt-4">Ajustes</h2>
+          <h2 className="font-semibold mb-6 text-2xl ">Ajustes</h2>
           <ul className="space-y-2">
             {links.map((link) => (
               <li key={link.href}>
@@ -44,7 +44,7 @@ export default function ConfiguracionLayout({ children }: { children: ReactNode 
       </aside>
 
       
-      <main className="flex-1 p-10 overflow-auto bg-neutral-200">
+      <main className="flex-1 px-10 overflow-auto bg-neutral-200">
         {children}
       </main>
     </div>

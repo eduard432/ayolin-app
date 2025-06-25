@@ -121,7 +121,7 @@ const DashboardOverview = () => {
 
 	return (
 		// TODO: mover este padding al layout
-			<div className=" grid grid-cols-12 gap-x-8 gap-y-4 pt-8">
+			<div className=" grid grid-cols-12 gap-x-8 gap-y-4 pt-8 px-10">
 				<section className="flex items-center gap-x-4 col-span-12">
 					<SearchBar className="h-full bg-white rounded-md" />
 					<ToggleGroup
