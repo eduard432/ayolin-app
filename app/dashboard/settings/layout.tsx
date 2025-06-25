@@ -44,7 +44,7 @@ export default function ConfiguracionLayout({ children }: { children: ReactNode 
       </aside>
 
       
-      <main className="flex-1 p-6 overflow-auto bg-neutral-200">
+      <main className="flex-1 p-10 overflow-auto bg-neutral-200">
         {children}
       </main>
     </div>

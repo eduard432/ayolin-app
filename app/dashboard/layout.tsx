@@ -9,11 +9,13 @@ const layout = ({
 	children: React.ReactNode
 }>) => {
 	return (
-		<SessionProvider basePath="/api/v1/auth" >
-			<Navbar />
-			<NavbarDashboard />
-			<main className="bg-neutral-100 px-16 py-8">{children}</main>
-		</SessionProvider>
+		<div className='bg-neutral-200 min-h-screen'>
+			<SessionProvider basePath="/api/v1/auth" >
+				<Navbar />
+				<NavbarDashboard />
+				<main className="px-16 py-8">{children}</main>
+			</SessionProvider>
+		</div>
 	)
 }
 

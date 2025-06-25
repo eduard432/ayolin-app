@@ -121,7 +121,7 @@ const DashboardOverview = () => {
 
 	return (
 		// TODO: mover este padding al layout
-			<div className="w-10/12 mx-auto grid grid-cols-12 gap-x-8 gap-y-4">
+			<div className=" grid grid-cols-12 gap-x-8 gap-y-4 pt-8">
 				<section className="flex items-center gap-x-4 col-span-12">
 					<SearchBar className="h-full bg-white rounded-md" />
 					<ToggleGroup
@@ -162,7 +162,7 @@ const DashboardOverview = () => {
 					</DropdownMenu>
 				</section>
 				<section className="col-span-4">
-					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight mb-4">
+					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 						Usage
 					</h4>
 					<Card className="w-full rounded-md">
@@ -204,7 +204,7 @@ const DashboardOverview = () => {
 				</section>
 
 				<section className="col-span-8">
-					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight mb-4">
+					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 						Projects
 					</h4>
 

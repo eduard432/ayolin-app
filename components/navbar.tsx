@@ -25,12 +25,12 @@ import { signOut } from 'next-auth/react'
 
 export default function Navbar() {
 	return (
-		<nav className="bg-white px-10 py-4 items-center flex justify-between">
+		<nav className="bg-white pt-7 pb-2 px-8 items-center flex justify-between">
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/dashboard/overview">
-							<p className="uppercase tracking-widest font-semibold">Ayolin</p>
+							<p className="uppercase tracking-widest font-semibold text-black text-2xl">Ayolin</p>
 						</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
