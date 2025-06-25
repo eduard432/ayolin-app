@@ -10,7 +10,7 @@ const layout = ({
 }>) => {
 	return (
 		<SessionProvider basePath="/api/v1/auth">
-			<div className="bg-neutral-200 min-h-screen" >
+			<div className="bg-neutral-200 min-h-screen">
 				<Navbar />
 				<NavbarDashboard />
 				<main>{children}</main>

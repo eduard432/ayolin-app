@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React from 'react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -11,13 +11,14 @@ export default function NavbarDashboard() {
 	const pathname = usePathname()
 
 	// Determinar si estamos en /dashboard/[chatbotId]
-	const isChatbotRoute = /^\/dashboard\/[^/]+\/.*$/.test(pathname)
-	const chatbotId = isChatbotRoute ? pathname.split('/')[2] : null
+	const params = useParams()
+	const chatbotId = params.chatbotId as string | undefined
 
 	// Seleccionamos los features según la ruta
-	const features = isChatbotRoute && chatbotId
+	const features = chatbotId
 		? getChatbotFeatures(chatbotId)
 		: dashboardFeatures
+		
 
 	return (
 		<nav className="bg-white px-6 border-b border-neutral-300 pb-2 pt-2">
