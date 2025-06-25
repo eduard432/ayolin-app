@@ -67,13 +67,13 @@ export default function ChatsPage(){
                 <Input
                     type='text'
                     placeholder='Filtrar por usuarios o mensajes...'
-                    className='max-w-sm bg-white'
+                    className='max-w-sm bg-white h-10'
                 />
                 <Button variant="outline">Columnas</Button>
             </div>
 
             <Card>
-                <Table>
+                <Table className='mx-2'>
                     <TableHeader>
                         <TableRow>
                             <TableHead className='text-black font-black'>Estados</TableHead>
