@@ -1,4 +1,4 @@
-// app/storage/page.tsx
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -11,7 +11,7 @@ const files = [
 
 export default function StoragePage() {
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 p-8">
+    <div className="min-h-screen p-8">
       <h1 className="text-3xl font-bold mb-6 text-neutral-800 dark:text-white">Almacenamiento</h1>
 
       <Card className="shadow-lg">

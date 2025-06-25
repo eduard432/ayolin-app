@@ -18,9 +18,9 @@ export function FiltrosUso() {
 
         {/* Rango de tiempo */}
         <Select>
-        <SelectTrigger className="w-[180px] h-10">
+        <SelectTrigger className="w-[200px] h-10 bg-white text-black">
             <ClockIcon className="mr-2 h-4 w-4" />
-            <SelectValue placeholder="Últimos 30 días" />
+            <SelectValue placeholder="Últimos 30 días" className="text-black" />
         </SelectTrigger>
         <SelectContent>
             <SelectItem value="7">Últimos 7 días</SelectItem>
@@ -43,8 +43,8 @@ export function FiltrosUso() {
         </Popover>
 
         {/* Input proyecto */}
-        <div className="relative w-[220px]">
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className="relative w-[220px] text-black bg-white rounded-lg">
+        <Search className="absolute left-3 top-2.5 h-4 w-4 text-black bg-white" />
         <Input
             type="text"
             placeholder="Todos los proyectos"
