@@ -26,6 +26,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { ChevronDown, Ellipsis, LayoutGrid, List } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 
 const usageMetrics = [
 	{
@@ -118,6 +119,7 @@ const proyectos = [
 
 const DashboardOverview = () => {
 	const [layout, setLayout] = useState<'grid' | 'list'>('list')
+	const router = useRouter()
 
 	return (
 		// TODO: mover este padding al layout
@@ -217,12 +219,13 @@ const DashboardOverview = () => {
 						{proyectos.map((proyecto) => (
 							<Card
 								className={cn(
-									'rounded-none py-4',
+									'rounded-none py-4 cursor-pointer',
 									layout == 'grid'
 										? 'col-span-1 min-h-36 rounded-md'
 										: 'col-span-2'
 								)}
 								key={proyecto.nombre}
+								onClick={() => router.push(`/dashboard/${proyecto.nombre}/estadisticas`)}
 							>
 								<CardContent className="flex justify-between">
 									<div className="flex items-center gap-x-4">
