@@ -9,7 +9,7 @@ const layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className='bg-neutral-200 min-h-screen'>
+    <div className='bg-neutral-200 min-h-sc'>
         <Navbar/>
         <NavbarDashboard/>
         <main className='pt-20 px-6'>{children}</main>

@@ -13,5 +13,5 @@ export const getChatbotFeatures = (chatbotId: string) => [
   { name: 'Almacenamiento', href: `/dashboard/${chatbotId}/almacenamiento` },
   { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
   { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
-  { name: 'Configuración', href: `/dashboard/${chatbotId}/configuracion` },
+  { name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
 ]
