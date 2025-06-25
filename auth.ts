@@ -8,6 +8,8 @@ import { getUserByEmail } from './data/user'
 import bcryptjs from 'bcryptjs'
 import { getUserById } from './data/user'
 import { UserRole } from '@prisma/client'
+import GoogleProvider from 'next-auth/providers/google'
+import GitHubProvider from 'next-auth/providers/github' 
 
 declare module 'next-auth' {
 	interface Session {
@@ -38,6 +40,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 				return null
 			},
+		}),
+		GoogleProvider({
+			clientId:  process.env.AUTH_GOOGLE_ID!,
+			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+		}),
+		  GitHubProvider({
+			clientId: process.env.AUTH_GITHUB_ID!,
+			clientSecret: process.env.AUTH_GITHUB_SECRET!,
 		}),
 	],
 	callbacks: {
