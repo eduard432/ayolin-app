@@ -5,6 +5,7 @@ import React from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { useParams } from 'next/navigation'
 import { 
   Card, 
   CardHeader, 
@@ -13,11 +14,18 @@ import {
 } from '@/components/ui/card'
 
 export default function EstadisticasPage(){
+
+    const params = useParams()
+    const chatbotId = params?.chatbotId as string
+
+    const formatName = (id: string) => 
+        id.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+
   return(
     <div className='p-6 space-y-6'>
       <div>
         <h1 className='text-4xl font-semibold tracking-tight text-black'>
-          Estadisticas Chatbot
+          Estadisticas {formatName(chatbotId)}
         </h1>
         <p className='text-sm text-muted-foreground'>
           Informacion actualizada sobre tu chatbot
