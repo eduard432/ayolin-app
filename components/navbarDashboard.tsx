@@ -1,72 +1,33 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/Navbar.tsx
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { FaBars, FaTimes } from 'react-icons/fa'
 import React from 'react'
 import { usePathname } from 'next/navigation'
-import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
-
-interface Feature {
-  name: string
-  href: string
-}
-
-{/*No me encanta como se ve, podemos cambiar el hover pero no 
-  se como se puede ver mejor */}
+import { dashboardFeatures } from '@/lib/navbarData'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export default function NavbarDashboard() {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
+	const pathname = usePathname()
 
-  const pathParts = pathname?.split('/')
-  const isChatbot = pathParts?.length > 3 && pathParts[1] === 'dashboard'
-
-  const chatbotId = isChatbot ? pathParts[2] : ''
-  const features = isChatbot ? getChatbotFeatures(chatbotId) : dashboardFeatures
-
-  return (
-    <nav className="fixed top-16 left-0 w-full bg-neutral-900 shadow-md z-40 rounded-b-xl">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-
-        {/* Botón hamburguesa (mobile) */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-2xl text-white focus:outline-none"
-          >
-            {isOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
-
-        {/* Enlaces */}
-        <ul
-          className={`md:flex md:space-x-6 font-medium text-white transition-all duration-300 ease-in-out ${
-            isOpen ? 'block mt-4 space-y-2' : 'hidden'
-          } md:block md:mt-0 md:space-y-0`}
-        >
-          {features.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`block py-2 px-4 rounded-md transition-all duration-200
-                    ${
-                      isActive
-                        ? 'bg-sky-700 text-white'
-                        : 'hover:bg-neutral-800 hover:text-sky-300'
-                    }`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    </nav>
-  )
+	return (
+		<nav className="bg-white px-6 border-b border-neutral-300 pb-2">
+			{dashboardFeatures.map((feature) => (
+				<Button
+					key={feature.href}
+					asChild
+					variant="ghost"
+					className={cn(
+						'hover:bg-neutral-200',
+						pathname == feature.href
+							? "relative  text-neutral-900 after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-2 after:h-[2px] after:bg-black after:rounded-full"
+							: 'text-neutral-500'
+					)}
+				>
+					<Link href={feature.href}>{feature.name}</Link>
+				</Button>
+			))}
+		</nav>
+	)
 }

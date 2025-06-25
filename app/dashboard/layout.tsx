@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import NavbarDashboard from '@/components/navbarDashboard'
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/navbar'
+import { SessionProvider } from 'next-auth/react'
 
 const layout = ({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode
 }>) => {
-  return (
-    <div className='bg-neutral-200 min-h-screen'>
-      <Navbar/>
-      <NavbarDashboard/>
-      <main className='pt-32'>{children}</main>
-    </div>
-  )
+	return (
+		<SessionProvider basePath="/api/v1/auth" >
+			<Navbar />
+			<NavbarDashboard />
+			<main className="bg-neutral-100 px-16 py-8">{children}</main>
+		</SessionProvider>
+	)
 }
 
 export default layout

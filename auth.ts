@@ -17,7 +17,7 @@ declare module 'next-auth' {
 	}
 }
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  basePath: '/api/v1/auth',
+	basePath: '/api/v1/auth',
 	adapter: PrismaAdapter(db),
 	session: { strategy: 'jwt' },
 	providers: [
