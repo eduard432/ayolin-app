@@ -222,7 +222,7 @@ const DashboardOverview = () => {
 									'rounded-none py-4 cursor-pointer',
 									layout == 'grid'
 										? 'col-span-1 min-h-36 rounded-md'
-										: 'col-span-2'
+										: 'col-span-2 first:rounded-t-md last:rounded-b-md'
 								)}
 								key={proyecto.nombre}
 								onClick={() => router.push(`/dashboard/${proyecto.nombre}/estadisticas`)}
