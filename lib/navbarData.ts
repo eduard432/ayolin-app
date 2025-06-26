@@ -1,7 +1,6 @@
 
 export const dashboardFeatures = [
   { name: 'General', href: '/dashboard/general' },
-  { name: 'Integraciones', href: '/dashboard/integraciones' },
   { name: 'Uso', href: '/dashboard/uso' },
   { name: 'Almacenamiento', href: '/dashboard/almacenamiento' },
   { name: 'Soporte', href: '/dashboard/soporte' },

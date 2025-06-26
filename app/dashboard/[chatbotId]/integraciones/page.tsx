@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import {
 	Card,
-	CardAction,
 	CardContent,
 	CardDescription,
 	CardHeader,
@@ -12,7 +11,6 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Layers } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 
 const latestIntegrations = [
@@ -105,7 +103,7 @@ const IntegrationsPage = () => {
 					</CardHeader>
 					<CardContent className="gap-y-6 flex flex-col">
 						{latestIntegrations.map((integration) => (
-							<div className="flex items-center gap-x-4 cursor-pointer">
+							<div key={integration.name} className="flex items-center gap-x-4 cursor-pointer">
 								<Avatar className="w-10 h-10">
 									<AvatarImage src="https://github.com/shadcn.png" />
 									<AvatarFallback>CN</AvatarFallback>
