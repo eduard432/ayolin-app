@@ -5,7 +5,7 @@ export const dashboardFeatures = [
   { name: 'Uso', href: '/dashboard/uso' },
   { name: 'Almacenamiento', href: '/dashboard/almacenamiento' },
   { name: 'Soporte', href: '/dashboard/soporte' },
-  { name: 'Configuración', href: '/dashboard/settings' },
+  { name: 'Configuración', href: '/dashboard/configuracion' },
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
