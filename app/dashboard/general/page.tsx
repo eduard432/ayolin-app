@@ -27,6 +27,7 @@ import { ChevronDown, Ellipsis, LayoutGrid, List } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const usageMetrics = [
 	{
@@ -123,144 +124,148 @@ const DashboardOverview = () => {
 
 	return (
 		// TODO: mover este padding al layout
-			<div className=" grid grid-cols-12 gap-x-8 gap-y-4">
-				<section className="flex items-center gap-x-4 col-span-12">
-					<SearchBar className="h-full bg-white rounded-md" />
-					<ToggleGroup
-						value={layout}
-						onValueChange={(value) => setLayout(value as 'grid' | 'list')}
-						type="single"
-						className="border h-full bg-white"
+		<div className=" grid grid-cols-12 gap-x-8 gap-y-4">
+			<section className="flex items-center gap-x-4 col-span-12">
+				<SearchBar className="h-full bg-white rounded-md" />
+				<ToggleGroup
+					value={layout}
+					onValueChange={(value) => setLayout(value as 'grid' | 'list')}
+					type="single"
+					className="border h-full bg-white"
+				>
+					<ToggleGroupItem
+						value="grid"
+						aria-label="Toggle grid"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
 					>
-						<ToggleGroupItem
-							value="grid"
-							aria-label="Toggle grid"
-							className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
-						>
-							<LayoutGrid className="" />
-						</ToggleGroupItem>
-						<ToggleGroupItem
-							value="list"
-							aria-label="Toggle list"
-							className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
-						>
-							<List className="" />
-						</ToggleGroupItem>
-					</ToggleGroup>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button className="h-full cursor-pointer">
-								Add New... <ChevronDown />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent>
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem>Profile</DropdownMenuItem>
-							<DropdownMenuItem>Billing</DropdownMenuItem>
-							<DropdownMenuItem>Team</DropdownMenuItem>
-							<DropdownMenuItem>Subscription</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</section>
-				<section className="col-span-4">
-					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-						Usage
-					</h4>
-					<Card className="w-full rounded-md">
-						<CardHeader>
-							<CardTitle>Last 30 days</CardTitle>
-							<CardDescription>Updated 13m ago</CardDescription>
-							<CardAction>
-								<Button size="sm">Upgrade</Button>
-							</CardAction>
-						</CardHeader>
-						<CardContent>
-							<Table>
-								<TableBody className="divide-none">
-									{usageMetrics.map((metric) => (
-										<TableRow
-											className="odd:bg-neutral-50 hover:bg-neutral-200"
-											key={metric.label}
-										>
-											<TableCell className="flex justify-between text-sm">
-												<div className="flex gap-x-2">
-													<CircularProgressBar
-														className="w-6 h-6"
-														min={0}
-														max={100}
-														value={Math.random() * 10}
-													/>
-													<p className="">{metric.label}</p>
-												</div>
-												<p className="font-mono text-neutral-500 text-xs">
-													{metric.used} / {metric.limit}
-												</p>
-											</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
-						</CardContent>
-					</Card>
-				</section>
-
-				<section className="col-span-8">
-					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-						Projects
-					</h4>
-
-					<div
-						className={cn(
-							'rounded-md grid grid-cols-2',
-							layout == 'grid' ? 'gap-8' : 'gap-0'
-						)}
+						<LayoutGrid className="" />
+					</ToggleGroupItem>
+					<ToggleGroupItem
+						value="list"
+						aria-label="Toggle list"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
 					>
-						{proyectos.map((proyecto) => (
-							<Card
-								className={cn(
-									'rounded-none py-4 cursor-pointer',
-									layout == 'grid'
-										? 'col-span-1 min-h-36 rounded-md'
-										: 'col-span-2 first:rounded-t-md last:rounded-b-md'
-								)}
-								key={proyecto.nombre}
-								onClick={() => router.push(`/dashboard/${proyecto.nombre}/estadisticas`)}
-							>
-								<CardContent className="flex justify-between">
-									<div className="flex items-center gap-x-4">
-										<Avatar>
-											<AvatarImage src="https://github.com/shadcn.png" />
-											<AvatarFallback>CN</AvatarFallback>
-										</Avatar>
-										<div>
-											<h4 className="font-medium">{proyecto.nombre}</h4>
-											<p className="text-sm font-medium text-neutral-500">
-												{proyecto.descripcion}
+						<List className="" />
+					</ToggleGroupItem>
+				</ToggleGroup>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button className="h-full cursor-pointer">
+							Add New... <ChevronDown />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<Link href="/dashboard/nuevo">Chatbot</Link>
+						</DropdownMenuItem>
+						<DropdownMenuItem>Billing</DropdownMenuItem>
+						<DropdownMenuItem>Team</DropdownMenuItem>
+						<DropdownMenuItem>Subscription</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</section>
+			<section className="col-span-4">
+				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+					Usage
+				</h4>
+				<Card className="w-full rounded-md">
+					<CardHeader>
+						<CardTitle>Last 30 days</CardTitle>
+						<CardDescription>Updated 13m ago</CardDescription>
+						<CardAction>
+							<Button size="sm">Upgrade</Button>
+						</CardAction>
+					</CardHeader>
+					<CardContent>
+						<Table>
+							<TableBody className="divide-none">
+								{usageMetrics.map((metric) => (
+									<TableRow
+										className="odd:bg-neutral-50 hover:bg-neutral-200"
+										key={metric.label}
+									>
+										<TableCell className="flex justify-between text-sm">
+											<div className="flex gap-x-2">
+												<CircularProgressBar
+													className="w-6 h-6"
+													min={0}
+													max={100}
+													value={Math.random() * 10}
+												/>
+												<p className="">{metric.label}</p>
+											</div>
+											<p className="font-mono text-neutral-500 text-xs">
+												{metric.used} / {metric.limit}
 											</p>
-										</div>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
+			</section>
+
+			<section className="col-span-8">
+				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+					Projects
+				</h4>
+
+				<div
+					className={cn(
+						'rounded-md grid grid-cols-2',
+						layout == 'grid' ? 'gap-8' : 'gap-0'
+					)}
+				>
+					{proyectos.map((proyecto) => (
+						<Card
+							className={cn(
+								'rounded-none py-4 cursor-pointer',
+								layout == 'grid'
+									? 'col-span-1 min-h-36 rounded-md'
+									: 'col-span-2 first:rounded-t-md last:rounded-b-md'
+							)}
+							key={proyecto.nombre}
+							onClick={() =>
+								router.push(`/dashboard/${proyecto.nombre}/estadisticas`)
+							}
+						>
+							<CardContent className="flex justify-between">
+								<div className="flex items-center gap-x-4">
+									<Avatar>
+										<AvatarImage src="https://github.com/shadcn.png" />
+										<AvatarFallback>CN</AvatarFallback>
+									</Avatar>
+									<div>
+										<h4 className="font-medium">{proyecto.nombre}</h4>
+										<p className="text-sm font-medium text-neutral-500">
+											{proyecto.descripcion}
+										</p>
 									</div>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button className="cursor-pointer" variant="ghost">
-												<Ellipsis />
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent>
-											<DropdownMenuLabel>My Account</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuItem>Profile</DropdownMenuItem>
-											<DropdownMenuItem>Billing</DropdownMenuItem>
-											<DropdownMenuItem>Team</DropdownMenuItem>
-											<DropdownMenuItem>Subscription</DropdownMenuItem>
-										</DropdownMenuContent>
-									</DropdownMenu>
-								</CardContent>
-							</Card>
-						))}
-					</div>
-				</section>
-			</div>
+								</div>
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Button className="cursor-pointer" variant="ghost">
+											<Ellipsis />
+										</Button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent>
+										<DropdownMenuLabel>My Account</DropdownMenuLabel>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem>Profile</DropdownMenuItem>
+										<DropdownMenuItem>Billing</DropdownMenuItem>
+										<DropdownMenuItem>Team</DropdownMenuItem>
+										<DropdownMenuItem>Subscription</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</CardContent>
+						</Card>
+					))}
+				</div>
+			</section>
+		</div>
 	)
 }
 

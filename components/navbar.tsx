@@ -30,7 +30,7 @@ export default function Navbar() {
 	const pathname = usePathname() 
 
 	return (
-		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", pathname.includes("new") ? "bg-none" : "bg-white")}>
+		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", pathname.includes("nuevo") ? "bg-none" : "bg-white")}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
