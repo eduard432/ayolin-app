@@ -13,7 +13,7 @@ export const Social = () => {
 				size="lg"
 				className="items-center"
 				variant="outline"
-				onClick={() => { signIn('google', { callbackUrl: '/dashboard', redirect: true })}}
+				onClick={() => signIn('google', { callbackUrl: '/dashboard', redirect: true, basePath: '/api/v1/auth' })}
 			>
 				<FcGoogle className="h-5 w-5" />
 			</Button>
@@ -22,7 +22,7 @@ export const Social = () => {
 				size="lg"
 				className="justify-center"
 				variant="outline"
-				onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
+				onClick={() => signIn('github', { callbackUrl: '/dashboard', redirect: true, basePath: '/api/v1/auth' })}
 			>
 				<FaGithub className="h-5 w-5" />
 			</Button>
