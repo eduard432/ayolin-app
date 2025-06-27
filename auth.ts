@@ -59,12 +59,10 @@ export const {
 
   callbacks: {
     async signIn({ user, account }) {
-      // Permitir OAuth sin verificación de email
       if (account?.provider !== "credentials") return true;
 
       const existingUser = await getUserById(user.id);
 
-      // Bloquear acceso si no ha verificado su correo
       if (!existingUser?.emailVerified) return false;
 
       if (existingUser.isTwoFactorEnabled) {
@@ -74,7 +72,6 @@ export const {
 
         if (!twoFactorConfirmation) return false;
 
-        // Borrar confirmación para futuros accesos
         await db.twoFactorConfirmation.delete({
           where: { id: twoFactorConfirmation.id },
         });
