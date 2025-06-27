@@ -29,7 +29,7 @@ export default function Navbar() {
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/dashboard/overview">
+						<BreadcrumbLink href="/dashboard/general">
 							<p className="uppercase tracking-widest font-semibold text-black text-2xl">Ayolin</p>
 						</BreadcrumbLink>
 					</BreadcrumbItem>

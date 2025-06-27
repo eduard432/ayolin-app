@@ -1,3 +1,5 @@
+'use client'
+
 interface CircularProgressBarProps {
 	value: number
 	max?: number
@@ -24,7 +26,8 @@ export function CircularProgressBar({
 		Math.max(0, ((value - min) / (max - min)) * 100)
 	)
 	const strokeDashoffset = circumference - (percentage / 100) * circumference
-
+	const roundedCircumference = Number(circumference.toFixed(2))
+	const roundedOffset = Number(strokeDashoffset.toFixed(2))
 	return (
 		<div className={`relative size-40 ${className ?? ''}`}>
 			<svg className="size-full" viewBox="0 0 100 100">
@@ -45,8 +48,8 @@ export function CircularProgressBar({
 					stroke={primaryColor}
 					strokeWidth="12"
 					fill="none"
-					strokeDasharray={circumference}
-					strokeDashoffset={strokeDashoffset}
+					strokeDasharray={roundedCircumference}
+					strokeDashoffset={roundedOffset}
 					transform="rotate(-90 50 50)"
 				/>
 			</svg>
