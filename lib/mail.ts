@@ -12,6 +12,6 @@ export const sendVerificationEmail = async(
         from: "onboarding@resend.dev",
         to: email,
         subject: "Confirma tu correo electronico",
-        html: `<p>Clikea <a href="${confirmLink}>aqui</a> para confirmar</p>`
+        html: `<p>Clikea <a href="${confirmLink}">aqui</a> para confirmar</p>`
     })
 }

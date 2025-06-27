@@ -8,7 +8,6 @@ import { db } from "@/lib/db";
 import authConfig from "@/auth.config";
 import { getAccountByUserId } from "./data/account";
 
-// 🔁 Extiende los tipos de sesión y token
 declare module "next-auth" {
   interface Session {
     user: {
