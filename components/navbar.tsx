@@ -22,15 +22,20 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
+import { cn } from '@/lib/utils'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
+
+	const pathname = usePathname() 
+
 	return (
-		<nav className="bg-white pt-7 pb-2 px-8 items-center flex justify-between">
+		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", pathname.includes("new") ? "bg-none" : "bg-white")}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/dashboard/general">
-							<p className="uppercase tracking-widest font-semibold text-black text-2xl">Ayolin</p>
+							<h2 className="uppercase tracking-widest font-semibold text-neutral-800 text-2xl">Ayolin</h2>
 						</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>

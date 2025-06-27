@@ -4,7 +4,6 @@ import Navbar from '@/components/navbar'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import Fotter from '@/components/Fotter'
 
 const layout = async ({
 	children,
@@ -26,7 +25,6 @@ const layout = async ({
 				<NavbarDashboard />
 				<main className="pt-8 px-10" >{children}</main>
 			</div>
-			<Fotter/>
 		</SessionProvider>
 
 
