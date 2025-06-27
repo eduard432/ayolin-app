@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { Button } from '@/components/ui/button'
 import React from 'react'
@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Layers } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const latestIntegrations = [
 	{
@@ -52,8 +53,10 @@ const integrations = [
 ]
 
 const IntegrationsPage = () => {
+	const router = useRouter()
+	const params = useParams()
 
-    const router = useRouter()
+	
 
 	return (
 		<div className="grid grid-cols-12 gap-x-8 gap-y-4">
@@ -61,7 +64,9 @@ const IntegrationsPage = () => {
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Integraciones
 				</h4>
-				<Button>Browse Marketplace</Button>
+				<Button asChild>
+					<Link href={`/dashboard/${params.chatbotId}/integraciones/marketplace`} >Browse Marketplace</Link>
+				</Button>
 			</section>
 			<section className="col-span-8">
 				{integrations.map((integration) => (
@@ -85,7 +90,14 @@ const IntegrationsPage = () => {
 									</p>
 								</div>
 							</div>
-							<Button onClick={() => router.push(`/dashboard/integrations/${integration.name}`)} variant="outline" >Manage</Button>
+							<Button
+								onClick={() =>
+									router.push(`/dashboard/integrations/${integration.name}`)
+								}
+								variant="outline"
+							>
+								Manage
+							</Button>
 						</CardContent>
 					</Card>
 				))}
@@ -103,7 +115,10 @@ const IntegrationsPage = () => {
 					</CardHeader>
 					<CardContent className="gap-y-6 flex flex-col">
 						{latestIntegrations.map((integration) => (
-							<div key={integration.name} className="flex items-center gap-x-4 cursor-pointer">
+							<div
+								key={integration.name}
+								className="flex items-center gap-x-4 cursor-pointer"
+							>
 								<Avatar className="w-10 h-10">
 									<AvatarImage src="https://github.com/shadcn.png" />
 									<AvatarFallback>CN</AvatarFallback>
