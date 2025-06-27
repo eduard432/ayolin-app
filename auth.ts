@@ -1,118 +1,124 @@
-import NextAuth, { DefaultSession } from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import { db } from '@/lib/db'
-import { LoginSchema } from './schemas'
-import { getUserByEmail } from './data/user'
-import bcryptjs from 'bcryptjs'
-import { getUserById } from './data/user'
-import { UserRole } from '@prisma/client'
-import GoogleProvider from 'next-auth/providers/google'
-import GitHubProvider from 'next-auth/providers/github' 
-import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation'
-import { getAccountByUserId } from './data/account'
+import NextAuth from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { UserRole } from "@prisma/client";
 
-declare module 'next-auth' {
-	interface Session {
-		user: {
-			role: UserRole
-			isTwoFactorEnabled?: boolean
-			isOAuth?: boolean
-		} & DefaultSession['user']
-	}
+import { getUserById } from "@/data/user";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { db } from "@/lib/db";
+import authConfig from "@/auth.config";
+import { getAccountByUserId } from "./data/account";
+
+// 🔁 Extiende los tipos de sesión y token
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      role: UserRole;
+      isTwoFactorEnabled?: boolean;
+      isOAuth?: boolean;
+      name?: string | null;
+      email?: string | null;
+    };
+  }
+
+  interface User {
+    id: string;
+    role: UserRole;
+    isTwoFactorEnabled?: boolean;
+  }
 }
-export const { handlers, signIn, signOut, auth } = NextAuth({
-	pages: {
-		signIn: "/auth/login",
-		error: "/auth/error",
-	},
-	basePath: '/api/v1/auth',
-	adapter: PrismaAdapter(db),
-	session: { strategy: 'jwt' },
-	providers: [
-		Credentials({
-			async authorize(credentials) {
-				const validateFields = LoginSchema.safeParse(credentials)
 
-				if (validateFields.success) {
-					const { email, password } = validateFields.data
+declare module "next-auth" {
+  interface JWT {
+    id: string;
+    role: UserRole;
+    isTwoFactorEnabled?: boolean;
+    isOAuth?: boolean;
+    name?: string | null;
+    email?: string | null;
+  }
+}
 
-					const user = await getUserByEmail(email)
-					if (!user || !user.password) return null
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
 
-					const passwordMatch = await bcryptjs.compare(password, user.password)
+  callbacks: {
+    async signIn({ user, account }) {
+      // Permitir OAuth sin verificación de email
+      if (account?.provider !== "credentials") return true;
 
-					if (passwordMatch) return user
-				}
+      const existingUser = await getUserById(user.id);
 
-				return null
-			},
-		}),
-		GoogleProvider({
-			clientId:  process.env.AUTH_GOOGLE_ID!,
-			clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-		}),
-		  GitHubProvider({
-			clientId: process.env.AUTH_GITHUB_ID!,
-			clientSecret: process.env.AUTH_GITHUB_SECRET!,
-		}),
-	],
-	events: {
-		async linkAccount({user}){
-			await db.user.update({
-				where: {id: user.id},
-				data: {emailVerified: new Date() },
-			});
-		},
-	},
-	callbacks: {
-		async signIn({ user, account}){
-			if (account?.provider !== "credentials") return true;
+      // Bloquear acceso si no ha verificado su correo
+      if (!existingUser?.emailVerified) return false;
 
-			if (!user.id) return false;
-			const existingUser = await getUserById(user.id);
-			if (!existingUser?.emailVerified) return false;
-			if(existingUser.isTwoFactorEnabled){
-				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-				
-				if(!twoFactorConfirmation) return false;
-				await db.twoFactorConfirmation.delete({where: {id: twoFactorConfirmation.id},});
-			}
-			return true;
-		},
-		async session({ token, session }) {
-			if (token.sub && session.user) {
-				session.user.id = token.sub
-			}
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        );
 
-			if (token.role && session.user) {
-				session.user.role = token.role as UserRole
-			}
+        if (!twoFactorConfirmation) return false;
 
-			if(session.user){
-				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
-				session.user.name = token.name;
-				session.user.email = token.email ?? "";
-				session.user.isOAuth = token.isOAuth as boolean
-			}
+        // Borrar confirmación para futuros accesos
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        });
+      }
 
-			return session
-		},
-		async jwt({ token }) {
-			if (!token.sub) return token
+      return true;
+    },
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
 
-			const existingUser = await getUserById(token.sub)
-			if (!existingUser) return token
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole;
+      }
 
-			const existingAccount = await getAccountByUserId(existingUser.id);
+      if (session.user) {
+        session.user.isTwoFactorEnabled = typeof token.isTwoFactorEnabled === "boolean" ? token.isTwoFactorEnabled : undefined;
+        session.user.name = token.name;
+        session.user.email = token.email ?? "";
+        session.user.isOAuth = typeof token.isOAuth === "boolean" ? token.isOAuth : undefined;
+      }
 
-			token.isOAuth = !!existingAccount;
-			token.name = existingUser.name;
-			token.email = existingUser.email;
-			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
 
-			return token
-		},
-	},
+      const existingUser = await getUserById(token.sub);
+      if (!existingUser) return token;
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
+      return token;
+    },
+  },
+  adapter: PrismaAdapter(db),
+  session: { strategy: "jwt" },
+  ...authConfig,
 });
