@@ -4,6 +4,8 @@ import Navbar from '@/components/navbar'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+import FooterDashboard from '@/components/FooterDashboard'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const layout = async ({
 	children,
@@ -20,11 +22,19 @@ const layout = async ({
 			session={session}
 			basePath="/api/v1/auth"
 		>
-			<div className="bg-neutral-100 min-h-screen">
-				<Navbar />
-				<NavbarDashboard />
-				<main className="pt-8 px-10" >{children}</main>
-			</div>
+			<ThemeProvider
+				attribute="class"
+				defaultTheme="light"
+				enableSystem
+				disableTransitionOnChange
+			>
+				<div className="bg-neutral-100 min-h-screen">
+					<Navbar />
+					<NavbarDashboard />
+					<main className="pt-8 px-10 pb-12">{children}</main>
+					<FooterDashboard />
+				</div>
+			</ThemeProvider>
 		</SessionProvider>
 	)
 }
