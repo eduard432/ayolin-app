@@ -10,7 +10,7 @@ export default function GeneralSettings() {
       <h1 className="text-4xl font-bold text-black mt-5">General</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
           <CardHeader>
             <CardTitle className="text-black text-2xl">Nombre del Equipo</CardTitle>
           </CardHeader>

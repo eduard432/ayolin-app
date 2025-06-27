@@ -25,7 +25,7 @@ export default function ConfiguracionLayout({
 	children: ReactNode
 }) {
 	return (
-		<div className="min-h-screen bg-neutral-200 text-black flex">
+		<div className="min-h-screen bg-neutral-100 text-black flex">
 			<Card className="w-[260px] p-6 border-r border-neutral-300 text-black bg-neutral-100 px-2">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
@@ -50,7 +50,7 @@ export default function ConfiguracionLayout({
 				</CardContent>
 			</Card>
 
-			<main className="flex-1 px-10 overflow-auto bg-neutral-200">
+			<main className="flex-1 px-10 overflow-auto bg-neutral-100">
 				{children}
 			</main>
 		</div>
