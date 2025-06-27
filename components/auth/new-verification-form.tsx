@@ -30,7 +30,7 @@ const NewVerificationForm = () => {
         setError(data.error);
       })
       .catch(() => {
-        setError("Something went wrong!");
+        setError("Algo salio mal!");
       });
   }, [token, success, error]);
 
@@ -40,8 +40,8 @@ const NewVerificationForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Confirming your verification"
-      backButtonLabel="Back to login"
+      headerLabel="Estamos confirmando tu correo"
+      backButtonLabel="Regresar a Sign In"
       backButtonHref="/auth/login"
     >
       <div className="flex items-center justify-center w-full">

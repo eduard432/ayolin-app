@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 'use server'
 
 import { RegisterSchema } from '@/schemas'
@@ -15,7 +13,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
 	if (!validatedFields.success) {
 		return {
-			error: 'Invalid fields!',
+			error: 'Campos Invalidos!',
 		}
 	}
 
@@ -25,7 +23,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 	const existingUser = await getUserByEmail(email)
 
 	if (existingUser) {
-		return { error: 'Email alredy in use!' }
+		return { error: 'Este email ya esta en uso' }
 	}
 
 	await db.user.create({
@@ -43,7 +41,5 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 		verificationToken.token,
 	)
 
-	
-
-	return { success: 'User created' }
+	return { success: 'Usuario creado' }
 }
