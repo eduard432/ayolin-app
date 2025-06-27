@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 
 export default function GeneralSettings() {
   return (
-    <div className="space-y-8 pb-11">
+    <div className="space-y-8 mb-16">
       <h1 className="text-4xl font-bold text-black mt-5">General</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
