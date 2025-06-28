@@ -23,14 +23,21 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
+import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 
 export default function Navbar() {
 
-	const pathname = usePathname() 
+	const pathname = usePathname()
+	const params = useParams()
+		const chatbotId = params.chatbotId as string | undefined
+
+	const features = chatbotId
+			? getChatbotFeatures(chatbotId)
+			: dashboardFeatures
 
 	return (
-		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", pathname.includes("nuevo") ? "bg-none" : "bg-white")}>
+		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", !features.map((f) => f.href).includes(pathname) ? "bg-none" : "bg-white")}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>

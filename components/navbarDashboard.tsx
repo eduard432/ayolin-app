@@ -18,10 +18,14 @@ export default function NavbarDashboard() {
 	const features = chatbotId
 		? getChatbotFeatures(chatbotId)
 		: dashboardFeatures
-		
 
 	return (
-		<nav className={cn("bg-white px-6 border-b border-neutral-300 pb-2 pt-2", pathname.includes("nuevo") && "hidden")}>
+		<nav
+			className={cn(
+				'bg-white px-6 border-b border-neutral-300 pb-2 pt-2',
+				!features.map((f) => f.href).includes(pathname) && 'hidden'
+			)}
+		>
 			{features.map((feature) => (
 				<Button
 					key={feature.href}

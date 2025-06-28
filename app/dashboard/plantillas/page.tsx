@@ -25,7 +25,7 @@ const templates = [
 
 const Page = () => {
 	return (
-		<div className="grid grid-cols-12 px-40 gap-8 gap-x-8 pb-16">
+		<div className="grid grid-cols-12 px-40 gap-8 gap-x-8">
 			<div className="col-span-12" >
 				<BackButton href="/dashboard/nuevo" />
 			</div>
