@@ -7,11 +7,11 @@ import { signIn } from 'next-auth/react'
 
 export const Social = () => {
 	return (
-		<div className="flex space-x-2 w-full">
+		<div className="flex gap-x-2 w-full">
 			<Button
 			// No funciona el redireccionamiento de google
 				size="lg"
-				className="items-center w-1/2"
+				className="items-center flex-1"
 				variant="outline"
 				onClick={() => signIn('google', { callbackUrl: '/dashboard', redirect: true, basePath: '/api/v1/auth' })}
 			>
@@ -20,7 +20,7 @@ export const Social = () => {
 			<Button
 			// Tampoco funciona el de github jajajaj 
 				size="lg"
-				className="justify-center w-1/2"
+				className="justify-center flex-1"
 				variant="outline"
 				onClick={() => signIn('github', { callbackUrl: '/dashboard', redirect: true, basePath: '/api/v1/auth' })}
 			>
