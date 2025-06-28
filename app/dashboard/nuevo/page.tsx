@@ -21,7 +21,7 @@ import React from 'react'
 
 const Page = () => {
 	return (
-		<div className="px-40 grid grid-cols-12 gap-8">
+		<div className="px-40 grid grid-cols-12 gap-8 pb-16">
 			<section className="col-span-12 flex justify-between items-center">
 				<div>
 					<h2 className="scroll-m-20 text-4xl font-semibold tracking-tight text-balance">
