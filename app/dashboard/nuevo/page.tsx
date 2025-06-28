@@ -45,8 +45,8 @@ const Page = () => {
 					<CardContent className="flex flex-col gap-y-8 items-center">
 						<h3 className="text-2xl font-semibold">Custom Settings</h3>
 						<FileSliders className="w-12 h-12 text-neutral-600" />
-						<Button className="w-full" variant="outline">
-							Start
+						<Button asChild className="w-full" variant="outline">
+							<Link href="/dashboard/nuevo/personalizado" >Start</Link>
 						</Button>
 					</CardContent>
 				</Card>
