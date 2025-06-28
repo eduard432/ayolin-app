@@ -1,3 +1,5 @@
+"use client"
+
 import { BackButton } from '@/components/BackButton'
 import { SearchBar } from '@/components/search-bar'
 import {
@@ -12,6 +14,7 @@ import { Separator } from '@/components/ui/separator'
 import { MessageSquare } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const templates = [
@@ -24,6 +27,9 @@ const templates = [
 ]
 
 const Page = () => {
+
+	const router = useRouter()
+
 	return (
 		<div className="grid grid-cols-12 px-40 gap-8 gap-x-8">
 			<div className="col-span-12" >
@@ -60,7 +66,8 @@ const Page = () => {
 					<Card key={i} className="pt-0 justify-start">
 						<AspectRatio
 							ratio={16 / 9}
-							className="bg-muted rounded-lg rounded-b-none"
+							className="bg-muted rounded-lg rounded-b-none cursor-pointer"
+							onClick={() => router.push(`/dashboard/plantillas/plantia-test`)}
 						>
 							<Image
 								src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
