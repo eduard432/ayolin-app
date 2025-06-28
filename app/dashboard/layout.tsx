@@ -21,15 +21,15 @@ const layout = async ({
 			session={session}
 			basePath="/api/v1/auth"
 		>
-			<div className="bg-neutral-100 min-h-screen">
-				<Navbar />
-				<NavbarDashboard />
-				<main className="pt-8 px-10" >{children}</main>
+			<div className="bg-neutral-100 min-h-screen flex flex-col justify-between">
+				<div>
+					<Navbar />
+					<NavbarDashboard />
+				</div>
+				<main className="pt-8 px-10">{children}</main>
 				<FooterDashboard />
 			</div>
 		</SessionProvider>
-
-
 	)
 }
 
