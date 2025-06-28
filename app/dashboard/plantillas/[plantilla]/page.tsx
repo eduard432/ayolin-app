@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/BackButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -11,6 +12,7 @@ const Page = async ({
 	return (
 		<div className="grid grid-cols-12 px-20">
 			<section className="col-span-4 space-y-4 pr-12 border-r">
+        <BackButton href="/dashboard/plantillas" >Back to Templates</BackButton>
 				<h2 className="capitalize text-5xl font-bold">
 					{plantilla.replaceAll('-', ' ')}
 				</h2>
@@ -20,7 +22,7 @@ const Page = async ({
             <Button variant="outline" size="default" className="flex-1" >Chat Demo</Button>
         </div>
         <div className="divide-y" >
-          {["Repository", "Frameworl", "Use Case", "CSS"].map((key, i) => 
+          {["Repository", "Framework", "Use Case", "CSS"].map((key, i) => 
             (<div key={i} className="flex justify-between text-neutral-600 py-1 text-sm" >
               <p className="font-semibold" >{key}</p>
               <p>Value {i}</p>
