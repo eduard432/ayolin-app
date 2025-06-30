@@ -1,4 +1,3 @@
-
 "use server";
 
 import * as z from "zod";
@@ -14,13 +13,13 @@ export const newPassword = async (
   token?: string | null
 ) => {
   if (!token) {
-    return { error: "Falta el token!" };
+    return { error: "¡Falta el token!" };
   }
 
   const validatedFields = NewPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Campos invalidos!" };
+    return { error: "¡Campos inválidos!" };
   }
 
   const { password } = validatedFields.data;
@@ -28,19 +27,19 @@ export const newPassword = async (
   const existingToken = await getPasswordResetTokenByToken(token);
 
   if (!existingToken) {
-    return { error: "Token invalido!" };
+    return { error: "¡Token inválido!" };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
 
   if (hasExpired) {
-    return { error: "El token ha expirado!" };
+    return { error: "¡El token ha expirado!" };
   }
 
   const existingUser = await getUserByEmail(existingToken.email);
 
   if (!existingUser) {
-    return { error: "El correo no existe!" };
+    return { error: "¡El correo no existe!" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -54,5 +53,5 @@ export const newPassword = async (
     where: { id: existingToken.id },
   });
 
-  return { success: "Nueva contraseña creada!" };
+  return { success: "¡Nueva contraseña creada exitosamente!" };
 };

@@ -54,40 +54,40 @@ const NewPasswordForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Enter a new password"
-      backButtonLabel="Back to login"
-      backButtonHref="/auth/login"
+        headerLabel="Ingresa la nueva contraseña"
+        backButtonLabel="Volver al inicio de sesión"
+        backButtonHref="/auth/login"
     >
-      <Form {...form}>
+    <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            {/* Email */}
+        <div className="space-y-4">
+            {/* Contraseña */}
             <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
+                control={form.control}
+                name="password"
+                render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
+                <FormLabel>Contraseña</FormLabel>
+                <FormControl>
                     <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
+                    {...field}
+                    disabled={isPending}
+                    placeholder="******"
+                    type="password"
                     />
-                  </FormControl>
-                  <FormMessage />
+                </FormControl>
+                <FormMessage />
                 </FormItem>
-              )}
+            )}
             />
-          </div>
-          <FormError message={error} />
-          <FormSucces message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
-            Reset password
-          </Button>
+        </div>
+        <FormError message={error} />
+        <FormSucces message={success} />
+        <Button disabled={isPending} type="submit" className="w-full">
+            Restablecer contraseña
+        </Button>
         </form>
-      </Form>
+    </Form>
     </CardWrapper>
   );
 };

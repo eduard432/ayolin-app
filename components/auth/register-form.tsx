@@ -53,7 +53,7 @@ export const RegisterForm = () => {
     return(
        <CardWrapper
             headerLabel="Crea tu cuenta"
-            backButtonLabel="Ya tienes una cuenta?"
+            backButtonLabel="¿Ya tienes una cuenta?"
             backButtonHref="/auth/login"
             showSocial
         >
@@ -87,7 +87,7 @@ export const RegisterForm = () => {
                         render={({field}) => (
                             <FormItem>
                                 {/*Quiero hacer que se vea negro siempre, falta checar */}
-                                <FormLabel className="text-black">Email</FormLabel>
+                                <FormLabel className="text-black">Correo electrónico</FormLabel>
                                 <FormControl>
                                     <Input
                                         disabled={isPending}
@@ -128,7 +128,7 @@ export const RegisterForm = () => {
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>
-                                    Verificar Contraseña 
+                                    Confirmar contraseña 
                                 </FormLabel>
                                 <FormControl>
                                     <Input
@@ -151,7 +151,7 @@ export const RegisterForm = () => {
                     type="submit"
                     className="w-full mt-4 h-11"
                 >
-                    Crea tu cuenta
+                    Crear cuenta
                 </Button>
             </form>
         </Form>

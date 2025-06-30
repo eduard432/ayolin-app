@@ -50,8 +50,8 @@ const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Olvidaste tu contraseña?"
-      backButtonLabel="Regresa a login"
+      headerLabel="¿Olvidaste tu contraseña?"
+      backButtonLabel="Regresar al inicio de sesión"
       backButtonHref="/auth/login"
     >
       <Form {...form}>
@@ -80,7 +80,7 @@ const ResetForm = () => {
           <FormError message={error} />
           <FormSucces message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
-            Enviar correo
+            Enviar correo de recuperación
           </Button>
         </form>
       </Form>

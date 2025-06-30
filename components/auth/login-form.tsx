@@ -63,7 +63,7 @@ export const LoginForm = () => {
 							name="email"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel>Correo electrónico</FormLabel>
 									<FormControl>
 										<Input
 											disabled={isPending}
@@ -112,7 +112,7 @@ export const LoginForm = () => {
 						type="submit"
 						className="w-full mt-4 h-11"
 					>
-						Inicia Sesion
+						Inicia sesión
 					</Button>
 				</form>
 			</Form>
