@@ -90,17 +90,17 @@ export const LoginForm = () => {
 											type="password"
 										/>
 									</FormControl>
+									<FormMessage className="text-red-500 mb-2" />
 									<Button
 										size="sm"
 										variant="link"
 										asChild
-										className='px-0 font-normal'
+										className='font-normal text-sm flex justify-start pt'
 									>
 										<Link href="/auth/reset">
 											Olvidaste tu contraseña? 
 										</Link>
 									</Button>
-									<FormMessage className="text-red-500 mb-2" />
 								</FormItem>
 							)}
 						/>
