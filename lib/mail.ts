@@ -68,7 +68,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   });
 };
 
-
+// Si queremos hacer el 2FA
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   await resend.emails.send({
     from: "Ayolin <onboarding@resend.dev>",
