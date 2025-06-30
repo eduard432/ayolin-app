@@ -1,5 +1,3 @@
-- Agregar footer al dashboard
-- Darle estilos al correo de confirmación
 - Crear componente de chateo
 - Agregar página: /dashboard/[chatbotId]/prueba
 - Maybe Lunixu :)
