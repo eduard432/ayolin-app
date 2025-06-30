@@ -19,6 +19,10 @@ Página donde se implementa el componente de chateo para que los usuarios puedan
 
 Agregar el rol de FREE y PRO en el schema de usuarios
 
+- ### Estándarizar el nombre de los componentes:
+
+Usar PascalCase para los componentes y los archivos de los componentes, como: `NavbarDashboard.ts` y: `</NavbarDashboard />`, excepto para los componentes en UI, porque esos los maneja shadcn, en el caso de la carpeta `./components/auth` no se, que hacer jaja.
+
 - ### Estándarizar Estilos (cuando tengamos tiempo):
     - Usar full componentes de Shadcn
     - Hacer responsive todas las páginas, (específicamente para telefono):
