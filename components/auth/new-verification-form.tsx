@@ -20,7 +20,7 @@ const NewVerificationForm = () => {
     if (success || error) return;
 
     if (!token) {
-      setError("Missing token!");
+      setError("Falta el token!");
       return;
     }
 

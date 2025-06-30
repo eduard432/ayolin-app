@@ -11,6 +11,7 @@ import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
 import { FormError } from '@/components/form-error'
 import { FormSucces } from '@/components/form-succes'
+import Link from "next/link"
 import {
 	Form,
 	FormControl,
@@ -89,6 +90,16 @@ export const LoginForm = () => {
 											type="password"
 										/>
 									</FormControl>
+									<Button
+										size="sm"
+										variant="link"
+										asChild
+										className='px-0 font-normal'
+									>
+										<Link href="/auth/reset">
+											Olvidaste tu contraseña? 
+										</Link>
+									</Button>
 									<FormMessage className="text-red-500 mb-2" />
 								</FormItem>
 							)}
