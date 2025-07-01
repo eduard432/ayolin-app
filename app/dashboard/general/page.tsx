@@ -28,6 +28,9 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useChatbots } from '@/data/chatbot.client'
+import { useSession } from 'next-auth/react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const usageMetrics = [
 	{
@@ -121,6 +124,9 @@ const proyectos = [
 const DashboardOverview = () => {
 	const [layout, setLayout] = useState<'grid' | 'list'>('list')
 	const router = useRouter()
+	const { data: session, status } = useSession()
+
+	const { data, isLoading } = useChatbots(session?.user?.id || '')
 
 	return (
 		// TODO: mover este padding al layout
@@ -175,7 +181,7 @@ const DashboardOverview = () => {
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<PayWithStripe className="text-sm"/>
+							<PayWithStripe className="text-sm" />
 						</CardAction>
 					</CardHeader>
 					<CardContent>
@@ -219,50 +225,54 @@ const DashboardOverview = () => {
 						layout == 'grid' ? 'gap-8' : 'gap-0'
 					)}
 				>
-					{proyectos.map((proyecto) => (
-						<Card
-							className={cn(
-								'rounded-none py-4 cursor-pointer',
-								layout == 'grid'
-									? 'col-span-1 min-h-36 rounded-md'
-									: 'col-span-2 first:rounded-t-md last:rounded-b-md'
-							)}
-							key={proyecto.nombre}
-							onClick={() =>
-								router.push(`/dashboard/${proyecto.nombre}/estadisticas`)
-							}
-						>
-							<CardContent className="flex justify-between">
-								<div className="flex items-center gap-x-4">
-									<Avatar>
-										<AvatarImage src="https://github.com/shadcn.png" />
-										<AvatarFallback>CN</AvatarFallback>
-									</Avatar>
-									<div>
-										<h4 className="font-medium">{proyecto.nombre}</h4>
-										<p className="text-sm font-medium text-neutral-500">
-											{proyecto.descripcion}
-										</p>
+					{isLoading && (
+						<Skeleton className="col-span-full h-96 bg-background" />
+					)}
+					{data &&
+						data.map((chatbot) => (
+							<Card
+								className={cn(
+									'rounded-none py-4 cursor-pointer',
+									layout == 'grid'
+										? 'col-span-1 min-h-36 rounded-md'
+										: 'col-span-full first:rounded-t-md last:rounded-b-md'
+								)}
+								key={chatbot.id}
+								onClick={() =>
+									router.push(`/dashboard/${chatbot.id}/estadisticas`)
+								}
+							>
+								<CardContent className="flex justify-between">
+									<div className="flex items-center gap-x-4">
+										<Avatar>
+											<AvatarImage src="https://github.com/shadcn.png" />
+											<AvatarFallback>CN</AvatarFallback>
+										</Avatar>
+										<div>
+											<h4 className="font-medium">{chatbot.name}</h4>
+											<p className="text-sm font-medium text-neutral-500">
+												{chatbot.model}
+											</p>
+										</div>
 									</div>
-								</div>
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button className="cursor-pointer" variant="ghost">
-											<Ellipsis />
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent>
-										<DropdownMenuLabel>My Account</DropdownMenuLabel>
-										<DropdownMenuSeparator />
-										<DropdownMenuItem>Profile</DropdownMenuItem>
-										<DropdownMenuItem>Billing</DropdownMenuItem>
-										<DropdownMenuItem>Team</DropdownMenuItem>
-										<DropdownMenuItem>Subscription</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</CardContent>
-						</Card>
-					))}
+									<DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Button className="cursor-pointer" variant="ghost">
+												<Ellipsis />
+											</Button>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent>
+											<DropdownMenuLabel>My Account</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>Profile</DropdownMenuItem>
+											<DropdownMenuItem>Billing</DropdownMenuItem>
+											<DropdownMenuItem>Team</DropdownMenuItem>
+											<DropdownMenuItem>Subscription</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</CardContent>
+							</Card>
+						))}
 				</div>
 			</section>
 		</div>
