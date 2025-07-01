@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateWithSource } from '@/lib/api/validate'
 import { handleApiError } from '@/lib/api/handleError'
-import { getChatBotByUserId } from '@/data/chatbot'
+import { getChatBotByUserId } from '@/data/chatbot.server'
 
 // GET: Get all chatbots from user:
 // /api/v2/users/:userId/chatbots

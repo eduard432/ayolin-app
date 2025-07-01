@@ -103,6 +103,7 @@ model Chatbot {
   chats       Chat[]
   usage       Usage
   totalMessages Int @default(0)
+  initialPrompt String
 }
 
 model Chat {

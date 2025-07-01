@@ -26,9 +26,14 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { createChatbot } from '@/data/chatbot.client'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Chatbot } from '@prisma/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -38,6 +43,9 @@ const formSchema = z.object({
 })
 
 const Page = () => {
+
+	const router = useRouter()
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -45,9 +53,43 @@ const Page = () => {
 		},
 	})
 
+	const queryClient = useQueryClient()
+
+	const mutation = useMutation<Chatbot, Error, z.infer<typeof formSchema>, { previousChatbots: Chatbot[] }>({
+		mutationFn: async (data) => {
+			const result = await createChatbot(data) 
+			return result
+		},
+		onError: (err, newTodo, context) => {
+			toast.error(`Error creating chatbot`)
+			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
+
+		},
+		onMutate: async (newChatbot) => {
+			await queryClient.cancelQueries({ queryKey: ['chatbots'] })
+
+			// Snapshot de los datos anteriores
+			const previousChatbots = queryClient.getQueryData(['chatbots']) as Chatbot[]
+
+			// Optimistic update
+			queryClient.setQueryData(['chatbots'], (old: Chatbot[]) => [
+				...(old || []),
+				newChatbot,
+			])
+
+			return { previousChatbots }
+		},
+		onSuccess: (data) => {
+			toast.success('Chatbot created successfully')
+			router.push('/dashboard/general')
+			form.reset()
+		}
+	})
+
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log(values)
+		mutation.mutate(values)
 	}
+	
 
 	return (
 		<Card className="w-1/2 mx-auto">
@@ -126,7 +168,7 @@ const Page = () => {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full mt-8">
+						<Button disabled={mutation.isPending} type="submit" className="w-full mt-8 disabled:opacity-50">
 							Create
 						</Button>
 					</form>
