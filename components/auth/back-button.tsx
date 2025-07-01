@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { Button } from "@/referencia/ui/button";
+import { Button } from "../ui/button"
 import Link from "next/link";
 
 interface BackButtonProps{
