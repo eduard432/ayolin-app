@@ -28,6 +28,7 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { PayWithStripe } from '@/components/stripe-button'
 
 const usageMetrics = [
 	{
@@ -175,7 +176,7 @@ const DashboardOverview = () => {
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<Button size="sm">Upgrade</Button>
+							<PayWithStripe/>
 						</CardAction>
 					</CardHeader>
 					<CardContent>
