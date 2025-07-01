@@ -5,6 +5,8 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import FooterDashboard from '@/components/FooterDashboard'
+import { ThemeProvider } from '@/components/theme-provider'
+import QueryProvider from '@/components/provider/QueryProvider'
 
 const layout = async ({
 	children,
@@ -15,21 +17,30 @@ const layout = async ({
 	if (!session) redirect('/login')
 
 	return (
-		<SessionProvider
-			refetchWhenOffline={false}
-			refetchInterval={60 * 60 * 6}
-			session={session}
-			basePath="/api/v1/auth"
-		>
-			<div className="bg-neutral-100 min-h-screen flex flex-col justify-between">
-				<div>
-					<Navbar />
-					<NavbarDashboard />
-				</div>
-				<main className="pt-8 px-10 pb-16 flex-1">{children}</main>
-				<FooterDashboard />
-			</div>
-		</SessionProvider>
+		<QueryProvider>
+			<ThemeProvider
+				attribute="class"
+				defaultTheme="system"
+				enableSystem
+				disableTransitionOnChange
+			>
+				<SessionProvider
+					refetchWhenOffline={false}
+					refetchInterval={60 * 60 * 6}
+					session={session}
+					basePath="/api/v1/auth"
+				>
+					<div className="bg-neutral-100 min-h-screen flex flex-col justify-between">
+						<div>
+							<Navbar />
+							<NavbarDashboard />
+						</div>
+						<main className="pt-8 px-10 pb-16 flex-1">{children}</main>
+						<FooterDashboard />
+					</div>
+				</SessionProvider>
+			</ThemeProvider>
+		</QueryProvider>
 	)
 }
 
