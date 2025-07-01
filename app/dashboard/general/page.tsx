@@ -18,7 +18,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-
+import { PayWithStripe } from '@/components/stripe-button'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { CircularProgressBar } from '@/components/ui/circular-progress-bar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -175,7 +175,7 @@ const DashboardOverview = () => {
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<Button size="sm">Upgrade</Button>
+							<PayWithStripe className="text-sm"/>
 						</CardAction>
 					</CardHeader>
 					<CardContent>
