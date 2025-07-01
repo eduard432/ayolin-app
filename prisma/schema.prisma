@@ -23,11 +23,14 @@ model User {
   emailVerified           DateTime?
   image                   String?
   password                String?
-  role                    UserRole               @default(USER)
   accounts                Account[]
   isTwoFactorEnabled      Boolean                @default(false)
   twoFactorConfirmation   TwoFactorConfirmation?
   twoFactorConfirmationId String?                @db.ObjectId
+  isPro     Boolean  @default(false) // ⚡ Campo para usuarios premium
+  role      String   @default("FREE") // o "PRO", si prefieres usar roles
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Extra fields for app:
   chatbots                Chatbot[]
