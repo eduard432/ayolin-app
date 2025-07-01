@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 interface CircularProgressBarProps {
 	value: number
 	max?: number
@@ -21,13 +23,19 @@ export function CircularProgressBar({
 }: CircularProgressBarProps) {
 	const radius = 45
 	const circumference = 2 * Math.PI * radius
-	const percentage = Math.min(
-		100,
-		Math.max(0, ((value - min) / (max - min)) * 100)
-	)
-	const strokeDashoffset = circumference - (percentage / 100) * circumference
-	const roundedCircumference = Number(circumference.toFixed(2))
-	const roundedOffset = Number(strokeDashoffset.toFixed(2))
+
+	const [roundedOffset, setRoundedOffset] = useState(0)
+	const [roundedCircumference, setRoundedCircumference] = useState(0)
+	const [percentage, setPercentage] = useState(0)
+
+	useEffect(() => {
+		const clamped = Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100))
+		const offset = circumference - (clamped / 100) * circumference
+		setPercentage(clamped)
+		setRoundedCircumference(Number(circumference.toFixed(2)))
+		setRoundedOffset(Number(offset.toFixed(2)))
+	}, [value, min, max, circumference])
+
 	return (
 		<div className={`relative size-40 ${className ?? ''}`}>
 			<svg className="size-full" viewBox="0 0 100 100">
