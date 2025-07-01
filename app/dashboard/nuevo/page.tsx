@@ -13,7 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { Button } from '@/referencia/ui/button'
+import { Button } from '@/components/ui/button'
 import { FileSliders } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -17,7 +17,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Button } from '@/referencia/ui/button'
+import { Button } from '@/components/ui/button'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { CircularProgressBar } from '@/components/ui/circular-progress-bar'

@@ -2,7 +2,7 @@
 
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
-import { Button } from '@/referencia/ui/button'
+import { Button } from '../ui/button'
 import { signIn } from 'next-auth/react'
 
 export const Social = () => {
