@@ -22,7 +22,7 @@ export default function GeneralSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
           <CardHeader>
             <CardTitle className="text-black text-2xl">URL del Proyecto</CardTitle>
           </CardHeader>
@@ -36,7 +36,7 @@ export default function GeneralSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
         <CardHeader>
             <CardTitle className="text-black text-2xl">Nombre del Equipo</CardTitle>
         </CardHeader>
@@ -47,7 +47,7 @@ export default function GeneralSettings() {
         </CardContent>
         </Card>
 
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
         <CardHeader>
             <CardTitle className="text-black text-2xl">Correo de contacto</CardTitle>
         </CardHeader>
