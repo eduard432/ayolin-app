@@ -232,7 +232,7 @@ export default function Home() {
 
       {/*Planes de cobro */}
       <section className="max-w-6xl mx-auto py-20 px-4">
-        <h2 className="text-4xl font-bold text-center mb-20">Elige tu plan</h2>
+        <h2 className="text-4xl font-bold text-center mb-10">Elige tu plan</h2>
 
         <div className="grid md:grid-cols-3 gap-6">
           <PricingCard
