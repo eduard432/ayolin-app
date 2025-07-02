@@ -17,6 +17,7 @@ declare module "next-auth" {
       isOAuth?: boolean;
       name?: string | null;
       email?: string | null;
+      isPro?: boolean;
     };
   }
 
@@ -24,6 +25,7 @@ declare module "next-auth" {
     id: string;
     role: UserRole;
     isTwoFactorEnabled?: boolean;
+    isPro?: boolean;
   }
 }
 
@@ -35,6 +37,7 @@ declare module "next-auth" {
     isOAuth?: boolean;
     name?: string | null;
     email?: string | null;
+    isPro?: boolean;
   }
 }
 
@@ -93,6 +96,7 @@ export const {
         session.user.name = token.name;
         session.user.email = token.email ?? "";
         session.user.isOAuth = typeof token.isOAuth === "boolean" ? token.isOAuth : undefined;
+        session.user.isPro = typeof token.isPro === "boolean" ? token.isPro : false;
       }
 
       return session;
@@ -110,6 +114,7 @@ export const {
       token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+      token.isPro = existingUser.isPro;
 
       return token;
     },
