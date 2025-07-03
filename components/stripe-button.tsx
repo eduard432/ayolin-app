@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 // components/PayWithStripe.tsx
 import { Button, buttonVariants } from "@/components/ui/button"
 import { VariantProps } from "class-variance-authority"
@@ -12,15 +13,12 @@ export function PayWithStripe( {...props } : React.ComponentProps<"button"> & Va
   if(isPro) return null
 
   return (
-    <Button { ...props } asChild>
-      <a 
-        href="https://buy.stripe.com/test_bJe3cu4asdmfapm9tcejK00" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        Unete
+    <Button {...props} asChild>
+      <a href="/dashboard/planes" rel="noopener noreferrer">
+        Únete
       </a>
     </Button>
+
   )
 }
 
