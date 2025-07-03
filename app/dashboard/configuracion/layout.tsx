@@ -25,8 +25,8 @@ export default function ConfiguracionLayout({
 	children: ReactNode
 }) {
 	return (
-		<div className="min-h-screen bg-neutral-100 text-black flex">
-			<Card className="w-[260px] p-6 border-r border-neutral-300 text-black bg-neutral-100 px-2">
+		<div className="min-h-screen bg-white text-black flex">
+			<Card className="w-[260px] p-6 border-r border-neutral-300 text-black bg-white px-2">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
 				</CardHeader>

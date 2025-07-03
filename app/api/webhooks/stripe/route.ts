@@ -31,26 +31,22 @@ export async function POST(req: Request) {
       }
 
       if (!email) {
-        console.warn('❌ No se encontró email ni en la sesión ni en el customer.')
         return new NextResponse('Email no encontrado', { status: 400 })
       }
 
-      // 🔁 Actualizar los dos campos: isPro y role
       await db.user.update({
         where: { email },
         data: {
           isPro: true,
-          role: 'PRO', // o 'pro' si decides usar minúsculas
+          role: 'PRO', 
         },
       })
 
-      console.log(`✅ Usuario con email ${email} actualizado: isPro = true, role = PRO`)
     }
 
     return NextResponse.json({ received: true })
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : 'Unknown error'
-    console.error('❌ Webhook error:', errorMessage)
     return new NextResponse(`Webhook Error: ${errorMessage}`, { status: 400 })
   }
 }
