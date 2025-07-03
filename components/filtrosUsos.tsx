@@ -9,6 +9,7 @@ import { CalendarIcon, ClockIcon, Search } from "lucide-react"
 import { useState } from "react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale/es"
+import { PayWithStripe } from "./stripe-button"
 
 export function FiltrosUso() {
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -53,9 +54,9 @@ export function FiltrosUso() {
         </div>
 
         {/* Botón upgrade */}
-        <Button className="h-10 px-5 bg-black text-white hover:bg-neutral-800">
+        <PayWithStripe className="h-10 px-5 bg-black text-white hover:bg-neutral-800">
         Upgrade to Pro
-        </Button>
+        </PayWithStripe>
     </div>
     )
 }
