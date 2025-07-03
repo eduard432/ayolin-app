@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // POST: Create a new chatbot:
 // /api/chatbot
 
-export const POST = auth(async function GET(request) {
+export const POST = auth(async (request) => {
 	try {
 		if (!request.auth)
 			return NextResponse.json(

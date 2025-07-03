@@ -41,3 +41,17 @@ export const createChatBot = async (data: z.infer<typeof createChatbotBodySchema
 
     return chatbot
 }
+
+export const getChatbotById = async (chatbotId: string) => {
+    const chatbot = await db.chatbot.findUnique({
+        where: {
+            id: chatbotId,
+        },
+    })
+    
+    if (!chatbot) {
+        return null
+    }
+
+    return chatbot
+}

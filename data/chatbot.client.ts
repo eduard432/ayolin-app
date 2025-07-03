@@ -40,12 +40,19 @@ export const useChatbots = (userId: string) => {
 }
 
 export const getChatbot = async (chatbotId: string) => {
-	const res = await fetch(``)
+	const res = await fetch(`/api/v1/chatbot/${chatbotId}`)
+	const data: { chatbot: Chatbot } = await res.json()
+
+	if (!data.chatbot) {
+		throw new Error('Chatbot not found')
+	}
+	return data.chatbot
 }
 
 export const useChatbot = (chatbotId: string) => {
 	return useQuery({
 		queryKey: ["chatbot", chatbotId],
-		queryFn: () => {}
+		queryFn: () => getChatbot(chatbotId),
+		refetchOnWindowFocus: false,
 	})
 }
