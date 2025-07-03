@@ -38,3 +38,14 @@ export const useChatbots = (userId: string) => {
 		refetchOnWindowFocus: false,
 	})
 }
+
+export const getChatbot = async (chatbotId: string) => {
+	const res = await fetch(``)
+}
+
+export const useChatbot = (chatbotId: string) => {
+	return useQuery({
+		queryKey: ["chatbot", chatbotId],
+		queryFn: () => {}
+	})
+}
