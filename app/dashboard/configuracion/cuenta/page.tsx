@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useState, useTransition, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import Image from "next/image"
@@ -14,6 +14,27 @@ export default function GeneralSettings() {
   const { data: session} = useSession()
   const [ imageUrl, setImageUrl] = useState(session?.user?.image || "")
   const [isPending, startTransition] = useTransition()
+  const [userInfo, setUserInfo] = useState<{email: string; role: string} | null>(null)
+
+  useEffect(() => {
+    if(!session?.user?.email) return 
+  
+
+    const fetchUserInfo = async () => {
+      const res = await fetch("/api/user/info", {
+        method:"POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({email: session?.user.email})
+      })
+
+      const data = await res.json()
+      if(res.ok){
+        setUserInfo(data)
+      }
+    }
+
+    fetchUserInfo()
+  },  [session?.user?.email])
 
   const handleSubmit = () => {
     startTransition(async () => {
@@ -55,7 +76,7 @@ export default function GeneralSettings() {
           </CardHeader>
           <CardContent>
             <Label htmlFor="team-name" className="text-sm">Este es el correo de esta cuenta.</Label>
-            <p className="font-bold mt-5 text-1xl">CorreoEjempl@gmail.com</p>
+            <p className="font-bold mt-5 text-1xl">{userInfo?.email || "Cargando..."}</p>
           </CardContent>
         </Card>
 
@@ -89,6 +110,16 @@ export default function GeneralSettings() {
             >
               {isPending ? "Guardando..." : "Guardar"}
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white border-neutral-300">
+          <CardHeader>
+            <CardTitle className="text-black text-2xl">Tipo de cuenta</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Label htmlFor="team-name" className="text-sm">Esta cuenta es</Label>
+            <p className="font-bold mt-5 text-2xl">{userInfo?.role || "Cargando..."}</p>
           </CardContent>
         </Card>
 

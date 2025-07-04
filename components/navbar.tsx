@@ -72,7 +72,9 @@ export default function Navbar() {
 						<DropdownMenuItem onClick={() => signOut()} className="cursor-pointer" >
 							Sign Out
 						</DropdownMenuItem>
-						<DropdownMenuItem>Billing</DropdownMenuItem>
+						<DropdownMenuItem>
+							Cuenta
+						</DropdownMenuItem>
 						<DropdownMenuItem>Team</DropdownMenuItem>
 						<DropdownMenuItem>Subscription</DropdownMenuItem>
 					</DropdownMenuContent>

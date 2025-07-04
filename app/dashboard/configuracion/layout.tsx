@@ -4,10 +4,10 @@ import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const links = [
-	{ name: 'Cuenta', href: '/configuracion/cuenta' },
-	{ name: 'Miembros', href: '/configuracion/miembros' },
-	{ name: 'Facturación', href: '/configuracion/facturacion' },
-	{ name: 'Preferencias', href: '/configuracion/preferencias' },
+	{ name: 'Cuenta', href: '/dashboard/configuracion/cuenta' },
+	{ name: 'Miembros', href: '/dashboard/configuracion/' },
+	{ name: 'Facturación', href: '/dashboard/configuracion/' },
+	{ name: 'Preferencias', href: '/dashboard/configuracion/' },
 	{ name: 'Seguridad', href: '/configuracion/seguridad' },
 	{ name: 'Autenticación', href: '/configuracion/autenticacion' },
 	{ name: 'Notificaciones', href: '/configuracion/notificaciones' },
