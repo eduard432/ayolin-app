@@ -1,11 +1,12 @@
-import { auth } from "@/lib/auth" // No se por que esta marcando error
+import getServerSession from "next-auth"
+import authOptions from "@/auth.config"
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 import type { Session } from "next-auth"
 
 export async function POST(req: Request) {
   try {
-    const session = await auth()
+    const session = await getServerSession(authOptions)
 
     const userSession = session as unknown as Session
     if (!userSession?.user?.id) {

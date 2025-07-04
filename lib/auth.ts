@@ -5,11 +5,9 @@ import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation
 import { getAccountByUserId } from "@/data/account"
 import { db } from "@/lib/db"
 import authConfig from "@/auth.config"
-import { getServerSession } from "next-auth/react"
 import { UserRole } from "@prisma/client"
-
 import type { AdapterUser } from "next-auth/adapters"
-import type { Account, Session } from "next-auth"
+import type { Account, Session, User } from "next-auth"
 import type { JWT } from "next-auth/jwt"
 import type { NextAuthConfig } from "next-auth"
 
@@ -19,15 +17,17 @@ export const authOptions: NextAuthConfig = {
     error: "/auth/error",
   },
   events: {
-    async linkAccount({ user }: { user: AdapterUser }) {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      })
-    },
+    async linkAccount({ user }: { user: AdapterUser | User }) {
+        if("id" in user){
+        await db.user.update({
+          where: { id: user.id },
+          data: { emailVerified: new Date() },
+        })
+      }
+    }
   },
   callbacks: {
-    async signIn({ user, account }: { user: AdapterUser; account: Account | null }) {
+    async signIn({ user, account }: { user: AdapterUser | User; account?: Account | null }) {
       if (account?.provider !== "credentials") return true
 
       const existingUser = await getUserById(user.id)
@@ -76,9 +76,11 @@ export const authOptions: NextAuthConfig = {
       token.isOAuth = !!existingAccount
       token.name = existingUser.name
       token.email = existingUser.email
-      token.role = Object.values(UserRole).includes(existingUser.role)
-        ? existingUser.role
-        : UserRole.FREE
+      if (Object.values(UserRole).includes(existingUser.role as UserRole)){
+        token.role = existingUser.role as UserRole
+      } else {
+        token.role = UserRole.FREE
+      }
 
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
       token.isPro = existingUser.isPro
@@ -91,8 +93,4 @@ export const authOptions: NextAuthConfig = {
   ...authConfig,
 }
 
-// Esta función te devuelve la sesión del usuario autenticado en el server
-export async function auth(): Promise<Session | null> {
-  const session = await getServerSession(authOptions)
-  return session
-}
+

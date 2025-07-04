@@ -5,6 +5,7 @@ import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import { UserRole } from "@prisma/client";
 
 export default {
   providers: [
@@ -28,7 +29,17 @@ export default {
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
-          if (passwordsMatch) return user;
+          if (passwordsMatch){
+            return{
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              emailVerified: user.emailVerified,
+              image: user.image,
+              role: user.role as UserRole,  
+              isPro: user.isPro,
+            }
+          };
         }
 
         return null;
