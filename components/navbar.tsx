@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 'use client'
 
 import React from 'react'
@@ -9,6 +8,7 @@ import {
 	BreadcrumbSeparator,
 	BreadcrumbLink,
 } from '@/components/ui/breadcrumb'
+import { useSession } from 'next-auth/react'
 import { SearchBar } from './search-bar'
 import { Button } from './ui/button'
 import { Bell, BookOpen } from 'lucide-react'
@@ -27,7 +27,7 @@ import { useParams, usePathname } from 'next/navigation'
 import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 
 export default function Navbar() {
-
+	const { data: session } = useSession();
 	const pathname = usePathname()
 	const params = useParams()
 		const chatbotId = params.chatbotId as string | undefined
@@ -62,12 +62,12 @@ export default function Navbar() {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Avatar className="cursor-pointer" >
-							<AvatarImage src="https://github.com/shadcn.png" />
+							<AvatarImage src={"image" in (session?.user ?? {}) && (session?.user as { image?: string }).image ? (session?.user as { image?: string }).image : "https://github.com/shadcn.png"} />
 							<AvatarFallback>CN</AvatarFallback>
 						</Avatar>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => signOut()} className="cursor-pointer" >
 							Sign Out

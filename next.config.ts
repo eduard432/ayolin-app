@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   // For image testing:
   images: {
+    domains: ['avatars.githubusercontent.com', 'raw.githubusercontent.com', "github.com"],
     remotePatterns: [
       {
         protocol: "https",

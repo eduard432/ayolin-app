@@ -1,11 +1,10 @@
-// app/configuracion/layout.tsx
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const links = [
-	{ name: 'General', href: '/configuracion/general' },
+	{ name: 'Cuenta', href: '/configuracion/cuenta' },
 	{ name: 'Miembros', href: '/configuracion/miembros' },
 	{ name: 'Facturación', href: '/configuracion/facturacion' },
 	{ name: 'Preferencias', href: '/configuracion/preferencias' },
@@ -25,7 +24,7 @@ export default function ConfiguracionLayout({
 	children: ReactNode
 }) {
 	return (
-		<div className="min-h-screen bg-white text-black flex">
+		<div className="min-h-screen text-black flex border-r">
 			<Card className="w-[260px] p-6 border-r border-neutral-300 text-black bg-white px-2">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
