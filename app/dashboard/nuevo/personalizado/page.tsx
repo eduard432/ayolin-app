@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { createChatbot } from '@/data/chatbot.client'
+import { modelPrices } from '@/lib/constants/models'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Chatbot } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -43,7 +44,6 @@ const formSchema = z.object({
 })
 
 const Page = () => {
-
 	const router = useRouter()
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -55,21 +55,27 @@ const Page = () => {
 
 	const queryClient = useQueryClient()
 
-	const mutation = useMutation<Chatbot, Error, z.infer<typeof formSchema>, { previousChatbots: Chatbot[] }>({
+	const mutation = useMutation<
+		Chatbot,
+		Error,
+		z.infer<typeof formSchema>,
+		{ previousChatbots: Chatbot[] }
+	>({
 		mutationFn: async (data) => {
-			const result = await createChatbot(data) 
+			const result = await createChatbot(data)
 			return result
 		},
 		onError: (err, newTodo, context) => {
 			toast.error(`Error creating chatbot`)
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
-
 		},
 		onMutate: async (newChatbot) => {
 			await queryClient.cancelQueries({ queryKey: ['chatbots'] })
 
 			// Snapshot de los datos anteriores
-			const previousChatbots = queryClient.getQueryData(['chatbots']) as Chatbot[]
+			const previousChatbots = queryClient.getQueryData([
+				'chatbots',
+			]) as Chatbot[]
 
 			// Optimistic update
 			queryClient.setQueryData(['chatbots'], (old: Chatbot[]) => [
@@ -79,17 +85,16 @@ const Page = () => {
 
 			return { previousChatbots }
 		},
-		onSuccess: (data) => {
+		onSuccess: () => {
 			toast.success('Chatbot created successfully')
 			router.push('/dashboard/general')
 			form.reset()
-		}
+		},
 	})
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		mutation.mutate(values)
 	}
-	
 
 	return (
 		<Card className="w-1/2 mx-auto">
@@ -128,20 +133,16 @@ const Page = () => {
 										defaultValue={field.value}
 									>
 										<FormControl>
-											<SelectTrigger className="w-full" >
+											<SelectTrigger className="w-full">
 												<SelectValue placeholder="Select a model" />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value="openai-gpt3.5">
-												Open AI gpt-3.5
-											</SelectItem>
-											<SelectItem value="openai-gpt4">
-												Open AI gpt-4
-											</SelectItem>
-											<SelectItem value="openai-gpt4-turbo">
-												Open AI gpt-4-turbo
-											</SelectItem>
+											{modelPrices.map((model) => (
+												<SelectItem key={model.name} value={model.name}>
+													{model.name}
+												</SelectItem>
+											))}
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -168,7 +169,11 @@ const Page = () => {
 								</FormItem>
 							)}
 						/>
-						<Button disabled={mutation.isPending} type="submit" className="w-full mt-8 disabled:opacity-50">
+						<Button
+							disabled={mutation.isPending}
+							type="submit"
+							className="w-full mt-8 disabled:opacity-50"
+						>
 							Create
 						</Button>
 					</form>

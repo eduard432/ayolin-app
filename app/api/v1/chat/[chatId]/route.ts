@@ -1,10 +1,11 @@
-import { getMessagesByChatId } from '@/data/chat.server'
+import { getChatById } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
-import { Message } from '@prisma/client'
-import { UIMessage, streamText } from 'ai'
+import { convertToUIMessages } from '@/lib/utils'
+import { convertToModelMessages, streamText } from 'ai'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
+import { openai } from '@ai-sdk/openai'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -21,36 +22,47 @@ const filePartSchema = z.object({
 const partSchema = z.union([textPartSchema, filePartSchema])
 
 const bodySchema = z.object({
-	id: z.string(),
 	message: z.object({
-		id: z.string().uuid(),
+		id: z.string(),
 		role: z.enum(['user']),
 		parts: z.array(partSchema),
 	}),
 })
 
-export async function POST(req: NextRequest) {
+export async function POST(
+	req: NextRequest,
+	{ params }: { params: { chatId: string } }
+) {
 	let requestBody: z.infer<typeof bodySchema>
+	let chatId: string
 
 	try {
 		const body = await req.json()
+		chatId = (await params).chatId
+		console.log({chatId})
+		if (!chatId) throw Error('chatId is needed')
+
+		console.log({body})
+
 		requestBody = validateWithSource(bodySchema, body, 'body')
 	} catch {
 		return new ChatSDKError('bad_request:api').toResponse()
 	}
 
-	const { id, message } = requestBody
-
-	let messagesFromDb: Message[]
+	const { message } = requestBody
 
 	try {
-		messagesFromDb = await getMessagesByChatId(id)
-	} catch {
-		return new ChatSDKError('not_found:chat').toResponse()
-	}
+		const chat = await getChatById(chatId)
+		const messages = [...convertToUIMessages(chat.messages), message]
 
-	streamText({
-		model: '',
-		messages: [message]
-	})
+		const result = streamText({
+			model: openai(chat.chatbot.model),
+			messages: convertToModelMessages(messages),
+		})
+
+		return result.toUIMessageStreamResponse()
+	} catch (e) {
+		console.log(e)
+		return new ChatSDKError('forbidden:chat').toResponse()
+	}
 }

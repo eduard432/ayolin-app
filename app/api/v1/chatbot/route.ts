@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { createChatBot, createChatbotBodySchema } from '@/data/chatbot.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 // POST: Create a new chatbot:
 // /api/chatbot

@@ -2,7 +2,7 @@ import { db } from "@/lib/db"
 import { Message } from "@prisma/client"
 
 export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
-    const chatbotResult = await db.chat.findUnique({
+    const chatResult = await db.chat.findUnique({
         where: {
             id
         },
@@ -10,8 +10,23 @@ export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
             messages: true
         }
     })
-    if (!chatbotResult) {
+    if (!chatResult) {
+        return []
+    }
+    return chatResult.messages
+}
+
+
+export const getChatById = async (id: string) => {
+    const chatResult = await db.chat.findUnique({
+        where: {
+            id
+        },
+        include: { messages: true, chatbot: true },
+    })
+    if (!chatResult) {
         throw new Error("Chat not found")
     }
-    return chatbotResult.messages
+
+    return chatResult
 }

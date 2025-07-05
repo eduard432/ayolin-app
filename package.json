@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.0-beta.5",
+    "@ai-sdk/react": "^2.0.0-beta.7",
     "@auth/prisma-adapter": "^2.10.0",
     "@hookform/resolvers": "^5.1.1",
     "@prisma/client": "^6.10.1",
@@ -30,9 +32,10 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@stripe/stripe-js": "^7.4.0",
     "@tanstack/react-query": "^5.81.5",
-    "ai": "^4.3.16",
+    "ai": "^5.0.0-beta.7",
     "aos": "^2.3.4",
     "bcryptjs": "^3.0.2",
+    "bson": "^6.10.4",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",

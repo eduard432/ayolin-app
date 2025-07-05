@@ -102,7 +102,7 @@ model Chatbot {
   model       String
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  defaultChat String? @db.ObjectId
+  defaultChat String @db.ObjectId
   chats       Chat[]
   usage       Usage
   totalMessages Int @default(0)
@@ -114,11 +114,14 @@ model Chat {
   name        String?
   chatbotId   String   @db.ObjectId
   chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages    Message[]
+  messages    Message[]@relation("ChatMessages")
   lastActive  DateTime @default(now())
 }
 
-type Message {
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  chatId    String   @db.ObjectId
+  chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   role Role
   parts     Part[]
   createdAt DateTime @default(now())
