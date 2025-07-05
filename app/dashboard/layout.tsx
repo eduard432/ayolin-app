@@ -35,7 +35,7 @@ const layout = async ({
 							<Navbar />
 							<NavbarDashboard />
 						</div>
-						<main className="pt-8 px-10 pb-16 flex-1">{children}</main>
+						<main className="pt-8 px-10 pb-16 flex-1 flex flex-col">{children}</main>
 						<FooterDashboard />
 					</div>
 				</SessionProvider>
