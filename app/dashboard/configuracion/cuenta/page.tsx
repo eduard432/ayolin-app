@@ -4,13 +4,14 @@ import { useState, useTransition, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import Image from "next/image"
+import { Mail } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
-export default function GeneralSettings() {
+export default function UserSettings() {
   const { data: session, update} = useSession()
   const [ imageUrl, setImageUrl] = useState(session?.user?.image || "")
   const [isPending, startTransition] = useTransition()
@@ -75,12 +76,22 @@ export default function GeneralSettings() {
         </Card>
 
         <Card className="bg-white border-neutral-300">
-          <CardHeader>
-            <CardTitle className="text-black text-2xl">Correo de la cuenta</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <Mail className="w-7 h-7 text-neutral-500" />
+              <CardTitle className="text-black text-2xl">
+                Correo de la cuenta
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            <Label htmlFor="team-name" className="text-sm">Este es el correo de esta cuenta.</Label>
-            <p className="font-bold mt-5 text-1xl">{userInfo?.email || "Cargando..."}</p>
+
+          <CardContent className="pt-4">
+            <Label htmlFor="email" className="text-sm text-neutral-500">
+              Este es el correo asociado a tu cuenta:
+            </Label>
+            <p className="text-base font-medium text-neutral-800 mt-2">
+              {userInfo?.email || <span className="italic text-neutral-400">Cargando...</span>}
+            </p>
           </CardContent>
         </Card>
 
@@ -118,12 +129,21 @@ export default function GeneralSettings() {
         </Card>
 
         <Card className="bg-white border-neutral-300">
-          <CardHeader>
-            <CardTitle className="text-black text-2xl">Tipo de cuenta</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-black text-2xl">
+                Tipo de cuenta
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            <Label htmlFor="team-name" className="text-sm">Esta cuenta es</Label>
-            <p className="font-bold mt-5 text-2xl">{userInfo?.role || "Cargando..."}</p>
+
+          <CardContent className="pt-4">
+            <Label htmlFor="account-type" className="text-sm text-neutral-500">
+              Esta cuenta está registrada como:
+            </Label>
+            <p className="text-lg font-semibold text-neutral-800 mt-2 capitalize">
+              {userInfo?.role || <span className="italic text-neutral-400">Cargando...</span>}
+            </p>
           </CardContent>
         </Card>
 

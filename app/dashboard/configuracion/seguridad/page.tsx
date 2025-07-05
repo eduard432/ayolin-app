@@ -1,9 +1,10 @@
+// app/configuracion/page.tsx
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
-export default function GeneralSettings() {
+export default function Seguridad() {
   return (
     <div className="space-y-8">
       <h1 className="text-4xl font-bold text-black mt-5">General</h1>

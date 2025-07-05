@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const links = [
 	{ name: 'Cuenta', href: '/dashboard/configuracion/cuenta' },
-	{ name: 'Miembros', href: '/dashboard/configuracion/' },
+	{ name: 'Seguridad', href: '/dashboard/configuracion/seguridad' },
 	{ name: 'Facturación', href: '/dashboard/configuracion/' },
 	{ name: 'Preferencias', href: '/dashboard/configuracion/' },
 	{ name: 'Seguridad', href: '/configuracion/seguridad' },
