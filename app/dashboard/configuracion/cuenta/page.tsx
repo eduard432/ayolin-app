@@ -50,11 +50,13 @@ export default function GeneralSettings() {
         const data = await res.json()
         await update({user: {...session?.user, image: data.user.image}})
         toast.success("Foto actualizada")
+        setImageUrl("")
       } else {
         toast.error("Error al actualizar la foto")
       }
     })
   }
+
   return (
     <div className="space-y-8 mb-16">
       <h1 className="text-4xl font-bold text-black mt-5">Cuenta</h1>

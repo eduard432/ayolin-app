@@ -23,14 +23,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 
 export default function Navbar() {
 	const { data: session } = useSession();
 	const pathname = usePathname()
 	const params = useParams()
-		const chatbotId = params.chatbotId as string | undefined
+	const chatbotId = params.chatbotId as string | undefined
+	const router = useRouter()
 
 	const features = chatbotId
 			? getChatbotFeatures(chatbotId)
@@ -72,7 +73,7 @@ export default function Navbar() {
 						<DropdownMenuItem onClick={() => signOut()} className="cursor-pointer" >
 							Sign Out
 						</DropdownMenuItem>
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={() => router.push("/dashboard/configuracion/cuenta")}>
 							Cuenta
 						</DropdownMenuItem>
 						<DropdownMenuItem>Team</DropdownMenuItem>
