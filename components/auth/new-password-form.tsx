@@ -36,6 +36,7 @@ const NewPasswordForm = () => {
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -76,6 +77,24 @@ const NewPasswordForm = () => {
                     type="password"
                     />
                 </FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirmar contraseña</FormLabel>
+                  <FormControl>
+                      <Input
+                      {...field}
+                        disabled={isPending}
+                        placeholder="******"
+                        type="password"
+                      />
+                  </FormControl>
                 <FormMessage />
                 </FormItem>
             )}

@@ -40,7 +40,14 @@ export const NewPasswordSchema = z.object({
   password: z.string().min(6, {
     message: "¡Se requieren al menos 6 caracteres!",
   }),
-});
+  confirmPassword: z.string().min(6,{
+    message: "Deben coincidir las contraseñas",
+  }),
+})
+.refine((data) => data.password == data.confirmPassword,{
+  message: "Las contraseñas no coinciden",
+  path:["confirmPassword"]
+})
 
 export const SettingsSchema = z
   .object({
