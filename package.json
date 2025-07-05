@@ -30,6 +30,7 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@stripe/stripe-js": "^7.4.0",
     "@tanstack/react-query": "^5.81.5",
+    "ai": "^4.3.16",
     "aos": "^2.3.4",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",

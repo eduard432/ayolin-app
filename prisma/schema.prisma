@@ -114,6 +114,37 @@ model Chat {
   name        String?
   chatbotId   String   @db.ObjectId
   chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages    Json[]
+  messages    Message[]
   lastActive  DateTime @default(now())
+}
+
+type Message {
+  role Role
+  parts     Part[]
+  createdAt DateTime @default(now())
+}
+
+type Part {
+  type       PartType
+  text       String?  // Solo si type == "text"
+  mediaType  MediaType? // Solo si type == "file"
+  name       String?  // Solo si type == "file"
+  url        String?  // Solo si type == "file"
+  messageId  String
+}
+
+enum Role {
+  user
+  assistant
+  system
+}
+
+enum PartType {
+  text
+  file
+}
+
+enum MediaType {
+  image_jpeg
+  image_png
 }

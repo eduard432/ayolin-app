@@ -1,6 +1,25 @@
+import { Message } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type {
+  CoreAssistantMessage,
+  CoreToolMessage,
+  UIMessage,
+  UIMessagePart,
+} from 'ai';
+import { formatISO } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function convertToUIMessages(messages: Message[]) {
+  return messages.map((message) => ({
+    id: message.id,
+    role: message.role as 'user' | 'assistant' | 'system',
+    parts: message.parts as UIMessagePart<CustomUIDataTypes, ChatTools>[],
+    metadata: {
+      createdAt: formatISO(message.createdAt),
+    },
+  }));
 }
