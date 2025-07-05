@@ -6,8 +6,11 @@ export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
         where: {
             id
         },
-        select: {
-            messages: true
+        include: {
+            messages: {
+                orderBy: { createdAt: 'asc' },
+                take: 30
+            }
         }
     })
     if (!chatResult) {
