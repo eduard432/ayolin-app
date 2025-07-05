@@ -62,7 +62,7 @@ export default function Navbar() {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Avatar className="cursor-pointer" >
-							<AvatarImage src={"image" in (session?.user ?? {}) && (session?.user as { image?: string }).image ? (session?.user as { image?: string }).image : "https://github.com/shadcn.png"} />
+							<AvatarImage src={session?.user?.image || "https://github.com/shadcn.png"}/>
 							<AvatarFallback>CN</AvatarFallback>
 						</Avatar>
 					</DropdownMenuTrigger>

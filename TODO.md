@@ -64,4 +64,3 @@ Usar PascalCase para los componentes y los archivos de los componentes, como: `N
 
 ## Otros:
 - Maybe Lunixu :)
-- Falta checar app/api/upload-avatar/route.ts ( no funciona el getServerSession)

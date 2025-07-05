@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {getServerSession} from "next-auth/next" // No se por que no funciona
-import authOptions from "@/auth.config"
+import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
-import type { Session } from "next-auth"
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 
     if (!session?.user?.id) {
       return new NextResponse("No autorizado", { status: 401 })

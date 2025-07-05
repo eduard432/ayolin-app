@@ -31,5 +31,6 @@ declare module "next-auth/jwt" {
     isPro?: boolean;
     name?: string | null;
     email?: string | null;
+    image?: string | null;
   }
 }

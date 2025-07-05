@@ -57,6 +57,10 @@ export const authOptions: NextAuthConfig = {
       session.user.name = token.name
       session.user.email = token.email ?? ""
 
+      if(token.image && session.user){
+        session.user.image = token.image as string
+      }
+
       session.user.isOAuth =
         typeof token.isOAuth === "boolean" ? token.isOAuth : undefined
 
@@ -76,6 +80,7 @@ export const authOptions: NextAuthConfig = {
       token.isOAuth = !!existingAccount
       token.name = existingUser.name
       token.email = existingUser.email
+      token.image = existingUser.image
       if (Object.values(UserRole).includes(existingUser.role as UserRole)){
         token.role = existingUser.role as UserRole
       } else {

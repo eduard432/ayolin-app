@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
 export default function GeneralSettings() {
-  const { data: session} = useSession()
+  const { data: session, update} = useSession()
   const [ imageUrl, setImageUrl] = useState(session?.user?.image || "")
   const [isPending, startTransition] = useTransition()
   const [userInfo, setUserInfo] = useState<{email: string; role: string} | null>(null)
@@ -47,6 +47,8 @@ export default function GeneralSettings() {
       })
 
       if(res.ok){ 
+        const data = await res.json()
+        await update({user: {...session?.user, image: data.user.image}})
         toast.success("Foto actualizada")
       } else {
         toast.error("Error al actualizar la foto")
