@@ -20,7 +20,7 @@ const PruebaPage = () => {
 
 	const { data: initialMessages } = useQuery({
 		queryKey: ['chatbot', chatbot?.id, 'messages'],
-		queryFn: () => getMessages(chatbot?.id || ''),
+		queryFn: () => getMessages(chatbot?.defaultChat || ''),
 		enabled: !!chatbot?.id,
 		refetchOnWindowFocus: false,
 	})

@@ -1,9 +1,13 @@
-"use client"
+'use client'
 
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, UIMessage } from 'ai'
-import { FormEvent, useState } from 'react'
+import { FormEvent, KeyboardEventHandler, useRef, useState } from 'react'
 import { ObjectId } from 'bson'
+import ReactMarkdown from 'react-markdown'
+import { Send } from 'lucide-react'
+import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -12,8 +16,9 @@ type ChatProps = {
 
 const Chat = ({ initialMessages, chatId }: ChatProps) => {
 	const [input, setInput] = useState('')
+	const inputRef = useRef<HTMLTextAreaElement>(null)
 
-	const { messages, sendMessage } = useChat({
+	const { messages, sendMessage, status } = useChat({
 		messages: initialMessages,
 		generateId: () => new ObjectId().toString(),
 		transport: new DefaultChatTransport({
@@ -36,29 +41,74 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 		setInput('')
 	}
 
+	const handleSubmitKey: KeyboardEventHandler<HTMLTextAreaElement> = (
+		event
+	) => {
+		// Verifica si se presionaron Enter + Alt
+		if (event.key === 'Enter' && event.ctrlKey) {
+			event.preventDefault() // Evita que se inserte una nueva línea en el textarea
+			sendMessage({ text: input })
+			setInput('')
+		}
+	}
+
 	return (
-		<div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-			{messages.map((message) => (
-				<div key={message.id} className="whitespace-pre-wrap">
-					{message.role === 'user' ? 'User: ' : 'AI: '}
-					{message.parts.map((part, i) => {
+		<section className="rounded border h-full border-gray-300 p-4 w-full flex flex-col justify-between gap-4 my-2">
+			<ul className="overflow-y-auto h-96 px-4">
+				{messages.map((message) =>
+					message.parts.map((part) => {
 						switch (part.type) {
 							case 'text':
-								return <div key={`${message.id}-${i}`}>{part.text}</div>
-						}
-					})}
-				</div>
-			))}
+								return (
+									<li
+										key={`${message.id}:${part.type}`}
+										className={`my-6 flex ${
+											message.role == 'user' ? 'justify-end' : 'justify-start'
+										}`}
+									>
+										<div
+											className={cn(
+												'px-4 py-1 rounded-md',
+												message.role == 'user'
+													? 'bg-neutral-700 text-neutral-200'
+													: 'bg-neutral-200'
+											)}
+										>
+											<ReactMarkdown >{part.text}</ReactMarkdown>
+										</div>
+									</li>
+								)
 
-			<form onSubmit={handleSubmit}>
-				<input
-					className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
+							default:
+								return null
+						}
+					})
+				)}
+			</ul>
+			<form
+				onSubmit={handleSubmit}
+				className="rounded border border-gray-300 w-full flex"
+			>
+				<textarea
+					ref={inputRef}
+					disabled={status != 'ready'}
 					value={input}
-					placeholder="Say something..."
 					onChange={(e) => setInput(e.target.value)}
+					placeholder="Escribe algo..."
+					className="w-full py-2 px-4 outline-none rounded"
+					onKeyDown={handleSubmitKey}
+					rows={2}
 				/>
+				<Button
+					disabled={status != 'ready'}
+					type="submit"
+					className="px-4"
+					size="icon"
+				>
+					<Send />
+				</Button>
 			</form>
-		</div>
+		</section>
 	)
 }
 
