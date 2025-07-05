@@ -2,10 +2,18 @@ import { getChatById } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
-import { convertToModelMessages, streamText } from 'ai'
+import {
+	convertToModelMessages,
+	createUIMessageStream,
+	JsonToSseTransformStream,
+	streamText,
+} from 'ai'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
+import { ObjectId } from 'bson'
+import { saveMessages } from '@/data/chat.client'
+import { JsonValue } from '@prisma/client/runtime/library'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -39,10 +47,7 @@ export async function POST(
 	try {
 		const body = await req.json()
 		chatId = (await params).chatId
-		console.log({chatId})
 		if (!chatId) throw Error('chatId is needed')
-
-		console.log({body})
 
 		requestBody = validateWithSource(bodySchema, body, 'body')
 	} catch {
@@ -51,16 +56,48 @@ export async function POST(
 
 	const { message } = requestBody
 
+	await saveMessages([
+		{
+			chatId,
+			id: message.id,
+			parts: message.parts,
+			role: message.role,
+			createdAt: new Date(),
+		},
+	])
+
 	try {
 		const chat = await getChatById(chatId)
 		const messages = [...convertToUIMessages(chat.messages), message]
 
-		const result = streamText({
-			model: openai(chat.chatbot.model),
-			messages: convertToModelMessages(messages),
+		const stream = createUIMessageStream({
+			execute: ({ writer: dataStream }) => {
+				const result = streamText({
+					model: openai(chat.chatbot.model),
+					messages: convertToModelMessages(messages),
+					system: chat.chatbot.initialPrompt,
+				})
+
+				result.consumeStream()
+
+				dataStream.merge(result.toUIMessageStream())
+			},
+			generateId: () => new ObjectId().toString(),
+
+			onFinish: ({ messages }) => {
+				saveMessages(
+					messages.map((uiMessage) => ({
+						id: uiMessage.id,
+						chatId,
+						parts: uiMessage.parts as JsonValue[],
+						role: uiMessage.role,
+						createdAt: new Date(),
+					}))
+				)
+			},
 		})
 
-		return result.toUIMessageStreamResponse()
+		return new Response(stream.pipeThrough(new JsonToSseTransformStream()))
 	} catch (e) {
 		console.log(e)
 		return new ChatSDKError('forbidden:chat').toResponse()

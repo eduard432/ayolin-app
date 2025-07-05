@@ -123,31 +123,12 @@ model Message {
   chatId    String   @db.ObjectId
   chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   role Role
-  parts     Part[]
+  parts     Json[]
   createdAt DateTime @default(now())
-}
-
-type Part {
-  type       PartType
-  text       String?  // Solo si type == "text"
-  mediaType  MediaType? // Solo si type == "file"
-  name       String?  // Solo si type == "file"
-  url        String?  // Solo si type == "file"
-  messageId  String
 }
 
 enum Role {
   user
   assistant
   system
-}
-
-enum PartType {
-  text
-  file
-}
-
-enum MediaType {
-  image_jpeg
-  image_png
 }

@@ -1,5 +1,13 @@
-import { Message } from "@prisma/client"
+import { db } from "@/lib/db"
+import { Message,  } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
+
+export const saveMessages = async (messages: Message[]) => {
+    await db.message.createMany({
+        //@ts-expect-error Valid types
+        data: messages 
+    })
+}
 
 export const getMessages = async (chatId: string) => {
     const res = await fetch(`/api/v1/chat/${chatId}/messages`)
