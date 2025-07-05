@@ -87,7 +87,7 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded border border-gray-300 w-full flex"
+				className="rounded border border-gray-300 w-full flex items-center"
 			>
 				<textarea
 					ref={inputRef}
@@ -102,8 +102,8 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 				<Button
 					disabled={status != 'ready'}
 					type="submit"
-					className="px-4"
 					size="icon"
+					variant="outline"
 				>
 					<Send />
 				</Button>
