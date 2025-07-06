@@ -182,7 +182,7 @@ const DashboardOverview = () => {
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<PayWithStripe className="text-sm bg-muted hover:bg-muted/80 transition-colors" />
+							<PayWithStripe className="text-sm bg-background text-foreground hover:bg-neutral-500 transition-colors" />
 						</CardAction>
 					</CardHeader>
 					<CardContent>
