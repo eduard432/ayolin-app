@@ -25,7 +25,7 @@ import {
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { dashboardFeatures, getChatbotFeatures, allowedNavbarRoutes } from '@/lib/navbarData'
+import { dashboardFeatures, getChatbotFeatures, getAllowedNavbarRoutes } from '@/lib/navbarData'
 
 export default function Navbar() {
 	const { data: session } = useSession();
@@ -38,6 +38,7 @@ export default function Navbar() {
 			? getChatbotFeatures(chatbotId)
 			: dashboardFeatures
 
+	const allowedNavbarRoutes = getAllowedNavbarRoutes(chatbotId)
 	const showNavbar = allowedNavbarRoutes.includes(pathname)
 
 	return (

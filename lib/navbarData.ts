@@ -16,12 +16,18 @@ export const getChatbotFeatures = (chatbotId: string) => [
   { name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
 ]
 
-export const allowedNavbarRoutes = [
+export const getAllowedNavbarRoutes = (chatbotId?: string) => [
   '/dashboard/general',
   '/dashboard/uso',
   '/dashboard/almacenamiento',
   '/dashboard/soporte',
   '/dashboard/configuracion/cuenta',
-  '/dashboard/planes',
   '/dashboard/configuracion/seguridad',
-]
+  '/dashboard/planes',
+  chatbotId && `/dashboard/${chatbotId}/estadisticas`,
+  chatbotId && `/dashboard/${chatbotId}/almacenamiento`,
+  chatbotId && `/dashboard/${chatbotId}/chats`,
+  chatbotId && `/dashboard/${chatbotId}/prueba`,
+  chatbotId && `/dashboard/${chatbotId}/integraciones`,
+  chatbotId && `/dashboard/${chatbotId}/settings`,
+].filter(Boolean)

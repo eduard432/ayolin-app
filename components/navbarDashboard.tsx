@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { useParams, usePathname } from 'next/navigation'
-import { allowedNavbarRoutes, dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
+import { getAllowedNavbarRoutes, dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
@@ -31,6 +31,7 @@ export default function NavbarDashboard() {
 	}
 
 	// Verificamos si la ruta actual corresponde a alguna de las pestañas
+	const allowedNavbarRoutes = getAllowedNavbarRoutes(chatbotId)
 	const showNavbar = allowedNavbarRoutes.includes(pathname)
 
 	return (
