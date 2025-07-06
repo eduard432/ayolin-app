@@ -133,31 +133,31 @@ const DashboardOverview = () => {
 		// TODO: mover este padding al layout
 		<div className=" grid grid-cols-12 gap-x-8 gap-y-4">
 			<section className="flex items-center gap-x-4 col-span-12">
-				<SearchBar className="h-full bg-foreground rounded-md" />
+				<SearchBar className="h-full bg-background rounded-md" />
 				<ToggleGroup
 					value={layout}
 					onValueChange={(value) => setLayout(value as 'grid' | 'list')}
 					type="single"
-					className="border h-full bg-foreground"
+					className="border h-full bg-background"
 				>
 					<ToggleGroupItem
 						value="grid"
 						aria-label="Toggle grid"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-foreground"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
 					>
 						<LayoutGrid className="" />
 					</ToggleGroupItem>
 					<ToggleGroupItem
 						value="list"
 						aria-label="Toggle list"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-foreground"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
 					>
 						<List className="" />
 					</ToggleGroupItem>
 				</ToggleGroup>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button className="h-full cursor-pointer bg-foreground text-foreground">
+						<Button className="h-full cursor-pointer bg-background text-foreground">
 							Add New... <ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>

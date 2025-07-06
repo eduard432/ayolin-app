@@ -4,7 +4,7 @@ import ToggleTheme from './ToggleTheme'
 
 const FooterDashboard = () => {
 	return (
-		<footer className="py-8 px-40 bg-foreground border-muted-foreground border-t flex justify-between">
+		<footer className="py-8 px-40 bg-background border-muted-foreground border-t flex justify-between">
 			<section>
 				<h2 className="uppercase tracking-widest font-semibold text-foreground text-2xl">
 					Ayolin
