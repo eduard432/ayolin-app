@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React from 'react'
@@ -24,7 +25,7 @@ import {
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { dashboardFeatures, getChatbotFeatures } from '@/lib/navbarData'
+import { dashboardFeatures, getChatbotFeatures, allowedNavbarRoutes } from '@/lib/navbarData'
 
 export default function Navbar() {
 	const { data: session } = useSession();
@@ -37,8 +38,10 @@ export default function Navbar() {
 			? getChatbotFeatures(chatbotId)
 			: dashboardFeatures
 
+	const showNavbar = allowedNavbarRoutes.includes(pathname)
+
 	return (
-		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", !features.map((f) => f.href).includes(pathname) ? "bg-none" : "bg-white")}>
+		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", showNavbar ? "bg-white" : "bg-none")}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>

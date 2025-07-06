@@ -1,4 +1,3 @@
-
 export const dashboardFeatures = [
   { name: 'General', href: '/dashboard/general' },
   { name: 'Uso', href: '/dashboard/uso' },
@@ -15,4 +14,14 @@ export const getChatbotFeatures = (chatbotId: string) => [
   { name: 'Prueba', href: `/dashboard/${chatbotId}/prueba`},
   { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
   { name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
+]
+
+export const allowedNavbarRoutes = [
+  '/dashboard/general',
+  '/dashboard/uso',
+  '/dashboard/almacenamiento',
+  '/dashboard/soporte',
+  '/dashboard/configuracion/cuenta',
+  '/dashboard/planes',
+  '/dashboard/configuracion/seguridad',
 ]
