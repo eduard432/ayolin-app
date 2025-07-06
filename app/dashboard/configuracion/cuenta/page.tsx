@@ -60,47 +60,47 @@ export default function UserSettings() {
 
   return (
     <div className="space-y-8 mb-16">
-      <h1 className="text-4xl font-bold text-black mt-5">Cuenta</h1>
+      <h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
-        <Card className="bg-white border-neutral-300">
+        <Card className="bg-background border-muted-foreground">
           <CardHeader>
-            <CardTitle className="text-black text-2xl">Nombre del Proyecto</CardTitle>
+            <CardTitle className="text-foreground text-2xl">Nombre del Proyecto</CardTitle>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="team-name" className="text-black">Este es el nombre visible de tu proyecto.</Label>
+            <Label htmlFor="team-name" className="text-foreground">Este es el nombre visible de tu proyecto.</Label>
             <Input id="team-name" placeholder="ej. Proyectos Ayolin" className="mt-5 w-[400px]" />
-            <p className="text-sm text-black mt-2 ">Máximo 32 caracteres.</p>
-            <Button className="mt-4 bg-stone-200 text-black text-1xl border-t-amber-200">Guardar</Button>
+            <p className="text-sm text-foreground mt-2 ">Máximo 32 caracteres.</p>
+            <Button className="mt-4 bg-stone-200 text-black text-1xl border-foreground">Guardar</Button>
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-neutral-300">
+        <Card className="bg-background border-muted-foreground">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
-              <Mail className="w-7 h-7 text-neutral-500" />
-              <CardTitle className="text-black text-2xl">
+              <Mail className="w-7 h-7 text-muted-foreground" />
+              <CardTitle className="text-foreground text-2xl">
                 Correo de la cuenta
               </CardTitle>
             </div>
           </CardHeader>
 
           <CardContent className="pt-4">
-            <Label htmlFor="email" className="text-sm text-neutral-500">
+            <Label htmlFor="email" className="text-sm text-muted-foreground">
               Este es el correo asociado a tu cuenta:
             </Label>
-            <p className="text-base font-medium text-neutral-800 mt-2">
-              {userInfo?.email || <span className="italic text-neutral-400">Cargando...</span>}
+            <p className="text-base font-medium text-foreground mt-2">
+              {userInfo?.email || <span className="italic text-muted-foreground">Cargando...</span>}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-neutral-300">
+        <Card className="bg-background border-muted-foreground">
           <CardHeader>
-            <CardTitle className="text-black text-2xl">Foto de Perfil</CardTitle>
+            <CardTitle className="text-foreground text-2xl">Foto de Perfil</CardTitle>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="team-url" className="text-black mb-4">Cambia tu foto de perfil.</Label>
+            <Label htmlFor="team-url" className="text-foreground mb-4">Cambia tu foto de perfil.</Label>
 
             <div className="flex items-center gap-4">
               <Image
@@ -128,21 +128,21 @@ export default function UserSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-neutral-300">
+        <Card className="bg-background border-muted-foreground">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
-              <CardTitle className="text-black text-2xl">
+              <CardTitle className="text-foreground text-2xl">
                 Tipo de cuenta
               </CardTitle>
             </div>
           </CardHeader>
 
           <CardContent className="pt-4">
-            <Label htmlFor="account-type" className="text-sm text-neutral-500">
+            <Label htmlFor="account-type" className="text-sm text-muted-foreground">
               Esta cuenta está registrada como:
             </Label>
-            <p className="text-lg font-semibold text-neutral-800 mt-2 capitalize">
-              {userInfo?.role || <span className="italic text-neutral-400">Cargando...</span>}
+            <p className="text-lg font-semibold text-foreground mt-2 capitalize">
+              {userInfo?.role || <span className="italic text-muted-foreground">Cargando...</span>}
             </p>
           </CardContent>
         </Card>

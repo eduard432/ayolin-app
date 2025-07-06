@@ -1,15 +1,22 @@
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Check } from "lucide-react"
+import { Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface PricingCardProps {
-  title: string;
-  price: string;
-  description: string;
-  features: string[];
-  cta: string;
-  featured?: boolean;
-  link: string;
+  title: string
+  price: string
+  description: string
+  features: string[]
+  cta: string
+  featured?: boolean
+  link: string
 }
 
 export const PricingCard = ({
@@ -23,23 +30,34 @@ export const PricingCard = ({
 }: PricingCardProps) => {
   return (
     <Card
-      className={`flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border rounded-xl p-6 ${
+      className={cn(
+        'w-[400px] flex flex-col justify-between border rounded-lg p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl',
         featured
-          ? "border-primary shadow-lg bg-gradient-to-b from-white to-neutral-100"
-          : "bg-white"
-      }`}
+          ? 'border-primary bg-gradient-to-b from-background to-muted shadow-lg'
+          : 'bg-background'
+      )}
     >
       <CardHeader className="space-y-2">
-        <CardTitle className="text-4xl font-bold text-center">{title}</CardTitle>
-        <p className="text-muted-foreground text-center">{description}</p>
-        <div className="mt-4 text-4xl font-extrabold text-center">{price}</div>
-        <p className='text-sm text-muted text-center'>Pesos Mexicanos</p>
+        <CardTitle
+          className={cn(
+            'text-3xl font-bold text-center',
+            featured && 'text-primary'
+          )}
+        >
+          {title}
+        </CardTitle>
+        <p className="text-muted-foreground text-center text-sm">{description}</p>
+
+        <div className="mt-4 text-center">
+          <div className="text-4xl font-extrabold">{price}</div>
+          <p className="text-sm text-muted-foreground">Pesos Mexicanos</p>
+        </div>
       </CardHeader>
 
-      <CardContent className="flex-1">
-        <ul className="mt-4 space-y-3">
+      <CardContent className="flex-1 mt-4">
+        <ul className="space-y-3">
           {features.map((feat, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm">
+            <li key={i} className="flex items-center gap-2 text-sm text-foreground">
               <Check className="h-4 w-4 text-green-500" />
               <span>{feat}</span>
             </li>
@@ -48,7 +66,11 @@ export const PricingCard = ({
       </CardContent>
 
       <CardFooter className="mt-6">
-        <Button className="w-full text-base h-11" asChild>
+        <Button
+          variant={featured ? 'default' : 'outline'}
+          className={cn('w-full text-base h-11')}
+          asChild
+        >
           <a href={link} rel="noopener noreferrer">
             {cta}
           </a>
