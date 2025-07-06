@@ -21,34 +21,27 @@ const data = [
 export default function FastDataCard() {
   return (
     <div className="mt-10">
-      <h2 className="text-xl font-semibold mb-4">Networking</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-foreground">Networking</h2>
 
-      <div className="mb-4 bg-slate-100 text-sm text-neutral-700 p-3 rounded-md border border-neutral-200">
+      <div className="mb-4 bg-background text-sm text-foreground p-3 rounded-md border border-muted-foreground">
         <span className="font-medium">Top paths</span> han sido movidos a <span className="font-semibold">Observabilidad</span> dentro de cada proyecto.
       </div>
 
-      <Card className="p-6 bg-white border border-neutral-200 shadow-sm">
+      <Card className="p-6 bg-background border border-muted-foreground shadow-sm">
         {/* Título + botón */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>
-            <h3 className="text-lg font-bold">Fast Data Transfer</h3>
-            <p className="text-sm text-neutral-600">
-              La transferencia de datos entre la red de Edge de tu sitio y los usuarios finales.{' '}
-              <a href="#" className="text-blue-600 underline">Aprende más</a>
+            <h3 className="text-lg font-bold text-foreground">Fast Data Transfer</h3>
+            <p className="text-sm text-muted-foreground">
+              La transferencia de datos entre la red de Edge de tu sitio y los usuarios finales.
             </p>
-          </div>
-          <div className="mt-3 md:mt-0 flex gap-2">
-            <Button variant="secondary" className="text-sm flex items-center gap-1">
-              <ExternalLink className="w-4 h-4" />
-              Abrir en Observabilidad
-            </Button>
           </div>
         </div>
 
         {/* Indicador de uso */}
         <div className="flex items-center gap-2 mb-4 text-sm">
           <div className="w-4 h-4 rounded-full border-2 border-sky-500 animate-spin" />
-          <span className="text-neutral-800">1.02 MB / 100 GB</span>
+          <span className="text-foreground">1.02 MB / 100 GB</span>
         </div>
 
         {/* Tabs */}

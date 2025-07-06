@@ -19,9 +19,9 @@ export function FiltrosUso() {
 
         {/* Rango de tiempo */}
         <Select>
-        <SelectTrigger className="w-[200px] h-10 bg-white text-black">
+        <SelectTrigger className="w-[200px] h-10 bg-background text-foreground">
             <ClockIcon className="mr-2 h-4 w-4" />
-            <SelectValue placeholder="Últimos 30 días" className="text-black" />
+            <SelectValue placeholder="Últimos 30 días" className="text-foreground" />
         </SelectTrigger>
         <SelectContent>
             <SelectItem value="7">Últimos 7 días</SelectItem>
@@ -44,8 +44,8 @@ export function FiltrosUso() {
         </Popover>
 
         {/* Input proyecto */}
-        <div className="relative w-[220px] text-black bg-white rounded-lg">
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-black bg-white" />
+        <div className="relative w-[220px] text-foreground bg-background rounded-lg">
+        <Search className="absolute left-3 top-2.5 h-4 w-4 text-foreground bg-background" />
         <Input
             type="text"
             placeholder="Todos los proyectos"
@@ -54,7 +54,7 @@ export function FiltrosUso() {
         </div>
 
         {/* Botón upgrade */}
-        <PayWithStripe className="h-10 px-5 bg-black text-white hover:bg-neutral-800">
+        <PayWithStripe className="h-10 px-5 bg-background text-foreground border-white hover:bg-muted-foreground">
         Upgrade to Pro
         </PayWithStripe>
     </div>
