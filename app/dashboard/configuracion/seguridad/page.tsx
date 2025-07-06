@@ -1,3 +1,5 @@
+"use client"
+
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -56,7 +58,6 @@ export default function SecurityPage() {
             <Button className="mt-4 bg-stone-200 text-black text-1xl">Guardar</Button>
         </CardContent>
         </Card>
-
 
       </div>
     </div>
