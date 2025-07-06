@@ -11,7 +11,7 @@ export default function SecurityPage() {
       <h1 className="text-4xl font-bold text-black mt-5">Seguridad</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
           <CardHeader>
             <CardTitle className="text-black text-2xl">Nombre del Equipo</CardTitle>
           </CardHeader>
@@ -23,7 +23,7 @@ export default function SecurityPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-100 border-neutral-300">
+        <Card className="bg-white border-neutral-300">
           <CardHeader>
             <CardTitle className="text-black text-2xl">URL del Proyecto</CardTitle>
           </CardHeader>
@@ -35,28 +35,6 @@ export default function SecurityPage() {
             </div>
             <Button className="mt-4 bg-stone-200 text-black text-1xl">Guardar</Button>
           </CardContent>
-        </Card>
-
-        <Card className="bg-neutral-100 border-neutral-300">
-        <CardHeader>
-            <CardTitle className="text-black text-2xl">Nombre del Equipo</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <Label htmlFor="team-name" className="text-black">Este es el nombre visible de tu equipo en la plataforma.</Label>
-            <Input id="" className="mt-5 w-[400px]" placeholder="Ej. Proyectos Ayolin" />
-            <Button className="mt-4 bg-stone-200 text-black text-1xl">Guardar</Button>
-        </CardContent>
-        </Card>
-
-        <Card className="bg-neutral-100 border-neutral-300">
-        <CardHeader>
-            <CardTitle className="text-black text-2xl">Correo de contacto</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <Label htmlFor="contact-email" className="text-black">Este correo será usado para notificaciones y soporte.</Label>
-            <Input id="" type="email" className="mt-5 w-[400px]" placeholder="contacto@ayolin.com" />
-            <Button className="mt-4 bg-stone-200 text-black text-1xl">Guardar</Button>
-        </CardContent>
         </Card>
 
       </div>
