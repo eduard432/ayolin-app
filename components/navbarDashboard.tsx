@@ -36,7 +36,7 @@ export default function NavbarDashboard() {
 	return (
 		<nav
 			className={cn(
-				'bg-white px-6 border-b border-neutral-300 pb-2 pt-2',
+				'bg-background px-6 border-b border-neutral-300 pb-2 pt-2',
 				!showNavbar && 'hidden'
 			)}
 		>
@@ -46,10 +46,10 @@ export default function NavbarDashboard() {
 					asChild
 					variant="ghost"
 					className={cn(
-						'hover:bg-neutral-200 text-base',
+						'hover:bg-muted text-base transition-colors duration-200',
 						pathname === feature.href
-							? "relative text-neutral-900 after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-2 after:h-[2px] after:bg-black after:rounded-full"
-							: 'text-neutral-500'
+							? "relative text-foreground after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-2 after:h-[2px] after:bg-foreground after:rounded-full"
+							: 'text-muted-foreground'
 					)}
 				>
 					<Link href={feature.href}>{feature.name}</Link>

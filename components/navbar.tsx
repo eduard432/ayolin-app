@@ -41,17 +41,17 @@ export default function Navbar() {
 	const showNavbar = allowedNavbarRoutes.includes(pathname)
 
 	return (
-		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between", showNavbar ? "bg-white" : "bg-none")}>
+		<nav className={cn("pt-8 pb-2 px-8 items-center flex justify-between bg-background text-foreground", !showNavbar && "bg-transparent")}>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/dashboard/general">
-							<h2 className="uppercase tracking-widest font-semibold text-neutral-800 text-2xl">Ayolin</h2>
+							<h2 className="uppercase tracking-widest font-semibold text-foreground text-2xl">Ayolin</h2>
 						</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/">Home</BreadcrumbLink>
+						<BreadcrumbLink className='text-foreground' href="/">Home</BreadcrumbLink>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
