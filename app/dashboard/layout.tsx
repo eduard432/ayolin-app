@@ -30,7 +30,7 @@ const layout = async ({
 					session={session}
 					basePath="/api/v1/auth"
 				>
-					<div className="bg-neutral-100 min-h-screen flex flex-col justify-between">
+					<div className="bg-foreground min-h-screen flex flex-col justify-between">
 						<div>
 							<Navbar />
 							<NavbarDashboard />

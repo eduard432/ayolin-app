@@ -133,31 +133,31 @@ const DashboardOverview = () => {
 		// TODO: mover este padding al layout
 		<div className=" grid grid-cols-12 gap-x-8 gap-y-4">
 			<section className="flex items-center gap-x-4 col-span-12">
-				<SearchBar className="h-full bg-white rounded-md" />
+				<SearchBar className="h-full bg-foreground rounded-md" />
 				<ToggleGroup
 					value={layout}
 					onValueChange={(value) => setLayout(value as 'grid' | 'list')}
 					type="single"
-					className="border h-full bg-white"
+					className="border h-full bg-foreground"
 				>
 					<ToggleGroupItem
 						value="grid"
 						aria-label="Toggle grid"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-foreground"
 					>
 						<LayoutGrid className="" />
 					</ToggleGroupItem>
 					<ToggleGroupItem
 						value="list"
 						aria-label="Toggle list"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer"
+						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-foreground"
 					>
 						<List className="" />
 					</ToggleGroupItem>
 				</ToggleGroup>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button className="h-full cursor-pointer">
+						<Button className="h-full cursor-pointer bg-foreground text-foreground">
 							Add New... <ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>
@@ -177,20 +177,20 @@ const DashboardOverview = () => {
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Usage
 				</h4>
-				<Card className="w-full rounded-md">
+				<Card className="w-full rounded-md bg-card text-card-foreground">
 					<CardHeader>
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<PayWithStripe className="text-sm" />
+							<PayWithStripe className="text-sm bg-muted hover:bg-muted/80 transition-colors" />
 						</CardAction>
 					</CardHeader>
 					<CardContent>
 						<Table>
 							<TableBody className="divide-none">
-								{usageMetrics.map((metric) => (
+								{usageMetrics.map((metric, index) => (
 									<TableRow
-										className="odd:bg-neutral-50 hover:bg-neutral-200"
+										className={cn(index % 2 == 0 ? "bg-muted" : "bg-background", "hover:bg-accent transition-colors")}
 										key={metric.label}
 									>
 										<TableCell className="flex justify-between text-sm">
@@ -203,7 +203,7 @@ const DashboardOverview = () => {
 												/>
 												<p className="">{metric.label}</p>
 											</div>
-											<p className="font-mono text-neutral-500 text-xs">
+											<p className="font-mono text-muted-foreground text-xs">
 												{metric.used} / {metric.limit}
 											</p>
 										</TableCell>
@@ -251,7 +251,7 @@ const DashboardOverview = () => {
 										</Avatar>
 										<div>
 											<h4 className="font-medium">{chatbot.name}</h4>
-											<p className="text-sm font-medium text-neutral-500">
+											<p className="text-sm font-medium text-muted-foreground">
 												{chatbot.model}
 											</p>
 										</div>
