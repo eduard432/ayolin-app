@@ -12,7 +12,7 @@ const ToggleTheme = () => {
 
 	return (
 		<ToggleGroup
-			className="border rounded-full text-xs mt-4 space-x-2"
+			className="border rounded-full text-xs mt-4 space-x-2 bg-background text-foreground border-foreground"
 			type="single"
 			onValueChange={(value) => setTheme(value)}
 		>
