@@ -70,8 +70,8 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 											className={cn(
 												'px-4 py-1 rounded-md',
 												message.role == 'user'
-													? 'bg-neutral-700 text-foreground'
-													: 'bg-neutral-200'
+													? 'bg-[#e0e0e0] dark:bg-[#374151] text-black dark:text-white'
+													: 'bg-[#f5f5f5] dark:bg-[#4b5563] text-black dark:text-white'
 											)}
 										>
 											<ReactMarkdown >{part.text}</ReactMarkdown>
@@ -104,8 +104,9 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 					type="submit"
 					size="icon"
 					variant="outline"
+					className='mr-5'
 				>
-					<Send />
+					<Send className='text-blue-400'/>
 				</Button>
 			</form>
 		</section>

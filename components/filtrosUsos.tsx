@@ -54,9 +54,7 @@ export function FiltrosUso() {
         </div>
 
         {/* Botón upgrade */}
-        <PayWithStripe className="h-10 px-5 bg-background text-foreground border-white hover:bg-muted-foreground">
-        Upgrade to Pro
-        </PayWithStripe>
+        <PayWithStripe className="h-10 px-5 bg-neutral-300 text-black "/>
     </div>
     )
 }

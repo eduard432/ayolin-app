@@ -175,14 +175,14 @@ const DashboardOverview = () => {
 			</section>
 			<section className="col-span-4">
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					Usage
+					General
 				</h4>
 				<Card className="w-full rounded-md bg-card text-card-foreground">
 					<CardHeader>
 						<CardTitle>Last 30 days</CardTitle>
 						<CardDescription>Updated 13m ago</CardDescription>
 						<CardAction>
-							<PayWithStripe className="text-sm bg-background text-foreground hover:bg-neutral-500 transition-colors" />
+							<PayWithStripe className="text-sm bg-neutral-300 text-black " />
 						</CardAction>
 					</CardHeader>
 					<CardContent>
@@ -217,7 +217,7 @@ const DashboardOverview = () => {
 
 			<section className="col-span-8">
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					Projects
+					Proyectos
 				</h4>
 
 				<div
