@@ -107,6 +107,7 @@ model Chatbot {
   usage       Usage
   totalMessages Int @default(0)
   initialPrompt String
+  toolKeys    String[]
 }
 
 model Chat {
@@ -122,13 +123,23 @@ model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   chatId    String   @db.ObjectId
   chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
-  role Role
+  role MessageRole
   parts     Json[]
   createdAt DateTime @default(now())
 }
 
-enum Role {
+enum MessageRole {
   user
   assistant
   system
+}
+
+model ToolFunction {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  keyName         String
+  name            String
+  description     String
+  blogDescription String
+  imageUrl        String
+  inputSchema     Json
 }
