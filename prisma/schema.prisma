@@ -107,7 +107,7 @@ model Chatbot {
   usage       Usage
   totalMessages Int @default(0)
   initialPrompt String
-  toolKeys    String[]
+  tools    ToolFunctionInstance[]
 }
 
 model Chat {
@@ -134,6 +134,11 @@ enum MessageRole {
   system
 }
 
+type ToolFunctionInstance {
+  keyName String
+  settings Json
+}
+
 model ToolFunction {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
   keyName         String
@@ -142,4 +147,6 @@ model ToolFunction {
   blogDescription String
   imageUrl        String
   inputSchema     Json
+  settingsSchema  String
+  tags            String[]
 }
