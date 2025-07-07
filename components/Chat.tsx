@@ -70,7 +70,7 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 											className={cn(
 												'px-4 py-1 rounded-md',
 												message.role == 'user'
-													? 'bg-neutral-700 text-neutral-200'
+													? 'bg-neutral-700 text-foreground'
 													: 'bg-neutral-200'
 											)}
 										>

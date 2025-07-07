@@ -53,7 +53,7 @@ export default function ChatsPage(){
         <div className='space-y-6'>
 
             <div>
-                <h1 className='text-4xl font-semibold tracking-tight text-black'>
+                <h1 className='text-4xl font-semibold tracking-tight'>
                     Historial de chats
                 </h1>
                 <p className='text-sm text-muted-foreground'>
@@ -76,10 +76,10 @@ export default function ChatsPage(){
                 <Table className='mx-2'>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className='text-black font-black'>Estados</TableHead>
-                            <TableHead className='text-black font-black'>Usuario</TableHead>
-                            <TableHead className='text-black font-black'>Mensajes</TableHead>
-                            <TableHead className='text-black font-black'>Fecha</TableHead>
+                            <TableHead className='font-black'>Estados</TableHead>
+                            <TableHead className='font-black'>Usuario</TableHead>
+                            <TableHead className='font-black'>Mensajes</TableHead>
+                            <TableHead className='font-black'>Fecha</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -88,9 +88,9 @@ export default function ChatsPage(){
                                 <TableCell className='text-muted-foreground'>
                                     {chat.status}
                                 </TableCell>
-                                <TableCell className='text-black'>{chat.user}</TableCell>
-                                <TableCell className='text-black'>{chat.message}</TableCell>
-                                <TableCell className='text-black'>{chat.date}</TableCell>
+                                <TableCell>{chat.user}</TableCell>
+                                <TableCell>{chat.message}</TableCell>
+                                <TableCell>{chat.date}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

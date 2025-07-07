@@ -23,11 +23,11 @@ export default function FastDataCard() {
     <div className="mt-10">
       <h2 className="text-2xl font-semibold mb-4 text-foreground">Networking</h2>
 
-      <div className="mb-4 bg-background text-sm text-foreground p-3 rounded-md border border-muted-foreground">
+      <div className="mb-4 text-sm text-foreground p-3 rounded-md ">
         <span className="font-medium">Top paths</span> han sido movidos a <span className="font-semibold">Observabilidad</span> dentro de cada proyecto.
       </div>
 
-      <Card className="p-6 bg-background border border-muted-foreground shadow-sm">
+      <Card className="p-6  border shadow-sm">
         {/* Título + botón */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>

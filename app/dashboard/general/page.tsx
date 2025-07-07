@@ -157,7 +157,7 @@ const DashboardOverview = () => {
 				</ToggleGroup>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button className="h-full cursor-pointer bg-background text-foreground">
+						<Button className="h-full cursor-pointer bg-background text-foreground hover:bg-mute border-white">
 							Add New... <ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>

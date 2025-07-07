@@ -8,10 +8,10 @@ import { Label } from "@/components/ui/label"
 export default function SecurityPage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-bold text-background mt-5">Seguridad</h1>
+      <h1 className="text-4xl font-bold text-foreground mt-5">Seguridad</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
-        <Card className="bg-background border-muted-foregrounds">
+        <Card className="transition w-full">
           <CardHeader>
             <CardTitle className="text-foreground text-2xl">Nombre del Equipo</CardTitle>
           </CardHeader>
@@ -23,7 +23,7 @@ export default function SecurityPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background border-muted-foregrounds">
+        <Card className="transition w-full">
           <CardHeader>
             <CardTitle className="text-foreground text-2xl">URL del Proyecto</CardTitle>
           </CardHeader>

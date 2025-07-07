@@ -63,7 +63,7 @@ export default function UserSettings() {
       <h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
 
       <div className="grid md:grid-cols-1 gap-6">
-        <Card className="bg-background border-muted-foreground">
+        <Card className="transition w-full">
           <CardHeader>
             <CardTitle className="text-foreground text-2xl">Nombre del Proyecto</CardTitle>
           </CardHeader>
@@ -75,7 +75,7 @@ export default function UserSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background border-muted-foreground">
+        <Card className="transition w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
               <Mail className="w-7 h-7 text-muted-foreground" />
@@ -95,7 +95,7 @@ export default function UserSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background border-muted-foreground">
+        <Card className="transition w-full">
           <CardHeader>
             <CardTitle className="text-foreground text-2xl">Foto de Perfil</CardTitle>
           </CardHeader>
@@ -128,7 +128,7 @@ export default function UserSettings() {
           </CardContent>
         </Card>
 
-        <Card className="bg-background border-muted-foreground">
+        <Card className="transition w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
               <CardTitle className="text-foreground text-2xl">

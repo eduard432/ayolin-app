@@ -11,19 +11,20 @@ import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useParams } from 'next/navigation'
+import { useChatbot } from '@/data/chatbot.client'
 
 export default function AlmacenamientoPage() {
     const params = useParams()
     const chatbotId = params?.chatbotId as string
-
+    const { data } = useChatbot(chatbotId)
     const formatName = (id: string) => 
         id.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
 
     return(
         <div className='space-y-6'>
             <div>
-                <h1 className='text-4xl font-semibold tracking-tight text-black'>
-                    Almacenamiento de {formatName(chatbotId)}
+                <h1 className='text-4xl font-semibold tracking-tight'>
+                    Almacenamiento de {data && data.name}
                 </h1>
                 <p className='text-sm text-muted-foreground'>Uso de almacenamiento, respaldo y logs</p>
             </div>
@@ -32,7 +33,7 @@ export default function AlmacenamientoPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className=''>Uso de almacenamiento</CardTitle>
+                    <CardTitle className='text-xl'>Uso de almacenamiento</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className='flex justify-between items-center mb-2'>
@@ -45,7 +46,7 @@ export default function AlmacenamientoPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Respalos Automaticos</CardTitle>
+                    <CardTitle className='text-xl'>Respalos Automaticos</CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-4'>
                     <p className='text-sm text-muted-foreground'>
@@ -60,11 +61,11 @@ export default function AlmacenamientoPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Logs Recientes</CardTitle>
+                    <CardTitle className='text-xl'>Logs Recientes</CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-2'>
                     <p className='text-sm text-muted-foreground'>Los ultimos registros de interacciones estan aqui:</p>
-                    <ul className='list-disc list-inside text-black space-y-1'>
+                    <ul className='list-disc list-inside space-y-1'>
                         <li>log-2025-06-24.json</li>
                         <li>log-2025-06-23.json</li>
                         <li>log-2025-06-22.json</li>

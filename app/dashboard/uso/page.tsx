@@ -10,10 +10,11 @@ export default function UsoPage() {
   return (
     <div className="px-8 space-y-6">
         <h1 className="text-4xl font-bold pr-4 pl-5 text-foreground">Uso</h1>
+
         <FiltrosUso />
 
-        <div className="bg-background border border-muted-foreground rounded-lg shadow-sm p-6">
-            <h2 className="text-lg font-semibold mb-4">Resumen de uso</h2>
+        <div className="transition w-full rounded-lg shadow-sm p-6">
+            <h2 className="font-semibold mb-6 text-2xl">Resumen de uso</h2>
             <div className="overflow-x-auto">
             <table className="w-full text-sm text-left border-collapse">
                 <thead>

@@ -15,7 +15,7 @@ export default function ConfiguracionLayout({
 }) {
 	return (
 		<div className="min-h-screen text-foreground flex border-r">
-			<Card className="w-[260px] p-6 border-r border-muted-foreground text-foreground bg-background px-2">
+			<Card className="w-[260px] p-6 border-r transition px-2">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
 				</CardHeader>
