@@ -232,7 +232,7 @@ export default function Home() {
 
       {/*Planes de cobro */}
       <section className="max-w-6xl mx-auto py-20 px-4">
-        <h2 className="text-4xl font-bold text-center mb-10">Elige tu plan</h2>
+        <h2 className="text-5xl font-bold text-center mb-10">Elige tu plan</h2>
 
         <div className="grid md:grid-cols-2 gap-6">
           <PricingCard
@@ -250,7 +250,7 @@ export default function Home() {
 
           <PricingCard
             title="Pro"
-            price="$9.99/mes"
+            price="$100.00/mes"
             description="Funciones avanzadas"
             features={[
               "Chatbots ilimitados",
@@ -264,7 +264,43 @@ export default function Home() {
 
         </div>
       </section>
-      
+
+      {/*Seccion de footer   */}
+      <Fotter/>
+    </div>
+  );
+}
+
+
+    {/*Mas cosas que se pueden agregar a la landing page */}
+
+
+      {/* CTA Section */}
+      {/*
+      <div className="container mx-auto px-4 py-16">
+        <div className="bg-neutral-900 rounded-xl p-12 text-neutral-50 text-center">
+          <h2 className="text-4xl font-bold mb-4 ">
+            Start Your Journey with Ayolin
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Join thousands of users who are already experiencing the future of
+            AI-driven conversations. Try one Ayolin Chat for free.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="h-11 rounded-md px-8 text-lg border font-semibold bg-neutral-50 text-neutral-900">
+              Start For Free Trial
+            </button>
+            <button className="h-11 rounded-md px-8 text-lg border font-semibold">
+              Schedule demo
+            </button>
+          </div>
+          <p className="mt-6 text-sm text-neutral-300 font-semibold">
+            No credit card required • Cancel anytime • 24/7 support
+          </p>
+        </div>
+      </div>
+      */}
+
       {/* TENEMOS QUE ARREGLAR ESTE, ME QUEDO FEO CON GANAS
       
       <div className="bg-stone-100 py-20 px-6" data-aos="fade-up">
@@ -298,37 +334,3 @@ export default function Home() {
         </div>
       </div>
           */}
-
-
-
-      {/*Seccion de footer   */}
-      <Fotter/>
-    </div>
-  );
-}
-
-      {/* CTA Section */}
-      {/*
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-neutral-900 rounded-xl p-12 text-neutral-50 text-center">
-          <h2 className="text-4xl font-bold mb-4 ">
-            Start Your Journey with Ayolin
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are already experiencing the future of
-            AI-driven conversations. Try one Ayolin Chat for free.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="h-11 rounded-md px-8 text-lg border font-semibold bg-neutral-50 text-neutral-900">
-              Start For Free Trial
-            </button>
-            <button className="h-11 rounded-md px-8 text-lg border font-semibold">
-              Schedule demo
-            </button>
-          </div>
-          <p className="mt-6 text-sm text-neutral-300 font-semibold">
-            No credit card required • Cancel anytime • 24/7 support
-          </p>
-        </div>
-      </div>
-      */}
