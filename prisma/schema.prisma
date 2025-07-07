@@ -147,6 +147,7 @@ model ToolFunction {
   blogDescription String
   imageUrl        String
   inputSchema     Json
-  settingsSchema  String
+  settingsSchema  Json
   tags            String[]
+  apiUrl          String
 }
