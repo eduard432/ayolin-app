@@ -1,5 +1,6 @@
 'use client'
 
+import { InputSchema } from '@/components/InputSchema'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -30,6 +31,7 @@ const formSchema = z.object({
 	description: z.string(),
 	blogDescription: z.string(),
 	apiUrl: z.string(),
+	inputSchema: z.string()
 })
 
 const ToolsPage = () => {
@@ -123,14 +125,16 @@ const ToolsPage = () => {
 								</FormItem>
 							)}
 						/>
-            <Separator className="col-span-full" />
+						<Separator className="col-span-full" />
 						<FormField
 							control={form.control}
 							name="apiUrl"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Api Url</FormLabel>
-									<FormDescription>Api url donde se ejecutara la función</FormDescription>
+									<FormDescription>
+										Api url donde se ejecutara la función
+									</FormDescription>
 									<FormControl>
 										<Input
 											placeholder="https://localhost:4000/api/v1/poke-api"
@@ -140,6 +144,22 @@ const ToolsPage = () => {
 								</FormItem>
 							)}
 						/>
+						<FormField
+							control={form.control}
+							name="inputSchema"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Input Schema</FormLabel>
+									<FormDescription>
+										Api url donde se ejecutara la función
+									</FormDescription>
+									<FormControl>
+										<InputSchema />
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+						
 					</form>
 				</Form>
 			</CardContent>
