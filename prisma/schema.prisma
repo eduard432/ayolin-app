@@ -13,6 +13,7 @@ datasource db {
 enum UserRole {
   FREE
   PRO
+  ADMIN
 }
 
 model User {

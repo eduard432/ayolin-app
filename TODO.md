@@ -1,66 +1,39 @@
-# TODO LIST:
+## FALTA
 
+- [ ] Auth con Google y GitHub
+- [ ] 2FA
+- [ ] Quitar la dummy info de las paginas
+- [ ] Template's para los Chatbots
+- [ ] Configurar WhatsApp y Telegram
+- [ ] Todo lo relacionado con los Chatbots
 
-- ### Cambiar los nombre de todas las rutas a inglés
+## Side quest's
 
-Ejemplo: /nuevo -> /general 
+- [ ] Cambiar favicon
+- [ ] Titulo en cada pagina
+- [ ] Hacer responsive todo
+- [ ] Chatbot en la LandingPage
+- [ ] Agregar stat's a la LandigPage
+- [ ] SEO de la LandingPage???
 
-- ### Crear componente de chateo
+## Progress
 
-Crear componente de chateo con todas las características de un chat
+- Semana 7 - 13 (Julio)
+    - Leo: Auth de Git y Google y 2FA
+    - Edu: Telegram y Tool's
 
-Referencia de una página ya hecha: https://github.com/vercel/ai-chatbot/tree/main
+- Semana 14 - 20 (Julio)
+    - Leo: WhatssApp
+    - Edu: Chatbots settings y Templates
 
-- ### Agregar página: .../dashboard/[chatbotId]/prubea
+- Semana 21 - 27 (Julio)
+    - Leo: Poner info real en toda la PW
+    - Edu: Pagina estaditicas
 
-Página donde se implementa el componente de chateo para que los usuarios puedan probar la configuración de su chatbot, tiene que verse muy similiar a otras plataformas...
+- Semana 28 - 3 (Julio - Agosto)
+    - Hosting (Web, Tools, Integraciones)
+    - Dominio
+    - DB
 
-- ### Agregar el rol de usuarios:
-
-Agregar el rol de FREE y PRO en el schema de usuarios
-
-- ### Estándarizar el nombre de los componentes:
-
-Usar PascalCase para los componentes y los archivos de los componentes, como: `NavbarDashboard.ts` y: `</NavbarDashboard />`, excepto para los componentes en UI, porque esos los maneja shadcn, en el caso de la carpeta `./components/auth` no se, que hacer jaja.
-
-- ### Estándarizar Estilos (cuando tengamos tiempo):
-    - Usar full componentes de Shadcn
-    - Hacer responsive todas las páginas, (específicamente para telefono):
-    Usar preferemente grid (12 columnas): `grid grid-cols-12`
-
-    ```
-    // Ejemplo
-    <div className="grid grid-cols-1 lg:grid-cols-12" >
-        // Abarca una columna (todo el ancho) en telefonos y 1/3 en computadoras
-        <article className="col-span-1 lg:col-span-4" />
-    </div>
-    ```
-
-    - Agregar estilos para el modo oscuro
-
-    *Explicación:* Si usamos componentes de shadcn, de manera nativa ya incluyen estilos en tema oscuro y claro, sin embargo, si usamos nuestros propios estilos tenemos que configurar el cambio de color, ejemplo:
-
-    ```
-    // Negro cuando esta modo claro y blanco cunado este modo oscuro
-    // Usamos `dark:` para indicar cuando son estilos del modo oscuro
-    <p className="text-neutral-600 dark:text-neutral-50" >Texto uno</p>
-    ```
-
-    - Crear componentes para los textos y titulos como: p, h1, h2, ...
-    ```
-    <H1>TEXTO PERSONALIZADO</H1>
-    <p>parrafo</p>
-    ```
-    - Usar el mismo padding para todas las páginas y estandarizarlo en el layout
-    - Usar correcta semántica para todas las páginas usando article, etc...
-
-## Pendientes extra (a largo plazo):
-- Configurar stripe para emepzar a cobrar
-- Usar tailwind para cambiar estilos de los correos electrónicos
-- Crear un blog con guias para los usuarios, con ayuda de archivos .mdx y configurar en nextjs el blog
-- Configurar traducción de la página, con i11n, solo para inglés y español
-
-
-
-## Otros:
-- Maybe Lunixu :)
+- Semana 4 - 8 (Agosto)
+    - Sacar la Beeta
