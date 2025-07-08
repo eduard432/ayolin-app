@@ -1,4 +1,3 @@
-// app/(landing)/pricing/page.tsx
 'use client';
 
 import { PricingCard } from "@/components/payment-card";
