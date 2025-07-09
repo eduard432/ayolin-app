@@ -21,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
+import { fieldSchema } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,7 +32,7 @@ const formSchema = z.object({
 	description: z.string(),
 	blogDescription: z.string(),
 	apiUrl: z.string(),
-	inputSchema: z.string()
+	inputSchema: fieldSchema.array(),
 })
 
 const ToolsPage = () => {
@@ -42,6 +43,11 @@ const ToolsPage = () => {
 		},
 	})
 
+	const handleSubmit = form.handleSubmit((values) => {
+		console.log({values})
+	})
+	
+
 	return (
 		<Card className="mx-auto w-full">
 			<CardHeader>
@@ -50,7 +56,7 @@ const ToolsPage = () => {
 					Formulario para crear nueva tool function para el marketplace
 				</CardDescription>
 				<CardAction>
-					<Button>Crear</Button>
+					<Button type="button" onClick={handleSubmit} >Crear</Button>
 				</CardAction>
 			</CardHeader>
 			<CardContent>
@@ -154,12 +160,11 @@ const ToolsPage = () => {
 										Api url donde se ejecutara la función
 									</FormDescription>
 									<FormControl>
-										<InputSchema />
+										<InputSchema {...field} />
 									</FormControl>
 								</FormItem>
 							)}
 						/>
-						
 					</form>
 				</Form>
 			</CardContent>

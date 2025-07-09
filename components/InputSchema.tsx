@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Select,
 	SelectContent,
@@ -10,119 +10,149 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+} from '@/components/ui/form'
 import { z } from 'zod'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent } from './ui/card'
 import { Binary, Hash, Trash, Type } from 'lucide-react'
+import { cn, fieldSchema } from '@/lib/utils'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-type FieldType = 'string' | 'number' | 'boolean'
+type InputSchemaProps = {
+	onChange: (value: z.infer<typeof fieldSchema>[]) => void
+	value?: z.infer<typeof fieldSchema>[]
+	className?: string
+}
 
-const schema = z.object({
-	name: z.string(),
-	description: z.string(),
-	type: z.enum(['string', 'number', 'boolean']),
-	required: z.boolean(),
-})
+export const InputSchema = ({
+	className,
+	onChange,
+	value,
+}: InputSchemaProps) => {
+	const [fields, setFields] = useState<z.infer<typeof fieldSchema>[]>(
+		value || []
+	)
 
-export const InputSchema = () => {
-	const [fields, setFields] = useState<z.infer<typeof schema>[]>([])
+	const form = useForm<z.infer<typeof fieldSchema>>({
+		resolver: zodResolver(fieldSchema),
+		defaultValues: {
+			name: '',
+			description: '',
+			type: 'string',
+			required: false,
+		},
+	})
 
-	const [type, setType] = useState<FieldType>('string')
-	const [name, setName] = useState<string>('')
-	const [description, setDescription] = useState<string>('')
-	const [isRequired, setIsRequired] = useState<boolean>(false)
+	useEffect(() => {
+		onChange(fields)
+	}, [fields, onChange])
 
-	const onAddField = () => {
-		setFields((prevFields) => [
-			...prevFields,
-			{
-				name,
-				description,
-				required: isRequired,
-				type,
-			},
-		])
+	const handleAddField = form.handleSubmit((newField) => {
+		setFields((prevFields) => [...prevFields, newField])
+		form.reset()
+	})
 
-		setName('')
-		setDescription('')
-		setIsRequired(false)
-	}
-
-	const onDeleteField = (index: number) => {
-		setFields((prevFields) => prevFields.filter((value, i) => i !== index))
+	const handleDeleteField = (index: number) => {
+		setFields((prevFields) => prevFields.filter((_, i) => i !== index))
 	}
 
 	return (
-		<section className="space-y-4">
-			<div className="flex justify-between">
-				<Select
-					value={type}
-					onValueChange={(value: FieldType) => setType(value)}
-				>
-					<SelectTrigger className="w-1/2">
-						<SelectValue placeholder="Tipo" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="string">
-							<Type /> String
-						</SelectItem>
-						<SelectItem value="number">
-							<Hash /> Number
-						</SelectItem>
-						<SelectItem value="boolean">
-							<Binary /> Boolean
-						</SelectItem>
-					</SelectContent>
-				</Select>
-				<Button type="button" onClick={onAddField}>
-					Agregar
-				</Button>
-			</div>
+		<section className={cn('space-y-4', className)}>
+			<FormField
+				control={form.control}
+				name="type"
+				render={({ field }) => (
+					<div className="flex justify-between">
+						<Select value={field.value} onValueChange={field.onChange}>
+							<SelectTrigger className="w-1/2">
+								<SelectValue placeholder="Tipo" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="string">
+									<Type /> String
+								</SelectItem>
+								<SelectItem value="number">
+									<Hash /> Number
+								</SelectItem>
+								<SelectItem value="boolean">
+									<Binary /> Boolean
+								</SelectItem>
+							</SelectContent>
+						</Select>
+						<Button type="button" onClick={handleAddField}>
+							Agregar
+						</Button>
+					</div>
+				)}
+			/>
+
 			<div className="space-y-4">
-				<FormItem>
-					<FormLabel>Nombre del campo</FormLabel>
-					<FormControl>
-						<Input value={name} onChange={(e) => setName(e.target.value)} />
-					</FormControl>
-				</FormItem>
-				<FormItem>
-					<FormLabel>Descripción del campo</FormLabel>
-					<FormControl>
-						<Input
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-						/>
-					</FormControl>
-				</FormItem>
-				<FormItem className="flex flex-row items-center gap-2">
-					<FormControl>
-						<Checkbox
-							checked={isRequired}
-							onCheckedChange={(checked) => {
-								const value = checked.valueOf()
-								setIsRequired(typeof value == 'string' ? false : value)
-							}}
-						/>
-					</FormControl>
-					<FormLabel>Requerido</FormLabel>
-				</FormItem>
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Nombre del campo</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Descripción del campo</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="required"
+					render={({ field }) => (
+						<FormItem className="flex flex-row items-center gap-2">
+							<FormControl>
+								<Checkbox
+									checked={field.value}
+									onCheckedChange={(checked) =>
+										field.onChange(
+											typeof checked === 'boolean' ? checked : false
+										)
+									}
+								/>
+							</FormControl>
+							<FormLabel>Requerido</FormLabel>
+						</FormItem>
+					)}
+				/>
 			</div>
+
 			<div className="space-y-2">
 				{fields.map(({ name, type }, i) => (
-					<Card className="py-2" key={name}>
+					<Card className="py-1" key={`${name}-${i}`}>
 						<CardContent className="px-4 flex justify-between">
 							<p className="capitalize font-semibold text-sm flex items-center">
 								<span className="text-sm">
-									{type === 'string' && <Type />}
-									{type === 'number' && <Hash />}
-									{type === 'boolean' && <Binary />}
+									{type === 'string' && <Type size={16} />}
+									{type === 'number' && <Hash size={16} />}
+									{type === 'boolean' && <Binary size={16} />}
 								</span>
 
 								<span className="mx-2">{name}</span>
 							</p>
 							<Button
-                onClick={() => onDeleteField(i)}
+								onClick={() => handleDeleteField(i)}
 								type="button"
 								className="text-transparent hover:bg-accent"
 								variant="ghost"
