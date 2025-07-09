@@ -67,7 +67,7 @@ export default function ChatsPage(){
                 <Input
                     type='text'
                     placeholder='Filtrar por usuarios o mensajes...'
-                    className='max-w-sm bg-white h-10'
+                    className='max-w-sm bg-background h-10'
                 />
                 <Button variant="outline">Columnas</Button>
             </div>
@@ -84,7 +84,7 @@ export default function ChatsPage(){
                     </TableHeader>
                     <TableBody>
                         {dummyChart.map((chat, index) => (
-                            <TableRow key={index} className='hover:bg-neutral-50'>
+                            <TableRow key={index} className='hover:bg-muted-foreground'>
                                 <TableCell className='text-muted-foreground'>
                                     {chat.status}
                                 </TableCell>
