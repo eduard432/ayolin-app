@@ -14,7 +14,7 @@
 - [ ] Hacer responsive todo
 - [ ] Chatbot en la LandingPage
 - [ ] Agregar stat's a la LandigPage
-- [ ] SEO de la LandingPage???
+- [ ] SEO de la LandingPage??? (No se que sea esto jijijiji)
 
 ## Progress
 
