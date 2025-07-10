@@ -12,9 +12,10 @@ import { cn } from '@/lib/utils'
 type ChatProps = {
 	initialMessages: UIMessage[]
 	chatId: string
+	className?:string
 }
 
-const Chat = ({ initialMessages, chatId }: ChatProps) => {
+const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	const [input, setInput] = useState('')
 	const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -53,7 +54,7 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 	}
 
 	return (
-		<section className="rounded border h-full border-gray-300 p-4 w-full flex flex-col justify-between gap-4 flex-1">
+		<section className={cn("rounded-md border-2 h-full border-border p-4 w-full flex flex-col justify-between gap-4 flex-1", className)}>
 			<ul className="overflow-y-auto h-96 px-4">
 				{messages.map((message) =>
 					message.parts.map((part) => {
@@ -68,13 +69,13 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 									>
 										<div
 											className={cn(
-												'px-4 py-1 rounded-md',
+												'px-4 py-1 rounded-md max-w-2/3',
 												message.role == 'user'
 													? 'bg-[#e0e0e0] dark:bg-[#374151] text-black dark:text-white'
 													: 'bg-[#f5f5f5] dark:bg-[#4b5563] text-black dark:text-white'
 											)}
 										>
-											<ReactMarkdown >{part.text}</ReactMarkdown>
+											<ReactMarkdown>{part.text}</ReactMarkdown>
 										</div>
 									</li>
 								)
@@ -87,7 +88,7 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded border border-gray-300 w-full flex items-center"
+				className="rounded-md border-2 border-border w-full flex items-center"
 			>
 				<textarea
 					ref={inputRef}
@@ -104,9 +105,9 @@ const Chat = ({ initialMessages, chatId }: ChatProps) => {
 					type="submit"
 					size="icon"
 					variant="outline"
-					className='mr-5'
+					className="mr-5"
 				>
-					<Send className='text-blue-400'/>
+					<Send className="text-blue-400" />
 				</Button>
 			</form>
 		</section>
