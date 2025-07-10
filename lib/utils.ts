@@ -21,8 +21,8 @@ export function convertToUIMessages(messages: Message[]): UIMessage[] {
 }
 
 export const fieldSchema = z.object({
-	name: z.string(),
-	description: z.string(),
+	name: z.string().min(1),
+	description: z.string().min(3),
 	type: z.enum(['string', 'number', 'boolean']),
 	required: z.boolean(),
 })

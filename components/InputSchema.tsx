@@ -85,7 +85,7 @@ export const InputSchema = ({
 								</SelectItem>
 							</SelectContent>
 						</Select>
-						<Button type="button" onClick={handleAddField}>
+						<Button size="sm" type="button" onClick={handleAddField}>
 							Agregar
 						</Button>
 					</div>

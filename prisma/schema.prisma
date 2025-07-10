@@ -149,12 +149,12 @@ model ToolFunction {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
   keyName         String
   name            String
-  description     String
+  description     String?
   blogDescription String
   imageUrl        String
-  inputSchema     Json
-  settingsSchema  Json
+  inputSchema     Json?
+  settingsSchema  Json?
   tags            String[]
-  apiUrl          String
+  apiUrl          String?
   type            ToolFunctionType
 }

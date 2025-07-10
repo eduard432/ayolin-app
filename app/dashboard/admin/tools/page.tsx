@@ -4,9 +4,9 @@ import { InputSchema } from '@/components/InputSchema'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
-	CardAction,
 	CardContent,
 	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
@@ -19,155 +19,231 @@ import {
 	FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { fieldSchema } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const formSchema = z.object({
+const formSchemaCommon = {
 	name: z.string(),
-	description: z.string(),
 	blogDescription: z.string(),
-	apiUrl: z.string(),
-	inputSchema: fieldSchema.array(),
-})
+	settingsSchema: fieldSchema.array().optional(),
+}
+
+const formSchemaUnion = z.discriminatedUnion('type', [
+	z.object({
+		...formSchemaCommon,
+		type: z.literal('code'),
+	}),
+	z.object({
+		...formSchemaCommon,
+		type: z.literal('fetch'),
+		description: z.string(),
+		apiUrl: z.string(),
+		inputSchema: fieldSchema.array(),
+	}),
+])
 
 const ToolsPage = () => {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const [isFetchTool, setIsFetchTool] = useState(false)
+	const [isSettingsSchema, setIsSettingSchema] = useState(false)
+
+	const form = useForm<z.infer<typeof formSchemaUnion>>({
+		resolver: zodResolver(formSchemaUnion),
 		defaultValues: {
 			name: '',
 		},
 	})
 
 	const handleSubmit = form.handleSubmit((values) => {
-		console.log({values})
+		console.log({ values })
 	})
-	
 
 	return (
-		<Card className="mx-auto w-full">
+		<Card className="mx-auto w-full md:w-1/2">
 			<CardHeader>
-				<CardTitle>Crear nueva tool function</CardTitle>
+				<CardTitle className="text-2xl">Crear nueva tool function</CardTitle>
 				<CardDescription>
 					Formulario para crear nueva tool function para el marketplace
 				</CardDescription>
-				<CardAction>
-					<Button type="button" onClick={handleSubmit} >Crear</Button>
-				</CardAction>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form className="gap-4 grid grid-cols-3" onSubmit={() => {}}>
-						<div className="space-y-4">
+					<form className="space-y-4" onSubmit={() => {}}>
+						<Separator />
+						<section className="space-y-4">
+							<h3 className="text-current font-semibold text-xl">
+								Información General
+							</h3>
+							<div className="space-y-4">
+								<FormField
+									control={form.control}
+									name="name"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Nombre</FormLabel>
+											<FormDescription>
+												Nombre de la tool function
+											</FormDescription>
+											<FormControl>
+												<Input placeholder="Poke API" {...field} />
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="name"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Key name</FormLabel>
+											<FormDescription>
+												Clave unica de la función
+											</FormDescription>
+											<FormControl>
+												<Input
+													disabled
+													placeholder="poke_api"
+													{...field}
+													value={field.value
+														.replaceAll(' ', '_')
+														.toLowerCase()}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+							</div>
 							<FormField
 								control={form.control}
-								name="name"
+								name="blogDescription"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Nombre</FormLabel>
+										<FormLabel>Descripción</FormLabel>
 										<FormDescription>
-											Nombre de la tool function
+											Descripción que se mostrara a los usuarios en la página
+											de marketplace
 										</FormDescription>
 										<FormControl>
-											<Input placeholder="Poke API" {...field} />
+											<Textarea className="resize-none" {...field} />
 										</FormControl>
 									</FormItem>
 								)}
 							/>
-							<FormField
-								control={form.control}
-								name="name"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Key name</FormLabel>
-										<FormDescription>
-											Clave unica de la función
-										</FormDescription>
-										<FormControl>
-											<Input
-												disabled
-												placeholder="poke-api"
-												{...field}
-												value={field.value.replaceAll(' ', '-').toLowerCase()}
-											/>
-										</FormControl>
-									</FormItem>
-								)}
+						</section>
+						<Separator />
+						<section className="flex items-center gap-x-4">
+							<Switch
+								checked={isFetchTool}
+								onCheckedChange={(v) => setIsFetchTool(v)}
+								id="tool-mode"
 							/>
-						</div>
-						<FormField
-							control={form.control}
-							name="description"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Descripción</FormLabel>
-									<FormDescription className="min-h-12">
-										Descripción que sera enviada al modelo de IA para que
-										entienda el uso de la función
-									</FormDescription>
-									<FormControl>
-										<Textarea className="resize-none" {...field} />
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="blogDescription"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Descripción para el blog</FormLabel>
-									<FormDescription className="min-h-12">
-										Descripción que se mostrara a los usuarios en la página de
-										marketplace
-									</FormDescription>
-									<FormControl>
-										<Textarea className="resize-none" {...field} />
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<Separator className="col-span-full" />
-						<FormField
-							control={form.control}
-							name="apiUrl"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Api Url</FormLabel>
-									<FormDescription>
-										Api url donde se ejecutara la función
-									</FormDescription>
-									<FormControl>
-										<Input
-											placeholder="https://localhost:4000/api/v1/poke-api"
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="inputSchema"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Input Schema</FormLabel>
-									<FormDescription>
-										Api url donde se ejecutara la función
-									</FormDescription>
-									<FormControl>
-										<InputSchema {...field} />
-									</FormControl>
-								</FormItem>
-							)}
-						/>
+							<Label htmlFor="tool-mode">Fetch Tool</Label>
+						</section>
+						<Separator />
+						{isFetchTool && (
+							<section className="space-y-4">
+								<h3 className="text-current font-semibold text-xl">
+									Fetch Tool
+								</h3>
+								<FormField
+									control={form.control}
+									name="description"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Descripción para IA</FormLabel>
+											<FormDescription>
+												Descripción que sera enviada al modelo de IA para que
+												entienda el uso de la función
+											</FormDescription>
+											<FormControl>
+												<Textarea className="resize-none" {...field} />
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="apiUrl"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Api Url</FormLabel>
+											<FormDescription>
+												Api url donde se ejecutara la función
+											</FormDescription>
+											<FormControl>
+												<Input
+													placeholder="https://localhost:4000/api/v1/poke-api"
+													{...field}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+								<Separator />
+								<FormField
+									control={form.control}
+									name="inputSchema"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Input Schema</FormLabel>
+											<FormDescription>
+												Input Schema de los parametros que pasa la AI
+											</FormDescription>
+											<FormControl>
+												<InputSchema {...field} />
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+							</section>
+						)}
+						<Separator />
+						<section className="flex items-center gap-x-4">
+							<Switch
+								checked={isSettingsSchema}
+								onCheckedChange={(v) => setIsSettingSchema(v)}
+								id="is-settings-schema"
+							/>
+							<Label htmlFor="is-settings-schema">Settings Schema</Label>
+						</section>
+						<Separator />
+						{isSettingsSchema && (
+							<section className="space-y-4">
+								<h3 className="text-current font-semibold text-xl">
+									Settings Schema
+								</h3>
+
+								<FormField
+									control={form.control}
+									name="inputSchema"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Input Schema</FormLabel>
+											<FormDescription>
+												Schema de los settings que pondra el usuario
+											</FormDescription>
+											<FormControl>
+												<InputSchema {...field} />
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+							</section>
+						)}
 					</form>
 				</Form>
 			</CardContent>
+			<CardFooter>
+				<Button type="button" onClick={handleSubmit}>
+					Publicar
+				</Button>
+			</CardFooter>
 		</Card>
 	)
 }
