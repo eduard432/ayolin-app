@@ -1,4 +1,3 @@
-// auth.ts
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { getUserById } from "@/data/user"
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation"

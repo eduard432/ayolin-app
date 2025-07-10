@@ -11,6 +11,7 @@ import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
 import { FormError } from '@/components/form-error'
 import { FormSucces } from '@/components/form-succes'
+import { useSearchParams } from 'next/navigation'
 import Link from "next/link"
 import {
 	Form,
@@ -27,6 +28,12 @@ export const LoginForm = () => {
 	const [error, setError] = useState<string | undefined>('')
 	const [succes, setSucces] = useState<string | undefined>('')
 	const [isPending, startTransition] = useTransition()
+	const searchParams = useSearchParams()
+	const errorSign = searchParams.get('error')
+
+	if(errorSign != null){
+    console.log(error)
+  	}
 
 	const form = useForm<z.infer<typeof LoginSchema>>({
 		resolver: zodResolver(LoginSchema),
