@@ -147,7 +147,7 @@ enum ToolFunctionType {
 
 model ToolFunction {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
-  keyName         String
+  keyName         String @unique
   name            String
   description     String?
   blogDescription String
