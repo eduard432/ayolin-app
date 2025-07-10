@@ -140,6 +140,11 @@ type ToolFunctionInstance {
   settings Json
 }
 
+enum ToolFunctionType {
+  code
+  fetch
+}
+
 model ToolFunction {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
   keyName         String
@@ -151,4 +156,5 @@ model ToolFunction {
   settingsSchema  Json
   tags            String[]
   apiUrl          String
+  type            ToolFunctionType
 }
