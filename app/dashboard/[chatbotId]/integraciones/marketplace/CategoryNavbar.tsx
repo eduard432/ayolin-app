@@ -15,30 +15,38 @@ const CategoryNavbar = () => {
 			<Button
 				className={cn(
 					'justify-start font-normal rounded-full',
-					!params.category && 'bg-neutral-200'
+					!params.category && 'bg-primary-foreground'
 				)}
-				variant="secondary"
+				variant="ghost"
 				asChild
 			>
-				<Link href={`/dashboard/${params.chatbotId}/integraciones/marketplace`}>All Categories</Link>
+				<Link
+					href={`/dashboard/${params.chatbotId}/integraciones/marketplace`}
+				>
+					All Categories
+				</Link>
 			</Button>
 			{Object.keys(integrationsData).map((category) => {
-                return (
-                    <Button
-					key={category}
-					className={cn(
-						'justify-start font-normal rounded-full',
-						params.category ==
-							category &&
-							'bg-neutral-200 hover:bg-neutral-200'
-					)}
-					variant="secondary"
-					asChild
-				>
-					<Link href={`/dashboard/${params.chatbotId}/integraciones/marketplace/categoria/${category}`} className="capitalize" >{category}</Link>
-				</Button>
-                )
-            })}
+				return (
+					<Button
+						key={category}
+						className={cn(
+							'justify-start font-normal rounded-full',
+							params.category == category &&
+								'bg-primary-foreground font-bold'
+						)}
+						variant="ghost"
+						asChild
+					>
+						<Link
+							href={`/dashboard/${params.chatbotId}/integraciones/marketplace/categoria/${category}`}
+							className="capitalize"
+						>
+							{category}
+						</Link>
+					</Button>
+				)
+			})}
 		</>
 	)
 }
