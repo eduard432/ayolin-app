@@ -4,18 +4,15 @@ import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
 import {
 	convertToModelMessages,
-	createUIMessageStream,
-	JsonToSseTransformStream,
-	stepCountIs,
-	streamText,
+	generateText,
 } from 'ai'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.client'
-import { JsonValue } from '@prisma/client/runtime/library'
 import { AI_TOOL_INDEX } from '@/ai_tools'
+import { Message } from '@prisma/client'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -70,7 +67,10 @@ export async function POST(
 
 	try {
 		const chat = await getChatById(chatId)
-		const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
+		const messages = [
+			...convertToUIMessages(chat.messages.slice(-20)),
+			message,
+		]
 
 		const tools = Object.fromEntries(
 			chat.chatbot.tools
@@ -80,36 +80,31 @@ export async function POST(
 				})
 		)
 
-		const stream = createUIMessageStream({
-			execute: ({ writer: dataStream }) => {
-				const result = streamText({
-					model: openai(chat.chatbot.model),
-					messages: convertToModelMessages(messages),
-					system: chat.chatbot.initialPrompt,
-					tools,
-					stopWhen: stepCountIs(3)
-				})
-
-				result.consumeStream()
-
-				dataStream.merge(result.toUIMessageStream())
-			},
-			generateId: () => new ObjectId().toString(),
-
-			onFinish: ({ messages }) => {
-				saveMessages(
-					messages.map((uiMessage) => ({
-						id: uiMessage.id,
-						chatId,
-						parts: uiMessage.parts as JsonValue[],
-						role: uiMessage.role,
-						createdAt: new Date(),
-					}))
-				)
-			},
+		const result = await generateText({
+			model: openai(chat.chatbot.model),
+			messages: convertToModelMessages(messages),
+			system: chat.chatbot.initialPrompt,
+			tools,
 		})
 
-		return new Response(stream.pipeThrough(new JsonToSseTransformStream()))
+		const generatedMessage: Message = {
+			id: new ObjectId().toString(),
+			chatId,
+			role: 'assistant',
+			parts: [
+				{
+					type: 'text',
+					text: result.text,
+				},
+			],
+			createdAt: new Date(),
+		}
+
+		await saveMessages([generatedMessage])
+
+		return Response.json({
+			message: generatedMessage,
+		})
 	} catch (e) {
 		console.log(e)
 		return new ChatSDKError('forbidden:chat').toResponse()

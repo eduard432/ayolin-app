@@ -23,7 +23,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 		messages: initialMessages,
 		generateId: () => new ObjectId().toString(),
 		transport: new DefaultChatTransport({
-			api: `/api/v1/chat/${chatId}`,
+			api: `/api/v1/chat/${chatId}/stream`,
 			prepareSendMessagesRequest({ messages, id, body }) {
 				return {
 					body: {
