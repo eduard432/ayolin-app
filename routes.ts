@@ -21,6 +21,7 @@ export const authRoutes = [
     "/auth/reset",
     "/auth/new-password",
     "/api/v1/auth/callback/google",
+    "/api/v1/auth/callback/github",
 ]
 
 /**
