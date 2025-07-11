@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import { authOptions } from "@/lib/auth";
+import * as authModule from "@/auth" // Import everything from auth.ts
 
-const handler = NextAuth(authOptions)
-export { handler as GET, handler as POST}
+// Export GET and POST directly if they exist in authModule
+export const GET = authModule.GET;
+export const POST = authModule.POST;
