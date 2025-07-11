@@ -32,7 +32,7 @@ const Layout = async ({
 				<IntegrationsNavbar />
 			</section>
 			<section className="col-span-9">
-                <SearchBar placeholder="Search integrations..." className="h-10 mb-8 bg-white" />
+                <SearchBar placeholder="Search integrations..." className="h-10 mb-8" />
                 {children}
             </section>
 		</div>

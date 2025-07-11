@@ -29,6 +29,7 @@ const PruebaPage = () => {
 		<Chat
 			chatId={chatbot.defaultChat}
 			initialMessages={convertToUIMessages(initialMessages)}
+			className="mx-auto w-full md:w-2/3"
 		/>
 	) : (
 		<p>Loading...</p>

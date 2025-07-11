@@ -6,6 +6,7 @@ import {
 	convertToModelMessages,
 	createUIMessageStream,
 	JsonToSseTransformStream,
+	stepCountIs,
 	streamText,
 } from 'ai'
 import { NextRequest } from 'next/server'
@@ -14,6 +15,7 @@ import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.client'
 import { JsonValue } from '@prisma/client/runtime/library'
+import { AI_TOOL_INDEX } from '@/ai_tools'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -68,7 +70,15 @@ export async function POST(
 
 	try {
 		const chat = await getChatById(chatId)
-		const messages = [...convertToUIMessages(chat.messages), message]
+		const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
+
+		const tools = Object.fromEntries(
+			chat.chatbot.tools
+				.filter((tool) => AI_TOOL_INDEX[tool.keyName])
+				.map((tool) => {
+					return [tool.keyName, AI_TOOL_INDEX[tool.keyName]]
+				})
+		)
 
 		const stream = createUIMessageStream({
 			execute: ({ writer: dataStream }) => {
@@ -76,6 +86,8 @@ export async function POST(
 					model: openai(chat.chatbot.model),
 					messages: convertToModelMessages(messages),
 					system: chat.chatbot.initialPrompt,
+					tools,
+					stopWhen: stepCountIs(3)
 				})
 
 				result.consumeStream()
