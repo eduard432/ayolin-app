@@ -14,7 +14,7 @@ export const Social = () => {
 				className="items-center flex-1"
 				variant="outline"
 				type='button'
-				onClick={() => signIn('google', { callbackUrl: '/', redirect: true, basePath: '/api/auth' })}
+				onClick={() => signIn('google', { callbackUrl: '/', redirect: true, basePath: '/api/v1/auth' })}
 			>
 				<FcGoogle className="h-5 w-5" />
 			</Button>
@@ -24,7 +24,7 @@ export const Social = () => {
 				className="justify-center flex-1"
 				variant="outline"
 				type='button'
-				onClick={() => signIn('github', { callbackUrl: '/', redirect: true, basePath: '/api/auth' })}
+				onClick={() => signIn('github', { callbackUrl: '/', redirect: true, basePath: '/api/v1/auth' })}
 			>
 				<FaGithub className="h-5 w-5" />
 			</Button>

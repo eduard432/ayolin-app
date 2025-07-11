@@ -11,6 +11,8 @@ import type { JWT } from "next-auth/jwt"
 import type { NextAuthConfig } from "next-auth"
 
 export const authOptions: NextAuthConfig = {
+  trustHost: true,
+  basePath: "/api/v1/auth",
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",

@@ -39,7 +39,7 @@ export default function UserSettings() {
 
   const handleSubmit = () => {
     startTransition(async () => {
-      const res = await fetch("/api/upload-avatar", {
+      const res = await fetch("/api/v1/upload-avatar", {
         method: "POST", 
         headers:{"Content-Type" : "application/json"},
         body: JSON.stringify({image: imageUrl}),
