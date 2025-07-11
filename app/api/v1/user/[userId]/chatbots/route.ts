@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { validateWithSource } from '@/lib/api/validate'
 import { handleApiError } from '@/lib/api/handleError'
 import { getChatBotByUserId } from '@/data/chatbot.server'
-import { auth } from '@/auth'
+import { auth } from '@/lib/auth'
 
 // GET: Get all chatbots from user:
 // /api/v2/users/:userId/chatbots

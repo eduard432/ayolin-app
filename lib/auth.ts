@@ -9,6 +9,7 @@ import type { AdapterUser } from "next-auth/adapters"
 import type { Account, Session, User } from "next-auth"
 import type { JWT } from "next-auth/jwt"
 import type { NextAuthConfig } from "next-auth"
+import NextAuth from "next-auth"
 
 export const authOptions: NextAuthConfig = {
   trustHost: true,
@@ -99,4 +100,10 @@ export const authOptions: NextAuthConfig = {
   ...authConfig,
 }
 
+export const {
+  handlers,
+  auth,
+  signIn,
+  signOut,
+} = NextAuth(authOptions)
 
