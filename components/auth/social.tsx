@@ -13,7 +13,7 @@ export const Social = () => {
 				className="items-center flex-1"
 				variant="outline"
 				type="button"
-				onClick={() => signIn('google', {redirectTo: '/'})}
+				onClick={() => signIn('google')}
 			>
 				<FcGoogle className="h-5 w-5" />
 			</Button>
@@ -22,7 +22,7 @@ export const Social = () => {
 				className="justify-center flex-1"
 				variant="outline"
 				type="button"
-				onClick={() => signIn('github', {redirectTo: '/'})}
+				onClick={() => signIn('github')}
 			>
 				<FaGithub className="h-5 w-5" />
 			</Button>
