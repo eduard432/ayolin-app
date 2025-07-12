@@ -64,7 +64,7 @@ export const LoginForm = () => {
 					setShowTwoFactor(true)
 				}
 			})
-			.catch(() => setError("Algo salio mal"))
+			{/*.catch(() => setError("Algo salio mal"))*/}
 		})
 	}
 
