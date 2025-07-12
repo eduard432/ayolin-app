@@ -19,7 +19,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
 	if (!validatedFields.success) {
 		return {
-			error: 'Invalid fields!',
+			error: 'Campos inválidos',
 		}
 	}
 
@@ -28,13 +28,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 	const existingUser = await getUserByEmail(email)
 
 	if(!existingUser || !existingUser.email || !existingUser.password){
-		return { error: "El email no existe"}
+		return { error: "El correo no existe"}
 	}
 
 	if(!existingUser.emailVerified){
         const verificationToken = await generateVerificationToken(existingUser.email)
         await sendVerificationEmail(verificationToken.email, verificationToken.token)
-        return {success: "Email de confimacion enviado"}
+        return {success: "Correo de confirmación enviado"}
     }
 
 	if(existingUser.isTwoFactorEnabled && existingUser.email){
@@ -44,16 +44,16 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 			);
 
 			if(!twoFactorToken){
-				return{error: "Codigo invalido"}
+				return{error: "Código inválido"}
 			} 
 
 			if(twoFactorToken.token !== code){
-				return { error: "Codigo invalido"}
+				return { error: "Código inválido"}
 			}
 
 			const hasExpired = new Date(twoFactorToken.expires) < new Date();
 			if(hasExpired){
-				return { error: "El codigo ha caducado"}
+				return { error: "El código ha caducado"}
 			}
 
 			await db.twoFactorToken.delete({
@@ -96,12 +96,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 			switch (error.type) {
 				case 'CredentialsSignin':
 					return {
-						error: 'Credenciales invalidas!',
+						error: '¡Credenciales inválidas!',
 					}
 
 				default:
 					return {
-						error: 'Upss, Algo salio mal!',
+						error: '¡Ups! Algo salió mal',
 					}
 			}
 		}

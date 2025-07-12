@@ -156,7 +156,7 @@ export const LoginForm = () => {
 						type="submit"
 						className="w-full mt-4 h-11"
 					>
-						{showTwoFactor ? "Confirmar" : "Iniciar Session"}
+						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>
 				</form>
 			</Form>

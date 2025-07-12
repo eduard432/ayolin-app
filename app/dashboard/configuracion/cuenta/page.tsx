@@ -147,6 +147,16 @@ export default function UserSettings() {
           </CardContent>
         </Card>
 
+        <Card className="transition w-full">
+          <CardHeader>
+            <CardTitle className="text-foreground text-2xl ">Verificación en dos pasos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Label htmlFor="team-name" className="text-foreground font-black">¿Deseas habilitar la verificación en dos pasos?</Label>
+            <p className="text-sm text-muted-foreground mt-2 ">Se te enviará un correo cada que trates de iniciar sesión.</p>
+          </CardContent>
+        </Card>
+
       </div>
     </div>
   )
