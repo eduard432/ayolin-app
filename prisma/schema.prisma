@@ -28,13 +28,13 @@ model User {
   isTwoFactorEnabled      Boolean                @default(false)
   twoFactorConfirmation   TwoFactorConfirmation?
   twoFactorConfirmationId String?                @db.ObjectId
-  isPro     Boolean  @default(false) // ⚡ Campo para usuarios premium
-  role      String   @default("FREE") // o "PRO", si prefieres usar roles
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isPro                   Boolean                @default(false) // ⚡ Campo para usuarios premium
+  role                    String                 @default("FREE") // o "PRO", si prefieres usar roles
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
 
   // Extra fields for app:
-  chatbots                Chatbot[]
+  chatbots Chatbot[]
 }
 
 model Account {
@@ -98,35 +98,36 @@ type Usage {
 }
 
 model Chatbot {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  model       String
-  userId      String   @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  defaultChat String @db.ObjectId
-  chats       Chat[]
-  usage       Usage
-  totalMessages Int @default(0)
+  id            String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  model         String
+  userId        String                 @db.ObjectId
+  user          User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  defaultChat   String                 @db.ObjectId
+  chats         Chat[]
+  usage         Usage
+  totalMessages Int                    @default(0)
   initialPrompt String
-  tools    ToolFunctionInstance[]
+  tools         ToolFunctionInstance[]
+  channels      ChannelInstance[]
 }
 
 model Chat {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String?
-  chatbotId   String   @db.ObjectId
-  chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages    Message[]@relation("ChatMessages")
-  lastActive  DateTime @default(now())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String?
+  chatbotId  String    @db.ObjectId
+  chatbot    Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  messages   Message[] @relation("ChatMessages")
+  lastActive DateTime  @default(now())
 }
 
 model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  chatId    String   @db.ObjectId
-  chat      Chat     @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
-  role MessageRole
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  chatId    String      @db.ObjectId
+  chat      Chat        @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
+  role      MessageRole
   parts     Json[]
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
 }
 
 enum MessageRole {
@@ -136,7 +137,7 @@ enum MessageRole {
 }
 
 type ToolFunctionInstance {
-  keyName String
+  keyName  String
   settings Json
 }
 
@@ -146,8 +147,8 @@ enum ToolFunctionType {
 }
 
 model ToolFunction {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  keyName         String @unique
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  keyName         String           @unique
   name            String
   description     String?
   blogDescription String
@@ -157,4 +158,16 @@ model ToolFunction {
   tags            String[]
   apiUrl          String?
   type            ToolFunctionType
+}
+
+type ChannelInstance {
+  keyName  String
+  settings Json
+}
+
+model Channel {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  keyName    String @unique
+  name       String
+  dscription String
 }
