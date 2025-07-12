@@ -30,6 +30,7 @@ export const LoginForm = () => {
 	const [isPending, startTransition] = useTransition()
 	const searchParams = useSearchParams()
 	const errorSign = searchParams.get('error')
+	const [showTwoFactor, setShowTwoFactor] = useState(false)
 
 	if(errorSign != null){
     console.log(error)
@@ -49,9 +50,21 @@ export const LoginForm = () => {
 
 		startTransition(() => {
 			login(values).then((data) => {
-				setError(data?.error)
-				setSucces(data?.success)
+				if(data?.error){
+					form.reset();
+					setError(data.error)
+				}
+
+				if(data?.success){
+					form.reset();
+					setSucces(data.success)
+				}
+
+				if(data?.twoFactor){
+					setShowTwoFactor(true)
+				}
 			})
+			.catch(() => setError("Algo salio mal"))
 		})
 	}
 
@@ -65,52 +78,76 @@ export const LoginForm = () => {
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 					<div className="space-y-4">
-						<FormField
-							control={form.control}
-							name="email"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Correo electrónico</FormLabel>
-									<FormControl>
-										<Input
-											disabled={isPending}
-											{...field}
-											placeholder="ejem@gmail.com"
-											type="email"
-										/>
-									</FormControl>
-									<FormMessage className="text-red-500 mb-2" />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="password"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className="mt-4">Contraseña</FormLabel>
-									<FormControl>
-										<Input
-											disabled={isPending}
-											{...field}
-											placeholder="*********"
-											type="password"
-										/>
-									</FormControl>
-									<FormMessage className="text-red-500 mb-2" />
-									<Button
-										size="sm"
-										variant="link"
-										asChild
-										className='font-normal text-sm flex justify-start pt'
-									>
-										<Link href="/auth/reset">
-											Olvidaste tu contraseña? 
-										</Link>
-									</Button>
-								</FormItem>
-							)}
-						/>
+						{showTwoFactor && (
+
+							<FormField
+								control={form.control}
+								name="code"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Codigo 2FA</FormLabel>
+										<FormControl>
+											<Input
+												disabled={isPending}
+												{...field}
+												placeholder="123456"
+											/>
+										</FormControl>
+										<FormMessage className="text-red-500 mb-2" />
+									</FormItem>
+								)}
+							/>
+						)}
+						{!showTwoFactor && (
+							<>
+							<FormField
+								control={form.control}
+								name="email"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Correo electrónico</FormLabel>
+										<FormControl>
+											<Input
+												disabled={isPending}
+												{...field}
+												placeholder="ejem@gmail.com"
+												type="email"
+											/>
+										</FormControl>
+										<FormMessage className="text-red-500 mb-2" />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="password"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="mt-4">Contraseña</FormLabel>
+										<FormControl>
+											<Input
+												disabled={isPending}
+												{...field}
+												placeholder="*********"
+												type="password"
+											/>
+										</FormControl>
+										<FormMessage className="text-red-500 mb-2" />
+										<Button
+											size="sm"
+											variant="link"
+											asChild
+											className='font-normal text-sm flex justify-start pt'
+										>
+											<Link href="/auth/reset">
+												Olvidaste tu contraseña? 
+											</Link>
+										</Button>
+									</FormItem>
+								)}
+							/>
+							</>
+						)}
 					</div>
 					<FormError message={error} />
 					<FormSucces message={succes} />
@@ -119,7 +156,7 @@ export const LoginForm = () => {
 						type="submit"
 						className="w-full mt-4 h-11"
 					>
-						Inicia sesión
+						{showTwoFactor ? "Confirmar" : "Iniciar Session"}
 					</Button>
 				</form>
 			</Form>
