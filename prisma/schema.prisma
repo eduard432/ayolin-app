@@ -119,6 +119,7 @@ model Chat {
   chatbot    Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
   messages   Message[] @relation("ChatMessages")
   lastActive DateTime  @default(now())
+  channelId  String?
 }
 
 model Message {
