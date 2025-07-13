@@ -41,6 +41,7 @@
     "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "grammy": "^1.37.0",
     "lucide-react": "^0.518.0",
     "next": "15.3.4",
     "next-auth": "^5.0.0-beta.29",

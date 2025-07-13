@@ -169,5 +169,5 @@ model Channel {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   keyName    String @unique
   name       String
-  dscription String
+  description String
 }
