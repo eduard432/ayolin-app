@@ -58,8 +58,6 @@ export async function POST(
 
     const { message } = requestBody
 
-    console.log({message: JSON.stringify(message, null, 2)})
-
     await saveMessages([
         {
             chatId,
