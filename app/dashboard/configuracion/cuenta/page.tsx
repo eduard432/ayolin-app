@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useTransition, useEffect } from "react"
@@ -8,14 +9,37 @@ import { Mail } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 
 export default function UserSettings() {
   const { data: session, update} = useSession()
   const [ imageUrl, setImageUrl] = useState(session?.user?.image || "")
   const [isPending, startTransition] = useTransition()
   const [userInfo, setUserInfo] = useState<{email: string; role: string} | null>(null)
+  const [enabled, setEnabled] = useState(false)
+
+  const handleToggle = async (checked: boolean) => {
+    setEnabled(checked)
+
+    try{
+      const res = await fetch("/api/v1/2fa",{
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({enabled: checked})
+      })
+
+      if(!res.ok) throw new Error("Error en el servidor")
+
+      const data = await res.json()
+      toast.success(data.message)
+    
+    } catch (err){
+      toast.error("No se pudo actualizar la configuración")
+      setEnabled(!checked)
+    }
+  }
 
   useEffect(() => {
     if(!session?.user?.email) return 
@@ -145,6 +169,32 @@ export default function UserSettings() {
               {userInfo?.role || <span className="italic text-muted-foreground">Cargando...</span>}
             </p>
           </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle className="text-foreground text-2xl ">Verificación en dos pasos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-start justify-between">
+              <div className="space-y-1">
+                <Label htmlFor="team-name" className="text-foreground font-black">¿Deseas habilitar la verificación en dos pasos?</Label>
+                <p className="text-sm text-muted-foreground mt-2 ">Se te enviará un correo cada que trates de iniciar sesión.</p>
+              </div>
+              <Switch
+                checked={enabled}
+                onCheckedChange={handleToggle}
+                className="ml-4 mt-1"
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="pt-2">
+            {enabled ? (
+              <p className="text-sm text-green-600 font-medium">Verificación habilitada</p>
+            ) : (
+              <p className="text-sm text-destructive font-medium">Verificación desabilitada</p>
+            )}
+          </CardFooter>
         </Card>
 
       </div>

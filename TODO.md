@@ -1,7 +1,7 @@
 ## FALTA
 
-- [ ] Auth con Google y GitHub
-- [ ] 2FA
+- [ ✅ ] Auth con Google y GitHub
+- [ ✅ ] 2FA
 - [ ] Quitar la dummy info de las paginas
 - [ ] Template's para los Chatbots
 - [ ] Configurar WhatsApp y Telegram
