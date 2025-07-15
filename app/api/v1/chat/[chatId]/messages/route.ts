@@ -10,7 +10,7 @@ const getMessagesParamsSchema = z.object({
 
 export async function GET(
 	req: NextRequest,
-	{ params: paramsPromise }: { params: { chatId: string } }
+	{ params: paramsPromise }: { params: Promise<{ chatId: string }> }
 ) {
 	try {
 		const params = await paramsPromise
