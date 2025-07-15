@@ -14,10 +14,10 @@ export function validate<T extends ZodTypeAny>(
 
 type Source = 'body' | 'query' | 'params';
 
-export class ZodErrorWithSource extends ZodError<any> {
+export class ZodErrorWithSource extends ZodError<unknown> {
   source: Source;
 
-  constructor(error: ZodError<any>, source: Source) {
+  constructor(error: ZodError<unknown>, source: Source) {
     super(error.issues);
     this.source = source;
   }

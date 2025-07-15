@@ -1,15 +1,10 @@
-import { z } from 'zod'
-import { NextRequest, NextResponse } from 'next/server'
-import { validateWithSource } from '@/lib/api/validate'
+import { NextResponse } from 'next/server'
 import { handleApiError } from '@/lib/api/handleError'
 import { getChatBotByUserId } from '@/data/chatbot.server'
 import { auth } from '@/lib/auth'
 
 // GET: Get all chatbots from user:
 // /api/v2/users/:userId/chatbots
-const paramsSchema = z.object({
-	userId: z.string(),
-})
 
 export const GET = auth(async (request) => {
 	try {
