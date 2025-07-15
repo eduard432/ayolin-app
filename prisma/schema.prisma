@@ -119,6 +119,7 @@ model Chat {
   chatbot    Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
   messages   Message[] @relation("ChatMessages")
   lastActive DateTime  @default(now())
+  channelId  String?
 }
 
 model Message {
@@ -169,5 +170,7 @@ model Channel {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   keyName    String @unique
   name       String
-  dscription String
+  blogDescription String
+  imageUrl   String
+  tags       String[]
 }
