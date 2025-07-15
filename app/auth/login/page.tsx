@@ -1,3 +1,5 @@
+"use client"
+
 import { LoginForm } from "@/components/auth/login-form"
 import { SessionProvider } from "next-auth/react"
 

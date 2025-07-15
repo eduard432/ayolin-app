@@ -41,7 +41,7 @@ const bodySchema = z.object({
 
 export async function POST(
     req: NextRequest,
-    { params }: { params: { chatId: string } }
+    { params }: { params: Promise<{ chatId: string }> }
 ) {
     let requestBody: z.infer<typeof bodySchema>
     let chatId: string
