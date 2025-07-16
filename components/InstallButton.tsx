@@ -1,6 +1,6 @@
 'use client'
 
-import { installChannel, installToolFunction } from '@/actions/integrations'
+import { installToolFunction } from '@/actions/integrations'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useParams } from 'next/navigation'

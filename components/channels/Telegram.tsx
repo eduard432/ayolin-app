@@ -3,7 +3,6 @@
 import {
 	Card,
 	CardContent,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
@@ -47,7 +46,7 @@ export const TelegramConfigPage = ({ chatbotId  }: {chatbotId:string}) => {
 				const result = await createChannel({...data, chatbotId, keyName: 'telegram'})
 				return result
 			},
-			onError: (err, newTodo, context) => {
+			onError: () => {
 				toast.error(`Error adding chatbot`)
 			},
 			onSuccess: () => {
