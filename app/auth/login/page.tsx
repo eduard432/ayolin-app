@@ -1,14 +1,8 @@
-"use client"
+import { LoginForm } from '@/components/auth/login-form'
 
-import { LoginForm } from "@/components/auth/login-form"
-import { SessionProvider } from "next-auth/react"
-
-const LoginPage = () => {
-  return(
-    <SessionProvider basePath="/api/v1/auth">
-      <LoginForm/>
-    </SessionProvider>
-  )
+const LoginPage = async ({ searchParams }: {searchParams: Promise<{error: string}>}) => {
+  const error = (await searchParams).error
+	return <LoginForm error={error} />
 }
 
 export default LoginPage
