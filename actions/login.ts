@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 'use server'
 
 import { signIn } from '@/lib/auth'

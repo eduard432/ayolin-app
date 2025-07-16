@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React from 'react'
@@ -25,7 +24,7 @@ import {
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { dashboardFeatures, getChatbotFeatures, getAllowedNavbarRoutes } from '@/lib/navbarData'
+import { getAllowedNavbarRoutes } from '@/lib/navbarData'
 
 export default function Navbar() {
 	const { data: session } = useSession();
@@ -33,10 +32,6 @@ export default function Navbar() {
 	const params = useParams()
 	const chatbotId = params.chatbotId as string | undefined
 	const router = useRouter()
-
-	const features = chatbotId
-			? getChatbotFeatures(chatbotId)
-			: dashboardFeatures
 
 	const allowedNavbarRoutes = getAllowedNavbarRoutes(chatbotId)
 	const showNavbar = allowedNavbarRoutes.includes(pathname)

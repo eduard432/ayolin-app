@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 // components/PayWithStripe.tsx
 import { Button, buttonVariants } from "@/components/ui/button"
 import { VariantProps } from "class-variance-authority"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 
 export function PayWithStripe( {...props } : React.ComponentProps<"button"> & VariantProps<typeof buttonVariants> ) {
   const { data: session, status } = useSession()
@@ -14,9 +14,9 @@ export function PayWithStripe( {...props } : React.ComponentProps<"button"> & Va
 
   return (
     <Button {...props} asChild>
-      <a href="/dashboard/planes" rel="noopener noreferrer">
+      <Link href="/dashboard/planes" rel="noopener noreferrer">
         Únete
-      </a>
+      </Link>
     </Button>
 
   )

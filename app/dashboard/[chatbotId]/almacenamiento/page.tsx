@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { 
@@ -17,8 +16,6 @@ export default function AlmacenamientoPage() {
     const params = useParams()
     const chatbotId = params?.chatbotId as string
     const { data } = useChatbot(chatbotId)
-    const formatName = (id: string) => 
-        id.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
 
     return(
         <div className='space-y-6'>

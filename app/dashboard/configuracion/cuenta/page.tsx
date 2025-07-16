@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useTransition, useEffect } from "react"
@@ -35,7 +34,7 @@ export default function UserSettings() {
       const data = await res.json()
       toast.success(data.message)
     
-    } catch (err){
+    } catch {
       toast.error("No se pudo actualizar la configuración")
       setEnabled(!checked)
     }
