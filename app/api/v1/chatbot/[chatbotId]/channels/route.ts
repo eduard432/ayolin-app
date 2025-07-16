@@ -61,7 +61,7 @@ export const POST = auth(
 				case 'telegram':
 					try {
 						const bot = new Bot(settings.token)
-						const hostname = process.env.HOSTNAME_URL || `https://${process.env.VERCEL_URL}`
+						const hostname = process.env.DEV_VERCEL_URL || `https://${process.env.VERCEL_URL}`
 						const endpoint = `${hostname}/api/v1/webhook/telegram/${chatbot.id}`
 						await bot.api.setWebhook(endpoint)
 					} catch (error) {
