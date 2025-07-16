@@ -1,3 +1,4 @@
+import { InstallToolButton } from '@/components/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -6,7 +7,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-import InstallButton from './InstallButton'
 
 const Page = async ({
 	params,
@@ -24,7 +24,7 @@ const Page = async ({
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4 capitalize">
 					{toolFunction.name}
 				</h4>
-				<InstallButton />
+				<InstallToolButton />
 			</section>
 			<section className="col-span-3 space-y-6">
 				<AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
