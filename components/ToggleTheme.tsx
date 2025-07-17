@@ -12,17 +12,17 @@ const ToggleTheme = () => {
 
 	return (
 		<ToggleGroup
-			className="border rounded-full text-xs mt-4 space-x-2 bg-background text-foreground border-foreground"
+			className="border rounded-full text-xs space-x-2 bg-background text-foreground border-border"
 			type="single"
 			onValueChange={(value) => setTheme(value)}
 		>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3 rounded-full', theme == "system" && "border ")} value="system">
+			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "system" && "")} value="system">
 				<MonitorCog />
 			</ToggleGroupItem>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3 rounded-full', theme == "light" && "border ")} value="light">
+			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "light" && "")} value="light">
 				<Sun />
 			</ToggleGroupItem>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3 rounded-full', theme == "dark" && "border ")} value="dark">
+			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "dark" && "")} value="dark">
 				<MoonStar />
 			</ToggleGroupItem>
 		</ToggleGroup>
