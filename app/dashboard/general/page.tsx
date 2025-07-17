@@ -19,18 +19,17 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { PayWithStripe } from '@/components/stripe-button'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { CircularProgressBar } from '@/components/ui/circular-progress-bar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { ChevronDown, Ellipsis, LayoutGrid, List } from 'lucide-react'
+import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useChatbots } from '@/data/chatbot.client'
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const usageMetrics = [
 	{
@@ -70,18 +69,17 @@ const usageMetrics = [
 	},
 ]
 
-
 const DashboardOverview = () => {
 	const [layout, setLayout] = useState<'grid' | 'list'>('list')
 	const router = useRouter()
 	const { data: session } = useSession()
 
 	const { data, isLoading } = useChatbots(session?.user?.id || '')
+	const isMobile = useIsMobile()
 
 	return (
-		// TODO: mover este padding al layout
-		<div className=" grid grid-cols-12 gap-x-8 gap-y-4">
-			<section className="flex items-center gap-x-4 col-span-12">
+		<div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-4">
+			<section className="flex items-center gap-x-4 col-span-full">
 				<SearchBar className="h-full bg-background rounded-md" />
 				<ToggleGroup
 					value={layout}
@@ -104,69 +102,11 @@ const DashboardOverview = () => {
 						<List className="" />
 					</ToggleGroupItem>
 				</ToggleGroup>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button className="h-full cursor-pointer bg-background text-foreground hover:bg-mute border-white">
-							Add New... <ChevronDown />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<Link href="/dashboard/nuevo">Chatbot</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem>Billing</DropdownMenuItem>
-						<DropdownMenuItem>Team</DropdownMenuItem>
-						<DropdownMenuItem>Subscription</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<Button>{isMobile ? <Plus /> : 'Add New'}</Button>
 			</section>
-			<section className="col-span-4">
+			<section className="col-span-full md:col-span-8">
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					General
-				</h4>
-				<Card className="w-full rounded-md bg-card text-card-foreground">
-					<CardHeader>
-						<CardTitle>Last 30 days</CardTitle>
-						<CardDescription>Updated 13m ago</CardDescription>
-						<CardAction>
-							<PayWithStripe className="text-sm bg-neutral-300 text-black " />
-						</CardAction>
-					</CardHeader>
-					<CardContent>
-						<Table>
-							<TableBody className="divide-none">
-								{usageMetrics.map((metric, index) => (
-									<TableRow
-										className={cn(index % 2 == 0 ? "bg-muted" : "bg-background", "hover:bg-accent transition-colors")}
-										key={metric.label}
-									>
-										<TableCell className="flex justify-between text-sm">
-											<div className="flex gap-x-2">
-												<CircularProgressBar
-													className="w-6 h-6"
-													min={0}
-													max={100}
-													value={Math.random() * 10}
-												/>
-												<p className="">{metric.label}</p>
-											</div>
-											<p className="font-mono text-muted-foreground text-xs">
-												{metric.used} / {metric.limit}
-											</p>
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</CardContent>
-				</Card>
-			</section>
-
-			<section className="col-span-8">
-				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					Proyectos
+					Chatbots
 				</h4>
 
 				<div
@@ -224,6 +164,43 @@ const DashboardOverview = () => {
 							</Card>
 						))}
 				</div>
+			</section>
+			<section className="col-span-full md:col-span-4">
+				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+					Uso
+				</h4>
+				<Card className="w-full rounded-md bg-card text-card-foreground">
+					<CardHeader>
+						<CardTitle>Last 30 days</CardTitle>
+						<CardDescription>Updated 13m ago</CardDescription>
+						<CardAction>
+							<PayWithStripe className="text-sm" />
+						</CardAction>
+					</CardHeader>
+					<CardContent>
+						{usageMetrics.map((metric) => (
+							<article
+								className="hover:bg-accent transition-colors odd:bg-muted even:bg-card rounded-md py-1 px-2"
+								key={metric.label}
+							>
+								<div className="flex justify-between text-sm items-center rounded-md">
+									<div className="flex gap-x-2 items-center">
+										<CircularProgressBar
+											className="w-4 h-4"
+											min={0}
+											max={100}
+											value={Math.random() * 10}
+										/>
+										<p className="font-semibold">{metric.label}</p>
+									</div>
+									<p className="font-mono text-muted-foreground text-xs">
+										{metric.used} / {metric.limit}
+									</p>
+								</div>
+							</article>
+						))}
+					</CardContent>
+				</Card>
 			</section>
 		</div>
 	)

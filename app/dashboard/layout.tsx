@@ -21,7 +21,7 @@ const layout = async ({
 					<Navbar />
 					<NavbarDashboard />
 				</div>
-				<main className="pt-8 px-10 pb-16 flex-1 flex flex-col">
+				<main className="p-1 md:p-8 pb-16 pt-8 flex-1 flex flex-col mx-auto w-11/12">
 					{children}
 				</main>
 				<FooterDashboard />
