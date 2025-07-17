@@ -14,7 +14,7 @@
 - [ ] Hacer responsive todo
 - [ ] Chatbot en la LandingPage
 - [ ] Agregar stat's a la LandigPage
-- [ ] SEO de la LandingPage??? (No se que sea esto jijijiji)
+- [ ] SEO de la LandingPage
 - [ ] Agregar Tabs Animadas para el navbar del dashboard componente a usar: [Componente](https://github.com/mehrdadrafiee/animated-tabs?tab=readme-ov-file)
 
 ## Progress
