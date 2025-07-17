@@ -37,7 +37,7 @@ export default function NavbarDashboard() {
 	return (
 		<nav
 			className={cn(
-				'bg-background px-6 border-b border-neutral-300 pb-2 pt-2',
+				'bg-background px-6 border-b border-border pb-2 pt-2 overflow-x-auto flex flex-row w-full',
 				!showNavbar && 'hidden'
 			)}
 		>
