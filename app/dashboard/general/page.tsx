@@ -30,6 +30,7 @@ import { useChatbots } from '@/data/chatbot.client'
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
+import Link from 'next/link'
 
 const usageMetrics = [
 	{
@@ -78,31 +79,37 @@ const DashboardOverview = () => {
 	const isMobile = useIsMobile()
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-4">
+		<div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-2">
 			<section className="flex items-center gap-x-4 col-span-full">
 				<SearchBar className="h-full bg-background rounded-md" />
-				<ToggleGroup
-					value={layout}
-					onValueChange={(value) => setLayout(value as 'grid' | 'list')}
-					type="single"
-					className="border h-full bg-background"
-				>
-					<ToggleGroupItem
-						value="grid"
-						aria-label="Toggle grid"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
+				{!isMobile && (
+					<ToggleGroup
+						value={layout}
+						onValueChange={(value) => setLayout(value as 'grid' | 'list')}
+						type="single"
+						className="border h-full bg-background"
 					>
-						<LayoutGrid className="" />
-					</ToggleGroupItem>
-					<ToggleGroupItem
-						value="list"
-						aria-label="Toggle list"
-						className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
-					>
-						<List className="" />
-					</ToggleGroupItem>
-				</ToggleGroup>
-				<Button>{isMobile ? <Plus /> : 'Add New'}</Button>
+						<ToggleGroupItem
+							value="grid"
+							aria-label="Toggle grid"
+							className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
+						>
+							<LayoutGrid className="" />
+						</ToggleGroupItem>
+						<ToggleGroupItem
+							value="list"
+							aria-label="Toggle list"
+							className="rounded-md m-1 p-4 w-2 h-2 cursor-pointer bg-background"
+						>
+							<List className="" />
+						</ToggleGroupItem>
+					</ToggleGroup>
+				)}
+				<Button size="icon" asChild>
+					<Link href="/dashboard/nuevo">
+						{isMobile ? <Plus /> : 'Add New'}
+					</Link>
+				</Button>
 			</section>
 			<section className="col-span-full md:col-span-8">
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
