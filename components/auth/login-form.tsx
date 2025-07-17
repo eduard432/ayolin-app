@@ -9,7 +9,6 @@ import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
 import { FormError } from '@/components/form-error'
 import { FormSucces } from '@/components/form-succes'
-import { useSearchParams } from 'next/navigation'
 import Link from "next/link"
 import {
 	Form,
@@ -22,12 +21,10 @@ import {
 import { Button } from '../ui/button'
 import { login } from '@/actions/login'
 
-export const LoginForm = () => {
+export const LoginForm = ({error: errorSign}: {error: string}) => {
 	const [error, setError] = useState<string | undefined>('')
 	const [succes, setSucces] = useState<string | undefined>('')
 	const [isPending, startTransition] = useTransition()
-	const searchParams = useSearchParams()
-	const errorSign = searchParams.get('error')
 	const [showTwoFactor, setShowTwoFactor] = useState(false)
 
 	if(errorSign != null){

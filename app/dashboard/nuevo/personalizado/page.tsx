@@ -139,7 +139,7 @@ const Page = () => {
 										</FormControl>
 										<SelectContent>
 											{modelPrices.map((model) => (
-												<SelectItem key={model.name} value={model.name}>
+												<SelectItem disabled={model.name !== "gpt-4.1-nano"} key={model.name} value={model.name}>
 													{model.name}
 												</SelectItem>
 											))}

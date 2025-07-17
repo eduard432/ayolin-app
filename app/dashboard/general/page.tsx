@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { SearchBar } from '@/components/search-bar'
@@ -71,61 +70,11 @@ const usageMetrics = [
 	},
 ]
 
-const proyectos = [
-	{
-		nombre: 'repositorio-inclusion',
-		url: 'https://repositorio-inclusion.vercel.app',
-		descripcion: 'Update page.tsx',
-		fecha: 'Mar 21',
-		rama: 'master',
-		repo: 'eduard432/repositorio-inclusion',
-	},
-	{
-		nombre: 'nextjs-ai-chatbot',
-		url: 'https://nextjs-ai-chatbot-lyart-six-41.vercel.app',
-		descripcion: 'No Production Deployment',
-		fecha: '22h ago',
-		rama: 'master',
-		repo: 'eduard432/nextjs-ai-chatbot',
-	},
-	{
-		nombre: 'nextjs-dashboard-tutorial',
-		url: 'https://nextjs-dashboard-tutorial-two-ze.vercel.app',
-		descripcion: 'Initial app',
-		fecha: '3/28/24',
-		rama: 'master',
-		repo: 'eduard432/nextjs-dashboard-tutorial',
-	},
-	{
-		nombre: 'dictado-greco',
-		url: 'https://dictado-greco.vercel.app',
-		descripcion: 'Bug Fix - solved the min-max error. Added Favicon',
-		fecha: '3/6/23',
-		rama: 'master',
-		repo: 'eduard432/dictado-greco',
-	},
-	{
-		nombre: 'fireship-server-actions',
-		url: 'https://fireship-server-actions.vercel.app',
-		descripcion: 'Connect Git Repository',
-		fecha: 'Jun 6',
-		rama: null,
-		repo: null,
-	},
-	{
-		nombre: 'next-commerce-shopify',
-		url: 'https://next-commerce-shopify-nine.vercel.app',
-		descripcion: 'Initial commit',
-		fecha: '5/31/22',
-		rama: 'master',
-		repo: 'eduard432/next-commerce-shopify',
-	},
-]
 
 const DashboardOverview = () => {
 	const [layout, setLayout] = useState<'grid' | 'list'>('list')
 	const router = useRouter()
-	const { data: session, status } = useSession()
+	const { data: session } = useSession()
 
 	const { data, isLoading } = useChatbots(session?.user?.id || '')
 

@@ -1,24 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { useChatbot } from '@/data/chatbot.client'
 
 export default function EstadisticasPage() {
 	const params = useParams()
-  	const router = useRouter()
 	const chatbotId = params?.chatbotId as string
 
 	const { data } = useChatbot(chatbotId)
-
-
-	const formatName = (id: string) =>
-		id.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
 
 	return (
 		<div className="space-y-6">

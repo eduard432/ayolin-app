@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -33,6 +34,7 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@stripe/stripe-js": "^7.4.0",
     "@tanstack/react-query": "^5.81.5",
+    "@vercel/analytics": "^1.5.0",
     "ai": "^5.0.0-beta.7",
     "aos": "^2.3.4",
     "bcryptjs": "^3.0.2",
@@ -46,6 +48,7 @@
     "next": "15.3.4",
     "next-auth": "^5.0.0-beta.29",
     "next-themes": "^0.4.6",
+    "prisma": "^6.12.0",
     "react": "^19.0.0",
     "react-day-picker": "^9.7.0",
     "react-dom": "^19.0.0",
@@ -74,7 +77,6 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "postcss": "^8.5.6",
-    "prisma": "^6.10.1",
     "tailwindcss": "^4.1.10",
     "tw-animate-css": "^1.3.4"
   }

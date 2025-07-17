@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import React from "react";
@@ -14,8 +13,6 @@ import {
   FaGlobe,
 } from "react-icons/fa6";
 
-import Link from "next/link";
-import Image from "next/image";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";

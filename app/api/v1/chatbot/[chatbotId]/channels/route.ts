@@ -61,7 +61,8 @@ export const POST = auth(
 				case 'telegram':
 					try {
 						const bot = new Bot(settings.token)
-						const endpoint = `${process.env.HOSTNAME_URL || "https://"+process.env.VERCEL_URL}/api/v1/webhook/telegram/${chatbot.id}`
+						const hostname = process.env.DEV_VERCEL_URL || `https://${process.env.VERCEL_URL}`
+						const endpoint = `${hostname}/api/v1/webhook/telegram/${chatbot.id}`
 						await bot.api.setWebhook(endpoint)
 					} catch (error) {
 						console.log(error)
@@ -98,6 +99,11 @@ export const POST = auth(
 					{ message: 'Error adding channel' },
 					{ status: 500 }
 				)
+
+			return NextResponse.json(
+				{ message: 'Channel added successfully', chatbot: chatbotUpdated },
+				{ status: 200 }
+			)
 		} catch (error) {
 			return handleApiError(error)
 		}
