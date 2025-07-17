@@ -256,7 +256,7 @@ export default function Home() {
               "Actualizaciones Pro",
             ]}
             cta="Suscribirme"
-            link="https://buy.stripe.com/test_bJe3cu4asdmfapm9tcejK00"
+            link=""
           />
 
         </div>
