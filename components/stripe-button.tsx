@@ -14,7 +14,7 @@ export function PayWithStripe( {...props } : React.ComponentProps<"button"> & Va
 
   return (
     <Button {...props} asChild>
-      <Link href="/dashboard/planes" rel="noopener noreferrer">
+      <Link href="/bohayaun" rel="noopener noreferrer">
         Únete
       </Link>
     </Button>
