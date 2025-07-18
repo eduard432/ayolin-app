@@ -26,7 +26,7 @@ const IntegrationsPage = () => {
 	const params = useParams()
 
 	return (
-		<div className="grid grid-cols-3 gap-6">
+		<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 			{data &&
 				data.map((integration) => (
 					<Card
@@ -57,7 +57,7 @@ const IntegrationsPage = () => {
 								!channels.includes(integration.keyName) && 'cursor-pointer'
 							)}
 							onClick={() =>
-								channels.includes(integration.keyName) &&
+								!channels.includes(integration.keyName) &&
 								router.push(
 									`/dashboard/${params.chatbotId}/integraciones/${integration.keyName}`
 								)

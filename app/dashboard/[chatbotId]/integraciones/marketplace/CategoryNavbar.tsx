@@ -6,8 +6,14 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { useIsMobile } from '@/hooks/use-mobile'
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 
-const CategoryNavbar = () => {
+const CategoryButtons = () => {
 	const params = useParams()
 
 	return (
@@ -32,8 +38,7 @@ const CategoryNavbar = () => {
 						key={category}
 						className={cn(
 							'justify-start font-normal rounded-full',
-							params.category == category &&
-								'bg-primary-foreground font-bold'
+							params.category == category && 'bg-primary-foreground font-bold'
 						)}
 						variant="ghost"
 						asChild
@@ -47,6 +52,29 @@ const CategoryNavbar = () => {
 					</Button>
 				)
 			})}
+		</>
+	)
+}
+
+const CategoryNavbar = () => {
+	const isMobile = useIsMobile()
+
+	return (
+		<>
+			{isMobile ? (
+				<Collapsible>
+					<CollapsibleTrigger>
+					<Button variant="ghost" >
+						Categorias
+					</Button>
+					</CollapsibleTrigger>
+					<CollapsibleContent>
+						<CategoryButtons />
+					</CollapsibleContent>
+				</Collapsible>
+			) : (
+				<CategoryButtons />
+			)}
 		</>
 	)
 }
