@@ -59,8 +59,8 @@ const IntegrationsPage = () => {
 	
 
 	return (
-		<div className="grid grid-cols-12 gap-x-8 gap-y-4">
-			<section className="flex justify-between col-span-12">
+		<div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4">
+			<section className="flex flex-col md:flex-row md:justify-between col-span-full">
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Integraciones
 				</h4>
@@ -68,7 +68,7 @@ const IntegrationsPage = () => {
 					<Link href={`/dashboard/${params.chatbotId}/integraciones/marketplace`} >Browse Marketplace</Link>
 				</Button>
 			</section>
-			<section className="col-span-8">
+			<section className="col-span-full md:col-span-8">
 				{integrations.map((integration) => (
 					<Card
 						className="first:rounded-t-md last:rounded-b-md rounded-none py-4 cursor-pointer"
@@ -102,7 +102,7 @@ const IntegrationsPage = () => {
 					</Card>
 				))}
 			</section>
-			<section className="col-span-4">
+			<section className="col-span-full md:col-span-4">
 				<Card className="py-10 px-4">
 					<CardHeader>
 						<div className="flex justify-center mb-4">
