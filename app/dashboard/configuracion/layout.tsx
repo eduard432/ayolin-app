@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
-import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 const links = [
 	{ name: 'Cuenta', href: '/dashboard/configuracion/cuenta' },
@@ -14,24 +14,19 @@ export default function ConfiguracionLayout({
 	children: ReactNode
 }) {
 	return (
-		<div className="min-h-screen text-foreground flex border-r">
-			<Card className="w-[260px] p-6 border-r transition px-2">
+		<div className="min-h-screen text-foreground grid grid-cols-1 md:grid-cols-12 gap-8">
+			<Card className="col-span-full md:col-span-3 bg-background">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<nav className="">
-						<ul className="space-y-2">
+						<ul className="">
 							{links.map((link) => (
 								<li key={link.href}>
-									<Link
-										href={link.href}
-										className={cn(
-											'block px-3 py-2 rounded-md text-1xl hover:text-sky-600'
-										)}
-									>
-										{link.name}
-									</Link>
+									<Button variant="link" asChild >
+										<Link href={link.href}>{link.name}</Link>
+									</Button>
 								</li>
 							))}
 						</ul>
@@ -39,9 +34,7 @@ export default function ConfiguracionLayout({
 				</CardContent>
 			</Card>
 
-			<main className="flex-1 px-10 overflow-auto bg-background">
-				{children}
-			</main>
+			<main className="col-span-full md:col-span-9">{children}</main>
 		</div>
 	)
 }

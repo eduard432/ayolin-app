@@ -1,10 +1,10 @@
 export const dashboardFeatures = [
   { name: 'General', href: '/dashboard/general' },
-  { name: 'Uso', href: '/dashboard/uso' },
-  { name: 'Almacenamiento', href: '/dashboard/almacenamiento' },
-  { name: 'Soporte', href: '/dashboard/soporte' },
+  // { name: 'Uso', href: '/dashboard/uso' },
+  // { name: 'Almacenamiento', href: '/dashboard/almacenamiento' },
+  // { name: 'Soporte', href: '/dashboard/soporte' },
   { name: 'Configuración', href: '/dashboard/configuracion/cuenta' },
-  { name: 'Pro', href: '/dashboard/planes' },
+  // { name: 'Pro', href: '/dashboard/planes' },
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
