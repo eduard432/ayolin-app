@@ -105,7 +105,7 @@ const DashboardOverview = () => {
 						</ToggleGroupItem>
 					</ToggleGroup>
 				)}
-				<Button size="icon" asChild>
+				<Button size={isMobile ? "icon" : "default"} asChild>
 					<Link href="/dashboard/nuevo">
 						{isMobile ? <Plus /> : 'Add New'}
 					</Link>
