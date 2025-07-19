@@ -24,7 +24,7 @@ const Page = async ({
 		<div className="grid grid-cols-1 md:grid-cols-12 mx-auto w-full md:w-9/12 gap-x-16 gap-y-4 pb-8">
 			<section className="col-span-full">
 				<Link
-					className="flex items-center gap-x-2 text-muted-foreground"
+					className="flex items-center gap-x-2 text-muted-foreground text-sm"
 					href={`/dashboard/${chatbotId}/integraciones/marketplace`}
 				>
 					<ArrowLeft className="h-5 w-5" /> Regresar a marketplace
