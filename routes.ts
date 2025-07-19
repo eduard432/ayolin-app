@@ -8,7 +8,7 @@ export const publicRoutes = [
     "/auth/new-verification",
     "/api/webhooks/stripe",
     "/condiciones-servicios",
-	"/política-privacidad",
+	"/politica-privacidad",
 ]
 
 /**
