@@ -5,6 +5,12 @@ import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import FooterDashboard from '@/components/FooterDashboard'
 import DashboardProvider from '@/components/provider/DashboardProvider'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: "Dashboard",
+	description: "Dashboard App"
+}
 
 const layout = async ({
 	children,

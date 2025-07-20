@@ -2,11 +2,17 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Metadata } from 'next'
 
 const links = [
 	{ name: 'Cuenta', href: '/dashboard/configuracion/cuenta' },
 	{ name: 'Pagos', href: '/dashboard/configuracion/pagos' },
 ]
+
+export const metadata: Metadata = {
+  title: "Configuración",
+  description: "Build your own chatbot",
+};
 
 export default function ConfiguracionLayout({
 	children,
