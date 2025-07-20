@@ -18,6 +18,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Separator } from '@/components/ui/separator'
+import { DeleteAcountSection } from '@/components/DeleteAcount'
 
 export default function UserSettings() {
 	const { data: session, update } = useSession()
@@ -222,6 +223,8 @@ export default function UserSettings() {
 						)}
 					</CardFooter>
 				</Card>
+
+				<DeleteAcountSection/>
 			</div>
 		</div>
 	)
