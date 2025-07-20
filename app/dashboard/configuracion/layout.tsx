@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 const links = [
 	{ name: 'Cuenta', href: '/dashboard/configuracion/cuenta' },
-	{ name: 'Seguridad', href: '/dashboard/configuracion/seguridad' },
+	{ name: 'Pagos', href: '/dashboard/configuracion/pagos' },
 ]
 
 export default function ConfiguracionLayout({

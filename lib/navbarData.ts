@@ -22,7 +22,7 @@ export const getAllowedNavbarRoutes = (chatbotId?: string) => [
   '/dashboard/almacenamiento',
   '/dashboard/soporte',
   '/dashboard/configuracion/cuenta',
-  '/dashboard/configuracion/seguridad',
+  '/dashboard/configuracion/pagos',
   '/dashboard/planes',
   chatbotId && `/dashboard/${chatbotId}/estadisticas`,
   chatbotId && `/dashboard/${chatbotId}/almacenamiento`,

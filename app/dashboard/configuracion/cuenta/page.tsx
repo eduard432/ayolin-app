@@ -88,6 +88,21 @@ export default function UserSettings() {
 		})
 	}
 
+	const handlePortal = async () => {
+		try{
+			const res = await fetch('/api/v1/stripe/portal', { method: 'POST'})
+			const data = await res.json()
+
+			if(res.ok){
+				window.location.href = data.url
+			} else {
+				toast.error('Error al abrir el portal de suscripción')
+			}
+		} catch {
+			toast.error('Error inesperado')
+		}
+	}
+
 	return (
 		<div className="space-y-8">
 			<h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
@@ -209,6 +224,22 @@ export default function UserSettings() {
 						</p>
 					</CardContent>
 				</Card>
+
+				{userInfo?.role === 'PRO' && (
+					<Card className='bg-background'>
+						<CardHeader>
+							<CardTitle className='text-foreground text-2xl'>
+								Gestionar suscripción
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className='text-muted-foreground mb-4'>
+								Redirígete al portal de Stripe para cancelar tu suscripción, ver facturas o actualizar tu método de pago.
+							</p>
+							<Button onClick={handlePortal}>Ir al portal de suscripción</Button>
+						</CardContent>
+					</Card>
+				)}
 
 				<Card className="bg-background">
 					<CardHeader>
