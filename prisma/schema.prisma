@@ -32,6 +32,7 @@ model User {
   role                    String                 @default("FREE") // o "PRO", si prefieres usar roles
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt
+  stripeCustomerId        String?
 
   // Extra fields for app:
   chatbots Chatbot[]
