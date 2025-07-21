@@ -31,13 +31,13 @@ export const InstallToolButton = ({
 	const handleInstall = () => {
 		startTransition(async () => {
 			const result = await installToolFunction(
-				`${chatbotId}`,
-				`${integration}`
+				chatbotId,
+				integration
 			)
 			if (result.error) {
-				toast.success(result.message)
-			} else {
 				toast.error(result.message)
+			} else {
+				toast.success(result.message)
 				router.push(`/dashboard/${chatbotId}/integraciones`)
 			}
 		})

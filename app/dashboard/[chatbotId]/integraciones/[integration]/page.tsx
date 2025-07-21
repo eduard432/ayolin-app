@@ -1,4 +1,4 @@
-import { InstallToolButton } from '@/components/InstallButton'
+import { InstallToolButton } from '@/components/integrations/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

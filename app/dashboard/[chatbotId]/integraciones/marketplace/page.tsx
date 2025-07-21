@@ -3,7 +3,7 @@
 import {
 	InstallChannelButton,
 	InstallToolButton,
-} from '@/components/InstallButton'
+} from '@/components/integrations/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import {
 	Card,
