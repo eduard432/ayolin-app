@@ -21,7 +21,7 @@ export default function ConfiguracionLayout({
 }) {
 	return (
 		<div className="min-h-screen text-foreground grid grid-cols-1 md:grid-cols-12 gap-8">
-			<Card className="col-span-full md:col-span-3 bg-background">
+			<Card className="col-span-full md:col-span-3">
 				<CardHeader>
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
 				</CardHeader>
