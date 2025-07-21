@@ -3,10 +3,12 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { removeToolFunction } from '@/actions/integrations'
 import { Chatbot } from '@prisma/client'
+import { useQueryClient } from '@tanstack/react-query'
 
 const RemoveToolButton = ({chatbot, keyName}: {chatbot: Chatbot, keyName: string}) => {
 
 	const [isPending, startTransition] = useTransition()
+	const queryClient = useQueryClient()
 
 	const handleInstall = () => {
 		startTransition(async () => {
@@ -15,6 +17,9 @@ const RemoveToolButton = ({chatbot, keyName}: {chatbot: Chatbot, keyName: string
 				toast.error(result.message)
 			} else {
 				toast.success(result.message)
+				queryClient.invalidateQueries({
+					queryKey: ['chatbot', chatbot.id]
+				})
 			}
 		})
 	}
