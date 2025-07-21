@@ -31,6 +31,7 @@ import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
+import { Chatbot } from '@prisma/client'
 
 const usageMetrics = [
 	{
@@ -70,22 +71,106 @@ const usageMetrics = [
 	},
 ]
 
-const DashboardOverview = () => {
-	const [layout, setLayout] = useState<'grid' | 'list'>('list')
+type LayoutType = 'grid' | 'list'
+
+const ChatbotCard = ({
+	layout,
+	chatbot,
+}: {
+	layout: LayoutType
+	chatbot: Chatbot
+}) => {
 	const router = useRouter()
+
+	return (
+		<Card
+			className={cn(
+				'rounded-none py-4 cursor-pointer',
+				layout == 'grid'
+					? 'col-span-1 min-h-36 rounded-md'
+					: 'col-span-full first:rounded-t-md last:rounded-b-md'
+			)}
+			key={chatbot.id}
+			onClick={() => router.push(`/dashboard/${chatbot.id}/estadisticas`)}
+		>
+			<CardContent className="flex justify-between">
+				<div className="flex items-center gap-x-4">
+					<Avatar>
+						<AvatarImage src="https://github.com/shadcn.png" />
+						<AvatarFallback>CN</AvatarFallback>
+					</Avatar>
+					<div>
+						<h4 className="font-medium">{chatbot.name}</h4>
+						<p className="text-sm font-medium text-muted-foreground">
+							{chatbot.model}
+						</p>
+					</div>
+				</div>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button className="cursor-pointer" variant="ghost">
+							<Ellipsis />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>Profile</DropdownMenuItem>
+						<DropdownMenuItem>Billing</DropdownMenuItem>
+						<DropdownMenuItem>Team</DropdownMenuItem>
+						<DropdownMenuItem>Subscription</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</CardContent>
+		</Card>
+	)
+}
+
+const SkeletonCard = ({ layout }: { layout: LayoutType }) => {
+	return (
+		<Card
+			className={cn(
+				'rounded-none py-4',
+				layout == 'grid'
+					? 'col-span-1 min-h-36 rounded-md'
+					: 'col-span-full first:rounded-t-md last:rounded-b-md'
+			)}
+		>
+			<CardContent className="flex justify-between">
+				<div className="flex items-center gap-x-4">
+					{/* Avatar skeleton */}
+					<Skeleton className="h-10 w-10 rounded-full" />
+
+					<div className="space-y-2">
+						{/* Chatbot name skeleton */}
+						<Skeleton className="h-4 w-[120px]" />
+						{/* Model name skeleton */}
+						<Skeleton className="h-3 w-[80px]" />
+					</div>
+				</div>
+
+				{/* Dropdown menu button skeleton */}
+				<Skeleton className="h-9 w-9 rounded-md" />
+			</CardContent>
+		</Card>
+	)
+}
+
+const DashboardOverview = () => {
+	const [layout, setLayout] = useState<LayoutType>('list')
 	const { data: session } = useSession()
 
 	const { data, isLoading } = useChatbots(session?.user?.id || '')
 	const isMobile = useIsMobile()
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-2">
+		<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-y-8">
 			<section className="flex items-center gap-x-4 col-span-full">
 				<SearchBar className="h-full bg-background rounded-md" />
 				{!isMobile && (
 					<ToggleGroup
 						value={layout}
-						onValueChange={(value) => setLayout(value as 'grid' | 'list')}
+						onValueChange={(value) => setLayout(value as LayoutType)}
 						type="single"
 						className="border h-full bg-background"
 					>
@@ -105,7 +190,7 @@ const DashboardOverview = () => {
 						</ToggleGroupItem>
 					</ToggleGroup>
 				)}
-				<Button size={isMobile ? "icon" : "default"} asChild>
+				<Button size={isMobile ? 'icon' : 'default'} asChild>
 					<Link href="/dashboard/nuevo">
 						{isMobile ? <Plus /> : 'Add New'}
 					</Link>
@@ -115,61 +200,24 @@ const DashboardOverview = () => {
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Chatbots
 				</h4>
-
 				<div
 					className={cn(
 						'rounded-md grid grid-cols-2',
 						layout == 'grid' ? 'gap-8' : 'gap-0'
 					)}
 				>
-					{isLoading && (
-						<Skeleton className="col-span-full h-96 bg-background" />
-					)}
-					{data &&
-						data.map((chatbot) => (
-							<Card
-								className={cn(
-									'rounded-none py-4 cursor-pointer',
-									layout == 'grid'
-										? 'col-span-1 min-h-36 rounded-md'
-										: 'col-span-full first:rounded-t-md last:rounded-b-md'
-								)}
-								key={chatbot.id}
-								onClick={() =>
-									router.push(`/dashboard/${chatbot.id}/estadisticas`)
-								}
-							>
-								<CardContent className="flex justify-between">
-									<div className="flex items-center gap-x-4">
-										<Avatar>
-											<AvatarImage src="https://github.com/shadcn.png" />
-											<AvatarFallback>CN</AvatarFallback>
-										</Avatar>
-										<div>
-											<h4 className="font-medium">{chatbot.name}</h4>
-											<p className="text-sm font-medium text-muted-foreground">
-												{chatbot.model}
-											</p>
-										</div>
-									</div>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button className="cursor-pointer" variant="ghost">
-												<Ellipsis />
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent>
-											<DropdownMenuLabel>My Account</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuItem>Profile</DropdownMenuItem>
-											<DropdownMenuItem>Billing</DropdownMenuItem>
-											<DropdownMenuItem>Team</DropdownMenuItem>
-											<DropdownMenuItem>Subscription</DropdownMenuItem>
-										</DropdownMenuContent>
-									</DropdownMenu>
-								</CardContent>
-							</Card>
-						))}
+					{isLoading
+						? Array.from({ length: 4 }).map((_, i) => (
+								<SkeletonCard key={i} layout={layout} />
+							))
+						: data &&
+							data.map((chatbot) => (
+								<ChatbotCard
+									key={chatbot.id}
+									chatbot={chatbot}
+									layout={layout}
+								/>
+							))}
 				</div>
 			</section>
 			<section className="col-span-full md:col-span-4">
