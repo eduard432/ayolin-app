@@ -24,6 +24,7 @@ const DashboardProvider = ({
 					refetchInterval={60 * 60 * 6}
 					session={session}
 					basePath="/api/v1/auth"
+					refetchOnWindowFocus={false}
 				>
 					{children}
 				</SessionProvider>
