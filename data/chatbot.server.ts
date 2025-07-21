@@ -2,7 +2,7 @@ import { db } from '@/lib/db'
 import { ObjectId } from 'bson'
 import z from 'zod'
 
-export const getChatBotByUserId = async (userId: string) => {
+export const getChatBotsByUserId = async (userId: string) => {
 	const chatbots = await db.chatbot.findMany({
 		where: {
 			userId,
@@ -33,10 +33,10 @@ export const createChatBot = async (
 		data: {
 			chatbotId,
 			name: 'Usuario de Prueba',
-            lastActive: new Date(),
-            messages: {
-                create: []
-            }
+			lastActive: new Date(),
+			messages: {
+				create: [],
+			},
 		},
 	})
 

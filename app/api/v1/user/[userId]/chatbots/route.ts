@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { handleApiError } from '@/lib/api/handleError'
-import { getChatBotByUserId } from '@/data/chatbot.server'
+import { getChatBotsByUserId } from '@/data/chatbot.server'
 import { auth } from '@/lib/auth'
 
 // GET: Get all chatbots from user:
@@ -14,7 +14,7 @@ export const GET = auth(async (request) => {
 				{ status: 401 }
 			)
 
-		const result = await getChatBotByUserId(request.auth.user.id)
+		const result = await getChatBotsByUserId(request.auth.user.id)
 
 		return NextResponse.json({
 			chatbots: result,
