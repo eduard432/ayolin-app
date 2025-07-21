@@ -94,7 +94,7 @@ export default function UserSettings() {
 			<h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
 
 			<div className="space-y-4">
-				<Card className="bg-background">
+				<Card>
 					<CardHeader>
 						<CardTitle className="text-foreground text-2xl">
 							Nombre del Proyecto
@@ -114,14 +114,12 @@ export default function UserSettings() {
 						</p>
 					</CardContent>
 					<Separator />
-					<CardFooter className="flex justify-end" >
-						<Button size="sm">
-							Guardar
-						</Button>
+					<CardFooter className="flex justify-end">
+						<Button size="sm">Guardar</Button>
 					</CardFooter>
 				</Card>
 
-				<Card className="bg-background">
+				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<div className="flex items-center gap-2">
 							<Mail className="w-7 h-7 text-muted-foreground" />
@@ -145,7 +143,7 @@ export default function UserSettings() {
 					</CardContent>
 				</Card>
 
-				<Card className="bg-background">
+				<Card>
 					<CardHeader>
 						<CardTitle className="text-foreground text-2xl">
 							Foto de Perfil
@@ -172,20 +170,16 @@ export default function UserSettings() {
 								className="w-[3000px]"
 							/>
 						</div>
-						
 					</CardContent>
-          <Separator />
-          <CardFooter className="flex justify-end" >
-            <Button
-							onClick={handleSubmit}
-							disabled={isPending}
-						>
+					<Separator />
+					<CardFooter className="flex justify-end">
+						<Button onClick={handleSubmit} disabled={isPending}>
 							{isPending ? 'Guardando...' : 'Guardar'}
 						</Button>
-          </CardFooter>
+					</CardFooter>
 				</Card>
 
-				<Card className="bg-background">
+				<Card>
 					<CardHeader>
 						<CardTitle className="text-foreground text-2xl ">
 							Verificación en dos pasos
@@ -224,7 +218,7 @@ export default function UserSettings() {
 					</CardFooter>
 				</Card>
 
-				<DeleteAcountSection/>
+				<DeleteAcountSection />
 			</div>
 		</div>
 	)
