@@ -1,14 +1,12 @@
 'use client'
 
-import { installToolFunction } from '@/actions/integrations'
 import { Button } from '@/components/ui/button'
 import { addTool } from '@/data/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import React, { useTransition } from 'react'
+import React from 'react'
 import { toast } from 'sonner'
 
 type DataMutation = {

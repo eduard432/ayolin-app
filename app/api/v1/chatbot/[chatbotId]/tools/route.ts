@@ -82,7 +82,7 @@ export const DELETE = auth(
 			})
 
 			return NextResponse.json({
-				message: 'Chat found',
+				message: 'Tool removed',
 				ok: true,
                 chatbot: updatedChatbot
 			})

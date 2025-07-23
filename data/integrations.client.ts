@@ -56,10 +56,11 @@ export const removeTool = async ({
 }
 
 export const createChannel = async ({
-	token,
+	keyName,
+	settings,
 	chatbotId,
 }: {
-	token: string
+	settings: Record<string, string>
 	keyName: string
 	chatbotId: string
 }) => {
@@ -69,8 +70,8 @@ export const createChannel = async ({
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
-			keyName: 'telegram',
-			settings: { token },
+			keyName,
+			settings,
 		}),
 	})
 
@@ -80,6 +81,31 @@ export const createChannel = async ({
 
 	const data = await response.json()
 	return data.channel as Chatbot
+}
+
+export const removeChannel = async ({
+	keyName,
+	chatbotId,
+}: {
+	keyName: string
+	chatbotId: string
+}) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}/channels`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			keyName,
+		}),
+	})
+
+	if (!response.ok) {
+		throw new Error('Failed to delete channel')
+	}
+
+	const data = await response.json()
+	return data.chatbot as { message: string; ok: boolean; chatbot: Chatbot }
 }
 
 export const getToolFunctions = async (): Promise<ToolFunction[]> => {

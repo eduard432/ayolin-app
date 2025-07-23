@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { Bot } from 'grammy'
+import { InputJsonValue } from '@prisma/client/runtime/library'
 
 const addChannelSchema = z.discriminatedUnion('keyName', [
 	z
@@ -61,7 +62,8 @@ export const POST = auth(
 				case 'telegram':
 					try {
 						const bot = new Bot(settings.token)
-						const hostname = process.env.DEV_VERCEL_URL || `https://${process.env.VERCEL_URL}`
+						const hostname =
+							process.env.DEV_VERCEL_URL || `https://${process.env.VERCEL_URL}`
 						const endpoint = `${hostname}/api/v1/webhook/telegram/${chatbot.id}`
 						await bot.api.setWebhook(endpoint)
 					} catch (error) {
@@ -104,6 +106,89 @@ export const POST = auth(
 				{ message: 'Channel added successfully', chatbot: chatbotUpdated },
 				{ status: 200 }
 			)
+		} catch (error) {
+			return handleApiError(error)
+		}
+	}
+)
+
+const removeChannelSchema = z.object({
+	keyName: z.string(),
+})
+
+export const DELETE = auth(
+	async (request, { params }: { params: Promise<{ chatbotId: string }> }) => {
+		try {
+			const { chatbotId } = await params
+
+			const body = await request.json()
+			const { keyName } = validateWithSource(removeChannelSchema, body, 'body')
+
+			const chatbot = await db.chatbot.findFirst({
+				where: {
+					id: chatbotId,
+				},
+			})
+
+			if (!chatbot) {
+				return NextResponse.json(
+					{ message: 'Chatbot not found' },
+					{ status: 404 }
+				)
+			}
+
+			switch (keyName) {
+				case 'telegram':
+					try {
+						const channel = chatbot.channels.find(
+							(channel) => channel.keyName === 'telegram'
+						)
+
+						
+						if (!channel) {
+							return NextResponse.json(
+								{ message: 'Channel not installed' },
+								{ status: 400 }
+							)
+						}
+						const { token } = channel.settings as {token: string} 
+
+						const bot = new Bot(token)
+						await bot.api.deleteWebhook()
+					} catch (error) {
+						console.log(error)
+						return NextResponse.json(
+							{ message: 'Error in webhook setup' },
+							{ status: 500 }
+						)
+					}
+					break
+
+				default:
+					return NextResponse.json(
+						{ message: 'Channel not found' },
+						{ status: 500 }
+					)
+			}
+
+			const newChannels = chatbot.channels.filter((channel) => channel.keyName !== keyName) as { keyName: string; settings: InputJsonValue }[]
+
+			const updatedChatbot = await db.chatbot.update({
+				where: {
+					id: chatbotId,
+				},
+				data: {
+					channels: {
+						set: newChannels
+					},
+				},
+			})
+
+			return NextResponse.json({
+				message: 'Channel removed',
+				ok: true,
+                chatbot: updatedChatbot
+			})
 		} catch (error) {
 			return handleApiError(error)
 		}
