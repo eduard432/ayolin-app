@@ -22,6 +22,19 @@ export const createChatbot = async (data: ChatBotInputData) => {
 	return result.chatbot as Chatbot
 }
 
+export const deleteChatbot = async (chatbotId: string) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}`)
+
+	if (!response.ok) {
+		throw new Error('Failed to delete chatbot')
+	}
+
+	return {
+		message: "Chatbot deleted",
+		ok: true
+	}
+}
+
 export const getChatbots = async (userId: string) => {
 	console.log('getChatBots called with userId:', userId)
 	const res = await fetch(`/api/v1/user/${userId}/chatbots`)
