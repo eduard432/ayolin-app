@@ -1,7 +1,68 @@
 import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 
-export const createChannel = async ({ token, keyName, chatbotId }: { token: string, keyName: string, chatbotId: string }) => {
+export const addTool = async ({
+	keyName,
+	chatbotId,
+}: {
+	keyName: string
+	chatbotId: string
+}) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			keyName,
+		}),
+	})
+
+	if (!response.ok) {
+		throw new Error('Failed to add tool')
+	}
+
+	const data: { message: string; ok: boolean; chatbot: Chatbot } =
+		await response.json()
+
+	return data
+}
+
+export const removeTool = async ({
+	keyName,
+	chatbotId,
+}: {
+	keyName: string
+	chatbotId: string
+}) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			keyName,
+		}),
+	})
+
+	if (!response.ok) {
+		throw new Error('Failed to remove tool')
+	}
+
+	const data: { message: string; ok: boolean; chatbot: Chatbot } =
+		await response.json()
+
+	return data
+}
+
+export const createChannel = async ({
+	token,
+	chatbotId,
+}: {
+	token: string
+	keyName: string
+	chatbotId: string
+}) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/channels`, {
 		method: 'POST',
 		headers: {
@@ -17,8 +78,8 @@ export const createChannel = async ({ token, keyName, chatbotId }: { token: stri
 		throw new Error('Failed to create channel')
 	}
 
-	const result = await response.json()
-	return result.channel as Chatbot
+	const data = await response.json()
+	return data.channel as Chatbot
 }
 
 export const getToolFunctions = async (): Promise<ToolFunction[]> => {
