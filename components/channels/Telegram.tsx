@@ -1,11 +1,6 @@
 'use client'
 
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
 	Form,
 	FormControl,
@@ -20,7 +15,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '../ui/button'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createChannel } from '@/data/integrations.client'
 import { Chatbot } from '@prisma/client'
 import { toast } from 'sonner'
@@ -30,7 +25,7 @@ const telegramSchema = z.object({
 	token: z.string().min(1, 'Token requerido'),
 })
 
-export const TelegramConfigPage = ({ chatbotId  }: {chatbotId:string}) => {
+export const TelegramConfigPage = ({ chatbotId }: { chatbotId: string }) => {
 	const form = useForm<z.infer<typeof telegramSchema>>({
 		resolver: zodResolver(telegramSchema),
 		defaultValues: {
@@ -40,22 +35,60 @@ export const TelegramConfigPage = ({ chatbotId  }: {chatbotId:string}) => {
 
 	const router = useRouter()
 
-	const mutation = useMutation<Chatbot, Error, z.infer<typeof telegramSchema>>(
-		{
-			mutationFn: async (data) => {
-				const result = await createChannel({...data, chatbotId, keyName: 'telegram'})
-				return result
-			},
-			onError: () => {
-				toast.error(`Error adding chatbot`)
-			},
-			onSuccess: () => {
-				toast.success('Telegram channel added successfully')
-				router.push('/dashboard/general')
-				form.reset()
-			},
-		}
-	)
+	const queryClient = useQueryClient()
+
+	const mutation = useMutation<
+		Chatbot,
+		Error,
+		z.infer<typeof telegramSchema>,
+		{ previousChatbot: Chatbot }
+	>({
+		mutationFn: async (data) => {
+			const result = await createChannel({
+				settings: { token: data.token },
+				chatbotId,
+				keyName: 'telegram',
+			})
+			return result
+		},
+		onError: (_, __, context) => {
+			toast.error(`Error adding channel`)
+			queryClient.setQueryData(
+				['chatbot', chatbotId],
+				context?.previousChatbot
+			)
+		},
+		onMutate: async (newData) => {
+			await queryClient.cancelQueries({ queryKey: ['chatbot', chatbotId] })
+			const previousChatbot = queryClient.getQueryData<Chatbot>([
+				'chatbot',
+				chatbotId,
+			]) as Chatbot
+
+			queryClient.setQueryData(['chatbot', chatbotId], (old: Chatbot) => {
+				if (!old) return old
+				return {
+					...old,
+					channels: [
+						...old.channels,
+						{
+							keyName: 'telegram',
+							settings: {
+								token: newData.token,
+							},
+						},
+					],
+				}
+			})
+
+			return { previousChatbot }
+		},
+		onSuccess: () => {
+			toast.success('Telegram channel added successfully')
+			router.push(`/dashboard/${chatbotId}/integraciones`)
+			form.reset()
+		},
+	})
 
 	const onSubmit = (values: z.infer<typeof telegramSchema>) => {
 		mutation.mutate(values)
@@ -87,9 +120,9 @@ export const TelegramConfigPage = ({ chatbotId  }: {chatbotId:string}) => {
 									</FormItem>
 								)}
 							/>
-                            <Button type="submit" className="w-full">
-						Instalar canal
-					</Button>
+							<Button type="submit" className="w-full">
+								Instalar canal
+							</Button>
 						</form>
 					</Form>
 				</CardContent>

@@ -23,7 +23,10 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import RemoveToolButton from '@/components/integrations/RemoveToolButton'
+import {
+	RemoveChannelButton,
+	RemoveToolButton,
+} from '@/components/integrations/RemoveButton'
 
 const latestIntegrations = [
 	{
@@ -50,9 +53,9 @@ const latestIntegrations = [
 
 const IntegrationCard = ({
 	integration,
-	isTool = true
+	isTool = true,
 }: {
-	integration: { keyName: string; settings: JsonValue },
+	integration: { keyName: string; settings: JsonValue }
 	isTool?: boolean
 }) => {
 	const params = useParams()
@@ -60,35 +63,51 @@ const IntegrationCard = ({
 	const { data } = useChatbot(chatbotId)
 
 	return (
-		<Card
-			className="first:rounded-t-md last:rounded-b-md rounded-none py-4"
-			key={integration.keyName}
-		>
-			<CardContent className="flex justify-between items-center">
-				<div className="flex items-center gap-x-4">
-					<Avatar>
-						<AvatarImage src="https://github.com/shadcn.png" />
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
-					<div>
-						<h4 className="font-medium">{integration.keyName}</h4>
-						<p className="text-sm font-medium text-neutral-500">{isTool ? "Herramienta" : "Canal"}</p>
-					</div>
-				</div>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button className="cursor-pointer" variant="ghost">
-							<Ellipsis />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuItem>
-							{data && <RemoveToolButton keyName={integration.keyName} chatbot={data} />}
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</CardContent>
-		</Card>
+		<>
+			{data && (
+				<Card
+					className="first:rounded-t-md last:rounded-b-md rounded-none py-4"
+					key={integration.keyName}
+				>
+					<CardContent className="flex justify-between items-center">
+						<div className="flex items-center gap-x-4">
+							<Avatar>
+								<AvatarImage src="https://github.com/shadcn.png" />
+								<AvatarFallback>CN</AvatarFallback>
+							</Avatar>
+							<div>
+								<h4 className="font-medium">{integration.keyName}</h4>
+								<p className="text-sm font-medium text-neutral-500">
+									{isTool ? 'Herramienta' : 'Canal'}
+								</p>
+							</div>
+						</div>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button className="cursor-pointer" variant="ghost">
+									<Ellipsis />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent>
+								<DropdownMenuItem>
+									{isTool ? (
+										<RemoveToolButton
+											keyName={integration.keyName}
+											chatbot={data}
+										/>
+									) : (
+										<RemoveChannelButton
+											keyName={integration.keyName}
+											chatbot={data}
+										/>
+									)}
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</CardContent>
+				</Card>
+			)}
+		</>
 	)
 }
 
@@ -143,20 +162,24 @@ const IntegrationsPage = () => {
 			<section className="col-span-full md:col-span-8">
 				{isLoading
 					? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-					: data &&
-						(<>{data.tools.map((integration) => (
-							<IntegrationCard
-								key={integration.keyName}
-								integration={integration}
-								isTool={true}
-							/>
-						))}{data.channels.map((integration) => (
-							<IntegrationCard
-								key={integration.keyName}
-								integration={integration}
-								isTool={false}
-							/>
-						))}</>)}
+					: data && (
+							<>
+								{data.tools.map((integration) => (
+									<IntegrationCard
+										key={integration.keyName}
+										integration={integration}
+										isTool={true}
+									/>
+								))}
+								{data.channels.map((integration) => (
+									<IntegrationCard
+										key={integration.keyName}
+										integration={integration}
+										isTool={false}
+									/>
+								))}
+							</>
+						)}
 			</section>
 			<section className="col-span-full md:col-span-4">
 				<Card className="py-10 px-4">
