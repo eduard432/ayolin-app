@@ -54,5 +54,6 @@ export const useChatbot = (chatbotId: string) => {
 		queryKey: ["chatbot", chatbotId],
 		queryFn: () => getChatbot(chatbotId),
 		refetchOnWindowFocus: false,
+		staleTime: 1000 * 60 * 1 // 1 minuto
 	})
 }

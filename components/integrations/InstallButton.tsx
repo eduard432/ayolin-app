@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { useChatbot } from '@/data/chatbot.client'
 import { addTool } from '@/data/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
@@ -67,7 +68,7 @@ export const InstallToolButton = ({
 				if (!old) return old
 				return {
 					...old,
-					tools: [...old.tools, { keyName: newChatbot.keyName }]
+					tools: [...old.tools, { keyName: newChatbot.keyName }],
 				}
 			})
 
@@ -79,26 +80,41 @@ export const InstallToolButton = ({
 		},
 	})
 
-	return (
-		<Button
-			variant={variant}
-			className={cn(className)}
-			onClick={() => mutation.mutate({
-				chatbot,
-				keyName,
-			})}
-			disabled={mutation.isPending}
-		>
-			Install T
-		</Button>
-	)
+	if (chatbot.tools.some((tool) => tool.keyName === keyName)) {
+		return (
+			<Button
+				variant={variant}
+				className={cn(className)}
+				onClick={() => router.push(`/dashboard/${chatbot.id}/integraciones`)}
+				disabled={mutation.isPending}
+			>
+				Configurar
+			</Button>
+		)
+	} else {
+		return (
+			<Button
+				variant={variant}
+				className={cn(className)}
+				onClick={() =>
+					mutation.mutate({
+						chatbot,
+						keyName,
+					})
+				}
+				disabled={mutation.isPending}
+			>
+				Install T
+			</Button>
+		)
+	}
 }
 
 export const InstallChannelButton = ({
-	chatbotId,
 	keyName,
 	className,
 	variant,
+	chatbotId,
 }: {
 	chatbotId: string
 	keyName: string
@@ -112,18 +128,33 @@ export const InstallChannelButton = ({
 		| 'ghost'
 }) => {
 	const router = useRouter()
+	const { data: chatbot } = useChatbot(chatbotId)
 
-	return (
-		<Button
-			variant={variant}
-			className={cn(className)}
-			onClick={() =>
-				router.push(
-					`/dashboard/${chatbotId}/integraciones/${keyName}/instalar`
-				)
-			}
-		>
-			Install C
-		</Button>
-	)
+	if (chatbot) {
+		if (chatbot.channels.some((channel) => channel.keyName === keyName)) {
+			return (
+				<Button
+					variant={variant}
+					className={cn(className)}
+					onClick={() => router.push(`/dashboard/${chatbot.id}/integraciones`)}
+				>
+					Configurar
+				</Button>
+			)
+		} else {
+			return (
+				<Button
+					variant={variant}
+					className={cn(className)}
+					onClick={() =>
+						router.push(
+							`/dashboard/${chatbot.id}/integraciones/${keyName}/instalar`
+						)
+					}
+				>
+					Install C
+				</Button>
+			)
+		}
+	}
 }
