@@ -15,7 +15,7 @@ export const POST = auth(
 		try {
 			const { chatbotId } = await params
 
-			const body = request.json()
+			const body = await request.json()
 			const { keyName } = validateWithSource(bodySchema, body, 'body')
 
 			const updatedChatbot = await db.chatbot.update({

@@ -11,6 +11,7 @@ import {
 	CardContent,
 	CardHeader,
 } from '@/components/ui/card'
+import { useChatbot } from '@/data/chatbot.client'
 
 import { useIntegrations } from '@/data/integrations.client'
 import { cn } from '@/lib/utils'
@@ -24,10 +25,14 @@ const IntegrationsPage = () => {
 	const { data } = useIntegrations()
 	const router = useRouter()
 	const params = useParams()
+	const chatbotId = params?.chatbotId as string
+
+	const { data: chatbot } = useChatbot(chatbotId)
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 			{data &&
+				chatbot &&
 				data.map((integration) => (
 					<Card
 						key={integration.keyName}
@@ -39,6 +44,8 @@ const IntegrationsPage = () => {
 									<InstallToolButton
 										variant="outline"
 										className="cursor-pointer"
+										chatbot={chatbot}
+										keyName={integration.keyName}
 									/>
 								) : (
 									<InstallChannelButton

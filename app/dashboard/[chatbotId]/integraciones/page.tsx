@@ -50,8 +50,10 @@ const latestIntegrations = [
 
 const IntegrationCard = ({
 	integration,
+	isTool = true
 }: {
-	integration: { keyName: string; settings: JsonValue }
+	integration: { keyName: string; settings: JsonValue },
+	isTool?: boolean
 }) => {
 	const params = useParams()
 	const chatbotId = params?.chatbotId as string
@@ -70,7 +72,7 @@ const IntegrationCard = ({
 					</Avatar>
 					<div>
 						<h4 className="font-medium">{integration.keyName}</h4>
-						<p className="text-sm font-medium text-neutral-500">Categoría</p>
+						<p className="text-sm font-medium text-neutral-500">{isTool ? "Herramienta" : "Canal"}</p>
 					</div>
 				</div>
 				<DropdownMenu>
@@ -142,12 +144,19 @@ const IntegrationsPage = () => {
 				{isLoading
 					? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
 					: data &&
-						data.tools.map((integration) => (
+						(<>{data.tools.map((integration) => (
 							<IntegrationCard
 								key={integration.keyName}
 								integration={integration}
+								isTool={true}
 							/>
-						))}
+						))}{data.channels.map((integration) => (
+							<IntegrationCard
+								key={integration.keyName}
+								integration={integration}
+								isTool={false}
+							/>
+						))}</>)}
 			</section>
 			<section className="col-span-full md:col-span-4">
 				<Card className="py-10 px-4">

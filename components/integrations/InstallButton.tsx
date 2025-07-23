@@ -2,16 +2,28 @@
 
 import { installToolFunction } from '@/actions/integrations'
 import { Button } from '@/components/ui/button'
+import { addTool } from '@/data/integrations.client'
 import { cn } from '@/lib/utils'
+import { Chatbot } from '@prisma/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import React, { useTransition } from 'react'
 import { toast } from 'sonner'
 
+type DataMutation = {
+	chatbot: Chatbot
+	keyName: string
+}
+
 export const InstallToolButton = ({
+	chatbot,
+	keyName,
 	className,
 	variant,
 }: {
+	chatbot: Chatbot
+	keyName: string
 	className?: string
 	variant?:
 		| 'link'
@@ -22,33 +34,62 @@ export const InstallToolButton = ({
 		| 'ghost'
 }) => {
 	const router = useRouter()
-	const { chatbotId, integration } = useParams<{
-		chatbotId: string
-		integration: string
-	}>()
-	const [isPending, startTransition] = useTransition()
 
-	const handleInstall = () => {
-		startTransition(async () => {
-			const result = await installToolFunction(
-				chatbotId,
-				integration
+	const queryClient = useQueryClient()
+
+	const mutation = useMutation<
+		Chatbot,
+		Error,
+		DataMutation,
+		{ previousChatbot: Chatbot }
+	>({
+		mutationFn: async (data: DataMutation) => {
+			const result = await addTool({
+				chatbotId: data.chatbot.id,
+				keyName: data.keyName,
+			})
+			return result.chatbot
+		},
+		onError: (_, __, context) => {
+			toast.error('Error adding tool')
+			queryClient.setQueryData(
+				['chatbot', chatbot.id],
+				context?.previousChatbot
 			)
-			if (result.error) {
-				toast.error(result.message)
-			} else {
-				toast.success(result.message)
-				router.push(`/dashboard/${chatbotId}/integraciones`)
-			}
-		})
-	}
+		},
+		onMutate: async (newChatbot) => {
+			await queryClient.cancelQueries({ queryKey: ['chatbot', chatbot.id] })
+
+			const previousChatbot = queryClient.getQueryData<Chatbot>([
+				'chatbot',
+				chatbot.id,
+			]) as Chatbot
+
+			queryClient.setQueryData(['chatbot', chatbot.id], (old: Chatbot) => {
+				if (!old) return old
+				return {
+					...old,
+					tools: [...old.tools, { keyName: newChatbot.keyName }]
+				}
+			})
+
+			return { previousChatbot }
+		},
+		onSuccess: () => {
+			toast.success('Tool added successfully')
+			router.push(`/dashboard/${chatbot.id}/integraciones`)
+		},
+	})
 
 	return (
 		<Button
 			variant={variant}
 			className={cn(className)}
-			onClick={handleInstall}
-			disabled={isPending}
+			onClick={() => mutation.mutate({
+				chatbot,
+				keyName,
+			})}
+			disabled={mutation.isPending}
 		>
 			Install T
 		</Button>
@@ -79,7 +120,9 @@ export const InstallChannelButton = ({
 			variant={variant}
 			className={cn(className)}
 			onClick={() =>
-				router.push(`/dashboard/${chatbotId}/integraciones/${keyName}/instalar`)
+				router.push(
+					`/dashboard/${chatbotId}/integraciones/${keyName}/instalar`
+				)
 			}
 		>
 			Install C
