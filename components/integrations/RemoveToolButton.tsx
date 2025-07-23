@@ -1,31 +1,76 @@
 import React, { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { removeToolFunction } from '@/actions/integrations'
 import { Chatbot } from '@prisma/client'
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { removeTool } from '@/data/integrations.client'
 
-const RemoveToolButton = ({chatbot, keyName}: {chatbot: Chatbot, keyName: string}) => {
+type DataMutation = {
+	chatbot: Chatbot
+	keyName: string
+}
 
-	const [isPending, startTransition] = useTransition()
+const RemoveToolButton = ({
+	chatbot,
+	keyName,
+}: {
+	chatbot: Chatbot
+	keyName: string
+}) => {
 	const queryClient = useQueryClient()
 
-	const handleInstall = () => {
-		startTransition(async () => {
-			const result = await removeToolFunction(chatbot, keyName)
-			if (result.error) {
-				toast.error(result.message)
-			} else {
-				toast.success(result.message)
-				queryClient.invalidateQueries({
-					queryKey: ['chatbot', chatbot.id]
-				})
-			}
-		})
-	}
+	const mutation = useMutation<
+		Chatbot,
+		Error,
+		DataMutation,
+		{ previousChatbot: Chatbot }
+	>({
+		mutationFn: async (data: DataMutation) => {
+			const result = await removeTool({
+				chatbotId: data.chatbot.id,
+				keyName: data.keyName,
+			})
+			return result.chatbot
+		},
+		onError: (_, __, context) => {
+			toast.error('Error removing tool')
+			queryClient.setQueryData(
+				['chatbot', chatbot.id],
+				context?.previousChatbot
+			)
+		},
+		onMutate: async (newChatbot) => {
+			await queryClient.cancelQueries({ queryKey: ['chatbot', chatbot.id] })
+
+			const previousChatbot = queryClient.getQueryData<Chatbot>([
+				'chatbot',
+				chatbot.id,
+			]) as Chatbot
+
+			queryClient.setQueryData(['chatbot', chatbot.id], (old: Chatbot) => {
+				if (!old) return old
+				return {
+					...old,
+					tools: old.tools.filter(
+						(tool) => tool.keyName !== newChatbot.keyName
+					),
+				}
+			})
+
+			return { previousChatbot }
+		},
+		onSuccess: () => {
+			toast.success('Tool removed successfully')
+		},
+	})
 
 	return (
-		<Button onClick={handleInstall} disabled={isPending} variant="ghost" className="text-destructive">
+		<Button
+			onClick={() => mutation.mutate({ chatbot, keyName })}
+			disabled={mutation.isPending}
+			variant="ghost"
+			className="text-destructive"
+		>
 			Delete
 		</Button>
 	)

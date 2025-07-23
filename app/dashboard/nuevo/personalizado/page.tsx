@@ -65,7 +65,7 @@ const Page = () => {
 			const result = await createChatbot(data)
 			return result
 		},
-		onError: (err, newTodo, context) => {
+		onError: (_, __, context) => {
 			toast.error(`Error creating chatbot`)
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
 		},

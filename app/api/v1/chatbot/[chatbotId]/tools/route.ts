@@ -48,7 +48,7 @@ export const DELETE = auth(
 		try {
 			const { chatbotId } = await params
 
-			const body = request.json()
+			const body = await request.json()
 			const { keyName } = validateWithSource(bodySchema, body, 'body')
 
 			const chatbot = await db.chatbot.findFirst({
