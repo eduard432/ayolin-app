@@ -120,20 +120,22 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
       <Navbar/>
       {/* Hero Section */}
-      <div id="home" className="container mx-auto px-4 pt-20 pb-16 mt-10">
+      <div id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 mt-10">
         <div className="text-center max-w-4xl mx-auto" data-aos="fade-up">
-          <div className="mb-6 text-neutral-800 text-lg font-semibold">
+          <div className="mb-6 text-neutral-800 text-base sm:text-lg font-semibold">
             Conoce a tu asistente personal
           </div>
-          <h1 className="text-9xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg-text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
             Dile Hola a Ayolin
           </h1>
-          <p className="text-xl md:text-2xl text-neutral-500 mb-8">
-            Miles de posibilidades en un solo lugar. ¿Qué esperas?          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <p className="text-base sm:text-lg md:text-xl text-neutral-500 mb-8">
+            Miles de posibilidades en un solo lugar. ¿Qué esperas?          
+          </p>
+          <div className="flex items-center justify-center px-4">
             <form>
-              <button
-                className="h-20 rounded-md px-8 flex items-center text-lg border font-semibold bg-neutral-900 text-neutral-50"
+              {/*Este Boton no queda centrado*/}
+              <button 
+                className="h-20 sm:h-16 md:h-20 rounded-md px-8 sm:px-8 text-bavse sm:text-lg flex items-center justify-center border font-semibold bg-neutral-900 text-neutral-50"
                 type="submit"
               >
                 Chatea con Ayolin
@@ -228,39 +230,52 @@ export default function Home() {
       </div>
 
       {/*Planes de cobro */}
-      <section className="max-w-6xl mx-auto py-20 px-4">
-        <h2 className="text-5xl font-bold text-center mb-10">Elige tu plan</h2>
+      {/*Se ven DLV*/}
+      <div id="planes" className="container mx-auto px-4 py-16">
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <PricingCard
-            title="Gratis"
-            price="$0"
-            description="Perfecto para comenzar"
-            features={[
-              "Acceso limitado",
-              "1 chatbot",
-              "Soporte básico",
-            ]}
-            cta="Empieza gratis"
-            link="/dashboard/general"
-          />
+        <section className="w-full px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+                Elige tu plan
+              </h2>
+              <p className="text-neutral-500 text-base sm:text-lg mt-2 max-w-xl mx-auto">
+                Selecciona el plan que mejor se adapte a tus necesidades.
+              </p>
+          </div>
 
-          <PricingCard
-            title="Pro"
-            price="$100.00/mes"
-            description="Funciones avanzadas"
-            features={[
-              "Chatbots ilimitados",
-              "Soporte prioritario",
-              "Analíticas avanzadas",
-              "Actualizaciones Pro",
-            ]}
-            cta="Suscribirme"
-            link=""
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-items-center">
 
-        </div>
-      </section>
+            <PricingCard
+              title="Gratis"
+              price="$0"
+              description="Perfecto para comenzar"
+              features={[
+                "Acceso limitado",
+                "1 chatbot",
+                "Soporte básico",
+              ]}
+              cta="Plan actual"
+              link="/dashboard/general"
+            />
+
+            <PricingCard
+              title="Pro"
+              price="$100.00/mes"
+              description="Funciones avanzadas"
+              features={[
+                "Chatbots ilimitados",
+                "Soporte prioritario",
+                "Analíticas avanzadas",
+                "Actualizaciones Pro",
+              ]}
+              cta="Suscribirme"
+              link=""
+            />
+
+          </div>
+        </section>
+
+      </div>
 
       {/*Seccion de footer   */}
       <Fotter/>
