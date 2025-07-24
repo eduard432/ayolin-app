@@ -259,6 +259,18 @@ const DashboardOverview = () => {
 									layout={layout}
 								/>
 							))}
+					{!isLoading && data && data.length == 0 && (
+						<Card className="col-span-full min-h-64 md:min-h-80 h-full">
+							<CardContent className="flex flex-col gap-y-8 items-center justify-center h-full">
+								<h4 className="text-xl font-semibold text-muted-foreground">
+									¡Empieza a crear algo nuevo!
+								</h4>
+								<Button variant="outline" asChild>
+									<Link href="/dashboard/nuevo">Agregar Nuevo</Link>
+								</Button>
+							</CardContent>
+						</Card>
+					)}
 				</div>
 			</section>
 			<section className="col-span-full md:col-span-4">
