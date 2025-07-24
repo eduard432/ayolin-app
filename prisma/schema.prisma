@@ -33,7 +33,7 @@ model User {
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt
   // Extra fields for app:
-  chatbots Chatbot[]
+  chatbots                Chatbot[]
 }
 
 model Account {
@@ -119,6 +119,8 @@ model Chat {
   messages   Message[] @relation("ChatMessages")
   lastActive DateTime  @default(now())
   channelId  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Message {
@@ -127,7 +129,8 @@ model Message {
   chat      Chat        @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   role      MessageRole
   parts     Json[]
-  createdAt DateTime    @default(now())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 enum MessageRole {
@@ -166,10 +169,10 @@ type ChannelInstance {
 }
 
 model Channel {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  keyName    String @unique
-  name       String
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  keyName         String   @unique
+  name            String
   blogDescription String
-  imageUrl   String
-  tags       String[]
+  imageUrl        String
+  tags            String[]
 }
