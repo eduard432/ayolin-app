@@ -13,7 +13,7 @@ import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
-import { saveMessages } from '@/data/chat.client'
+import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
 

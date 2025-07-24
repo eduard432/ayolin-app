@@ -1,5 +1,11 @@
 import { db } from '@/lib/db'
-import { Message } from '@prisma/client'
+import { Message, Prisma } from '@prisma/client'
+
+export const saveMessages = async (messages: Prisma.MessageCreateManyInput[]) => {
+    await db.message.createMany({
+        data: messages 
+    })
+}
 
 export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
 	const chatResult = await db.chat.findUnique({

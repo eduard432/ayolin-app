@@ -1,5 +1,5 @@
 import { AI_TOOL_INDEX } from '@/ai_tools'
-import { saveMessages } from '@/data/chat.client'
+import { saveMessages } from '@/data/chat.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { db } from '@/lib/db'
