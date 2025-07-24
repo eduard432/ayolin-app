@@ -18,7 +18,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "@/components/navbarLanding";
 import Fotter from "@/components/Fotter";
-import { PricingCard } from "@/components/payment-card";
+import { PricingCardLanding } from "@/components/payment-card-landing";
 
 const features = [
   {
@@ -234,16 +234,16 @@ export default function Home() {
         <section className="w-full px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center mb-12" data-aos="fade-up">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-                Elige tu plan
+                Proximamente
               </h2>
               <p className="text-neutral-500 text-base sm:text-lg mt-2 max-w-xl mx-auto">
-                Selecciona el plan que mejor se adapte a tus necesidades.
+                Podras selecciona el plan que mejor se adapte a tus necesidades.
               </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-items-center sm:px-4" data-aos="fade-up">
 
-            <PricingCard
+            <PricingCardLanding
               title="Gratis"
               price="$0"
               description="Perfecto para comenzar"
@@ -252,11 +252,9 @@ export default function Home() {
                 "1 chatbot",
                 "Soporte básico",
               ]}
-              cta="Plan actual"
-              link="/dashboard/general"
             />
 
-            <PricingCard
+            <PricingCardLanding
               title="Pro"
               price="$100.00/mes"
               description="Funciones avanzadas"
@@ -266,8 +264,6 @@ export default function Home() {
                 "Analíticas avanzadas",
                 "Actualizaciones Pro",
               ]}
-              cta="Suscribirme"
-              link=""
             />
 
           </div>

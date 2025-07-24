@@ -5,35 +5,25 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-  CardFooter,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
 
-interface PricingCardProps {
+interface PricingCardLandingProps {
   title: string
   price: string
   description: string
   features: string[]
-  cta: string
   featured?: boolean
-  onSuscribe?: () => void
-  userEmail?: string
 }
 
-export const PricingCard = ({
+export const PricingCardLanding = ({
   title,
   price,
   description,
   features,
-  cta,
   featured = false,
-  userEmail,
-}: PricingCardProps) => {
-
-  const router = useRouter()
+}: PricingCardLandingProps) => {
 
   return (
     <Card
@@ -71,49 +61,6 @@ export const PricingCard = ({
           ))}
         </ul>
       </CardContent>
-
-      <CardFooter className="mt-6">
-        <Button
-          variant={featured ? 'default' : 'outline'}
-          className={cn('w-full text-base h-11')}
-          onClick={async () => {
-
-            if(title === "Gratis"){
-              router.push('/dashboard/general')
-              return
-            }
-
-            try {
-              const res = await  fetch('/api/v1/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  userEmail,
-                }),
-              })
-
-              if(!res.ok){
-
-                const text = await res.text(); 
-                console.error("Error al crear sesión:", text);
-                alert("Error creando la sesión.");
-                return;
-              }
-
-              const data = await res.json()
-              if(data?.url){
-                window.location.href = data.url
-              }
-
-            } catch(error){
-              console.error("Error insperado: ", error)
-              alert("Algo salio mal.")
-            }
-          }}
-        >
-          {cta}
-        </Button>
-      </CardFooter>
     </Card>
   )
 }
