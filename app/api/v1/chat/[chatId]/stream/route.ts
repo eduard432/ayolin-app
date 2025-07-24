@@ -3,115 +3,117 @@ import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
 import {
-    convertToModelMessages,
-    createUIMessageStream,
-    JsonToSseTransformStream,
-    stepCountIs,
-    streamText,
+	convertToModelMessages,
+	createUIMessageStream,
+	JsonToSseTransformStream,
+	stepCountIs,
+	streamText,
 } from 'ai'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.client'
-import { JsonValue } from '@prisma/client/runtime/library'
 import { AI_TOOL_INDEX } from '@/ai_tools'
+import { Prisma } from '@prisma/client'
 
 const textPartSchema = z.object({
-    type: z.enum(['text']),
-    text: z.string().min(1).max(2000),
+	type: z.enum(['text']),
+	text: z.string().min(1).max(2000),
 })
 
 const filePartSchema = z.object({
-    type: z.enum(['file']),
-    mediaType: z.enum(['image/jpeg', 'image/png']),
-    name: z.string().min(1).max(100),
-    url: z.string().url(),
+	type: z.enum(['file']),
+	mediaType: z.enum(['image/jpeg', 'image/png']),
+	name: z.string().min(1).max(100),
+	url: z.string().url(),
 })
 
 const partSchema = z.union([textPartSchema, filePartSchema])
 
 const bodySchema = z.object({
-    message: z.object({
-        id: z.string(),
-        role: z.enum(['user']),
-        parts: z.array(partSchema),
-    }),
+	message: z.object({
+		id: z.string(),
+		role: z.enum(['user']),
+		parts: z.array(partSchema),
+	}),
 })
 
 export async function POST(
-    req: NextRequest,
-    { params }: { params: Promise<{ chatId: string }> }
+	req: NextRequest,
+	{ params }: { params: Promise<{ chatId: string }> }
 ) {
-    let requestBody: z.infer<typeof bodySchema>
-    let chatId: string
+	let requestBody: z.infer<typeof bodySchema>
+	let chatId: string
 
-    try {
-        const body = await req.json()
-        chatId = (await params).chatId
-        if (!chatId) throw Error('chatId is needed')
+	try {
+		const body = await req.json()
+		chatId = (await params).chatId
+		if (!chatId) throw Error('chatId is needed')
 
-        requestBody = validateWithSource(bodySchema, body, 'body')
-    } catch {
-        return new ChatSDKError('bad_request:api').toResponse()
-    }
+		requestBody = validateWithSource(bodySchema, body, 'body')
+	} catch {
+		return new ChatSDKError('bad_request:api').toResponse()
+	}
 
-    const { message } = requestBody
+	const { message } = requestBody
 
-    await saveMessages([
-        {
-            chatId,
-            id: message.id,
-            parts: message.parts,
-            role: message.role,
-            createdAt: new Date(),
-        },
-    ])
+	await saveMessages([
+		{
+			chatId,
+			id: message.id,
+			parts: message.parts,
+			role: message.role,
+			createdAt: new Date(),
+		},
+	])
 
-    try {
-        const chat = await getChatById(chatId)
-        const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
+	try {
+		const chat = await getChatById(chatId)
+		const messages = [
+			...convertToUIMessages(chat.messages),
+			message,
+		]
 
-        const tools = Object.fromEntries(
-            chat.chatbot.tools
-                .filter((tool) => AI_TOOL_INDEX[tool.keyName])
-                .map((tool) => {
-                    return [tool.keyName, AI_TOOL_INDEX[tool.keyName]]
-                })
-        )
+		const tools = Object.fromEntries(
+			chat.chatbot.tools
+				.filter((tool) => AI_TOOL_INDEX[tool.keyName])
+				.map((tool) => {
+					return [tool.keyName, AI_TOOL_INDEX[tool.keyName]]
+				})
+		)
 
-        const stream = createUIMessageStream({
-            execute: ({ writer: dataStream }) => {
-                const result = streamText({
-                    model: openai(chat.chatbot.model),
-                    messages: convertToModelMessages(messages),
-                    system: chat.chatbot.initialPrompt,
-                    tools,
-                    stopWhen: stepCountIs(3)
-                })
+		const stream = createUIMessageStream({
+			execute: ({ writer: dataStream }) => {
+				const result = streamText({
+					model: openai(chat.chatbot.model),
+					messages: convertToModelMessages(messages),
+					system: chat.chatbot.initialPrompt,
+					tools,
+					stopWhen: stepCountIs(3),
+				})
 
-                result.consumeStream()
+				result.consumeStream()
 
-                dataStream.merge(result.toUIMessageStream())
-            },
-            generateId: () => new ObjectId().toString(),
+				dataStream.merge(result.toUIMessageStream())
+			},
+			generateId: () => new ObjectId().toString(),
 
-            onFinish: ({ messages }) => {
-                saveMessages(
-                    messages.map((uiMessage) => ({
-                        id: uiMessage.id,
-                        chatId,
-                        parts: uiMessage.parts as JsonValue[],
-                        role: uiMessage.role,
-                        createdAt: new Date(),
-                    }))
-                )
-            },
-        })
+			onFinish: ({ messages }) => {
+				const generatedMessages: Prisma.MessageCreateManyInput[] =
+					messages.map((uiMessage) => ({
+						id: uiMessage.id,
+						chatId,
+						parts:  typeof uiMessage.parts === 'string' ? JSON.parse(uiMessage.parts) : uiMessage.parts,
+						role: uiMessage.role,
+					}))
+				saveMessages(generatedMessages)
+			},
+		})
 
-        return new Response(stream.pipeThrough(new JsonToSseTransformStream()))
-    } catch (e) {
-        console.log(e)
-        return new ChatSDKError('forbidden:chat').toResponse()
-    }
+		return new Response(stream.pipeThrough(new JsonToSseTransformStream()))
+	} catch (e) {
+		console.log(e)
+		return new ChatSDKError('forbidden:chat').toResponse()
+	}
 }

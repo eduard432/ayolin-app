@@ -5,8 +5,7 @@ import { validateWithSource } from '@/lib/api/validate'
 import { db } from '@/lib/db'
 import { convertToUIMessages } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
-import { Chat, Chatbot, Message } from '@prisma/client'
-import { JsonValue } from '@prisma/client/runtime/library'
+import { Chat, Chatbot, Message, Prisma } from '@prisma/client'
 import { convertToModelMessages, generateText, UIMessage } from 'ai'
 import { ObjectId } from 'bson'
 import { Bot, Context, webhookCallback } from 'grammy'
@@ -34,7 +33,7 @@ const handleMessage = async (
 		{
 			chatId: chat.id,
 			id: message.id,
-			parts: message.parts as JsonValue[],
+			parts: typeof message.parts === 'string' ? JSON.parse(message.parts) : message.parts,
 			role: message.role as 'user',
 			createdAt: new Date(),
 		},
@@ -43,7 +42,7 @@ const handleMessage = async (
 	const messages: UIMessage[] = []
 
 	if (prevMessages) {
-		messages.push(...convertToUIMessages(prevMessages).slice(-20))
+		messages.push(...convertToUIMessages(prevMessages))
 	}
 
 	messages.push(message)
@@ -63,7 +62,7 @@ const handleMessage = async (
 		tools,
 	})
 
-	const generatedMessage: Message = {
+	const generatedMessage: Prisma.MessageCreateManyInput = {
 		id: new ObjectId().toString(),
 		chatId: chat.id,
 		role: 'assistant',
@@ -97,6 +96,14 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 			where: {
 				channelId: chatId.toString(),
 			},
+			include: {
+				messages: {
+					orderBy: {
+						createdAt: 'asc',
+					},
+					take: 20
+				}
+			}
 		})
 
 		if (!chat) {
@@ -107,11 +114,15 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 					messages: {
 						create: [],
 					},
+					channelId: chatId.toString()
 				},
+				include: {
+				messages: true
+			}
 			})
 		}
 
-		return handleMessage(chat, chatbot, ctx)
+		return handleMessage(chat, chatbot, ctx, chat.messages)
 	})
 
 	return bot

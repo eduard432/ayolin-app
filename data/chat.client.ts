@@ -1,10 +1,9 @@
 import { db } from "@/lib/db"
-import { Message,  } from "@prisma/client"
+import { Message, Prisma } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 
-export const saveMessages = async (messages: Message[]) => {
+export const saveMessages = async (messages: Prisma.MessageCreateManyInput[]) => {
     await db.message.createMany({
-        //@ts-expect-error Valid types
         data: messages 
     })
 }

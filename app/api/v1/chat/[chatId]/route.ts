@@ -12,7 +12,7 @@ import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.client'
 import { AI_TOOL_INDEX } from '@/ai_tools'
-import { Message } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -61,7 +61,6 @@ export async function POST(
 			id: message.id,
 			parts: message.parts,
 			role: message.role,
-			createdAt: new Date(),
 		},
 	])
 
@@ -87,7 +86,7 @@ export async function POST(
 			tools,
 		})
 
-		const generatedMessage: Message = {
+		const generatedMessage: Prisma.MessageCreateManyInput = {
 			id: new ObjectId().toString(),
 			chatId,
 			role: 'assistant',
@@ -97,7 +96,6 @@ export async function POST(
 					text: result.text,
 				},
 			],
-			createdAt: new Date(),
 		}
 
 		await saveMessages([generatedMessage])
