@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardHeader,
@@ -16,7 +18,9 @@ interface PricingCardProps {
   features: string[]
   cta: string
   featured?: boolean
-  link: string
+  onSuscribe?: () => void
+  userEmail?: string
+
 }
 
 export const PricingCard = ({
@@ -26,8 +30,9 @@ export const PricingCard = ({
   features,
   cta,
   featured = false,
-  link,
+  userEmail,
 }: PricingCardProps) => {
+
   return (
     <Card
       className={cn(
@@ -69,11 +74,36 @@ export const PricingCard = ({
         <Button
           variant={featured ? 'default' : 'outline'}
           className={cn('w-full text-base h-11')}
-          asChild
+          onClick={async () => {
+            try {
+              const res = await  fetch('/api/v1/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  userEmail,
+                }),
+              })
+
+              if(!res.ok){
+
+                const text = await res.text(); // esto te dará el mensaje de error real
+                console.error("Error al crear sesión:", text);
+                alert("Error creando la sesión. Revisa consola.");
+                return;
+              }
+
+              const data = await res.json()
+              if(data?.url){
+                window.location.href = data.url
+              }
+
+            } catch(error){
+              console.error("Error insperado: ", error)
+              alert("Algo salio mal. :((")
+            }
+          }}
         >
-          <a href={link} rel="noopener noreferrer">
-            {cta}
-          </a>
+          {cta}
         </Button>
       </CardFooter>
     </Card>
