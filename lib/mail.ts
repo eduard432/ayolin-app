@@ -9,7 +9,7 @@ export const sendVerificationEmail = async (
   const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`
 
   await resend.emails.send({
-    from: "Ayolin <onboarding@resend.dev>",
+    from: "Ayolin <noreply@ayolin.com>",
     to: email,
     subject: "Confirma tu correo electrónico",
     html: `
@@ -41,7 +41,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: "Ayolin <onboarding@resend.dev>",
+    from: "Ayolin <noreply@ayolin.com>",
     to: email,
     subject: "Restablece tu contraseña",
     html: `
@@ -71,7 +71,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 // Si queremos hacer el 2FA
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: "Ayolin <onboarding@resend.dev>",
+    from: "Ayolin <noreply@ayolin.com>",
     to: email,
     subject: "Tu código de verificación (2FA)",
     html: `
