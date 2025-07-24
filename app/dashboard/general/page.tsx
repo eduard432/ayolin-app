@@ -13,8 +13,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
@@ -26,12 +24,14 @@ import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { useChatbots } from '@/data/chatbot.client'
+import { deleteChatbot, useChatbots } from '@/data/chatbot.client'
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
 import { Chatbot } from '@prisma/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 const usageMetrics = [
 	{
@@ -81,20 +81,60 @@ const ChatbotCard = ({
 	chatbot: Chatbot
 }) => {
 	const router = useRouter()
+	const queryClient = useQueryClient()
+
+	const mutation = useMutation<
+		void,
+		Error,
+		void,
+		{ previousChatbots: Chatbot[] }
+	>({
+		mutationFn: async () => {
+			await deleteChatbot(chatbot.id)
+		},
+		onMutate: async () => {
+			const queryKey = ['chatbots', chatbot.userId]
+			await queryClient.cancelQueries({ queryKey })
+			const previousChatbots = queryClient.getQueryData<Chatbot[]>(
+				queryKey
+			) as Chatbot[]
+
+			queryClient.setQueryData(queryKey, (old: Chatbot[]) => {
+				if (!old) return old
+				return old.filter((oldChatbot) => oldChatbot.id !== chatbot.id)
+			})
+
+			return {
+				previousChatbots,
+			}
+		},
+		onError: (_, __, context) => {
+			toast.error('Error removing Chatbot')
+			queryClient.setQueryData(
+				['chatbots', chatbot.userId],
+				context?.previousChatbots
+			)
+		},
+		onSuccess: () => {
+			toast.success('Chatbot removed')
+		},
+	})
 
 	return (
 		<Card
 			className={cn(
-				'rounded-none py-4 cursor-pointer',
+				'rounded-none py-4',
 				layout == 'grid'
 					? 'col-span-1 min-h-36 rounded-md'
 					: 'col-span-full first:rounded-t-md last:rounded-b-md'
 			)}
 			key={chatbot.id}
-			onClick={() => router.push(`/dashboard/${chatbot.id}/estadisticas`)}
 		>
-			<CardContent className="flex justify-between">
-				<div className="flex items-center gap-x-4">
+			<CardContent className="flex justify-between items-center">
+				<div
+					onClick={() => router.push(`/dashboard/${chatbot.id}/estadisticas`)}
+					className="flex items-center gap-x-4 cursor-pointer"
+				>
 					<Avatar>
 						<AvatarImage src="https://github.com/shadcn.png" />
 						<AvatarFallback>CN</AvatarFallback>
@@ -113,12 +153,13 @@ const ChatbotCard = ({
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Profile</DropdownMenuItem>
-						<DropdownMenuItem>Billing</DropdownMenuItem>
-						<DropdownMenuItem>Team</DropdownMenuItem>
-						<DropdownMenuItem>Subscription</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => mutation.mutate()}
+							disabled={mutation.isPending}
+							className="text-destructive"
+						>
+							Delete
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</CardContent>

@@ -23,15 +23,17 @@ export const createChatbot = async (data: ChatBotInputData) => {
 }
 
 export const deleteChatbot = async (chatbotId: string) => {
-	const response = await fetch(`/api/v1/chatbot/${chatbotId}`)
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}`, {
+		method: 'DELETE',
+	})
 
 	if (!response.ok) {
 		throw new Error('Failed to delete chatbot')
 	}
 
 	return {
-		message: "Chatbot deleted",
-		ok: true
+		message: 'Chatbot deleted',
+		ok: true,
 	}
 }
 
@@ -64,9 +66,9 @@ export const getChatbot = async (chatbotId: string) => {
 
 export const useChatbot = (chatbotId: string) => {
 	return useQuery({
-		queryKey: ["chatbot", chatbotId],
+		queryKey: ['chatbot', chatbotId],
 		queryFn: () => getChatbot(chatbotId),
 		refetchOnWindowFocus: false,
-		staleTime: 1000 * 60 * 1 // 1 minuto
+		staleTime: 1000 * 60 * 1, // 1 minuto
 	})
 }
