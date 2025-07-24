@@ -88,7 +88,7 @@ export const PricingCard = ({
 
                 const text = await res.text(); // esto te dará el mensaje de error real
                 console.error("Error al crear sesión:", text);
-                alert("Error creando la sesión. Revisa consola.");
+                alert("Error creando la sesión.");
                 return;
               }
 
@@ -99,7 +99,7 @@ export const PricingCard = ({
 
             } catch(error){
               console.error("Error insperado: ", error)
-              alert("Algo salio mal. :((")
+              alert("Algo salio mal.")
             }
           }}
         >
