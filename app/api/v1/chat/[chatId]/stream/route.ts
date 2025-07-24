@@ -16,6 +16,7 @@ import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
+import { db } from '@/lib/db'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -70,10 +71,7 @@ export async function POST(
 
 	try {
 		const chat = await getChatById(chatId)
-		const messages = [
-			...convertToUIMessages(chat.messages),
-			message,
-		]
+		const messages = [...convertToUIMessages(chat.messages), message]
 
 		const tools = Object.fromEntries(
 			chat.chatbot.tools
@@ -99,15 +97,27 @@ export async function POST(
 			},
 			generateId: () => new ObjectId().toString(),
 
-			onFinish: ({ messages }) => {
+			onFinish: async ({ messages }) => {
 				const generatedMessages: Prisma.MessageCreateManyInput[] =
 					messages.map((uiMessage) => ({
 						id: uiMessage.id,
 						chatId,
-						parts:  typeof uiMessage.parts === 'string' ? JSON.parse(uiMessage.parts) : uiMessage.parts,
+						parts:
+							typeof uiMessage.parts === 'string'
+								? JSON.parse(uiMessage.parts)
+								: uiMessage.parts,
 						role: uiMessage.role,
 					}))
 				saveMessages(generatedMessages)
+
+				await db.chat.update({
+					where: {
+						id: chat.id,
+					},
+					data: {
+						lastActive: new Date(),
+					},
+				})
 			},
 		})
 

@@ -110,7 +110,6 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 			chat = await db.chat.create({
 				data: {
 					chatbotId: chatbot.id,
-					lastActive: new Date(),
 					messages: {
 						create: [],
 					},
@@ -121,6 +120,15 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 			}
 			})
 		}
+
+		await db.chat.update({
+			where: {
+				id: chat.id
+			},
+			data: {
+				lastActive: new Date()
+			}
+		})
 
 		return handleMessage(chat, chatbot, ctx, chat.messages)
 	})
