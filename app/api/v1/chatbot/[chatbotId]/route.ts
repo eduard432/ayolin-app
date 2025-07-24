@@ -44,20 +44,22 @@ export const DELETE = auth(
 
 			const { chatbotId } = await params
 
-			const chatbot = await db.chatbot.delete({
+			const chatbot = await db.chatbot.findFirst({
 				where: {
 					id: chatbotId,
+					userId: request.auth.user.id,
 				},
 			})
 
 			if (!chatbot) {
-				return NextResponse.json(
-					{
-						message: 'Chatbot notfound',
-					},
-					{ status: 404 }
-				)
+				return NextResponse.json({ message: 'Forbidden' }, { status: 403 })
 			}
+
+			await db.chatbot.delete({
+				where: {
+					id: chatbotId,
+				},
+			})
 
 			return NextResponse.json({
 				message: 'Chatbot deleted',
