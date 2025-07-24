@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { Message, Prisma } from "@prisma/client"
+import { Chat, Message, Prisma } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 
 export const saveMessages = async (messages: Prisma.MessageCreateManyInput[]) => {
@@ -25,5 +25,25 @@ export const useMessages = (chatId: string) => {
         queryFn: () => getMessages(chatId),
         refetchOnWindowFocus: false,
         enabled: !!chatId
+    })
+}
+
+export const getChats = async (chatbotId: string) => {
+    const res = await fetch(`/api/v1/chatbot/${chatbotId}/chats`)
+    const data: { chats: Chat[] } = await res.json()
+
+    if(!data.chats) {
+        throw new Error('Chats not found')
+    }
+
+    return data.chats
+}
+
+export const useChats = (chatbotId: string) => {
+	return useQuery({
+        queryKey: ["chats", chatbotId],
+        queryFn: () => getChats(chatbotId),
+        refetchOnWindowFocus: false,
+        enabled: !!chatbotId
     })
 }

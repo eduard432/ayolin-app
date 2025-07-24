@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
 
-export const POST = auth(async (request, { params }: { params: Promise<{ chatbotId: string }> }) => {
+export const GET = auth(async (request, { params }: { params: Promise<{ chatbotId: string }> }) => {
 	try {
         const { chatbotId } = await params
 
