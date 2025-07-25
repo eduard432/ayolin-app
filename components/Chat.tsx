@@ -93,7 +93,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded-full border border-border w-full flex items-center"
+				className="rounded-md border border-border w-full flex items-center"
 			>
 				<textarea
 					ref={inputRef}
@@ -101,9 +101,8 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Escribe algo..."
-					className="w-full py-2 px-4 outline-none rounded resize-none"
+					className="w-full py-2 px-4 outline-none rounded"
 					onKeyDown={handleSubmitKey}
-					rows={1}
 				/>
 				<Button
 					disabled={status != 'ready'}
