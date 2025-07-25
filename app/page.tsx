@@ -240,8 +240,21 @@ export default function Home() {
                 Podras selecciona el plan que mejor se adapte a tus necesidades.
               </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-items-center sm:px-4" data-aos="fade-up">
+          <PricingCard
+            title="Pro"
+            price="$100.00/mes"
+            description="Funciones avanzadas"
+            features={[
+              "Chatbots ilimitados",
+              "Soporte prioritario",
+              "Analíticas avanzadas",
+              "Actualizaciones Pro",
+            ]}
+            cta="Suscribirme"
+            link=""
+          />
+
 
             <PricingCardLanding
               title="Gratis"
