@@ -1,4 +1,4 @@
-import { getChatById } from '@/data/chat.server'
+import { getChatById, updatedChatFields } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
@@ -10,7 +10,6 @@ import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
-import { db } from '@/lib/db'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -98,14 +97,7 @@ export async function POST(
 
 		await saveMessages([generatedMessage])
 
-		await db.chat.update({
-			where: {
-				id: chat.id,
-			},
-			data: {
-				lastActive: new Date(),
-			},
-		})
+		await updatedChatFields(chat.id)
 
 		return Response.json({
 			message: generatedMessage,

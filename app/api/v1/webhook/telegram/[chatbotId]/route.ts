@@ -1,5 +1,5 @@
 import { AI_TOOL_INDEX } from '@/ai_tools'
-import { saveMessages } from '@/data/chat.server'
+import { saveMessages, updatedChatFields } from '@/data/chat.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { db } from '@/lib/db'
@@ -121,14 +121,7 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 			})
 		}
 
-		await db.chat.update({
-			where: {
-				id: chat.id
-			},
-			data: {
-				lastActive: new Date()
-			}
-		})
+		await updatedChatFields(chat.id)
 
 		return handleMessage(chat, chatbot, ctx, chat.messages)
 	})

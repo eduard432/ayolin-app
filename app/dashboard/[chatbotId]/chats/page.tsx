@@ -94,7 +94,7 @@ export default function ChatsPage() {
 									<TableCell>{chat.lastActive.toString()}</TableCell>
 									<TableCell>{chat.createdAt.toString()}</TableCell>
 									<TableCell>{chat.id}</TableCell>
-									<TableCell>{(Math.random() * 10).toFixed()}</TableCell>
+									<TableCell>{chat.totalMessages}</TableCell>
 								</TableRow>
 							))}
 					</TableBody>

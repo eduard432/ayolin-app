@@ -46,3 +46,17 @@ export const getChatById = async (id: string, maxMessages = 20) => {
 
 	return chatResult
 }
+
+export const updatedChatFields = async (chatId: string, messages = 1) => {
+	await db.chat.update({
+			where: {
+				id: chatId,
+			},
+			data: {
+				lastActive: new Date(),
+				totalMessages: {
+					increment: messages
+				}
+			},
+		})
+}
