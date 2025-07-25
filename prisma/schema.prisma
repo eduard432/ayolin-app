@@ -113,15 +113,16 @@ model Chatbot {
 }
 
 model Chat {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String?
-  chatbotId  String    @db.ObjectId
-  chatbot    Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages   Message[] @relation("ChatMessages")
-  lastActive DateTime  @default(now())
-  channelId  String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  chatbotId     String    @db.ObjectId
+  chatbot       Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  messages      Message[] @relation("ChatMessages")
+  lastActive    DateTime  @default(now())
+  channelId     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  totalMessages Int       @default(0)
 }
 
 model Message {
@@ -130,8 +131,8 @@ model Message {
   chat      Chat        @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   role      MessageRole
   parts     Json[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 enum MessageRole {
