@@ -6,6 +6,7 @@ import { convertToUIMessages } from '@/lib/utils'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import Chat from '@/components/Chat'
+import { ChatSkeleton } from '@/components/ChatSkeleton'
 
 const PruebaPage = () => {
 
@@ -32,7 +33,7 @@ const PruebaPage = () => {
 			className="mx-auto w-full md:w-2/3"
 		/>
 	) : (
-		<p>Loading...</p>
+		<ChatSkeleton className="mx-auto w-full md:w-2/3" messageCount={3} />
 	)
 }
 

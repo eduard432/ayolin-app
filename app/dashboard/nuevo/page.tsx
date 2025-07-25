@@ -24,8 +24,8 @@ import { PayWithStripe } from '@/components/stripe-button'
 
 const Page = () => {
 	return (
-		<div className="px-40 grid grid-cols-12 gap-8">
-			<section className="col-span-12 flex justify-between items-center">
+		<div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-0 md:px-40">
+			<section className="col-span-full flex justify-between items-center flex-col md:flex-row space-y-4">
 				<div>
 					<h2 className="scroll-m-20 text-4xl font-semibold tracking-tight text-balance">
 						Lets build something new.
@@ -36,10 +36,10 @@ const Page = () => {
 					</p>
 				</div>
 				<PayWithStripe
-					className="shadow-[0_0_12px_rgba(34,211,238,0.5)] px-12"
+					className="shadow-[0_0_12px_rgba(34,211,238,0.5)] px-12 w-full md:w-auto"
 				/>
 			</section>
-			<section className="col-span-6 min-h-96">
+			<section className="col-span-full md:col-span-6 min-h-48 md:min-h-96">
 				<Card className="h-full flex items-center justify-center">
 					<CardContent className="flex flex-col gap-y-8 items-center">
 						<h3 className="text-2xl font-semibold">Custom Settings</h3>
@@ -50,7 +50,7 @@ const Page = () => {
 					</CardContent>
 				</Card>
 			</section>
-			<section className="col-span-6 min-h-96">
+			<section className="col-span-full md:col-span-6 min-h-48 md:min-h-96">
 				<Card className="h-full">
 					<CardHeader>
 						<CardTitle className="text-2xl font-semibold">

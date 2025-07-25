@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 type ChatProps = {
 	initialMessages: UIMessage[]
 	chatId: string
-	className?:string
+	className?: string
 }
 
 const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
@@ -45,7 +45,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	const handleSubmitKey: KeyboardEventHandler<HTMLTextAreaElement> = (
 		event
 	) => {
-		// Verifica si se presionaron Enter + Alt
+		// Verifica si se presionaron Enter + Ctrl
 		if (event.key === 'Enter' && event.ctrlKey) {
 			event.preventDefault() // Evita que se inserte una nueva línea en el textarea
 			sendMessage({ text: input })
@@ -54,7 +54,12 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	}
 
 	return (
-		<section className={cn("rounded-md border-2 h-full border-border p-4 w-full flex flex-col justify-between gap-4 flex-1", className)}>
+		<section
+			className={cn(
+				'rounded-md border h-full border-border p-4 w-full flex flex-col justify-between gap-4 flex-1',
+				className
+			)}
+		>
 			<ul className="overflow-y-auto h-96 px-4">
 				{messages.map((message) =>
 					message.parts.map((part) => {
@@ -69,10 +74,10 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 									>
 										<div
 											className={cn(
-												'px-4 py-1 rounded-md max-w-2/3',
+												'px-4 py-1 rounded-md max-w-10/12 md:max-w-2/3',
 												message.role == 'user'
-													? 'bg-[#e0e0e0] dark:bg-[#374151] text-black dark:text-white'
-													: 'bg-[#f5f5f5] dark:bg-[#4b5563] text-black dark:text-white'
+													? 'bg-[#e0e0e0] dark:bg-[#374151] rounded-br-none'
+													: 'bg-[#f5f5f5] dark:bg-[#4b5563] rounded-bl-none'
 											)}
 										>
 											<ReactMarkdown>{part.text}</ReactMarkdown>
@@ -88,7 +93,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded-md border-2 border-border w-full flex items-center"
+				className="rounded-full border border-border w-full flex items-center"
 			>
 				<textarea
 					ref={inputRef}
@@ -96,18 +101,18 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Escribe algo..."
-					className="w-full py-2 px-4 outline-none rounded"
+					className="w-full py-2 px-4 outline-none rounded resize-none"
 					onKeyDown={handleSubmitKey}
-					rows={2}
+					rows={1}
 				/>
 				<Button
 					disabled={status != 'ready'}
 					type="submit"
 					size="icon"
-					variant="outline"
-					className="mr-5"
+					variant="ghost"
+					className="rounded-full"
 				>
-					<Send className="text-blue-400" />
+					<Send />
 				</Button>
 			</form>
 		</section>

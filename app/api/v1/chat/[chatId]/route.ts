@@ -2,17 +2,15 @@ import { getChatById } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
-import {
-	convertToModelMessages,
-	generateText,
-} from 'ai'
+import { convertToModelMessages, generateText } from 'ai'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
-import { saveMessages } from '@/data/chat.client'
+import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
-import { Message } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import { db } from '@/lib/db'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -61,7 +59,6 @@ export async function POST(
 			id: message.id,
 			parts: message.parts,
 			role: message.role,
-			createdAt: new Date(),
 		},
 	])
 
@@ -87,7 +84,7 @@ export async function POST(
 			tools,
 		})
 
-		const generatedMessage: Message = {
+		const generatedMessage: Prisma.MessageCreateManyInput = {
 			id: new ObjectId().toString(),
 			chatId,
 			role: 'assistant',
@@ -97,10 +94,18 @@ export async function POST(
 					text: result.text,
 				},
 			],
-			createdAt: new Date(),
 		}
 
 		await saveMessages([generatedMessage])
+
+		await db.chat.update({
+			where: {
+				id: chat.id,
+			},
+			data: {
+				lastActive: new Date(),
+			},
+		})
 
 		return Response.json({
 			message: generatedMessage,

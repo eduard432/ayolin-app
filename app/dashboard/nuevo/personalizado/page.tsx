@@ -65,7 +65,7 @@ const Page = () => {
 			const result = await createChatbot(data)
 			return result
 		},
-		onError: (err, newTodo, context) => {
+		onError: (_, __, context) => {
 			toast.error(`Error creating chatbot`)
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
 		},
@@ -97,7 +97,7 @@ const Page = () => {
 	}
 
 	return (
-		<Card className="w-1/2 mx-auto">
+		<Card className="md:w-1/2 md:mx-auto">
 			<CardHeader>
 				<CardTitle className="text-xl">New Chatbot</CardTitle>
 				<CardDescription>

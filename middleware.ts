@@ -19,6 +19,9 @@ export default auth((req) => {
 		return NextResponse.next()
 	}
 
+	const isStripeWebhook = nextUrl.pathname.startsWith('/api/v1/stripe/webhook')
+	if (isStripeWebhook) return NextResponse.next()
+
 	const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
 	const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 	const isAuthRoute = authRoutes.includes(nextUrl.pathname)
@@ -42,10 +45,8 @@ export default auth((req) => {
 export const config = {
 	matcher: [
 		// Skip Next.js internals and all static files, unless found in search params
-		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/webhooks/stripe|api/v1/webhook/telegram).*)',
+		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/v1/stripe/webhook|api/webhooks/stripe|api/v1/webhook/telegram).*)',
 		// Always run for API routes
 		'/(api|trpc)(.*)',
-		// para los pagos
-		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/webhooks/stripe).*)',
 	],
 }

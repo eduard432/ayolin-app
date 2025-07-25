@@ -1,8 +1,13 @@
 'use client';
 
+import { useSession } from "next-auth/react";
 import { PricingCard } from "@/components/payment-card";
 
 export default function PricingPage() {
+
+  const { data: session } = useSession()
+  const email = session?.user?.email
+
   return (
     <section className="max-w-6xl mx-auto py-20 px-4">
       <h2 className="text-5xl font-bold text-center mb-10">Elige tu plan</h2>
@@ -13,12 +18,11 @@ export default function PricingPage() {
           price="$0"
           description="Perfecto para comenzar"
           features={[
-            "Acceso limitado",
+            "Acceso limitado",  
             "1 chatbot",
             "Soporte básico",
           ]}
           cta="Plan actual"
-          link="/dashboard/general"
         />
 
         <PricingCard
@@ -32,7 +36,8 @@ export default function PricingPage() {
             "Actualizaciones Pro",
           ]}
           cta="Suscribirme"
-          link=""
+          featured
+          userEmail={email ?? undefined}
         />
 
       </div>

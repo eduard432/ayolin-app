@@ -4,8 +4,8 @@ import ToggleTheme from './ToggleTheme'
 
 const FooterDashboard = () => {
 	return (
-		<footer className="py-8 px-40 bg-background border-muted-foreground border-t flex justify-between">
-			<section>
+		<footer className="py-8 px-8 md:px-40 bg-background border-border border-t flex flex-col md:flex-row justify-between items-center space-y-4">
+			<section className="w-full" >
 				<h2 className="uppercase tracking-widest font-semibold text-foreground text-2xl">
 					Ayolin
 				</h2>
@@ -18,9 +18,9 @@ const FooterDashboard = () => {
 					<Link href="/legal">Legal</Link>
 				</div>
 			</section>
-			<section>
+			<section className="flex gap-x-4 w-full justify-between md:justify-end" >
 				<p className="text-sm text-blue-500">All systems normal</p>
-				<ToggleTheme />
+			<ToggleTheme />
 			</section>
 		</footer>
 	)
