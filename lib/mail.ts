@@ -1,13 +1,13 @@
 import { Resend } from "resend"
+import { DOMAIN_URL } from "./utils";
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const domain = process.env.NEXTAUTH_URL
 
 export const sendVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmLink = `${domain}/auth/new-verification?token=${token}`
+  const confirmLink = `${DOMAIN_URL}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
     from: "Ayolin <noreply@ayolin.com>",
@@ -39,7 +39,7 @@ export const sendVerificationEmail = async (
 
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `${domain}/auth/new-password?token=${token}`;
+  const resetLink = `${DOMAIN_URL}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "Ayolin <noreply@ayolin.com>",

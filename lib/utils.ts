@@ -58,3 +58,6 @@ export function fieldsToZod(fields: z.infer<typeof fieldSchema>[]): ZodObject<Re
 
 	return dynamicSchema
 }
+
+
+export const DOMAIN_URL = process.env.NEXTAUTH_URL || `https://${process.env.VERCEL_URL}`
