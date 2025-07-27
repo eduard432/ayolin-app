@@ -6,12 +6,14 @@ import {
   FaBolt,
   FaShield,
   FaWandMagicSparkles,
-  FaRegClock,
   FaHeart,
   FaBrain,
   FaClock,
   FaGlobe,
 } from "react-icons/fa6";
+import  Hero  from '@/components/hero-landing'
+import Features from '@/components/features-landing'
+import UseCases from "@/components/useCase-landing";
 
 import { useEffect } from "react";
 import AOS from "aos";
@@ -120,97 +122,13 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
       <Navbar/>
       {/* Hero Section */}
-      <div id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 mt-10">
-        <div className="text-center max-w-4xl mx-auto" data-aos="fade-up">
-          <div className="mb-6 text-neutral-800 text-base sm:text-lg font-semibold">
-            Conoce a tu asistente personal
-          </div>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg-text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-blue-600 mb-6 py-3">
-            Dile Hola a Ayolin
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-neutral-500 mb-8">
-            Miles de posibilidades en un solo lugar. ¿Qué esperas?          
-          </p>
-          <div className="flex items-center justify-center px-4">
-            <form>
-              <button 
-                className="h-20 sm:h-16 md:h-20 rounded-md px-8 sm:px-8 text-bavse sm:text-lg flex items-center justify-center border font-semibold bg-neutral-900 text-neutral-50"
-                type="submit"
-              >
-                Chatea con Ayolin
-              </button>
-            </form>
-          </div>
-            <div className="mt-12 flex flex-wrap justify-center gap-8 text-neutral-700" data-aos="fade-up">
-              <div className="flex items-center gap-2" >
-                <FaShield className="h-5 w-5" />
-                <span>Seguridad de nivel empresarial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaGlobe className="h-5 w-5" />
-                <span>Más de 100 idiomas</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaRegClock className="h-5 w-5" />
-                <span>Disponibilidad 24/7</span>
-              </div>
-            </div>
-        </div>
-      </div>
+      <Hero/>
 
       {/* Features Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-16" data-aos="zoom-in">
-          <h2 className="text-3xl font-bold mb-4">¿Por qué elegir Ayolin?</h2>
-          <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
-            Descubre cómo Ayolin combina tecnología de inteligencia artificial de vanguardia
-            con una comprensión genuina de la interacción humana para ofrecer una experiencia
-            conversacional sin igual.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-            >
-              <div className="bg-neutral-200 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-neutral-950">
-                {feature.title}
-              </h3>
-              <p className="text-neutral-500 text-lg">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      < Features features={features} />
 
       {/* Use Cases Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-white rounded-xl p-8 shadow-lg" data-aos="fade-up">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Posibilidades Infinitas</h2>
-            <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
-              Desde asistencia personal hasta soporte profesional, Ayolin se adapta a tus necesidades.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {useCases.map((useCase, index) => (
-              <div
-                key={index}
-                className="text-center p-6 bg-neutral-100 rounded-lg"
-              >
-                <h3 className="text-xl font-semibold mb-2">{useCase.title}</h3>
-                <p className="text-neutral-500 font-semibold">
-                  {useCase.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      < UseCases useCases={useCases} />
 
       {/* Demo Section */}
       <div id="demo" className="container mx-auto px-4 py-16">
