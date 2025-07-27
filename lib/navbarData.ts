@@ -8,6 +8,7 @@ export const dashboardFeatures = [
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
+  { name: 'Editar', href: `/dashboard/${chatbotId}/editar` },
   { name: 'Estadísticas', href: `/dashboard/${chatbotId}/estadisticas` },
   // { name: 'Almacenamiento', href: `/dashboard/${chatbotId}/almacenamiento` },
   { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
@@ -24,6 +25,7 @@ export const getAllowedNavbarRoutes = (chatbotId?: string) => [
   '/dashboard/configuracion/cuenta',
   '/dashboard/configuracion/pagos',
   '/dashboard/planes',
+  chatbotId && `/dashboard/${chatbotId}/editar`,
   chatbotId && `/dashboard/${chatbotId}/estadisticas`,
   chatbotId && `/dashboard/${chatbotId}/almacenamiento`,
   chatbotId && `/dashboard/${chatbotId}/chats`,

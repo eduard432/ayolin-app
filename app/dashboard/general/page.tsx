@@ -24,14 +24,12 @@ import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { deleteChatbot, useChatbots } from '@/data/chatbot.client'
+import { useChatbots, useDeleteChatbot } from '@/data/chatbot.client'
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
 import { Chatbot } from '@prisma/client'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 const usageMetrics = [
 	{
@@ -81,44 +79,8 @@ const ChatbotCard = ({
 	chatbot: Chatbot
 }) => {
 	const router = useRouter()
-	const queryClient = useQueryClient()
 
-	const mutation = useMutation<
-		void,
-		Error,
-		void,
-		{ previousChatbots: Chatbot[] }
-	>({
-		mutationFn: async () => {
-			await deleteChatbot(chatbot.id)
-		},
-		onMutate: async () => {
-			const queryKey = ['chatbots', chatbot.userId]
-			await queryClient.cancelQueries({ queryKey })
-			const previousChatbots = queryClient.getQueryData<Chatbot[]>(
-				queryKey
-			) as Chatbot[]
-
-			queryClient.setQueryData(queryKey, (old: Chatbot[]) => {
-				if (!old) return old
-				return old.filter((oldChatbot) => oldChatbot.id !== chatbot.id)
-			})
-
-			return {
-				previousChatbots,
-			}
-		},
-		onError: (_, __, context) => {
-			toast.error('Error removing Chatbot')
-			queryClient.setQueryData(
-				['chatbots', chatbot.userId],
-				context?.previousChatbots
-			)
-		},
-		onSuccess: () => {
-			toast.success('Chatbot removed')
-		},
-	})
+	const deleteMutation = useDeleteChatbot(chatbot)
 
 	return (
 		<Card
@@ -154,11 +116,14 @@ const ChatbotCard = ({
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						<DropdownMenuItem
-							onClick={() => mutation.mutate()}
-							disabled={mutation.isPending}
+							onClick={() => deleteMutation.mutate()}
+							disabled={deleteMutation.isPending}
 							className="text-destructive"
 						>
-							Delete
+							Eliminar
+						</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => router.push(`/dashboard/${chatbot.id}/editar`)} >
+							Editar
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
