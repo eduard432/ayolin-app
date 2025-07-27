@@ -98,6 +98,8 @@ const EditChatbotForm = ({ chatbot }: { chatbot: Chatbot }) => {
 		},
 		onSuccess: () => {
 			toast.success('Chatbot updated successfully')
+			const currentValues = form.getValues()
+			form.reset(currentValues)
 		},
 	})
 
