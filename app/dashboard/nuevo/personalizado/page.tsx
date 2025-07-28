@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -71,7 +72,7 @@ const Page = () => {
 		},
 		onMutate: async (newChatbot) => {
 			await queryClient.invalidateQueries({
-				queryKey: ['user']
+				queryKey: ['user'],
 			})
 			await queryClient.cancelQueries({ queryKey: ['chatbots'] })
 
@@ -141,9 +142,27 @@ const Page = () => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{Object.entries(modelPrices).map(([id,model]) => (
-												<SelectItem disabled={model.name !== "gpt-4.1-nano"} key={id} value={id}>
-													{model.name}
+											{Object.entries(modelPrices).map(([id, model]) => (
+												<SelectItem
+													disabled={model.name !== 'gpt-4.1-nano'}
+													key={id}
+													value={id}
+												>
+													{model.name}{' '}
+													<Badge className="bg-blue-600 text-neutral-50"  >
+														{new Intl.NumberFormat('en-MX', {
+															style: 'currency',
+															currency: 'MXN',
+															maximumFractionDigits: 4,
+														}).format(model.input * 20)}
+													</Badge>
+													<Badge className="bg-teal-600 text-neutral-50"  >
+														{new Intl.NumberFormat('en-MX', {
+															style: 'currency',
+															currency: 'MXN',
+															maximumFractionDigits: 4,
+														}).format(model.output * 20)}
+													</Badge>
 												</SelectItem>
 											))}
 										</SelectContent>
