@@ -11,7 +11,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative bg-[#0d0d0d] text-white">
+    <section id="home" className="relative bg-[#0d0d0d] text-white">
       <Particles id="tsparticles" init={particlesInit} options={{
         background: { color: "transparent" },
         particles: {

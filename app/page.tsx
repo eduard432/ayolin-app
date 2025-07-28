@@ -107,7 +107,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen ">
+      
+      {/* Navbar */}
       <Navbar/>
+
       {/* Hero Section */}
       <Hero/>
 
