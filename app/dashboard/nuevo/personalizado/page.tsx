@@ -138,8 +138,8 @@ const Page = () => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{modelPrices.map((model) => (
-												<SelectItem disabled={model.name !== "gpt-4.1-nano"} key={model.name} value={model.name}>
+											{Object.entries(modelPrices).map(([id,model]) => (
+												<SelectItem disabled={model.name !== "gpt-4.1-nano"} key={id} value={id}>
 													{model.name}
 												</SelectItem>
 											))}
