@@ -63,7 +63,7 @@ export const updateUsageFields = async ({
 	ids,
 	messages = 1,
 	usage = 0,
-	newChats
+	newChats = 0
 }: UsageProps) => {
 	return await db.$transaction(async (tx) => {
 		// 1. Crear usageLog

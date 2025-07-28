@@ -47,10 +47,6 @@ export const createChatBot = async (
 			name,
 			initialPrompt,
 			userId,
-			usage: {
-				inputTokens: 0,
-				outputTokens: 0,
-			},
 			defaultChat: chat.id,
 			totalChats: 1
 		},
