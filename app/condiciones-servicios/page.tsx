@@ -12,8 +12,8 @@ export default function CondicionesServiciosPage() {
         <>
             <NavbarExtra></NavbarExtra>
 
-            <main className="max-w-3xl mx-auto px-4 py-12 mt-10">
-                <h1 className="text-3xl font-bold mb-6"> Condiciones de Servicios</h1>
+            <main className="max-w-3xl mx-auto px-4 py-12 mt-10 text-white">
+                <h1 className="text-3xl font-bold mb-10"> Condiciones de Servicios</h1>
                 <p className="text-sm text-muted-foreground mb-4">
                     Fecha de última actualización: 17 de julio de 2025
                 </p>
