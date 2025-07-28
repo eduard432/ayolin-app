@@ -1,10 +1,12 @@
 import { db } from '@/lib/db'
 import { Message, Prisma } from '@prisma/client'
 
-export const saveMessages = async (messages: Prisma.MessageCreateManyInput[]) => {
-    await db.message.createMany({
-        data: messages 
-    })
+export const saveMessages = async (
+	messages: Prisma.MessageCreateManyInput[]
+) => {
+	await db.message.createMany({
+		data: messages,
+	})
 }
 
 export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
@@ -40,23 +42,96 @@ export const getChatById = async (id: string, maxMessages = 20) => {
 			chatbot: true,
 		},
 	})
-	if (!chatResult) {
-		throw new Error('Chat not found')
-	}
 
 	return chatResult
 }
 
-export const updatedChatFields = async (chatId: string, messages = 1) => {
-	await db.chat.update({
+type ModelIds = {
+	userId: string
+	chatbotId: string
+	chatId: string
+}
+
+export const updateUsageFields = async (
+	ids: ModelIds,
+	messages = 1,
+	usage = 0
+) => {
+	return await db.$transaction(async (tx) => {
+		// 1. Crear usageLog
+		const usageLog = await tx.usageLog.create({
+			data: {
+				chatbotId: ids.chatbotId,
+				userId: ids.userId,
+				creditUsage: usage,
+			},
+		})
+
+		// 2. Actualizar chat
+		const chat = await tx.chat.update({
 			where: {
-				id: chatId,
+				id: ids.chatId,
 			},
 			data: {
 				lastActive: new Date(),
 				totalMessages: {
-					increment: messages
-				}
+					increment: messages,
+				},
+				creditUsage: {
+					increment: usage,
+				},
 			},
 		})
+
+		// 3. Actualizar chatbot
+		const chatbot = await tx.chatbot.update({
+			where: {
+				id: ids.chatbotId,
+			},
+			data: {
+				totalMessages: {
+					increment: messages,
+				},
+				creditUsage: {
+					increment: usage,
+				},
+				usageLogs: {
+					connect: {
+						id: usageLog.id,
+					},
+				},
+			},
+			include: {
+				usageLogs: true, // Si quieres devolverlos
+			},
+		})
+
+		// 4. Actualizar usuario
+		const user = await tx.user.update({
+			where: {
+				id: ids.userId,
+			},
+			data: {
+				creditUsage: {
+					increment: usage,
+				},
+				usageLogs: {
+					connect: {
+						id: usageLog.id,
+					},
+				},
+			},
+			include: {
+				usageLogs: true, // Si quieres devolverlos
+			},
+		})
+
+		// Retornar todo si lo necesitas
+		return {
+			usageLog,
+			chat,
+			chatbot,
+			user,
+		}
+	})
 }

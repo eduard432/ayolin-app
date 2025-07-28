@@ -1,4 +1,4 @@
-import { getChatById, updatedChatFields } from '@/data/chat.server'
+import { getChatById, updateUsageFields } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
@@ -6,6 +6,7 @@ import {
 	convertToModelMessages,
 	createUIMessageStream,
 	JsonToSseTransformStream,
+	LanguageModelUsage,
 	stepCountIs,
 	streamText,
 } from 'ai'
@@ -16,6 +17,7 @@ import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
+import { modelPrices } from '@/lib/constants/models'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -70,6 +72,11 @@ export async function POST(
 
 	try {
 		const chat = await getChatById(chatId)
+
+		if (!chat) {
+			return new ChatSDKError('not_found:chat').toResponse()
+		}
+
 		const messages = [...convertToUIMessages(chat.messages), message]
 
 		const tools = Object.fromEntries(
@@ -80,8 +87,9 @@ export async function POST(
 				})
 		)
 
+		let resultTokens: Promise<LanguageModelUsage>
 		const stream = createUIMessageStream({
-			execute: ({ writer: dataStream }) => {
+			execute: async ({ writer: dataStream }) => {
 				const result = streamText({
 					model: openai(chat.chatbot.model),
 					messages: convertToModelMessages(messages),
@@ -89,6 +97,8 @@ export async function POST(
 					tools,
 					stopWhen: stepCountIs(3),
 				})
+
+				resultTokens = result.totalUsage
 
 				result.consumeStream()
 
@@ -109,7 +119,25 @@ export async function POST(
 					}))
 				saveMessages(generatedMessages)
 
-				await updatedChatFields(chat.id)
+				const totalTokens = await resultTokens
+
+				const modelPricing =
+					modelPrices.find((modelP) => modelP.name === chat.chatbot.model) ||
+					modelPrices[2]
+				const inputCreditUsage =
+					(totalTokens.inputTokens || 0) * (modelPricing.input / 1_000_000)
+				const outputCreditUsage =
+					(totalTokens.outputTokens || 0) * (modelPricing.output / 1_000_000)
+
+				await updateUsageFields(
+					{
+						chatId: chat.id,
+						chatbotId: chat.chatbot.id,
+						userId: chat.chatbot.userId,
+					},
+					2,
+					inputCreditUsage + outputCreditUsage
+				)
 			},
 		})
 

@@ -1,7 +1,8 @@
 import { AI_TOOL_INDEX } from '@/ai_tools'
-import { saveMessages, updatedChatFields } from '@/data/chat.server'
+import { saveMessages, updateUsageFields } from '@/data/chat.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
+import { modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
 import { convertToUIMessages } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
@@ -33,7 +34,10 @@ const handleMessage = async (
 		{
 			chatId: chat.id,
 			id: message.id,
-			parts: typeof message.parts === 'string' ? JSON.parse(message.parts) : message.parts,
+			parts:
+				typeof message.parts === 'string'
+					? JSON.parse(message.parts)
+					: message.parts,
 			role: message.role as 'user',
 			createdAt: new Date(),
 		},
@@ -77,6 +81,24 @@ const handleMessage = async (
 
 	await saveMessages([generatedMessage])
 
+	const modelPricing =
+		modelPrices.find((modelP) => modelP.name === chatbot.model) ||
+		modelPrices[2]
+	const inputCreditUsage =
+		(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
+	const outputCreditUsage =
+		(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
+
+	await updateUsageFields(
+		{
+			chatId: chat.id,
+			chatbotId: chatbot.id,
+			userId: chatbot.userId,
+		},
+		2,
+		inputCreditUsage + outputCreditUsage
+	)
+
 	return ctx.reply(result.text)
 }
 
@@ -101,9 +123,9 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 					orderBy: {
 						createdAt: 'asc',
 					},
-					take: 20
-				}
-			}
+					take: 20,
+				},
+			},
 		})
 
 		if (!chat) {
@@ -113,15 +135,13 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 					messages: {
 						create: [],
 					},
-					channelId: chatId.toString()
+					channelId: chatId.toString(),
 				},
 				include: {
-				messages: true
-			}
+					messages: true,
+				},
 			})
 		}
-
-		await updatedChatFields(chat.id)
 
 		return handleMessage(chat, chatbot, ctx, chat.messages)
 	})

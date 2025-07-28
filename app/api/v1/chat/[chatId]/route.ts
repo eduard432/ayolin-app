@@ -1,4 +1,4 @@
-import { getChatById, updatedChatFields } from '@/data/chat.server'
+import { getChatById, updateUsageFields } from '@/data/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
@@ -10,6 +10,8 @@ import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
+import { modelPrices } from '@/lib/constants/models'
+import { db } from '@/lib/db'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -50,19 +52,38 @@ export async function POST(
 		return new ChatSDKError('bad_request:api').toResponse()
 	}
 
-	const { message } = requestBody
-
-	await saveMessages([
-		{
-			chatId,
-			id: message.id,
-			parts: message.parts,
-			role: message.role,
-		},
-	])
-
 	try {
+		const { message } = requestBody
+
+		await saveMessages([
+			{
+				chatId,
+				id: message.id,
+				parts: message.parts,
+				role: message.role,
+			},
+		])
+
 		const chat = await getChatById(chatId)
+
+		if (!chat) {
+			return new ChatSDKError('not_found:chat').toResponse()
+		}
+
+		const user = await db.user.findFirst({
+			where: {
+				id: chat.chatbot.userId,
+			},
+		})
+
+		if (!user) {
+			return new ChatSDKError('not_found:chat').toResponse()
+		}
+
+		if (user.creditUsage >= user.maxCreditUsage) {
+			return new ChatSDKError('rate_limit:chat').toResponse()
+		}
+
 		const messages = [
 			...convertToUIMessages(chat.messages.slice(-20)),
 			message,
@@ -97,7 +118,23 @@ export async function POST(
 
 		await saveMessages([generatedMessage])
 
-		await updatedChatFields(chat.id)
+		const modelPricing =
+			modelPrices.find((modelP) => modelP.name === chat.chatbot.model) ||
+			modelPrices[2]
+		const inputCreditUsage =
+			(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
+		const outputCreditUsage =
+			(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
+
+		await updateUsageFields(
+			{
+				chatId: chat.id,
+				chatbotId: chat.chatbot.id,
+				userId: chat.chatbot.userId,
+			},
+			2,
+			inputCreditUsage + outputCreditUsage
+		)
 
 		return Response.json({
 			message: generatedMessage,
