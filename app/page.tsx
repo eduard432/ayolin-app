@@ -22,6 +22,7 @@ import "aos/dist/aos.css";
 import Navbar from "@/components/navbarLanding";
 import Fotter from "@/components/Fotter";
 import { PricingCardLanding } from "@/components/payment-card-landing";
+import { motion } from "framer-motion"
 
 const features = [
   {
@@ -124,21 +125,34 @@ export default function Home() {
       < DemoSection />
 
       {/*Planes de cobro */}
+      <section id="planes" className="relative bg-black text-white pt-20 px-6 pb-30">
+        {/* Gradiente de fondo */}
+        <div className="absolute inset-0"></div>
 
-        <section id="planes" className="relative bg-black text-white pt-20 px-6 pb-30">
-          {/* Gradiente de fondo */}
-          <div className="absolute inset-0"></div>
+        {/* Encabezado */}
+        <motion.div
+          className="relative z-10 max-w-6xl mx-auto text-center mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
+            Próximamente
+          </h2>
+          <p className="text-neutral-400 text-lg max-w-xl mx-auto">
+            Podrás seleccionar el plan que mejor se adapte a tus necesidades.
+          </p>
+        </motion.div>
 
-          <div className="relative z-10 max-w-6xl mx-auto text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
-              Próximamente
-            </h2>
-            <p className="text-neutral-400 text-lg max-w-xl mx-auto">
-              Podrás seleccionar el plan que mejor se adapte a tus necesidades.
-            </p>
-          </div>
-
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-center">
+        {/* Cards */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <PricingCardLanding
               title="Gratis"
               price="$0"
@@ -149,7 +163,14 @@ export default function Home() {
                 "Soporte básico",
               ]}
             />
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             <PricingCardLanding
               title="Pro"
               price="$100.00/mes"
@@ -160,10 +181,11 @@ export default function Home() {
                 "Analíticas avanzadas",
                 "Actualizaciones Pro",
               ]}
-              featured 
+              featured
             />
-          </div>
-        </section>
+          </motion.div>
+        </div>
+      </section>
 
       <div className="relative z-10 bg-black border-t border-white/10 w-full"></div>
       
