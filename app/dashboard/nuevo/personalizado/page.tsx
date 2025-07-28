@@ -70,6 +70,9 @@ const Page = () => {
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
 		},
 		onMutate: async (newChatbot) => {
+			await queryClient.invalidateQueries({
+				queryKey: ['user']
+			})
 			await queryClient.cancelQueries({ queryKey: ['chatbots'] })
 
 			// Snapshot de los datos anteriores
