@@ -63,7 +63,7 @@ export default function Fotter() {
           {/* Línea separadora */}
           <div className="w-full border-t border-gray-700 mt-12 pt-6">
             <div className="flex flex-col md:flex-row items-center justify-between w-[90%] max-w-6xl mx-auto">
-              <Link href="/" className="text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent">
+              <Link href="/" className="text-3xl font-bold text-white">
                 AYOLIN
               </Link>
               <p className="text-sm text-white mb-4 md:mb-0">
