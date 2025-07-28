@@ -11,7 +11,7 @@ interface Feature {
 
 export default function Features({ features }: { features: Feature[] }) {
   return (
-    <section className="relative bg-black text-white py-20 px-6">
+    <section id="features"className="relative bg-black text-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center mb-16">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}

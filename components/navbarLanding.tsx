@@ -47,9 +47,37 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Links */}
+        {/* Links (desktop siempre visibles, móvil con AnimatePresence) */}
+        <ul
+          className={`
+            hidden md:flex md:space-x-8 text-lg font-medium
+          `}
+        >
+          <li>
+            <a href="#home" className="text-white hover:text-blue-300 transition-colors">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="#features" className="text-white hover:text-blue-300 transition-colors">
+              Servicios
+            </a>
+          </li>
+          <li>
+            <a href="#planes" className="text-white hover:text-blue-300 transition-colors">
+              Planes
+            </a>
+          </li>
+          <li>
+            <Link href="/auth/login" className="text-white hover:text-blue-300 transition-colors">
+              Login
+            </Link>
+          </li>
+        </ul>
+
+        {/* Menú móvil */}
         <AnimatePresence>
-          {(isOpen || typeof window !== 'undefined') && (
+          {isOpen && (
             <motion.ul
               key="menu"
               initial={{ opacity: 0, y: -10 }}
@@ -57,22 +85,31 @@ export default function Navbar() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
               className={`
-                md:flex md:space-x-8 text-lg font-medium transition-all duration-300
-                ${isOpen 
-                  ? 'fixed top-0 left-0 w-full bg-black flex flex-col items-center justify-center gap-6 md:static md:h-auto md:flex-row md:bg-transparent' 
-                  : 'hidden md:flex'}
+                fixed top-0 left-0 w-full h-screen bg-black flex flex-col items-center justify-center gap-6 md:hidden
               `}
             >
-              {['Inicio', 'Servicios', 'Prueba', 'Login'].map((item, i) => (
-                <li key={i} className="px-6 py-3 md:p-0">
-                  <Link 
-                    href={item === 'Login' ? '/auth/login' : '/'}
-                    className="text-white hover:text-blue-300 transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              {/* Botón cerrar */}
+
+              <li>
+                <a href="#home" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#features" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Servicios
+                </a>
+              </li>
+              <li>
+                <a href="#planes" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Planes
+                </a>
+              </li>
+              <li>
+                <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Login
+                </Link>
+              </li>
             </motion.ul>
           )}
         </AnimatePresence>
