@@ -36,7 +36,8 @@ model User {
   // Extra fields for app:
   chatbots                Chatbot[]
   // Usage fields:
-  maxCreditUsage          Float                 @default(15)
+  maxCreditUsage          Float                 @default(0.75)
+  maxChatbots             Int                   @default(3)
   creditUsage             Float                 @default(0)
   usageLogs               UsageLog[]
 }
