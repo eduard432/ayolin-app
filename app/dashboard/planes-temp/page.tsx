@@ -23,7 +23,7 @@ export default function PricingPageTemp() {
 
         <PricingCardLanding
           title="Pro"
-          price="$100.00/mes"
+          price="$150.00/mes"
           description="Funciones avanzadas"
           features={[
             "Chatbots ilimitados",
