@@ -6,7 +6,7 @@ export default function PricingPageTemp() {
 
   return (
     <section className="max-w-6xl mx-auto py-20 px-4">
-      <h2 className="text-5xl font-bold text-center mb-10">Elige tu plan próximamente</h2>
+      <h2 className="text-5xl font-bold text-center mb-15">Elige tu plan próximamente</h2>
 
       <div className="grid md:grid-cols-2 gap-6">
         <PricingCardLanding
