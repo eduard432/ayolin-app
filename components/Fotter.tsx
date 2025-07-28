@@ -22,11 +22,11 @@ const icons = [
 
 export default function Fotter() {
   return (
-    <footer className="bg-neutral-900 text-white mt-5 py-12">
-        <div className="flex flex-col items-center justify-center">
+    <footer className="relative z-10 bg-black text-white pt-20 py-12">
+        <div className="flex flex-col items-center justify-center ">
           <div className="w-full max-w-6xl flex flex-wrap justify-center gap-12">
             {/* Columna 1 */}
-            <div className="flex flex-col text-left gap-2">
+            <div className="flex flex-col text-left gap-2 bg-black">
               <h2 className="mb-4 text-lg font-bold text-white">Sobre Nosotros</h2>
               <a href="/sign__up" className="text-sm hover:underline">Cómo funciona</a>
               <Link href="/" className="text-sm hover:underline">Testimonios</Link>
@@ -63,7 +63,7 @@ export default function Fotter() {
           {/* Línea separadora */}
           <div className="w-full border-t border-gray-700 mt-12 pt-6">
             <div className="flex flex-col md:flex-row items-center justify-between w-[90%] max-w-6xl mx-auto">
-              <Link href="/" className="text-2xl font-semibold text-white mb-4 md:mb-0">
+              <Link href="/" className="text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent">
                 AYOLIN
               </Link>
               <p className="text-sm text-white mb-4 md:mb-0">

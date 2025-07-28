@@ -2,46 +2,30 @@
 
 import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+import { loadSlim } from "tsparticles-slim";
+import type { Engine } from "tsparticles-engine";
 
 export default function Hero() {
-  const particlesInit = async (main: any) => {
-    await loadFull(main);
+  const particlesInit = async (engine: Engine) => {
+    await loadSlim(engine); // más ligero y compatible
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#0d0d0d] text-white pt-32 pb-24">
-      {/* Gradiente animado */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-purple-700 to-pink-700 opacity-30 animate-pulse"></div>
-
-      {/* Partículas */}
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        options={{
-          background: { color: "transparent" },
-          fpsLimit: 60,
-          particles: {
-            color: { value: "#ffffff" },
-            links: {
-              color: "#ffffff",
-              distance: 150,
-              enable: true,
-              opacity: 0.2,
-              width: 1,
-            },
-            move: { enable: true, speed: 1, outModes: "bounce" },
-            number: { value: 50 },
-            opacity: { value: 0.2 },
-            shape: { type: "circle" },
-            size: { value: { min: 1, max: 3 } },
-          },
-        }}
-        className="absolute inset-0 z-0"
-      />
+    <section className="relative bg-[#0d0d0d] text-white">
+      <Particles id="tsparticles" init={particlesInit} options={{
+        background: { color: "transparent" },
+        particles: {
+          color: { value: "#ffffff" },
+          links: { enable: true, distance: 150, color: "#ffffff", opacity: 0.2 },
+          move: { enable: true, speed: 1 },
+          number: { value: 50 },
+          opacity: { value: 0.2 },
+          size: { value: { min: 1, max: 3 } }
+        }
+      }} className="absolute inset-0 z-0" />
 
       {/* Contenido */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-30">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -83,7 +67,7 @@ export default function Hero() {
         <motion.img
           src="/img/image-tres-landing.png"
           alt="Ilustración Ayolin"
-          className="mx-auto mt-16 w-80 md:w-96"
+          className="relative z-10 mx-auto mt-16 w-80 md:w-96"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: [20, 0, 20], opacity: 1 }}
           transition={{

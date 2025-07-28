@@ -11,7 +11,7 @@ export default function UseCases({ useCases }: { useCases: UseCase[] }) {
   return (
     <section className="relative bg-black text-white py-20 px-6">
       {/* Gradiente sutil de fondo */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black opacity-90"></div>
+      <div className="absolute inset-0 "></div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         <motion.h2

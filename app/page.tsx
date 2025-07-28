@@ -14,6 +14,7 @@ import {
 import  Hero  from '@/components/hero-landing'
 import Features from '@/components/features-landing'
 import UseCases from "@/components/useCase-landing";
+import DemoSection from "@/components/demo-landing";
 
 import { useEffect } from "react";
 import AOS from "aos";
@@ -104,22 +105,8 @@ export default function Home() {
     });
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const nav = document.getElementById('navbar')
-      if (window.scrollY > 10) {
-        nav?.classList.add('shadow-md', 'bg-white', 'nav-scrolled')
-      } else {
-        nav?.classList.remove('shadow-md', 'bg-white', 'nav-scrolled')
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100">
+    <div className="min-h-screen ">
       <Navbar/>
       {/* Hero Section */}
       <Hero/>
@@ -131,35 +118,24 @@ export default function Home() {
       < UseCases useCases={useCases} />
 
       {/* Demo Section */}
-      <div id="demo" className="container mx-auto px-4 py-16">
-        <div className="bg-white rounded-xl p-8 shadow-lg" data-aos="fade-up">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Mira a Ayolin en Acción</h2>
-            <p className="text-neutral-500 text-lg">
-              Observa cómo Ayolin maneja conversaciones reales, ofreciendo respuestas inteligentes
-              y contextuales que hacen que cada interacción se sienta natural y significativa.
-            </p>
-          </div>
-          <div className="aspect-video rounded-lg bg-neutral-200 flex items-center justify-center">
-            <div className="text-neutral-500">Demostración interactiva próximamente</div>
-          </div>
-        </div>
-      </div>
+      < DemoSection />
 
       {/*Planes de cobro */}
-      <div id="planes" className="container mx-auto px-4 py-16">
 
-        <section className="w-full px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-12" data-aos="fade-up">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-                Proximamente
-              </h2>
-              <p className="text-neutral-500 text-base sm:text-lg mt-2 max-w-xl mx-auto">
-                Podras selecciona el plan que mejor se adapte a tus necesidades.
-              </p>
+        <section id="planes" className="relative bg-black text-white pt-20 px-6 pb-30">
+          {/* Gradiente de fondo */}
+          <div className="absolute inset-0"></div>
+
+          <div className="relative z-10 max-w-6xl mx-auto text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
+              Próximamente
+            </h2>
+            <p className="text-neutral-400 text-lg max-w-xl mx-auto">
+              Podrás seleccionar el plan que mejor se adapte a tus necesidades.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto justify-items-center sm:px-4" data-aos="fade-up">
 
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-center">
             <PricingCardLanding
               title="Gratis"
               price="$0"
@@ -181,15 +157,16 @@ export default function Home() {
                 "Analíticas avanzadas",
                 "Actualizaciones Pro",
               ]}
+              featured 
             />
-
           </div>
         </section>
 
-      </div>
-
+      <div className="relative z-10 bg-black border-t border-white/10 w-full"></div>
+      
       {/*Seccion de footer   */}
-      <Fotter/>
+      <Fotter />
+
     </div>
   );
 }
