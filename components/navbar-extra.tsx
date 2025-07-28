@@ -54,9 +54,9 @@ export default function Navbar() {
           `}
         >
           <li>
-            <a href="#home" className="text-white hover:text-blue-300 transition-colors">
+            <Link href="/" className="text-white hover:text-blue-300 transition-colors">
               Inicio
-            </a>
+            </Link>
           </li>
           <li>
             <Link href="/auth/login" className="text-white hover:text-blue-300 transition-colors">
@@ -79,9 +79,9 @@ export default function Navbar() {
               `}
             >
               <li>
-                <a href="#home" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                <Link href="/" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
                   Inicio
-                </a>
+                </Link>
               </li>
               <li>
                 <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
