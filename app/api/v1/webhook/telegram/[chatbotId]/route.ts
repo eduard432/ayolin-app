@@ -2,7 +2,7 @@ import { AI_TOOL_INDEX } from '@/ai_tools'
 import { saveMessages, updateUsageFields } from '@/data/chat.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
-import { modelPrices } from '@/lib/constants/models'
+import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
 import { convertToUIMessages } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
@@ -81,9 +81,7 @@ const handleMessage = async (
 
 	await saveMessages([generatedMessage])
 
-	const modelPricing =
-		modelPrices.find((modelP) => modelP.name === chatbot.model) ||
-		modelPrices[2]
+	const modelPricing = modelPrices[(chatbot.model as ModelId)]
 	const inputCreditUsage =
 		(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
 	const outputCreditUsage =

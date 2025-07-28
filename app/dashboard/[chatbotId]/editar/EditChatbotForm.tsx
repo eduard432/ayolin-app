@@ -161,11 +161,11 @@ const EditChatbotForm = ({ chatbot }: { chatbot: Chatbot }) => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{modelPrices.map((model) => (
+											{Object.entries(modelPrices).map(([id, model]) => (
 												<SelectItem
 													disabled={model.name !== 'gpt-4.1-nano'}
-													key={model.name}
-													value={model.name}
+													key={id}
+													value={id}
 												>
 													{model.name}
 												</SelectItem>

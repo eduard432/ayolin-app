@@ -17,7 +17,7 @@ import { ObjectId } from 'bson'
 import { saveMessages } from '@/data/chat.server'
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
-import { modelPrices } from '@/lib/constants/models'
+import { ModelId, modelPrices } from '@/lib/constants/models'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -121,9 +121,7 @@ export async function POST(
 
 				const totalTokens = await resultTokens
 
-				const modelPricing =
-					modelPrices.find((modelP) => modelP.name === chat.chatbot.model) ||
-					modelPrices[2]
+				const modelPricing = modelPrices[(chat.chatbot.model as ModelId)]
 				const inputCreditUsage =
 					(totalTokens.inputTokens || 0) * (modelPricing.input / 1_000_000)
 				const outputCreditUsage =
