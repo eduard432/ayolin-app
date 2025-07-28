@@ -81,21 +81,22 @@ const handleMessage = async (
 
 	await saveMessages([generatedMessage])
 
-	const modelPricing = modelPrices[(chatbot.model as ModelId)]
+	const modelPricing = modelPrices[chatbot.model as ModelId]
 	const inputCreditUsage =
 		(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
 	const outputCreditUsage =
 		(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
 
-	await updateUsageFields(
-		{
+	await updateUsageFields({
+		ids: {
 			chatId: chat.id,
 			chatbotId: chatbot.id,
 			userId: chatbot.userId,
 		},
-		2,
-		inputCreditUsage + outputCreditUsage
-	)
+		messages: 2,
+		usage: inputCreditUsage + outputCreditUsage,
+		newChats: 1
+	})
 
 	return ctx.reply(result.text)
 }

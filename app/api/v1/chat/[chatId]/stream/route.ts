@@ -121,21 +121,21 @@ export async function POST(
 
 				const totalTokens = await resultTokens
 
-				const modelPricing = modelPrices[(chat.chatbot.model as ModelId)]
+				const modelPricing = modelPrices[chat.chatbot.model as ModelId]
 				const inputCreditUsage =
 					(totalTokens.inputTokens || 0) * (modelPricing.input / 1_000_000)
 				const outputCreditUsage =
 					(totalTokens.outputTokens || 0) * (modelPricing.output / 1_000_000)
 
-				await updateUsageFields(
-					{
+				await updateUsageFields({
+					ids: {
 						chatId: chat.id,
 						chatbotId: chat.chatbot.id,
 						userId: chat.chatbot.userId,
 					},
-					2,
-					inputCreditUsage + outputCreditUsage
-				)
+					messages: 2,
+					usage: inputCreditUsage + outputCreditUsage,
+				})
 			},
 		})
 

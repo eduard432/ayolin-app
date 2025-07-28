@@ -52,11 +52,19 @@ type ModelIds = {
 	chatId: string
 }
 
-export const updateUsageFields = async (
-	ids: ModelIds,
+type UsageProps = {
+	ids: ModelIds
+	messages?: number
+	usage?: number
+	newChats?: number
+}
+
+export const updateUsageFields = async ({
+	ids,
 	messages = 1,
-	usage = 0
-) => {
+	usage = 0,
+	newChats
+}: UsageProps) => {
 	return await db.$transaction(async (tx) => {
 		// 1. Crear usageLog
 		const usageLog = await tx.usageLog.create({
@@ -100,6 +108,9 @@ export const updateUsageFields = async (
 						id: usageLog.id,
 					},
 				},
+				totalChats: {
+					increment: newChats
+				}
 			},
 			include: {
 				usageLogs: true, // Si quieres devolverlos
