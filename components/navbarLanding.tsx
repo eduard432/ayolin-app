@@ -32,7 +32,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-6 py-7 flex justify-between items-center">
         {/* Logo */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-          <Link href="/" className="text-2xl md:text-3xl font-bold text-white tracking-wide">
+          <Link href="/" className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent">
             AYOLIN
           </Link>
         </motion.div>
