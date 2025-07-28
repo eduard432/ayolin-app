@@ -1,46 +1,97 @@
 'use client'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FaBars, FaTimes } from 'react-icons/fa' 
-import React from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-export default function NavbarExtra() {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 0)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <nav id="navbar" className="fixed rounded-b-md top-0 left-0 w-full bg-neutral-900 shadow z-50 transition-all duration-300 mb-7">
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <Link href="/" className="text-3xl font-bold text-sky-700">
-          AYOLIN
-        </Link>
-        <div className="md:hidden">
+    <motion.nav
+      id="navbar"
+      className={`
+        fixed top-0 left-0 w-full z-50 transition-all duration-300
+        ${isScrolled 
+          ? 'bg-black/40 backdrop-blur-md border-b border-white/10' 
+          : 'bg-transparent'
+        }
+      `}
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="max-w-6xl mx-auto px-6 py-7 flex justify-between items-center">
+        {/* Logo */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+          <Link href="/" className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent">
+            AYOLIN
+          </Link>
+        </motion.div>
+
+        {/* Botón hamburguesa en móvil */}
+        <div className="md:hidden relative z-10">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-2xl text-white"
+            className="text-2xl text-white focus:outline-none"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
-        <ul className={`md:flex md:space-x-8 font-semibold ${isOpen ? 'block mt-6 md:mt-0' : 'hidden'} md:block`}>
+
+        {/* Links (desktop siempre visibles, móvil con AnimatePresence) */}
+        <ul
+          className={`
+            hidden md:flex md:space-x-8 text-lg font-medium
+          `}
+        >
           <li>
-            <Link
-                href="/"
-                className="hover:text-cyan-500 text-white"
-            >
-                Inicio
-            </Link>
+            <a href="#home" className="text-white hover:text-blue-300 transition-colors">
+              Inicio
+            </a>
           </li>
           <li>
-            <Link
-                href="/auth/login"
-                className="hover:text-cyan-500 text-white"
-            >
-                Login
+            <Link href="/auth/login" className="text-white hover:text-blue-300 transition-colors">
+              Login
             </Link>
           </li>
         </ul>
+
+        {/* Menú móvil */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.ul
+              key="menu"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className={`
+                fixed top-0 left-0 w-full h-screen bg-black flex flex-col items-center justify-center gap-6 md:hidden
+              `}
+            >
+              <li>
+                <a href="#home" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
+                  Login
+                </Link>
+              </li>
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
