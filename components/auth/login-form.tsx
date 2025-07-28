@@ -149,7 +149,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 					<Button
 						disabled={isPending}
 						type="submit"
-						className="w-full mt-4 h-11"
+						className="w-full mt-4 h-11 bg-white text-black"
 					>
 						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>

@@ -146,7 +146,7 @@ export const RegisterForm = () => {
                 <Button
                     disabled={isPending}
                     type="submit"
-                    className="w-full mt-4 h-11"
+                    className="w-full mt-4 h-11 bg-white text-black"
                 >
                     Crear cuenta
                 </Button>
