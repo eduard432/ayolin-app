@@ -7,7 +7,7 @@ import type { Engine } from "tsparticles-engine";
 
 export default function Hero() {
   const particlesInit = async (engine: Engine) => {
-    await loadSlim(engine); // más ligero y compatible
+    await loadSlim(engine); 
   };
 
   return (

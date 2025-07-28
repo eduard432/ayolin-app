@@ -171,7 +171,6 @@ export default function Home() {
   );
 }
 
-
     {/*Mas cosas que se pueden agregar a la landing page */}
 
 

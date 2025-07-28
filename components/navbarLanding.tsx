@@ -38,7 +38,7 @@ export default function Navbar() {
         </motion.div>
 
         {/* Botón hamburguesa en móvil */}
-        <div className="md:hidden">
+        <div className="md:hidden relative z-10">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-2xl text-white focus:outline-none"
@@ -59,13 +59,13 @@ export default function Navbar() {
               className={`
                 md:flex md:space-x-8 text-lg font-medium transition-all duration-300
                 ${isOpen 
-                  ? 'block absolute top-full left-0 w-full bg-black/80 backdrop-blur-md md:static md:bg-transparent md:backdrop-blur-0' 
+                  ? 'fixed top-0 left-0 w-full bg-black flex flex-col items-center justify-center gap-6 md:static md:h-auto md:flex-row md:bg-transparent' 
                   : 'hidden md:flex'}
               `}
             >
               {['Inicio', 'Servicios', 'Prueba', 'Login'].map((item, i) => (
                 <li key={i} className="px-6 py-3 md:p-0">
-                  <Link
+                  <Link 
                     href={item === 'Login' ? '/auth/login' : '/'}
                     className="text-white hover:text-blue-300 transition-colors"
                   >
