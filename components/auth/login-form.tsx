@@ -134,7 +134,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											asChild
 											className='font-normal text-sm flex justify-start pt'
 										>
-											<Link href="/auth/reset">
+											<Link href="/auth/reset" className='text-white'>
 												Olvidaste tu contraseña? 
 											</Link>
 										</Button>
