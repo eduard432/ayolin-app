@@ -88,8 +88,6 @@ export default function Navbar() {
                 fixed top-0 left-0 w-full h-screen bg-black flex flex-col items-center justify-center gap-6 md:hidden
               `}
             >
-              {/* Botón cerrar */}
-
               <li>
                 <a href="#home" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">
                   Inicio
