@@ -100,18 +100,21 @@ export default function Navbar() {
 						<DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
+							onClick={() => router.push('/dashboard/configuracion/cuenta')}
+						>
+							Cuenta
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => router.push('/dashboard/planes-temp')}
+						>
+							Subscription
+						</DropdownMenuItem>
+						<DropdownMenuItem
 							onClick={() => signOut()}
 							className="cursor-pointer"
 						>
 							Sign Out
 						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() => router.push('/dashboard/configuracion/cuenta')}
-						>
-							Cuenta
-						</DropdownMenuItem>
-						<DropdownMenuItem>Team</DropdownMenuItem>
-						<DropdownMenuItem>Subscription</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
