@@ -2,18 +2,18 @@
 
 - [ ✅ ] Auth con Google y GitHub
 - [ ✅ ] 2FA
-- [ ] Quitar la dummy info de las paginas
-- [ ] Template's para los Chatbots
-- [ ] Configurar WhatsApp y Telegram
-- [ ] Todo lo relacionado con los Chatbots
+- [ ✅ ] Quitar la dummy info de las paginas
+- [ ✅ ] Template's para los Chatbots
+- [ 1/2 ] Configurar WhatsApp y Telegram
+- [ 1/2 ] Todo lo relacionado con los Chatbots
 
 ## Side quest's
 
 - [ ] Cambiar favicon
 - [ ] Titulo en cada pagina
-- [ ] Hacer responsive todo
+- [ ✅ ] Hacer responsive todo
 - [ ] Chatbot en la LandingPage
-- [ ] Agregar stat's a la LandigPage
+- [ ✅ ] Agregar stat's a la LandigPage
 - [ ] SEO de la LandingPage
 - [ ] Agregar Tabs Animadas para el navbar del dashboard componente a usar: [Componente](https://github.com/mehrdadrafiee/animated-tabs?tab=readme-ov-file)
 
