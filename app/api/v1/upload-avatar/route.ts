@@ -1,3 +1,6 @@
+// Por ahora no se esta usando esta ruta
+// La foto de perfil se pone automaticamente
+
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"

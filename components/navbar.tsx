@@ -12,7 +12,6 @@ import { useSession } from 'next-auth/react'
 import { SearchBar } from './search-bar'
 import { Button } from './ui/button'
 import { BookOpen, Search } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -26,6 +25,7 @@ import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { getAllowedNavbarRoutes } from '@/lib/navbarData'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { GeneratedAvatar } from 'components/generateAvatar'
 
 const Title = () => {
 	return (
@@ -86,14 +86,16 @@ export default function Navbar() {
 					<BookOpen />
 				</Button>
 				<DropdownMenu>
+					
 					<DropdownMenuTrigger asChild>
-						<Avatar className="cursor-pointer">
-							<AvatarImage
-								src={session?.user?.image || 'https://github.com/shadcn.png'}
-							/>
-							<AvatarFallback>CN</AvatarFallback>
-						</Avatar>
+						<div className='cursor-pointer'>
+							<GeneratedAvatar
+								name={session?.user?.name || session?.user?.email || "U"}
+								size='w-10 h-10'
+							/> 
+						</div>
 					</DropdownMenuTrigger>
+
 					<DropdownMenuContent>
 						<DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
 						<DropdownMenuSeparator />

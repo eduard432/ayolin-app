@@ -61,7 +61,7 @@ export default function UserSettings() {
 
             <div className="space-y-4">
 
-                <Card className="bg-background">
+                <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <div className="flex items-center gap-2">
                             <CardTitle className="text-foreground text-2xl">
@@ -88,7 +88,7 @@ export default function UserSettings() {
                 </Card>
 
                 {userInfo?.role === 'PRO' && (
-                    <Card className='bg-background'>
+                    <Card>
                         <CardHeader>
                             <CardTitle className='text-foreground text-2xl'>
                                 Gestionar suscripción
