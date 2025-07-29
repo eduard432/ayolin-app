@@ -1,6 +1,6 @@
 'use client';
 
-import { PricingCardLanding } from "@/components/payment-card-landing";
+import { PricingCardDashboard } from "@/components/payment-card-dashboard";
 
 export default function PricingPageTemp() {
 
@@ -9,7 +9,7 @@ export default function PricingPageTemp() {
       <h2 className="text-5xl font-bold text-center mb-15">Elige tu plan próximamente</h2>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <PricingCardLanding
+        <PricingCardDashboard
           title="Gratis"
           price="$0"
           description="Perfecto para comenzar"
@@ -21,7 +21,7 @@ export default function PricingPageTemp() {
           
         />
 
-        <PricingCardLanding
+        <PricingCardDashboard
           title="Pro"
           price="$150.00/mes"
           description="Funciones avanzadas"
