@@ -4,6 +4,11 @@ import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import type { Engine } from "tsparticles-engine";
+import { Canvas } from "@react-three/fiber"
+import { OrbitControls, Float } from "@react-three/drei"
+import dynamic from "next/dynamic"
+
+const ThreeModel = dynamic(() => import("@/components/ThreeModel"), { ssr: false })
 
 export default function Hero() {
   const particlesInit = async (engine: Engine) => {
@@ -63,7 +68,46 @@ export default function Hero() {
           </button>
         </motion.div>
 
-        {/* Ilustración flotante */}
+        {/* Modelo 3D */}
+        <div className="relative z-10 mx-auto mt-16 w-[350px] h-[350px] md:w-[450px] md:h-[450px]">
+          <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
+            {/* Luces */}
+            <ambientLight intensity={0.6} />
+            <pointLight position={[5, 5, 5]} intensity={1.5} color="#00f0ff" />
+            <pointLight position={[-5, -5, -5]} intensity={0.8} color="#ff00ff" />
+
+            {/* Efecto flotante */}
+            <Float speed={2} rotationIntensity={1.5} floatIntensity={1}>
+              <group>
+                {/* Modelo con efecto de holograma */}
+                <ThreeModel />
+              </group>
+            </Float>
+
+            {/* Control de cámara */}
+            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.2} />
+          </Canvas>
+
+          {/* Glow extra detrás del modelo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="absolute inset-0 rounded-full bg-blue-500/15 blur-2xl"
+          />
+
+
+        </div>
+
+      </div>
+
+      {/* Gradiente de transición hacia negro */}
+      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-black"></div>
+    </section>
+  );
+}
+
+        {/* Ilustración flotante Para MAYBE usarla despues
         <motion.img
           src="/img/image-tres-landing.png"
           alt="Ilustración Ayolin"
@@ -76,10 +120,4 @@ export default function Hero() {
             repeatType: "reverse",
           }}
         />
-      </div>
-
-      {/* Gradiente de transición hacia negro */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-black"></div>
-    </section>
-  );
-}
+        */}
