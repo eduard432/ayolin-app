@@ -15,7 +15,7 @@ export default function PricingPageTemp() {
           description="Perfecto para comenzar"
           features={[
             "Acceso limitado",  
-            "1 chatbot",
+            "3 chatbot",
             "Soporte básico",
           ]}
           

@@ -11,11 +11,9 @@ const FooterDashboard = () => {
 				</h2>
 				<div className="space-x-4 text-sm text-muted-foreground mt-4">
 					<Link href="/">Home</Link>
-					<Link href="/docs">Docs</Link>
-					<Link href="/guides">Guides</Link>
-					<Link href="/help">Help</Link>
-					<Link href="/contact">Contact</Link>
-					<Link href="/legal">Legal</Link>
+					<Link href="/condiciones-servicios">Condiciones</Link>
+					<Link href="/politica-privacidad">Privacidad</Link>
+					<a href="mailto:ayolintm@gmail.com">Contacto</a>
 				</div>
 			</section>
 			<section className="flex gap-x-4 w-full justify-between md:justify-end" >
