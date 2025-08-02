@@ -4,7 +4,7 @@ import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
-import { convertToUIMessages } from '@/lib/utils'
+import { convertToUIMessages, sleep } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
 import { Chat, Chatbot, Message, Prisma } from '@prisma/client'
 import { convertToModelMessages, generateText, UIMessage } from 'ai'
@@ -43,10 +43,41 @@ const handleMessage = async (
 		},
 	])
 
+	await db.chat.update({
+		where: { id: chat.id },
+		data: {
+			status: {
+				update: {
+					pendingMessagesCount: {
+						increment: 1,
+					},
+				},
+			},
+		},
+	})
+
+	await sleep(chat.settings.maxBatchReplyDelay) // Simulate processing delay
+
+	const newChat = await db.chat.findFirst({
+		where: {
+			id: chat.id,
+		},
+		include: {
+			messages: {
+				orderBy: { createdAt: 'asc' },
+				take: 30,
+			},
+		}
+	})
+
+	if(!newChat || newChat.status.pendingMessagesCount <= 0) {
+		return 
+	}
+
 	const messages: UIMessage[] = []
 
 	if (prevMessages) {
-		messages.push(...convertToUIMessages(prevMessages))
+		messages.push(...convertToUIMessages(newChat.messages))
 	}
 
 	messages.push(message)
@@ -95,7 +126,7 @@ const handleMessage = async (
 		},
 		messages: 2,
 		usage: inputCreditUsage + outputCreditUsage,
-		newChats: 1
+		newChats: 1,
 	})
 
 	return ctx.reply(result.text)
@@ -135,6 +166,12 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 						create: [],
 					},
 					channelId: chatId.toString(),
+					settings: {
+						maxBatchReplyDelay: 5000, // Default delay for batch replies
+					},
+					status: {
+						pendingMessagesCount: 0,
+					},
 				},
 				include: {
 					messages: true,

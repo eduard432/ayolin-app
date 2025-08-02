@@ -88,6 +88,9 @@ export const updateUsageFields = async ({
 				creditUsage: {
 					increment: usage,
 				},
+				status: {
+					pendingMessagesCount: 0,
+				}
 			},
 		})
 

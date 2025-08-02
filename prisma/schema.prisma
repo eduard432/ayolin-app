@@ -36,9 +36,9 @@ model User {
   // Extra fields for app:
   chatbots                Chatbot[]
   // Usage fields:
-  maxCreditUsage          Float                 @default(0.75)
-  maxChatbots             Int                   @default(3)
-  creditUsage             Float                 @default(0)
+  maxCreditUsage          Float                  @default(0.75)
+  maxChatbots             Int                    @default(3)
+  creditUsage             Float                  @default(0)
   usageLogs               UsageLog[]
 }
 
@@ -114,18 +114,31 @@ model Chatbot {
   usageLogs     UsageLog[]
 }
 
+type ChatStatus {
+  // totalMessages        Int
+  // totalChats           Int
+  // lastActive           DateTime
+  pendingMessagesCount Int @default(0)
+}
+
+type ChatSettings {
+  maxBatchReplyDelay Int @default(5000) // Maximum delay in milliseconds for batch replies
+}
+
 model Chat {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  chatbotId     String    @db.ObjectId
-  chatbot       Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages      Message[] @relation("ChatMessages")
-  lastActive    DateTime  @default(now())
-  channelId     String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  totalMessages Int       @default(0)
-  creditUsage   Float     @default(0)
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String?
+  chatbotId            String    @db.ObjectId
+  chatbot              Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  messages             Message[] @relation("ChatMessages")
+  lastActive           DateTime  @default(now())
+  channelId            String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  totalMessages        Int       @default(0)
+  creditUsage          Float     @default(0)
+  status ChatStatus     
+  settings ChatSettings  
 }
 
 model Message {
