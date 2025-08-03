@@ -45,7 +45,7 @@ export default function NavbarBLog() {
           {isSlugPage && (
             <Link
               href="/blog"
-              className="text-white hover:text-blue-300 text-lg flex items-center gap-1"
+              className="text-white hover:text-blue-300 text-lg flex items-center gap-1 font-black"
             >
               ← Regresar al Blog
             </Link>
