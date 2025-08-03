@@ -9,6 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import NavbarBLog from "@/components/navbarBlog"
+import TituloBlog from "@/components/TituloBlog"
 
 export default function BlogPage() {
   const postsDirectory = path.join(process.cwd(), "posts")
@@ -30,18 +31,14 @@ export default function BlogPage() {
   return (
     <>
       <NavbarBLog />
-      <section className="relative px-6 md:px-20 py-16 min-h-screen pt-30 bg-gradient-to-br from-blue-950 from-10% via-gray-950 via-60% to-black">
+      <section className="relative px-6 md:px-20 py-16 min-h-screen pt-30 bg-gradient-to-br from-cyan-900 from-10% via-gray-900 via-40% to-black">
         
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
         
         <div className="relative max-w-6xl mx-auto">
           {/* Header Blog */}
-          <h1 className="text-4xl md:text-5xl font-extrabold text-center 
-             bg-clip-text text-transparent 
-             bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-            Blog de AYOLIN
-          </h1>
-          <p className="text-center text-gray-400 mt-4 mb-12 max-w-2xl mx-auto">
+          <TituloBlog/>
+          <p className="text-center text-white mt-4 mb-12 max-w-2xl mx-auto">
             Noticias, tutoriales y guías para ayudarte a sacar el máximo de nuestras herramientas.
           </p>
 
