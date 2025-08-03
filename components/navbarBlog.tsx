@@ -31,14 +31,14 @@ export default function NavbarBLog() {
       `}
       initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-6xl mx-auto px-6 py-7 flex justify-between items-center">
         <div className="flex items-center gap-10">
           {/* Logo AYOLIN */}
           <Link
             href="/"
-            className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
+            className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
           >
             AYOLIN
           </Link>
