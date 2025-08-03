@@ -14,6 +14,7 @@ const FooterDashboard = () => {
 					<Link href="/condiciones-servicios">Condiciones</Link>
 					<Link href="/politica-privacidad">Privacidad</Link>
 					<a href="mailto:ayolintm@gmail.com">Contacto</a>
+					<Link href="/blog">Blog</Link>
 				</div>
 			</section>
 			<section className="flex gap-x-4 w-full justify-between md:justify-end" >
