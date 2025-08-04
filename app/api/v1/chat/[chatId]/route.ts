@@ -12,6 +12,7 @@ import { AI_TOOL_INDEX } from '@/ai_tools'
 import { Prisma } from '@prisma/client'
 import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
+import { generateTools } from '@/lib/ai'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -89,13 +90,7 @@ export async function POST(
 			message,
 		]
 
-		const tools = Object.fromEntries(
-			chat.chatbot.tools
-				.filter((tool) => AI_TOOL_INDEX[tool.keyName])
-				.map((tool) => {
-					return [tool.keyName, AI_TOOL_INDEX[tool.keyName]]
-				})
-		)
+		const tools = generateTools(chat.chatbot.tools)
 
 		const result = await generateText({
 			model: openai(chat.chatbot.model),

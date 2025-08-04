@@ -1,5 +1,6 @@
 import { AI_TOOL_INDEX } from '@/ai_tools'
 import { saveMessages, updateUsageFields } from '@/data/chat.server'
+import { generateTools } from '@/lib/ai'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { ModelId, modelPrices } from '@/lib/constants/models'
@@ -82,13 +83,7 @@ const handleMessage = async (
 
 	messages.push(message)
 
-	const tools = Object.fromEntries(
-		chatbot.tools
-			.filter((tool) => AI_TOOL_INDEX[tool.keyName])
-			.map((tool) => {
-				return [tool.keyName, AI_TOOL_INDEX[tool.keyName]]
-			})
-	)
+	const tools = generateTools(chatbot.tools)
 
 	const result = await generateText({
 		model: openai(chatbot.model),
