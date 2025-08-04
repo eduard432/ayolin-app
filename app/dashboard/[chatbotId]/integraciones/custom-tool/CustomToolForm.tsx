@@ -43,15 +43,7 @@ import { addTool } from '@/data/integrations.client'
 import { ObjectId } from 'bson'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
-
-const formSchema = z.object({
-	name: z.string(),
-	description: z.string(),
-	apiUrl: z.string(),
-	httpMethod: z.enum(['get', 'post', 'put', 'delete']),
-	inputSchema: fieldSchema.array().optional(),
-	isBodyParams: z.boolean(),
-})
+import { CustomFetchToolSettingsSchema } from '@/schemas'
 
 export const CustomToolFormSkeleton = () => {
 	return (
@@ -124,8 +116,8 @@ export const CustomToolFormSkeleton = () => {
 const CustomToolForm = ({ chatbot }: { chatbot: Chatbot }) => {
 	const router = useRouter()
 
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof CustomFetchToolSettingsSchema>>({
+		resolver: zodResolver(CustomFetchToolSettingsSchema),
 		defaultValues: {
 			name: '',
 			description: '',
@@ -152,7 +144,10 @@ const CustomToolForm = ({ chatbot }: { chatbot: Chatbot }) => {
 	const mutation = useMutation<
 		Chatbot,
 		Error,
-		{ keyName: string; settings: z.infer<typeof formSchema> },
+		{
+			keyName: string
+			settings: z.infer<typeof CustomFetchToolSettingsSchema>
+		},
 		{ previousChatbot: Chatbot }
 	>({
 		mutationFn: async ({ keyName, settings }) => {
@@ -194,9 +189,11 @@ const CustomToolForm = ({ chatbot }: { chatbot: Chatbot }) => {
 		},
 	})
 
-	const handleSubmit = (values: z.infer<typeof formSchema>) => {
+	const handleSubmit = (
+		values: z.infer<typeof CustomFetchToolSettingsSchema>
+	) => {
 		mutation.mutate({
-			keyName: `custom:${new ObjectId().toString()}`,
+			keyName: `custom_fetch:${new ObjectId().toString()}`,
 			settings: values,
 		})
 	}
