@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from "framer-motion"
 import Link from "next/link"
 import {
   Card,
@@ -17,13 +14,9 @@ interface GridPostsProps {
     index: number
 }
 
-export default function GridPosts({ slug, title, excerpt, date, index}: GridPostsProps) {
+export default function GridPosts({ slug, title, excerpt, date}: GridPostsProps) {
     return (
-        <motion.div   
-            initial={{ opacity: 0, y:30 }}
-            animate={{ opacity: 1, y:0 }}
-            transition={{ duration: 0.6, delay: index * 0.1}}
-        >
+        <>
             <Card 
                 className="bg-gray-800 border border-blue-500/10 rounded-xl shadow-lg hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-300"
             >
@@ -41,6 +34,6 @@ export default function GridPosts({ slug, title, excerpt, date, index}: GridPost
                     </Link>
                 </CardContent>
             </Card>
-        </motion.div>
+        </>
     )
 }

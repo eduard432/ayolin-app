@@ -25,7 +25,7 @@ export default function BlogPage() {
   return (
     <>
       <NavbarBLog />
-      <section className="relative px-6 md:px-20 py-16 min-h-screen pt-30 bg-gradient-to-br from-cyan-900 from-10% via-gray-900 via-40% to-black">
+      <section className="relative px-6 md:px-20 py-16 min-h-screen pt-40 bg-gradient-to-br from-cyan-900 from-10% via-gray-900 via-40% to-black">
         
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
         
