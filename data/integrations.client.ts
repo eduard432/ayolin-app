@@ -4,9 +4,11 @@ import { useQuery } from '@tanstack/react-query'
 export const addTool = async ({
 	keyName,
 	chatbotId,
+	settings
 }: {
 	keyName: string
-	chatbotId: string
+	chatbotId: string,
+	settings?: Record<string, any>
 }) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
 		method: 'POST',
@@ -15,6 +17,7 @@ export const addTool = async ({
 		},
 		body: JSON.stringify({
 			keyName,
+			settings,
 		}),
 	})
 
