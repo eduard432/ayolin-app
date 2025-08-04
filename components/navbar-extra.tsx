@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Navbar() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-stone-950 transition-all duration-300">
+    <header className="fixed top-0 left-0 w-full z-50 bg-black transition-all duration-300">
       <div className="max-w-6xl mx-auto px-6 py-7 flex justify-between items-center relative">
 
         {/* Logo */}
@@ -38,7 +38,7 @@ export default function Navbar() {
         </ul>
 
         {/* Menú móvil (peer-checked visible) */}
-        <ul className="peer-checked:flex hidden absolute top-full left-0 w-full bg-stone-950 border-b border-white/20 flex-col items-center gap-6 py-8 md:hidden z-40">
+        <ul className="peer-checked:flex hidden absolute top-full left-0 w-full bg-black border-b border-white/20 flex-col items-center gap-6 py-8 md:hidden z-40">
           <li>
             <Link href="/" className="text-white text-lg hover:text-blue-300 transition-colors">
               Inicio
