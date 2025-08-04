@@ -34,7 +34,7 @@ export default function BlogPage() {
           <TituloBlog/>
 
           {/* Grid de posts */}
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 pt-10">
             {post.map((post, index) => (
               <GridPosts
                 key={post.slug}
