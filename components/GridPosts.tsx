@@ -21,9 +21,8 @@ export default function GridPosts({ slug, title, excerpt, date, index}: GridPost
     return (
         <motion.div   
             initial={{ opacity: 0, y:30 }}
-            whileInView={{ opacity: 1, y: 0}}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            viewport={{ once: true}}
+            animate={{ opacity: 1, y:0 }}
+            transition={{ duration: 0.6, delay: index * 0.1}}
         >
             <Card 
                 className="bg-gray-800 border border-blue-500/10 rounded-xl shadow-lg hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-300"
