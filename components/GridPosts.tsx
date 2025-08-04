@@ -29,7 +29,7 @@ export default function GridPosts({ slug, title, excerpt, date, index}: GridPost
                 className="bg-gray-800 border border-blue-500/10 rounded-xl shadow-lg hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-300"
             >
                 <CardHeader className="pb-2">
-                    <CardTitle className=" text-xl text-gray-100">{title}</CardTitle>
+                    <CardTitle className=" text-2xl text-gray-100">{title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-gray-400 text-sm mb-4">{excerpt}</p>
