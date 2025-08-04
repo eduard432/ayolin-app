@@ -7,7 +7,7 @@ import type { Engine } from "tsparticles-engine";
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Float } from "@react-three/drei"
 import dynamic from "next/dynamic"
-
+ 
 const ThreeModel = dynamic(() => import("@/components/ThreeModel"), { ssr: false })
 
 export default function Hero() {
@@ -40,14 +40,24 @@ export default function Hero() {
           Conoce a tu asistente personal
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-blue-500 mb-6"
+        <motion.div 
+          initial={{opacity: 0, y:30}}
+          animate={{opacity: 1, y:0 }}
+          transition={{duration: 1 }}
         >
-          Dile Hola a Ayolin
-        </motion.h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-100 pb-5">
+            Dile Hola a{" "}
+            <motion.span
+              className="bg-clip-text text-transparent 
+                        bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600 
+                        bg-[length:200%_200%]"
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+            >
+              AYOLIN
+            </motion.span>
+          </h1>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0 }}
