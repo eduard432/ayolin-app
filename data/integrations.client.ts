@@ -122,7 +122,7 @@ export const getChannels = async (): Promise<Channel[]> => {
 	return data.channels
 }
 
-export const getIntegrations = async () => {
+export const getIntegrations = async (): Promise<(ToolFunction | Channel)[]> => {
 	const data = await Promise.allSettled([getToolFunctions(), getChannels()])
 
 	const res: (ToolFunction | Channel)[] =

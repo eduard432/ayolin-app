@@ -5,6 +5,7 @@ import {
 	InstallToolButton,
 } from '@/components/integrations/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { Button } from '@/components/ui/button'
 import {
 	Card,
 	CardAction,
@@ -16,6 +17,7 @@ import { useChatbot } from '@/data/chatbot.client'
 
 import { useIntegrations } from '@/data/integrations.client'
 import { cn } from '@/lib/utils'
+import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
@@ -44,9 +46,121 @@ const IntegrationCardSkeleton = () => {
 	)
 }
 
-const IntegrationsPage = () => {
-	const { data } = useIntegrations()
+export const IntegrationCard = ({
+	integration,
+	chatbot,
+}: {
+	integration: ToolFunction | Channel
+	chatbot: Chatbot
+}) => {
 	const router = useRouter()
+
+	return (
+		<Card className="pt-0 justify-start relative">
+			<CardHeader className="absolute right-20 top-4 z-10">
+				<CardAction>
+					{!channels.includes(integration.keyName) ? (
+						<InstallToolButton
+							variant="outline"
+							className="cursor-pointer"
+							chatbot={chatbot}
+							keyName={integration.keyName}
+						/>
+					) : (
+						<InstallChannelButton
+							chatbotId={chatbot.id}
+							keyName={integration.keyName}
+							variant="outline"
+							className="cursor-pointer"
+						/>
+					)}
+				</CardAction>
+			</CardHeader>
+			<AspectRatio
+				ratio={16 / 9}
+				className={cn(
+					'bg-muted rounded-lg rounded-b-none',
+					!channels.includes(integration.keyName) && 'cursor-pointer'
+				)}
+				onClick={() =>
+					!channels.includes(integration.keyName) &&
+					router.push(
+						`/dashboard/${chatbot.id}/integraciones/${integration.keyName}`
+					)
+				}
+			>
+				<Image
+					src={integration.imageUrl}
+					alt={`Tool Function image for ${integration.name}`}
+					fill
+					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
+				/>
+			</AspectRatio>
+			<CardContent>
+				<p className="font-semibold">{integration.name}</p>
+				<p className="text-sm text-neutral-600 truncate">
+					{integration.blogDescription}
+				</p>
+			</CardContent>
+		</Card>
+	)
+}
+
+const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
+	const router = useRouter()
+
+	return (
+		<Card className="pt-0 justify-start relative">
+			<CardHeader className="absolute right-20 top-4 z-10">
+				<CardAction>
+					{/* {!channels.includes(integration.keyName) ? (
+						<InstallToolButton
+							variant="outline"
+							className="cursor-pointer"
+							chatbot={chatbot}
+							keyName={integration.keyName}
+						/>
+					) : (
+						<InstallChannelButton
+							chatbotId={chatbot.id}
+							keyName={integration.keyName}
+							variant="outline"
+							className="cursor-pointer"
+						/>
+					)} */}
+					<Button
+						onClick={() =>
+							router.push(`/dashboard/${chatbot.id}/integraciones/custom-tool`)
+						}
+						variant="outline"
+					>
+						Agregar
+					</Button>
+				</CardAction>
+			</CardHeader>
+			<AspectRatio
+				ratio={16 / 9}
+				className={cn('bg-muted rounded-lg rounded-b-none')}
+			>
+				<Image
+					src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
+					alt={`Tool Function image for custom tool`}
+					fill
+					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
+				/>
+			</AspectRatio>
+			<CardContent>
+				<p className="font-semibold">Custom Fetch Tool</p>
+				<p className="text-sm text-neutral-600 truncate">
+					Custom your own tool fetch function
+				</p>
+			</CardContent>
+		</Card>
+	)
+}
+
+const IntegrationsPage = () => {
+	const { data: integrations } = useIntegrations()
 	const params = useParams()
 	const chatbotId = params?.chatbotId as string
 
@@ -58,60 +172,20 @@ const IntegrationsPage = () => {
 				Array.from({ length: 3 }).map((_, i) => {
 					return <IntegrationCardSkeleton key={i} />
 				})}
-			{data &&
+			{integrations &&
 				chatbot &&
-				data.map((integration) => (
-					<Card
+				integrations.map((integration) => (
+					<IntegrationCard
 						key={integration.keyName}
-						className="pt-0 justify-start relative"
-					>
-						<CardHeader className="absolute right-20 top-4 z-10">
-							<CardAction>
-								{!channels.includes(integration.keyName) ? (
-									<InstallToolButton
-										variant="outline"
-										className="cursor-pointer"
-										chatbot={chatbot}
-										keyName={integration.keyName}
-									/>
-								) : (
-									<InstallChannelButton
-										chatbotId={params.chatbotId as string}
-										keyName={integration.keyName}
-										variant="outline"
-										className="cursor-pointer"
-									/>
-								)}
-							</CardAction>
-						</CardHeader>
-						<AspectRatio
-							ratio={16 / 9}
-							className={cn(
-								'bg-muted rounded-lg rounded-b-none',
-								!channels.includes(integration.keyName) && 'cursor-pointer'
-							)}
-							onClick={() =>
-								!channels.includes(integration.keyName) &&
-								router.push(
-									`/dashboard/${params.chatbotId}/integraciones/${integration.keyName}`
-								)
-							}
-						>
-							<Image
-								src={integration.imageUrl}
-								alt={`Tool Function image for ${integration.name}`}
-								fill
-								className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
-							/>
-						</AspectRatio>
-						<CardContent>
-							<p className="font-semibold">{integration.name}</p>
-							<p className="text-sm text-neutral-600 truncate">
-								{integration.blogDescription}
-							</p>
-						</CardContent>
-					</Card>
+						integration={integration}
+						chatbot={chatbot}
+					/>
 				))}
+			{chatbot && (
+				<>
+					<CustomToolCard chatbot={chatbot} />
+				</>
+			)}
 		</div>
 	)
 }
