@@ -91,9 +91,9 @@ const useCases = [
     description: "Obtén ayuda con investigaciones, tareas y nuevos temas de estudio.",
   },
   {
-    title: "Socio Creativo",
+    title: "Generador de Ideas",
     description:
-      "Genera ideas y recibe inspiración creativa para tus proyectos.",
+      "Transforma tus ideas en planes claros con ayuda de Ayolin.",
   },
 ];
 

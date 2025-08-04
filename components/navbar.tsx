@@ -11,6 +11,7 @@ import {
 import { useSession } from 'next-auth/react'
 import { SearchBar } from './search-bar'
 import { Button } from './ui/button'
+import Link from 'next/link'
 import { BookOpen, Search } from 'lucide-react'
 import {
 	DropdownMenu,
@@ -81,10 +82,11 @@ export default function Navbar() {
 				) : (
 					<SearchBar className="h-8" placeholder="Find..." />
 				)}
-
-				<Button size="sm" variant="outline" className="rounded-full">
-					<BookOpen />
-				</Button>
+				<Link href="/blog">
+					<Button size="sm" variant="outline" className="rounded-full">
+						<BookOpen />
+					</Button>
+				</Link>
 				<DropdownMenu>
 					
 					<DropdownMenuTrigger asChild>

@@ -40,7 +40,7 @@ export default function UseCases({ useCases }: { useCases: UseCase[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="p-6 rounded-xl bg-white/5 backdrop-blur-md shadow-lg border border-white/10 hover:scale-105 transition-transform"
+              className="p-6 rounded-xl bg-white/5 backdrop-blur-md shadow-lg border border-white/10 hover:scale-105 transition-transform flex flex-col items-center justify-center text-center min-h-[180px]"
             >
               <h3 className="text-xl font-semibold mb-2">{useCase.title}</h3>
               <p className="text-neutral-400 text-sm">{useCase.description}</p>
