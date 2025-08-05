@@ -26,7 +26,7 @@ export default async function PostPage({ params }: PostPageProps){
 
     return (
         <>
-            <NavbarBLog showBackButton/>
+            <NavbarBLog/>
             <article className="px-6 md:px-20 py-16 mx-w-4xl min-h-screen mx-auto pt-40 bg-gradient-to-bl from-cyan-900 from-10% via-gray-900 via-40% to-black">
                 <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
                     {data.title}
