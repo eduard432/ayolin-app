@@ -47,7 +47,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Links (desktop siempre visibles, móvil con AnimatePresence) */}
+        {/* Links */}
         <ul
           className={`
             hidden md:flex md:space-x-8 text-lg font-medium

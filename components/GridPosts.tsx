@@ -41,7 +41,7 @@ export default function GridPosts({ slug, title, excerpt, date, index }: GridPos
         </CardContent>
       </Card>
 
-      {/* Animación definida en estilo global inline */}
+      {/* Animación */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
