@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import NavbarAnimated from './NavbarAnimated'
-import NavbarBase from './NavbarBase'
 
 export default function NavbarWrapper() {
-  const [hasJS, setHasJS] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setHasJS(true)
+    setIsMounted(true)
   }, [])
 
-  return hasJS ? <NavbarAnimated /> : <NavbarBase />
+  if (!isMounted) return null 
+
+  return <NavbarAnimated />
 }
