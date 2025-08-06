@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (
   const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
-    from: "Ayolin <onboardin@resend.dev>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Confirma tu correo electrónico",
     html: `
@@ -42,7 +42,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   const resetLink = `${process.env.NEXTAUTH_URL}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: "Ayolin <onboardin@resend.dev>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Restablece tu contraseña",
     html: `
@@ -71,7 +71,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: "Ayolin <onboardin@resend.dev>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Tu código de verificación (2FA)",
     html: `
