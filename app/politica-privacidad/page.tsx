@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
-import NavbarExtra from "@/components/navbar-extra"
+import NavbarExtra from "@/components/navbatExtra"
 
 export const metadata: Metadata = {
     title: "Politica de Privacidad | AYOLIN",

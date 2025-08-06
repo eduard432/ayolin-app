@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
-import NavbarExtra from "@/components/navbar-extra";
+import NavbarExtra from "@/components/navbatExtra";
 
 export const metadata: Metadata = {
     title: "Condiciones y Servicios | AYOLIN",
@@ -29,7 +29,7 @@ export default function CondicionesServiciosPage() {
                     </p>
                 </section>
 
-                <Separator className="mb-6"/>
+                <Separator className="my-6"/>
 
                 <section className="space-y-4">
                     <h2 className="text-xl font-semibold">
