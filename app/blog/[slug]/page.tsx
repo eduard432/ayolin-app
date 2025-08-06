@@ -48,6 +48,7 @@ export default async function PostPage({ params }: PostPageProps) {
   )
 }
 
+{/* Para evitar problemas */}
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), "posts")
 
