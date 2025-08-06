@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react";
 import {
   FaMessage,
@@ -16,13 +14,10 @@ import Features from '@/components/features-landing'
 import UseCases from "@/components/useCase-landing";
 import DemoSection from "@/components/demo-landing";
 
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import Navbar from "@/components/navbarLanding";
+import Navbar from '@/components/navbarLanding'
 import Fotter from "@/components/Fotter";
-import { PricingCardLanding } from "@/components/payment-card-landing";
-import { motion } from "framer-motion"
+import AOSInit from "@/components/AOSInit";
+import PricingSection from "@/components/SeccionPlanes-landing";
 
 const features = [
   {
@@ -99,16 +94,9 @@ const useCases = [
 
 export default function Home() {
 
-  useEffect(() => {
-    AOS.init({
-      duration: 800, 
-      once: true,     
-    });
-  }, []);
-
   return (
     <div className="min-h-screen ">
-      
+      <AOSInit />
       {/* Navbar */}
       <Navbar/>
 
@@ -125,67 +113,7 @@ export default function Home() {
       < DemoSection />
 
       {/*Planes de cobro */}
-      <section id="planes" className="relative bg-black text-white pt-20 px-6 pb-30">
-        {/* Gradiente de fondo */}
-        <div className="absolute inset-0"></div>
-
-        {/* Encabezado */}
-        <motion.div
-          className="relative z-10 max-w-6xl mx-auto text-center mb-12"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
-            Próximamente
-          </h2>
-          <p className="text-neutral-400 text-lg max-w-xl mx-auto">
-            Podrás seleccionar el plan que mejor se adapte a tus necesidades.
-          </p>
-        </motion.div>
-
-        {/* Cards */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <PricingCardLanding
-              title="Gratis"
-              price="$0"
-              description="Perfecto para comenzar"
-              features={[
-                "Acceso limitado",
-                "3 chatbot",
-                "Soporte básico",
-              ]}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <PricingCardLanding
-              title="Pro"
-              price="$150.00/mes"
-              description="Funciones avanzadas"
-              features={[
-                "Chatbots ilimitados",
-                "Soporte prioritario",
-                "Analíticas avanzadas",
-                "Actualizaciones Pro",
-              ]}
-              featured
-            />
-          </motion.div>
-        </div>
-      </section>
+      <PricingSection />
 
       <div className="relative z-10 bg-black border-t border-white/10 w-full"></div>
       
@@ -195,66 +123,3 @@ export default function Home() {
     </div>
   );
 }
-
-    {/*Mas cosas que se pueden agregar a la landing page */}
-
-
-      {/* CTA Section */}
-      {/*
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-neutral-900 rounded-xl p-12 text-neutral-50 text-center">
-          <h2 className="text-4xl font-bold mb-4 ">
-            Start Your Journey with Ayolin
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are already experiencing the future of
-            AI-driven conversations. Try one Ayolin Chat for free.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="h-11 rounded-md px-8 text-lg border font-semibold bg-neutral-50 text-neutral-900">
-              Start For Free Trial
-            </button>
-            <button className="h-11 rounded-md px-8 text-lg border font-semibold">
-              Schedule demo
-            </button>
-          </div>
-          <p className="mt-6 text-sm text-neutral-300 font-semibold">
-            No credit card required • Cancel anytime • 24/7 support
-          </p>
-        </div>
-      </div>
-      */}
-
-      {/* TENEMOS QUE ARREGLAR ESTE, ME QUEDO FEO CON GANAS
-      
-      <div className="bg-stone-100 py-20 px-6" data-aos="fade-up">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-12 text-black bg-clip-text">
-            ¿Cómo funciona Ayolin?
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all ">
-              <div className="text-6xl mb-4"></div>
-              <h3 className="text-xl font-bold text-neutral-800 mb-2">1. Inicia sesión</h3>
-              <p className="text-neutral-500 text-lg">Necesitas una cuenta para poder usar AYOLIN.</p>
-            </div>
-
-           
-            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-              <div className="text-6xl mb-4"></div>
-              <h3 className="text-xl font-bold text-neutral-800 mb-2">2. Personalízalo</h3>
-              <p className="text-neutral-500 text-lg">AYOLIN te da las herramientas para crear tu IA como quieras.</p>
-            </div>
-
-            
-            <div className="p-6 bg-neutral-100 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-              <div className="text-6xl mb-4"></div>
-              <h3 className="text-xl font-bold text-neutral-800 mb-2">3. ¡Utilízalo!</h3>
-              <p className="text-neutral-500 text-lg">Una vez configurada tu IA, úsala para tus proyectos o empresa.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-          */}
