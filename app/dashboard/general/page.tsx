@@ -12,6 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { PayWithStripe } from '@/components/stripe-button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
@@ -162,9 +163,12 @@ const DashboardOverview = () => {
 				</Button>
 			</section>
 			<section className="col-span-full md:col-span-8">
-				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					Chatbots
-				</h4>
+				<div className='flex grid-cols-2 gap-10'>
+					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+						Chatbots
+					</h4>
+					< PayWithStripe />
+				</div>
 				<div
 					className={cn(
 						'rounded-md grid grid-cols-2',
