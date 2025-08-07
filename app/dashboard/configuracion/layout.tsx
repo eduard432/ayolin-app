@@ -26,11 +26,11 @@ export default function ConfiguracionLayout({
 					<CardTitle className="text-3xl">Ajustes</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<nav className="">
-						<ul className="">
+					<nav >
+						<ul >
 							{links.map((link) => (
 								<li key={link.href}>
-									<Button variant="link" asChild >
+									<Button  className="font-bold text-lg hover:text-sky-500 hover:no-underline underline-offset-0" variant="link" asChild >
 										<Link href={link.href}>{link.name}</Link>
 									</Button>
 								</li>
