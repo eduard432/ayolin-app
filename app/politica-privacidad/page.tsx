@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
-import NavbarExtra from "@/components/navbar-extra"
+import NavbarExtra from "@/components/navbatExtra"
 
 export const metadata: Metadata = {
     title: "Politica de Privacidad | AYOLIN",
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function PoliticaDePrivacidadPage() {
     return(
         <>
-            <NavbarExtra></NavbarExtra>
-            <main className="max-w-3xl mx-auto px-4 py-12 mt-10">
+            <NavbarExtra />
+            <main className="max-w-3xl mx-auto px-4 py-12 mt-20 text-white">
                 <h1 className="text-3xl font-bold mb-6">Política de Privacidad</h1>
                 <p className="text-sm text-muted-foreground mb-4">
                     Fecha de última actualización: 17 de julio de 2025

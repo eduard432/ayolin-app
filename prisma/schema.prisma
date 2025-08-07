@@ -35,6 +35,11 @@ model User {
   stripeCustomerId        String?
   // Extra fields for app:
   chatbots                Chatbot[]
+  // Usage fields:
+  maxCreditUsage          Float                  @default(0.75)
+  maxChatbots             Int                    @default(3)
+  creditUsage             Float                  @default(0)
+  usageLogs               UsageLog[]
 }
 
 model Account {
@@ -92,11 +97,6 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-type Usage {
-  inputTokens  Int
-  outputTokens Int
-}
-
 model Chatbot {
   id            String                 @id @default(auto()) @map("_id") @db.ObjectId
   name          String
@@ -105,23 +105,40 @@ model Chatbot {
   user          User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   defaultChat   String                 @db.ObjectId
   chats         Chat[]
-  usage         Usage
-  totalMessages Int                    @default(0)
   initialPrompt String
   tools         ToolFunctionInstance[]
   channels      ChannelInstance[]
+  totalMessages Int                    @default(0)
+  totalChats    Int                    @default(0)
+  creditUsage   Float                  @default(0)
+  usageLogs     UsageLog[]
+}
+
+type ChatStatus {
+  // totalMessages        Int
+  // totalChats           Int
+  // lastActive           DateTime
+  pendingMessagesCount Int @default(0)
+}
+
+type ChatSettings {
+  maxBatchReplyDelay Int @default(5000) // Maximum delay in milliseconds for batch replies
 }
 
 model Chat {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String?
-  chatbotId  String    @db.ObjectId
-  chatbot    Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
-  messages   Message[] @relation("ChatMessages")
-  lastActive DateTime  @default(now())
-  channelId  String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String?
+  chatbotId            String    @db.ObjectId
+  chatbot              Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  messages             Message[] @relation("ChatMessages")
+  lastActive           DateTime  @default(now())
+  channelId            String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  totalMessages        Int       @default(0)
+  creditUsage          Float     @default(0)
+  status ChatStatus     
+  settings ChatSettings  
 }
 
 model Message {
@@ -130,8 +147,8 @@ model Message {
   chat      Chat        @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   role      MessageRole
   parts     Json[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 enum MessageRole {
@@ -176,4 +193,14 @@ model Channel {
   blogDescription String
   imageUrl        String
   tags            String[]
+}
+
+model UsageLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  creditUsage Float    @default(0)
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatbotId   String   @db.ObjectId
+  chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
 }

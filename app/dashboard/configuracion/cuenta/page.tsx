@@ -1,13 +1,10 @@
 'use client'
 
-import { useState, useTransition, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
-import Image from 'next/image'
 import { Mail } from 'lucide-react'
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -17,13 +14,10 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { Separator } from '@/components/ui/separator'
 import { DeleteAcountSection } from '@/components/DeleteAcount'
 
 export default function UserSettings() {
-	const { data: session, update } = useSession()
-	const [imageUrl, setImageUrl] = useState(session?.user?.image || '')
-	const [isPending, startTransition] = useTransition()
+	const { data: session } = useSession()
 	const [userInfo, setUserInfo] = useState<{
 		email: string
 		role: string
@@ -69,55 +63,11 @@ export default function UserSettings() {
 		fetchUserInfo()
 	}, [session?.user?.email])
 
-	const handleSubmit = () => {
-		startTransition(async () => {
-			const res = await fetch('/api/v1/upload-avatar', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ image: imageUrl }),
-				credentials: 'include',
-			})
-
-			if (res.ok) {
-				const data = await res.json()
-				await update({ user: { ...session?.user, image: data.user.image } })
-				toast.success('Foto actualizada')
-				setImageUrl('')
-			} else {
-				toast.error('Error al actualizar la foto')
-			}
-		})
-	}
-
 	return (
 		<div className="space-y-8">
 			<h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
 
 			<div className="space-y-4">
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-foreground text-2xl">
-							Nombre del Proyecto
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<Label htmlFor="team-name" className="text-foreground">
-							Este es el nombre visible de tu proyecto.
-						</Label>
-						<Input
-							id="team-name"
-							placeholder="ej. Proyectos Ayolin"
-							className="mt-5"
-						/>
-						<p className="text-sm text-foreground mt-2 ">
-							Máximo 32 caracteres.
-						</p>
-					</CardContent>
-					<Separator />
-					<CardFooter className="flex justify-end">
-						<Button size="sm">Guardar</Button>
-					</CardFooter>
-				</Card>
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -141,42 +91,6 @@ export default function UserSettings() {
 							)}
 						</p>
 					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-foreground text-2xl">
-							Foto de Perfil
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<Label htmlFor="team-url" className="text-foreground mb-4">
-							Cambia tu foto de perfil.
-						</Label>
-
-						<div className="flex items-center gap-4">
-							<Image
-								src={imageUrl || 'https://github.com/shadcn.png'}
-								alt="Avatar"
-								width={64}
-								height={64}
-								className="rounded-full border border-neutral-300"
-							/>
-							<Input
-								id="avatar-url"
-								placeholder="https://..."
-								value={imageUrl}
-								onChange={(e) => setImageUrl(e.target.value)}
-								className="w-[3000px]"
-							/>
-						</div>
-					</CardContent>
-					<Separator />
-					<CardFooter className="flex justify-end">
-						<Button onClick={handleSubmit} disabled={isPending}>
-							{isPending ? 'Guardando...' : 'Guardar'}
-						</Button>
-					</CardFooter>
 				</Card>
 
 				<Card>
@@ -223,3 +137,69 @@ export default function UserSettings() {
 		</div>
 	)
 }
+
+{/* A lo mejor lo usamos despues para la foto de perfil
+
+	import { useTransition } from 'react'
+	import Image from 'next/image'
+
+	const [imageUrl, setImageUrl] = useState(session?.user?.image || '')
+	const [isPending, startTransition] = useTransition()
+
+	const handleSubmit = () => {
+		startTransition(async () => {
+			const res = await fetch('/api/v1/upload-avatar', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ image: imageUrl }),
+				credentials: 'include',
+			})
+
+			if (res.ok) {
+				const data = await res.json()
+				await update({ user: { ...session?.user, image: data.user.image } })
+				toast.success('Foto actualizada')
+				setImageUrl('')
+			} else {
+				toast.error('Error al actualizar la foto')
+			}
+		})
+	}
+
+					<Card>
+					<CardHeader>
+						<CardTitle className="text-foreground text-2xl">
+							Foto de Perfil
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<Label htmlFor="team-url" className="text-foreground mb-4">
+							Cambia tu foto de perfil.
+						</Label>
+
+						<div className="flex items-center gap-4">
+							<Image
+								src={imageUrl || 'https://github.com/shadcn.png'}
+								alt="Avatar"
+								width={64}
+								height={64}
+								className="rounded-full border border-neutral-300"
+							/>
+							<Input
+								id="avatar-url"
+								placeholder="https://..."
+								value={imageUrl}
+								onChange={(e) => setImageUrl(e.target.value)}
+								className="w-[3000px]"
+							/>
+						</div>
+					</CardContent>
+					<Separator />
+					<CardFooter className="flex justify-end">
+						<Button onClick={handleSubmit} disabled={isPending}>
+							{isPending ? 'Guardando...' : 'Guardar'}
+						</Button>
+					</CardFooter>
+				</Card>
+
+*/}

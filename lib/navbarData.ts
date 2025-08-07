@@ -5,9 +5,11 @@ export const dashboardFeatures = [
   // { name: 'Soporte', href: '/dashboard/soporte' },
   { name: 'Configuración', href: '/dashboard/configuracion/cuenta' },
   // { name: 'Pro', href: '/dashboard/planes' },
+  { name: 'Planes', href: '/dashboard/planes-temp'},
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
+  { name: 'Editar', href: `/dashboard/${chatbotId}/editar` },
   { name: 'Estadísticas', href: `/dashboard/${chatbotId}/estadisticas` },
   // { name: 'Almacenamiento', href: `/dashboard/${chatbotId}/almacenamiento` },
   { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
@@ -24,6 +26,8 @@ export const getAllowedNavbarRoutes = (chatbotId?: string) => [
   '/dashboard/configuracion/cuenta',
   '/dashboard/configuracion/pagos',
   '/dashboard/planes',
+  '/dashboard/planes-temp',
+  chatbotId && `/dashboard/${chatbotId}/editar`,
   chatbotId && `/dashboard/${chatbotId}/estadisticas`,
   chatbotId && `/dashboard/${chatbotId}/almacenamiento`,
   chatbotId && `/dashboard/${chatbotId}/chats`,

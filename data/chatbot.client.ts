@@ -1,10 +1,26 @@
 import { Chatbot } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 type ChatBotInputData = {
 	name: string
 	initialPrompt: string
 	model: string
+}
+
+export const updateChatbot = async (chatbotId: string, data: ChatBotInputData) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	})
+
+	if (!response.ok) throw new Error('Failed to update chatbot')
+
+	const result = await response.json()
+	return result.chatbot as Chatbot
 }
 
 export const createChatbot = async (data: ChatBotInputData) => {
@@ -70,5 +86,41 @@ export const useChatbot = (chatbotId: string) => {
 		queryFn: () => getChatbot(chatbotId),
 		refetchOnWindowFocus: false,
 		staleTime: 1000 * 60 * 1, // 1 minuto
+	})
+}
+
+export const useDeleteChatbot = (chatbot: Chatbot) => {
+	const queryClient = useQueryClient()
+
+	return useMutation<void, Error, void, { previousChatbots: Chatbot[] }>({
+		mutationFn: async () => {
+			await deleteChatbot(chatbot.id)
+		},
+		onMutate: async () => {
+			const queryKey = ['chatbots', chatbot.userId]
+			await queryClient.cancelQueries({ queryKey })
+			const previousChatbots = queryClient.getQueryData<Chatbot[]>(
+				queryKey
+			) as Chatbot[]
+
+			queryClient.setQueryData(queryKey, (old: Chatbot[]) => {
+				if (!old) return old
+				return old.filter((oldChatbot) => oldChatbot.id !== chatbot.id)
+			})
+
+			return {
+				previousChatbots,
+			}
+		},
+		onError: (_, __, context) => {
+			toast.error('Error removing Chatbot')
+			queryClient.setQueryData(
+				['chatbots', chatbot.userId],
+				context?.previousChatbots
+			)
+		},
+		onSuccess: () => {
+			toast.success('Chatbot removed')
+		},
 	})
 }

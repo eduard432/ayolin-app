@@ -67,7 +67,7 @@ export const RegisterForm = () => {
                         render={({field}) => (
                             <FormItem>
                                 {/*Quiero hacer que se vea negro siempre, falta checar */}
-                                <FormLabel className="text-black">Nombre</FormLabel>
+                                <FormLabel className="text-white">Nombre</FormLabel>
                                 <FormControl>
                                     <Input
                                         disabled={isPending}
@@ -84,8 +84,7 @@ export const RegisterForm = () => {
                         name = "email"
                         render={({field}) => (
                             <FormItem>
-                                {/*Quiero hacer que se vea negro siempre, falta checar */}
-                                <FormLabel className="text-black">Correo electrónico</FormLabel>
+                                <FormLabel className="text-white">Correo electrónico</FormLabel>
                                 <FormControl>
                                     <Input
                                         disabled={isPending}
@@ -147,7 +146,7 @@ export const RegisterForm = () => {
                 <Button
                     disabled={isPending}
                     type="submit"
-                    className="w-full mt-4 h-11"
+                    className="w-full mt-4 h-11 bg-white text-black"
                 >
                     Crear cuenta
                 </Button>

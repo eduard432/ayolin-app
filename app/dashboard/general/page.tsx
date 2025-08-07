@@ -3,11 +3,7 @@
 import { SearchBar } from '@/components/search-bar'
 import {
 	Card,
-	CardAction,
 	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
 } from '@/components/ui/card'
 import {
 	DropdownMenu,
@@ -17,59 +13,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { PayWithStripe } from '@/components/stripe-button'
-import { CircularProgressBar } from '@/components/ui/circular-progress-bar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { deleteChatbot, useChatbots } from '@/data/chatbot.client'
+import { useChatbots, useDeleteChatbot } from '@/data/chatbot.client'
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
 import { Chatbot } from '@prisma/client'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-
-const usageMetrics = [
-	{
-		label: 'Blob Data Storage',
-		used: '17,95 MB',
-		limit: '1 GB',
-	},
-	{
-		label: 'Blob Advanced Operations',
-		used: '5',
-		limit: '2K',
-	},
-	{
-		label: 'Blob Simple Operations',
-		used: '5',
-		limit: '10K',
-	},
-	{
-		label: 'Image Optimization - Transformations',
-		used: '2',
-		limit: '5K',
-	},
-	{
-		label: 'Image Optimization - Cache Writes',
-		used: '16',
-		limit: '100K',
-	},
-	{
-		label: 'Edge Requests',
-		used: '99',
-		limit: '1M',
-	},
-	{
-		label: 'Fast Origin Transfer',
-		used: '843,29 kB',
-		limit: '10 GB',
-	},
-]
+import Usage, { UsageSkeleton } from './Usage'
 
 type LayoutType = 'grid' | 'list'
 
@@ -81,44 +37,8 @@ const ChatbotCard = ({
 	chatbot: Chatbot
 }) => {
 	const router = useRouter()
-	const queryClient = useQueryClient()
 
-	const mutation = useMutation<
-		void,
-		Error,
-		void,
-		{ previousChatbots: Chatbot[] }
-	>({
-		mutationFn: async () => {
-			await deleteChatbot(chatbot.id)
-		},
-		onMutate: async () => {
-			const queryKey = ['chatbots', chatbot.userId]
-			await queryClient.cancelQueries({ queryKey })
-			const previousChatbots = queryClient.getQueryData<Chatbot[]>(
-				queryKey
-			) as Chatbot[]
-
-			queryClient.setQueryData(queryKey, (old: Chatbot[]) => {
-				if (!old) return old
-				return old.filter((oldChatbot) => oldChatbot.id !== chatbot.id)
-			})
-
-			return {
-				previousChatbots,
-			}
-		},
-		onError: (_, __, context) => {
-			toast.error('Error removing Chatbot')
-			queryClient.setQueryData(
-				['chatbots', chatbot.userId],
-				context?.previousChatbots
-			)
-		},
-		onSuccess: () => {
-			toast.success('Chatbot removed')
-		},
-	})
+	const deleteMutation = useDeleteChatbot(chatbot)
 
 	return (
 		<Card
@@ -154,11 +74,16 @@ const ChatbotCard = ({
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						<DropdownMenuItem
-							onClick={() => mutation.mutate()}
-							disabled={mutation.isPending}
+							onClick={() => deleteMutation.mutate()}
+							disabled={deleteMutation.isPending}
 							className="text-destructive"
 						>
-							Delete
+							Eliminar
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => router.push(`/dashboard/${chatbot.id}/editar`)}
+						>
+							Editar
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
@@ -238,9 +163,12 @@ const DashboardOverview = () => {
 				</Button>
 			</section>
 			<section className="col-span-full md:col-span-8">
-				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
-					Chatbots
-				</h4>
+				<div className='flex grid-cols-2 gap-10'>
+					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+						Chatbots
+					</h4>
+					< PayWithStripe />
+				</div>
 				<div
 					className={cn(
 						'rounded-md grid grid-cols-2',
@@ -274,41 +202,10 @@ const DashboardOverview = () => {
 				</div>
 			</section>
 			<section className="col-span-full md:col-span-4">
-				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
+				<h4 className="col-span-full scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Uso
 				</h4>
-				<Card className="w-full rounded-md bg-card text-card-foreground">
-					<CardHeader>
-						<CardTitle>Last 30 days</CardTitle>
-						<CardDescription>Updated 13m ago</CardDescription>
-						<CardAction>
-							<PayWithStripe className="text-sm" />
-						</CardAction>
-					</CardHeader>
-					<CardContent>
-						{usageMetrics.map((metric) => (
-							<article
-								className="hover:bg-accent transition-colors odd:bg-muted even:bg-card rounded-md py-1 px-2"
-								key={metric.label}
-							>
-								<div className="flex justify-between text-sm items-center rounded-md">
-									<div className="flex gap-x-2 items-center">
-										<CircularProgressBar
-											className="w-4 h-4"
-											min={0}
-											max={100}
-											value={Math.random() * 10}
-										/>
-										<p className="font-semibold">{metric.label}</p>
-									</div>
-									<p className="font-mono text-muted-foreground text-xs">
-										{metric.used} / {metric.limit}
-									</p>
-								</div>
-							</article>
-						))}
-					</CardContent>
-				</Card>
+				{ (session && data) ? <Usage chatbots={data.length} session={session} /> : (<UsageSkeleton />) }
 			</section>
 		</div>
 	)

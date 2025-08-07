@@ -37,6 +37,12 @@ export const createChatBot = async (
 			messages: {
 				create: [],
 			},
+			settings: {
+				maxBatchReplyDelay: 5000, // Default delay for batch replies
+			},
+			status: {
+				pendingMessagesCount: 0,
+			},
 		},
 	})
 
@@ -47,11 +53,8 @@ export const createChatBot = async (
 			name,
 			initialPrompt,
 			userId,
-			usage: {
-				inputTokens: 0,
-				outputTokens: 0,
-			},
 			defaultChat: chat.id,
+			totalChats: 1
 		},
 	})
 

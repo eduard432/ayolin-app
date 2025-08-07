@@ -10,8 +10,7 @@ export const Social = () => {
 		<div className="flex gap-x-2 w-full">
 			<Button
 				size="lg"
-				className="items-center flex-1"
-				variant="outline"
+				className="items-center flex-1 bg-neutral-900"
 				type="button"
 				onClick={() => signIn('google')}
 			>
@@ -19,8 +18,7 @@ export const Social = () => {
 			</Button>
 			<Button
 				size="lg"
-				className="justify-center flex-1"
-				variant="outline"
+				className="justify-center flex-1 bg-neutral-900"
 				type="button"
 				onClick={() => signIn('github')}
 			>

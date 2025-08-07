@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
-import NavbarExtra from "@/components/navbar-extra";
+import NavbarExtra from "@/components/navbatExtra";
 
 export const metadata: Metadata = {
     title: "Condiciones y Servicios | AYOLIN",
@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 export default function CondicionesServiciosPage() {
     return(
         <>
-            <NavbarExtra></NavbarExtra>
+            <NavbarExtra />
 
-            <main className="max-w-3xl mx-auto px-4 py-12 mt-10">
-                <h1 className="text-3xl font-bold mb-6"> Condiciones de Servicios</h1>
+            <main className="max-w-3xl mx-auto px-4 py-12 mt-20 text-white">
+                <h1 className="text-3xl font-bold mb-10"> Condiciones de Servicios</h1>
                 <p className="text-sm text-muted-foreground mb-4">
                     Fecha de última actualización: 17 de julio de 2025
                 </p>
@@ -29,7 +29,7 @@ export default function CondicionesServiciosPage() {
                     </p>
                 </section>
 
-                <Separator className="mb-6"/>
+                <Separator className="my-6"/>
 
                 <section className="space-y-4">
                     <h2 className="text-xl font-semibold">

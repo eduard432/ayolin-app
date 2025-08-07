@@ -1,16 +1,16 @@
 import { Resend } from "resend"
+{/*import { DOMAIN_URL } from "./utils";*/}
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const domain = process.env.NEXTAUTH_URL
 
 export const sendVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmLink = `${domain}/auth/new-verification?token=${token}`
+  const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
-    from: "Ayolin <noreply@ayolin.com>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Confirma tu correo electrónico",
     html: `
@@ -39,10 +39,10 @@ export const sendVerificationEmail = async (
 
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `${domain}/auth/new-password?token=${token}`;
+  const resetLink = `${process.env.NEXTAUTH_URL}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: "Ayolin <noreply@ayolin.com>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Restablece tu contraseña",
     html: `
@@ -71,7 +71,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: "Ayolin <noreply@ayolin.com>",
+    from: "Ayolin <onboarding@ayolin.com>",
     to: email,
     subject: "Tu código de verificación (2FA)",
     html: `

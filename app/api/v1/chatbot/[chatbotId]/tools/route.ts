@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 const bodySchema = z.object({
 	keyName: z.string(),
+	settings: z.record(z.string(), z.any()).optional(),
 })
 
 export const POST = auth(
@@ -16,7 +17,7 @@ export const POST = auth(
 			const { chatbotId } = await params
 
 			const body = await request.json()
-			const { keyName } = validateWithSource(bodySchema, body, 'body')
+			const { keyName, settings } = validateWithSource(bodySchema, body, 'body')
 
 			const updatedChatbot = await db.chatbot.update({
 				where: {
@@ -26,7 +27,7 @@ export const POST = auth(
 					tools: {
 						push: {
 							keyName,
-							settings: {},
+							settings: settings || {},
 						},
 					},
 				},

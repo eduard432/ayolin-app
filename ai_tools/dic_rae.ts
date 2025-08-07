@@ -34,6 +34,7 @@ export interface Sense {
 }
 
 export const dicc_rae_tool: Tool = {
+	name: "Diccionario RAE",
 	description: 'Obten la definición de la rae de una palabra',
 	inputSchema: z.object({
 		palabra: z.string().describe('Palabra a buscar'),

@@ -134,7 +134,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											asChild
 											className='font-normal text-sm flex justify-start pt'
 										>
-											<Link href="/auth/reset">
+											<Link href="/auth/reset" className='text-white'>
 												Olvidaste tu contraseña? 
 											</Link>
 										</Button>
@@ -149,7 +149,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 					<Button
 						disabled={isPending}
 						type="submit"
-						className="w-full mt-4 h-11"
+						className="w-full mt-4 h-11 bg-white text-black"
 					>
 						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>

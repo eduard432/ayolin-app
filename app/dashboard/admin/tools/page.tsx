@@ -60,9 +60,12 @@ const ToolsPage = () => {
 		},
 	})
 
-	const handleSubmit = form.handleSubmit((values) => {
-		console.log({ values })
-	})
+	const handleSubmit = () => {
+		form.handleSubmit((values) => {
+			console.log('Formulario enviado:', values)
+			// Tu lógica aquí
+		})() // ← Nota los paréntesis extra para ejecutar
+	}
 
 	return (
 		<Card className="mx-auto w-full md:w-1/2">

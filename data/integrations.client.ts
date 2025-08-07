@@ -4,9 +4,11 @@ import { useQuery } from '@tanstack/react-query'
 export const addTool = async ({
 	keyName,
 	chatbotId,
+	settings
 }: {
 	keyName: string
-	chatbotId: string
+	chatbotId: string,
+	settings?: Record<string, any>
 }) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
 		method: 'POST',
@@ -15,6 +17,7 @@ export const addTool = async ({
 		},
 		body: JSON.stringify({
 			keyName,
+			settings,
 		}),
 	})
 
@@ -122,7 +125,7 @@ export const getChannels = async (): Promise<Channel[]> => {
 	return data.channels
 }
 
-export const getIntegrations = async () => {
+export const getIntegrations = async (): Promise<(ToolFunction | Channel)[]> => {
 	const data = await Promise.allSettled([getToolFunctions(), getChannels()])
 
 	const res: (ToolFunction | Channel)[] =
