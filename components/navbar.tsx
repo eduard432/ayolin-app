@@ -24,9 +24,47 @@ import {
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { getAllowedNavbarRoutes } from '@/lib/navbarData'
+import { getAllowedNavbarRoutes, getChatbotFeatures } from '@/lib/navbarData'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { GeneratedAvatar } from 'components/generateAvatar'
+
+const NavbarBreadcrumb = () => {
+	const pathname = usePathname()
+	const params = useParams()
+	const chatbotId = params.chatbotId as string | undefined
+	const features = chatbotId && getChatbotFeatures(chatbotId)
+
+	return (
+		<Breadcrumb>
+			<BreadcrumbList>
+				<BreadcrumbItem>
+					<BreadcrumbLink href="/">
+						<Title />
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+				<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
+				<BreadcrumbItem>
+					<BreadcrumbLink
+						className="text-foreground"
+						href="/dashboard/general"
+					>
+						Inicio
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+				{features && (
+					<>
+						<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
+						<BreadcrumbItem>
+							<BreadcrumbLink className="text-foreground">
+								{features.find((f) => f.href === pathname)?.name}
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+					</>
+				)}
+			</BreadcrumbList>
+		</Breadcrumb>
+	)
+}
 
 const Title = () => {
 	return (
@@ -55,25 +93,7 @@ export default function Navbar() {
 				!showNavbar && 'bg-transparent'
 			)}
 		>
-			{isMobile ? (
-				<Title />
-			) : (
-				<Breadcrumb>
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink href="/dashboard/general">
-								<Title />
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
-						<BreadcrumbItem>
-							<BreadcrumbLink className="text-foreground" href="/">
-								Home
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb>
-			)}
+			{isMobile ? <Title /> : <NavbarBreadcrumb />}
 			<div className="flex items-center gap-x-2">
 				{isMobile ? (
 					<Button size="sm" variant="outline" className="rounded-full">
@@ -88,13 +108,12 @@ export default function Navbar() {
 					</Button>
 				</Link>
 				<DropdownMenu>
-					
 					<DropdownMenuTrigger asChild>
-						<div className='cursor-pointer'>
+						<div className="cursor-pointer">
 							<GeneratedAvatar
-								name={session?.user?.name || session?.user?.email || "U"}
-								size='w-10 h-10'
-							/> 
+								name={session?.user?.name || session?.user?.email || 'U'}
+								size="w-10 h-10"
+							/>
 						</div>
 					</DropdownMenuTrigger>
 
