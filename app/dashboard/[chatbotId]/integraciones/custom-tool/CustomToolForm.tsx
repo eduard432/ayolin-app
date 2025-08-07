@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
 	Card,
 	CardContent,
@@ -20,21 +20,18 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
-import { cn, fieldSchema } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Textarea } from '@/components/ui/textarea'
 import {
 	Select,
 	SelectContent,
-	SelectGroup,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
 import { InputSchema } from '@/components/InputSchema'
-import { color } from 'framer-motion'
 import { Switch } from '@/components/ui/switch'
-import { is } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -137,7 +134,7 @@ const CustomToolForm = ({ chatbot }: { chatbot: Chatbot }) => {
 		if (httpMethod === 'get') {
 			form.setValue('isBodyParams', false)
 		}
-	}, [httpMethod])
+	}, [httpMethod, form])
 
 	const queryClient = useQueryClient()
 

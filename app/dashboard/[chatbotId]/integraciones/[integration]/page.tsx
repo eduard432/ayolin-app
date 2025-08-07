@@ -1,4 +1,3 @@
-import { InstallToolButton } from '@/components/integrations/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -9,6 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import InstallClient from './InstallClient'
 
 const Page = async ({
 	params,
@@ -34,7 +34,7 @@ const Page = async ({
 				<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4 capitalize">
 					{toolFunction.name}
 				</h4>
-				<InstallToolButton />
+				<InstallClient keyName={toolFunction.keyName} chatbotId={chatbotId} />
 			</section>
 			<Separator className="col-span-full" />
 			<section className="col-span-full md:col-span-3 space-y-6 hidden md:block">

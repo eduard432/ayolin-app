@@ -37,7 +37,7 @@ export const generateCustomFetchTool = (
 					})
 				)
 			),
-		execute: async (input: { [key: string]: any }) => {
+		execute: async (input: { [key: string]: unknown }) => {
 			try {
 				let url = settings.apiUrl
 
@@ -62,7 +62,7 @@ export const generateCustomFetchTool = (
 
 				const data = await response.json()
 				return data
-			} catch (error) {
+			} catch {
 				return 'Error executing custom fetch tool: '
 			}
 		},
@@ -75,7 +75,7 @@ export const generateTools = (
 		settings: Prisma.JsonValue
 	}[]
 ): { [k: string]: Tool } => {
-	const tools: Record<string, any> = {}
+	const tools: Record<string, Tool> = {}
 
 	for (const tool of chatbotTools) {
 		const key = tool.keyName

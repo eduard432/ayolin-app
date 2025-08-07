@@ -1,4 +1,3 @@
-import { AI_TOOL_INDEX } from '@/ai_tools'
 import { saveMessages, updateUsageFields } from '@/data/chat.server'
 import { generateTools } from '@/lib/ai'
 import { handleApiError } from '@/lib/api/handleError'
