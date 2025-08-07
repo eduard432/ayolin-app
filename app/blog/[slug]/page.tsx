@@ -8,18 +8,16 @@ import html from "remark-html"
 import { notFound } from "next/navigation"
 import NavbarBLog from "@/components/navbarBlog"
 
-interface PostPageProps {
-  params: { slug: string }
-}
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage({ params }: {params: Promise<{slug: string}>}) {
   const postsDirectory = path.join(process.cwd(), "posts")
+  const slug = (await params).slug
 
   if (!fs.existsSync(postsDirectory)) {
     notFound()
   }
 
-  const filePath = path.join(postsDirectory, `${params.slug}.md`)
+  const filePath = path.join(postsDirectory, `${slug}.md`)
 
   if(!fs.existsSync(filePath)){
     notFound()
