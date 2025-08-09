@@ -85,7 +85,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											<Input
 												disabled={isPending}
 												{...field}
-												placeholder="123456"
+												placeholder="XXXXXX"
 											/>
 										</FormControl>
 										<FormMessage className="text-red-500 mb-2" />
@@ -149,7 +149,8 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 					<Button
 						disabled={isPending}
 						type="submit"
-						className="w-full mt-4 h-11 bg-white text-black"
+						variant="secondary"
+						className="w-full"
 					>
 						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>
