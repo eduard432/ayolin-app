@@ -25,21 +25,6 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 		<Card className="pt-0 justify-start relative">
 			<CardHeader className="absolute right-20 top-4 z-10">
 				<CardAction>
-					{/* {!channels.includes(integration.keyName) ? (
-						<InstallToolButton
-							variant="outline"
-							className="cursor-pointer"
-							chatbot={chatbot}
-							keyName={integration.keyName}
-						/>
-					) : (
-						<InstallChannelButton
-							chatbotId={chatbot.id}
-							keyName={integration.keyName}
-							variant="outline"
-							className="cursor-pointer"
-						/>
-					)} */}
 					<Button
 						onClick={() =>
 							router.push(`/dashboard/${chatbot.id}/integraciones/custom-tool`)
@@ -55,7 +40,7 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 				className={cn('bg-muted rounded-lg rounded-b-none')}
 			>
 				<Image
-					src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
+					src="https://jiaq9ymgisc0ie2r.public.blob.vercel-storage.com/custom-fetch_tool.webp"
 					alt={`Tool Function image for custom tool`}
 					fill
 					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
