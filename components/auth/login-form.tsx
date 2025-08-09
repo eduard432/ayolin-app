@@ -123,7 +123,6 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											<Input
 												disabled={isPending}
 												{...field}
-												placeholder="*********"
 												type="password"
 											/>
 										</FormControl>
