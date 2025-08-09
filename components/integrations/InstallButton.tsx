@@ -104,7 +104,7 @@ export const InstallToolButton = ({
 				}
 				disabled={mutation.isPending}
 			>
-				Install T
+				Instalar
 			</Button>
 		)
 	}
@@ -152,7 +152,7 @@ export const InstallChannelButton = ({
 						)
 					}
 				>
-					Install C
+					Instalar
 				</Button>
 			)
 		}
