@@ -19,15 +19,15 @@ export default function EstadisticasPage() {
 	const params = useParams()
 	const chatbotId = params?.chatbotId as string
 
-	const { data } = useChatbot(chatbotId)
+	const { data: chatbot } = useChatbot(chatbotId)
 
 	return (
 		<>
-			{data ? (
+			{chatbot ? (
 				<div className="space-y-8">
 					<div>
 						<h1 className="text-4xl font-semibold tracking-tight text-foreground">
-							Estadisticas {data.name}
+							Estadisticas {chatbot.name}
 						</h1>
 						<p className="text-sm text-muted-foreground">
 							Informacion actualizada sobre tu chatbot
@@ -42,7 +42,7 @@ export default function EstadisticasPage() {
 								<CardTitle className="text-2xl">Mensajes</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<p className="text-3xl font-bold">{data.totalMessages}</p>
+								<p className="text-3xl font-bold">{chatbot.totalMessages}</p>
 								<p className="text-sm text-muted-foreground">
 									Ultimos 30 dias
 								</p>
@@ -54,7 +54,7 @@ export default function EstadisticasPage() {
 								<CardTitle className="text-2xl">Chats</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<p className="text-3xl font-bold">{data.totalChats}</p>
+								<p className="text-3xl font-bold">{chatbot.totalChats}</p>
 								<p className="text-sm text-muted-foreground">
 									Ultimos 30 dias
 								</p>
@@ -71,7 +71,7 @@ export default function EstadisticasPage() {
 										style: 'currency',
 										currency: 'MXN',
 										maximumFractionDigits: 4,
-									}).format(data.creditUsage * 20)}
+									}).format(chatbot.creditUsage * 20)}
 								</p>
 								<p className="text-sm text-muted-foreground">
 									Ultimos 30 dias
@@ -93,12 +93,12 @@ export default function EstadisticasPage() {
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<div className="bg-muted p-4 rounded-lg">
 									<p className="font-medium">Nombre del chatbot:</p>
-									<p className="text-muted-foreground">{data.name}</p>
+									<p className="text-muted-foreground">{chatbot.name}</p>
 								</div>
 								<div className="bg-muted p-4 rounded-lg">
 									<p className="font-medium">Hecho para:</p>
 									<p className="text-muted-foreground truncate">
-										{data.initialPrompt}
+										{chatbot.initialPrompt}
 									</p>
 								</div>
 							</div>

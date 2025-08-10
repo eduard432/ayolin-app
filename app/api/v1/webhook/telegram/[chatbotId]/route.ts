@@ -4,9 +4,9 @@ import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
-import { convertToUIMessages, sleep } from '@/lib/utils'
+import { convertToUIMessages } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
-import { Chat, Chatbot, Message, Prisma } from '@prisma/client'
+import { Chat, Chatbot, Message, Prisma, User } from '@prisma/client'
 import { convertToModelMessages, generateText, UIMessage } from 'ai'
 import { ObjectId } from 'bson'
 import { Bot, Context, webhookCallback } from 'grammy'
@@ -17,128 +17,132 @@ const handleMessage = async (
 	chat: Chat,
 	chatbot: Chatbot,
 	ctx: Context & { message: { text: string } },
+	user: User,
 	prevMessages?: Message[]
 ) => {
-	const message: UIMessage = {
-		id: new ObjectId().toString(),
-		role: 'user',
-		parts: [
-			{
-				type: 'text',
-				text: ctx.message.text,
-			},
-		],
-	}
-
-	await saveMessages([
-		{
-			chatId: chat.id,
-			id: message.id,
-			parts:
-				typeof message.parts === 'string'
-					? JSON.parse(message.parts)
-					: message.parts,
-			role: message.role as 'user',
-			createdAt: new Date(),
-		},
-	])
-
-	await db.chat.update({
-		where: { id: chat.id },
-		data: {
-			status: {
-				update: {
-					pendingMessagesCount: {
-						increment: 1,
-					},
+	try {
+		const message: UIMessage = {
+			id: new ObjectId().toString(),
+			role: 'user',
+			parts: [
+				{
+					type: 'text',
+					text: ctx.message.text,
 				},
-			},
-		},
-	})
-
-	await sleep(chat.settings.maxBatchReplyDelay) // Simulate processing delay
-
-	const newChat = await db.chat.findFirst({
-		where: {
-			id: chat.id,
-		},
-		include: {
-			messages: {
-				orderBy: { createdAt: 'asc' },
-				take: 30,
-			},
+			],
 		}
-	})
 
-	if(!newChat || newChat.status.pendingMessagesCount <= 0) {
-		return 
-	}
+		// 5. Preparar historial de mensajes
+		const messages: UIMessage[] = [message]
 
-	const messages: UIMessage[] = []
+		if (prevMessages) {
+			messages.push(...convertToUIMessages(prevMessages))
+		}
 
-	if (prevMessages) {
-		messages.push(...convertToUIMessages(newChat.messages))
-	}
+		// 6. Generar herramientas
+		const tools = generateTools(chatbot.tools)
 
-	messages.push(message)
+		// 7. Llamar a modelo
+		const result = await generateText({
+			model: openai(chatbot.model),
+			messages: convertToModelMessages(messages),
+			system: chatbot.initialPrompt,
+			tools,
+		})
 
-	const tools = generateTools(chatbot.tools)
-
-	const result = await generateText({
-		model: openai(chatbot.model),
-		messages: convertToModelMessages(messages),
-		system: chatbot.initialPrompt,
-		tools,
-	})
-
-	const generatedMessage: Prisma.MessageCreateManyInput = {
-		id: new ObjectId().toString(),
-		chatId: chat.id,
-		role: 'assistant',
-		parts: [
-			{
-				type: 'text',
-				text: result.text,
-			},
-		],
-		createdAt: new Date(),
-	}
-
-	await saveMessages([generatedMessage])
-
-	const modelPricing = modelPrices[chatbot.model as ModelId]
-	const inputCreditUsage =
-		(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
-	const outputCreditUsage =
-		(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
-
-	await updateUsageFields({
-		ids: {
+		// 8. Guardar mensaje del asistente
+		const generatedMessage: Prisma.MessageCreateManyInput = {
+			id: new ObjectId().toString(),
 			chatId: chat.id,
-			chatbotId: chatbot.id,
-			userId: chatbot.userId,
-		},
-		messages: 2,
-		usage: inputCreditUsage + outputCreditUsage,
-		newChats: 1,
-	})
+			role: 'assistant',
+			parts: [{ type: 'text', text: result.text }],
+			createdAt: new Date(),
+		}
 
-	return ctx.reply(result.text)
+		await saveMessages([
+			{
+				chatId: chat.id,
+				id: message.id,
+				parts: Array.isArray(message.parts)
+					? message.parts
+					: JSON.parse(message.parts),
+				role: 'user',
+				createdAt: new Date(),
+			},
+			generatedMessage,
+		])
+
+		// 9. Calcular uso de créditos
+		const modelPricing = modelPrices[chatbot.model as ModelId]
+		const inputCreditUsage =
+			(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
+		const outputCreditUsage =
+			(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
+
+		// 10. Actualizar uso y estadísticas
+		await updateUsageFields({
+			ids: {
+				chatId: chat.id,
+				chatbotId: chatbot.id,
+				userId: chatbot.userId,
+			},
+			messages: 2,
+			usage: inputCreditUsage + outputCreditUsage,
+		})
+
+		// 11. Responder al usuario
+		return ctx.reply(result.text)
+	} catch (error) {
+		console.log(error)
+		ctx.reply(
+			'Ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.'
+		)
+	}
 }
 
-const createChatbotInstance = (token: string, chatbot: Chatbot) => {
+const createChatbotInstance = (token: string, chatbot: Chatbot, user: User) => {
 	const bot = new Bot(token)
 
 	const { name } = chatbot
 
-	bot.command('start', (ctx) => {
+	bot.command('start', async (ctx) => {
+		const { chatId } = ctx
+
+		await db.chat.create({
+			data: {
+				chatbotId: chatbot.id,
+				messages: {
+					create: [],
+				},
+				channelId: chatId.toString(),
+				settings: {
+					maxBatchReplyDelay: 5000, // Default delay for batch replies
+				},
+				status: {
+					pendingMessagesCount: 0,
+				},
+			},
+			include: {
+				messages: true,
+			},
+		})
+
+		await db.chatbot.update({
+			where: { id: chatbot.id },
+			data: {
+				totalChats: {
+					increment: 1,
+				},
+			},
+		})
+		
 		return ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
 	})
 
 	bot.on('message:text', async (ctx) => {
 		const { chatId } = ctx
 
-		let chat = await db.chat.findFirst({
+		const chat = await db.chat.findFirst({
 			where: {
 				channelId: chatId.toString(),
 			},
@@ -153,27 +157,12 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 		})
 
 		if (!chat) {
-			chat = await db.chat.create({
-				data: {
-					chatbotId: chatbot.id,
-					messages: {
-						create: [],
-					},
-					channelId: chatId.toString(),
-					settings: {
-						maxBatchReplyDelay: 5000, // Default delay for batch replies
-					},
-					status: {
-						pendingMessagesCount: 0,
-					},
-				},
-				include: {
-					messages: true,
-				},
-			})
+			return ctx.reply(
+				'No se encontró un chat activo. Por favor, inicia un nuevo chat con /start.'
+			)
 		}
 
-		return handleMessage(chat, chatbot, ctx, chat.messages)
+		return handleMessage(chat, chatbot, ctx, user, chat.messages)
 	})
 
 	return bot
@@ -196,6 +185,9 @@ export const POST = async (
 			where: {
 				id: chatbotId,
 			},
+			include: {
+				user: true
+			}
 		})
 
 		if (!chatbot) {
@@ -219,7 +211,7 @@ export const POST = async (
 		const settings = channel.settings as { token: string }
 		const token = settings.token
 
-		const bot = createChatbotInstance(token, chatbot)
+		const bot = createChatbotInstance(token, chatbot, chatbot.user)
 
 		const handleUpdate = webhookCallback(bot, 'std/http')
 		return await handleUpdate(request)
