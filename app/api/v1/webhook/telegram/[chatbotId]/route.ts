@@ -53,6 +53,9 @@ const handleMessage = async (
 			},
 		})
 
+		// 3. Simular tiempo de espera antes de procesar
+		await sleep(chat.settings.maxBatchReplyDelay || 5000)
+
 		// 4. Obtener chat actualizado con últimos mensajes
 		const newChat = await db.chat.findFirst({
 			where: { id: chat.id },

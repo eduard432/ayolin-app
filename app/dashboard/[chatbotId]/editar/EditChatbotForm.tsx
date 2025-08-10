@@ -163,7 +163,7 @@ const EditChatbotForm = ({ chatbot }: { chatbot: Chatbot }) => {
 										<SelectContent>
 											{Object.entries(modelPrices).map(([id, model]) => (
 												<SelectItem
-													disabled={model.name !== 'gpt-4.1-nano'}
+													disabled={model.name !== 'gpt-5-nano'}
 													key={id}
 													value={id}
 												>
