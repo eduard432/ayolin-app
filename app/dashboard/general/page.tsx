@@ -56,7 +56,7 @@ const ChatbotCard = ({
 					className="flex items-center gap-x-4 cursor-pointer"
 				>
 					<Avatar>
-						<AvatarImage src="https://github.com/shadcn.png" />
+						<AvatarImage src="https://api.dicebear.com/7.x/bottts/svg?seed=ayolin" />
 						<AvatarFallback>CN</AvatarFallback>
 					</Avatar>
 					<div>
