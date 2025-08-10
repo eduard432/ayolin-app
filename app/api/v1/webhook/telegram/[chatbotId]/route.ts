@@ -6,7 +6,7 @@ import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
 import { convertToUIMessages, sleep } from '@/lib/utils'
 import { openai } from '@ai-sdk/openai'
-import { Chat, Chatbot, Message, Prisma } from '@prisma/client'
+import { Chat, Chatbot, Message, Prisma, User } from '@prisma/client'
 import { convertToModelMessages, generateText, UIMessage } from 'ai'
 import { ObjectId } from 'bson'
 import { Bot, Context, webhookCallback } from 'grammy'
@@ -17,6 +17,8 @@ const handleMessage = async (
 	chat: Chat,
 	chatbot: Chatbot,
 	ctx: Context & { message: { text: string } },
+	user: User,
+	prevMessages?: Message[]
 ) => {
 	try {
 		const message: UIMessage = {
@@ -30,49 +32,12 @@ const handleMessage = async (
 			],
 		}
 
-		// 1. Guardar mensaje del usuario
-		await saveMessages([
-			{
-				chatId: chat.id,
-				id: message.id,
-				parts: Array.isArray(message.parts)
-					? message.parts
-					: JSON.parse(message.parts),
-				role: 'user',
-				createdAt: new Date(),
-			},
-		])
-
-		// 2. Incrementar pendingMessagesCount (Mongo: reescribir objeto embebido)
-		await db.chat.update({
-			where: { id: chat.id },
-			data: {
-				status: {
-					pendingMessagesCount: (chat.status?.pendingMessagesCount ?? 0) + 1,
-				},
-			},
-		})
-
-		// 3. Simular tiempo de espera antes de procesar
-		await sleep(chat.settings.maxBatchReplyDelay || 5000)
-
-		// 4. Obtener chat actualizado con últimos mensajes
-		const newChat = await db.chat.findFirst({
-			where: { id: chat.id },
-			include: {
-				messages: {
-					orderBy: { createdAt: 'asc' },
-					take: 20,
-				},
-			},
-		})
-
-		if (!newChat || newChat.status.pendingMessagesCount === 0) {
-			return
-		}
-
 		// 5. Preparar historial de mensajes
-		const messages: UIMessage[] = convertToUIMessages(newChat.messages)
+		const messages: UIMessage[] = [message]
+
+		if (prevMessages) {
+			messages.push(...convertToUIMessages(prevMessages))
+		}
 
 		// 6. Generar herramientas
 		const tools = generateTools(chatbot.tools)
@@ -94,7 +59,18 @@ const handleMessage = async (
 			createdAt: new Date(),
 		}
 
-		await saveMessages([generatedMessage])
+		await saveMessages([
+			{
+				chatId: chat.id,
+				id: message.id,
+				parts: Array.isArray(message.parts)
+					? message.parts
+					: JSON.parse(message.parts),
+				role: 'user',
+				createdAt: new Date(),
+			},
+			generatedMessage,
+		])
 
 		// 9. Calcular uso de créditos
 		const modelPricing = modelPrices[chatbot.model as ModelId]
@@ -124,7 +100,7 @@ const handleMessage = async (
 	}
 }
 
-const createChatbotInstance = (token: string, chatbot: Chatbot) => {
+const createChatbotInstance = (token: string, chatbot: Chatbot, user: User) => {
 	const bot = new Bot(token)
 
 	const { name } = chatbot
@@ -150,6 +126,16 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 				messages: true,
 			},
 		})
+
+		await db.chatbot.update({
+			where: { id: chatbot.id },
+			data: {
+				totalChats: {
+					increment: 1,
+				},
+			},
+		})
+		
 		return ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
 	})
 
@@ -176,7 +162,7 @@ const createChatbotInstance = (token: string, chatbot: Chatbot) => {
 			)
 		}
 
-		return handleMessage(chat, chatbot, ctx)
+		return handleMessage(chat, chatbot, ctx, user, chat.messages)
 	})
 
 	return bot
@@ -199,6 +185,9 @@ export const POST = async (
 			where: {
 				id: chatbotId,
 			},
+			include: {
+				user: true
+			}
 		})
 
 		if (!chatbot) {
@@ -222,7 +211,7 @@ export const POST = async (
 		const settings = channel.settings as { token: string }
 		const token = settings.token
 
-		const bot = createChatbotInstance(token, chatbot)
+		const bot = createChatbotInstance(token, chatbot, chatbot.user)
 
 		const handleUpdate = webhookCallback(bot, 'std/http')
 		return await handleUpdate(request)
