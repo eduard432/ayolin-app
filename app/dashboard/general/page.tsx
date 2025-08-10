@@ -13,10 +13,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { PayWithStripe } from '@/components/stripe-button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
 import { useState } from 'react'
+import { Bot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { useChatbots, useDeleteChatbot } from '@/data/chatbot.client'
@@ -55,9 +56,15 @@ const ChatbotCard = ({
 					onClick={() => router.push(`/dashboard/${chatbot.id}/estadisticas`)}
 					className="flex items-center gap-x-4 cursor-pointer"
 				>
-					<Avatar>
-						<AvatarImage src="https://api.dicebear.com/7.x/bottts/svg?seed=ayolin" />
-						<AvatarFallback>CN</AvatarFallback>
+					<Avatar className="w-10 h-10 ring-1 ring-violet-500/20">
+						<AvatarFallback
+							className={cn(
+								"w-full h-full flex items-center justify-center rounded-full bg-violet-500/10 text-violet-400"
+							)}
+							aria-label={chatbot.name}
+						>
+							<Bot className='h-5 w-5' />
+						</AvatarFallback>		
 					</Avatar>
 					<div>
 						<h4 className="font-medium">{chatbot.name}</h4>
