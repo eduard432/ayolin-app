@@ -15,7 +15,7 @@ export const getChatbotFeatures = (chatbotId: string) => [
   { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
   { name: 'Prueba', href: `/dashboard/${chatbotId}/prueba`},
   { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
-  { name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
+  //{ name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
 ]
 
 export const getAllowedNavbarRoutes = (chatbotId?: string) => [
