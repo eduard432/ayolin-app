@@ -16,6 +16,15 @@ import Link from 'next/link'
 import { useChatbot } from '@/data/chatbot.client'
 import { JsonValue } from '@prisma/client/runtime/library'
 import { Skeleton } from '@/components/ui/skeleton'
+import type { LucideIcon } from 'lucide-react'
+import {
+	Cpu, 
+	Zap, 
+	Brain,
+	Database,
+	Activity,
+	Puzzle,
+} from "lucide-react"
 import { cn } from '@/lib/utils'
 import {
 	DropdownMenu,
@@ -51,6 +60,20 @@ const latestIntegrations = [
 	},
 ]
 
+const latestIntegrationsVisuals: Record<
+	string, 
+	{ icon: LucideIcon; bg: string, fg:string, ring: string, src?: string }
+> = {
+  "Deep Infra": { icon: Cpu,     bg: "bg-blue-500/10",    fg: "text-blue-400",    ring: "ring-blue-500/20" },
+  "Groq":       { icon: Zap,     bg: "bg-amber-500/10",   fg: "text-amber-400",   ring: "ring-amber-500/20" },
+  "xAI":        { icon: Brain,   bg: "bg-violet-500/10",  fg: "text-violet-400",  ring: "ring-violet-500/20" },
+  "Prisma":     { icon: Database,bg: "bg-emerald-500/10", fg: "text-emerald-400", ring: "ring-emerald-500/20" },
+  "Dash0":      { icon: Activity,bg: "bg-fuchsia-500/10", fg: "text-fuchsia-400", ring: "ring-fuchsia-500/20" },
+}
+
+const defaultVisual = { icon: Puzzle, bg: "bg-slate-500/10", fg: "text-slate-400", ring: "ring-slate-500/20" }
+const getVisual = ( name: string) => latestIntegrationsVisuals[name] ?? defaultVisual
+
 const IntegrationCard = ({
 	integration,
 	isTool = true,
@@ -71,10 +94,28 @@ const IntegrationCard = ({
 				>
 					<CardContent className="flex justify-between items-center">
 						<div className="flex items-center gap-x-4">
-							<Avatar>
-								<AvatarImage src="https://github.com/shadcn.png" />
-								<AvatarFallback>CN</AvatarFallback>
-							</Avatar>
+							{(() => {
+								const v = getVisual(integration.keyName)
+								const Icon = v.icon
+								return(
+									<Avatar className={cn("w-10 h-10 ring-1", v.ring)}>
+										{v.src ? (
+											<AvatarImage src={v.src } alt={integration.keyName} />
+										) : (
+											<AvatarFallback
+												className={cn(
+													"w-full h-full flex items-center justify-center rounded-full",
+													v.bg,
+													v.fg
+												)}
+												aria-label={integration.keyName}
+											>
+												<Icon className='w-5 h-5' />
+											</AvatarFallback>
+										)}
+									</Avatar>
+								)
+							})()}
 							<div>
 								<h4 className="font-medium">{integration.keyName}</h4>
 								<p className="text-sm font-medium text-neutral-500">
@@ -218,10 +259,28 @@ const IntegrationsPage = () => {
 								key={integration.name}
 								className="flex items-center gap-x-4 cursor-pointer"
 							>
-								<Avatar className="w-10 h-10">
-									<AvatarImage src="https://github.com/shadcn.png" />
-									<AvatarFallback>CN</AvatarFallback>
-								</Avatar>
+								{(() => {
+									const v = getVisual(integration.name)
+									const Icon = v.icon
+									return(
+										<Avatar className={cn("w-10 h-10 ring-1", v.ring)}>
+											{v.src ? (
+												<AvatarImage src={v.src} alt={integration.name}/>
+											) : (
+												<AvatarFallback
+													className={cn(
+														"w-full h-full flex items-center justify-center rounded-full",
+														v.bg,
+														v.fg
+													)}
+													aria-label={integration.name}
+												>
+													<Icon className="h-5 w-5"/>
+												</AvatarFallback>
+											)}
+										</Avatar>
+									)
+								})()}
 								<div>
 									<h6 className="font-bold">{integration.name}</h6>
 									<p className="text-neutral-500">{integration.description}</p>
