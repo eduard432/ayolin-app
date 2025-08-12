@@ -2,11 +2,11 @@
 
 import React from 'react'
 import {
-	Breadcrumb,
-	BreadcrumbList,
-	BreadcrumbItem,
-	BreadcrumbSeparator,
-	BreadcrumbLink,
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbSeparator,
+  BreadcrumbLink,
 } from '@/components/ui/breadcrumb'
 import { useSession } from 'next-auth/react'
 import { SearchBar } from './search-bar'
@@ -14,12 +14,12 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { BookOpen, Search } from 'lucide-react'
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
@@ -27,118 +27,129 @@ import { useParams, usePathname, useRouter } from 'next/navigation'
 import { getAllowedNavbarRoutes, getChatbotFeatures } from '@/lib/navbarData'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { GeneratedAvatar } from 'components/generateAvatar'
+import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
 
 const NavbarBreadcrumb = () => {
-	const pathname = usePathname()
-	const params = useParams()
-	const chatbotId = params.chatbotId as string | undefined
-	const features = chatbotId && getChatbotFeatures(chatbotId)
+  const pathname = usePathname()
+  const params = useParams()
+  const chatbotId = params.chatbotId as string | undefined
+  const features = chatbotId && getChatbotFeatures(chatbotId)
 
-	return (
-		<Breadcrumb>
-			<BreadcrumbList>
-				<BreadcrumbItem>
-					<BreadcrumbLink href="/">
-						<Title />
-					</BreadcrumbLink>
-				</BreadcrumbItem>
-				<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
-				<BreadcrumbItem>
-					<BreadcrumbLink
-						className="text-foreground"
-						href="/dashboard/general"
-					>
-						Inicio
-					</BreadcrumbLink>
-				</BreadcrumbItem>
-				{features && (
-					<>
-						<BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
-						<BreadcrumbItem>
-							<BreadcrumbLink className="text-foreground">
-								{features.find((f) => f.href === pathname)?.name}
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-					</>
-				)}
-			</BreadcrumbList>
-		</Breadcrumb>
-	)
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">
+            <Title />
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            className="text-foreground"
+            href="/dashboard/general"
+          >
+            Inicio
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {features && (
+          <>
+            <BreadcrumbSeparator className="opacity-65">/</BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbLink className="text-foreground">
+                {features.find((f) => f.href === pathname)?.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </>
+        )}
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
 }
 
 const Title = () => {
-	return (
-		<h1 className="uppercase tracking-widest font-semibold text-foreground text-2xl">
-			Ayolin
-		</h1>
-	)
+  return (
+    <h1 className="uppercase tracking-widest font-semibold text-foreground text-2xl">
+      Ayolin
+    </h1>
+  )
+}
+
+// type guard para estrechar a ColorClass
+function isColorClass(c: unknown): c is ColorClass {
+  return typeof c === 'string' && (AVATAR_COLORS as readonly string[]).includes(c)
 }
 
 export default function Navbar() {
-	const { data: session } = useSession()
-	const pathname = usePathname()
-	const params = useParams()
-	const chatbotId = params.chatbotId as string | undefined
-	const router = useRouter()
+  const { data: session } = useSession()
+  const pathname = usePathname()
+  const params = useParams()
+  const chatbotId = params.chatbotId as string | undefined
+  const router = useRouter()
 
-	const allowedNavbarRoutes = getAllowedNavbarRoutes(chatbotId)
-	const showNavbar = allowedNavbarRoutes.includes(pathname)
+  const allowedNavbarRoutes = getAllowedNavbarRoutes(chatbotId)
+  const showNavbar = allowedNavbarRoutes.includes(pathname)
 
-	const isMobile = useIsMobile()
+  const isMobile = useIsMobile()
 
-	return (
-		<nav
-			className={cn(
-				'pt-8 pb-2 px-8 items-center flex justify-between bg-background text-foreground',
-				!showNavbar && 'bg-transparent'
-			)}
-		>
-			{isMobile ? <Title /> : <NavbarBreadcrumb />}
-			<div className="flex items-center gap-x-2">
-				{isMobile ? (
-					<Button size="sm" variant="outline" className="rounded-full">
-						<Search />
-					</Button>
-				) : (
-					<SearchBar className="h-8" placeholder="Find..." />
-				)}
-				<Link href="/blog">
-					<Button size="sm" variant="outline" className="rounded-full">
-						<BookOpen />
-					</Button>
-				</Link>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<div className="cursor-pointer">
-							<GeneratedAvatar
-								name={session?.user?.name || session?.user?.email || 'U'}
-								size="w-10 h-10"
-							/>
-						</div>
-					</DropdownMenuTrigger>
+  // Estrechamos el color a ColorClass | null (Opción B)
+  const raw = session?.user?.avatarColor ?? null
+  const safeColor: ColorClass | null = isColorClass(raw) ? raw : null
 
-					<DropdownMenuContent>
-						<DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem
-							onClick={() => router.push('/dashboard/configuracion/cuenta')}
-						>
-							Cuenta
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() => router.push('/dashboard/planes-temp')}
-						>
-							Subscription
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() => signOut()}
-							className="cursor-pointer"
-						>
-							Sign Out
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
-		</nav>
-	)
+  return (
+    <nav
+      className={cn(
+        'pt-8 pb-2 px-8 items-center flex justify-between bg-background text-foreground',
+        !showNavbar && 'bg-transparent'
+      )}
+    >
+      {isMobile ? <Title /> : <NavbarBreadcrumb />}
+      <div className="flex items-center gap-x-2">
+        {isMobile ? (
+          <Button size="sm" variant="outline" className="rounded-full">
+            <Search />
+          </Button>
+        ) : (
+          <SearchBar className="h-8" placeholder="Find..." />
+        )}
+        <Link href="/blog">
+          <Button size="sm" variant="outline" className="rounded-full">
+            <BookOpen />
+          </Button>
+        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="cursor-pointer">
+              <GeneratedAvatar
+                name={session?.user?.name || session?.user?.email || 'U'}
+                size="w-10 h-10"
+                colorClass={safeColor} // <- ya validado y tipado
+              />
+            </div>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => router.push('/dashboard/configuracion/cuenta')}
+            >
+              Cuenta
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push('/dashboard/planes-temp')}
+            >
+              Subscription
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => signOut()}
+              className="cursor-pointer"
+            >
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </nav>
+  )
 }

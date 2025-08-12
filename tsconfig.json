@@ -15,6 +15,7 @@
     "incremental": true,
     "types": ["next-auth"],
     "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./types"],
     "plugins": [
       {
         "name": "next"
