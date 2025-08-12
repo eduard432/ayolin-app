@@ -147,7 +147,7 @@ export default function UserSettings() {
 							</div>
 						</div>
 
-						<div className='grid grid-cols-6 gap-x-2 md:gap-x-3 gap-y-4'>
+						<div className='grid grid-cols-6 gap-4'>
 							{AVATAR_COLORS.map((c) => {
 								const isActive = selected === c
 								return (
@@ -156,9 +156,9 @@ export default function UserSettings() {
 										type="button"
 										aria-label={c}
 										className={cn(
-											"h-10 w-10 rounded-full border transition hover:scale-105 focus:outline-none focus:ring-2",
+											"h-12 w-12 rounded-full border transition hover:scale-105 focus:outline-none focus:ring-2",
 											c,
-											isActive ? "ring-2 ring-offset-1" : "border-border"										
+											isActive ? "ring-2 ring-offset-2" : "border-border"										
 										)}
 										onClick={() => setSelected(c)}
 									>
