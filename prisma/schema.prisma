@@ -40,6 +40,7 @@ model User {
   maxChatbots             Int                    @default(3)
   creditUsage             Float                  @default(0)
   usageLogs               UsageLog[]
+  avatarColor             String?                @default("bg-blue-500")
 }
 
 model Account {

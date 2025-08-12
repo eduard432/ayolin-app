@@ -33,11 +33,14 @@ const handleMessage = async (
 		}
 
 		// 5. Preparar historial de mensajes
-		const messages: UIMessage[] = [message]
+		const messages: UIMessage[] = []
 
 		if (prevMessages) {
 			messages.push(...convertToUIMessages(prevMessages))
 		}
+
+		// Agregar el mensaje actual al final
+		messages.push(message)
 
 		// 6. Generar herramientas
 		const tools = generateTools(chatbot.tools)
@@ -50,7 +53,7 @@ const handleMessage = async (
 			tools,
 		})
 
-		// 8. Guardar mensaje del asistente
+		// 8. Crear instancia del mensaje del asistente
 		const generatedMessage: Prisma.MessageCreateManyInput = {
 			id: new ObjectId().toString(),
 			chatId: chat.id,

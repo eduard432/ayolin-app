@@ -69,28 +69,42 @@ export const authOptions: NextAuthConfig = {
       session.user.isPro =
         typeof token.isPro === "boolean" ? token.isPro : false
 
+      session.user.avatarColor = (token.avatarColor as string | null) ?? null
+
       return session
     },
-    async jwt({ token }: { token: JWT }) {
+    async jwt({ token, user, trigger, session }) {
       if (!token.sub) return token
 
-      const existingUser = await getUserById(token.sub)
-      if (!existingUser) return token
+      if(user){
+      
+        const existingUser = await getUserById(token.sub)
+        if(!existingUser){
+          return token
+        }
 
-      const existingAccount = await getAccountByUserId(existingUser.id)
+        token.name = existingUser.name
+        token.email = existingUser.email
+        token.image = existingUser.image
 
-      token.isOAuth = !!existingAccount
-      token.name = existingUser.name
-      token.email = existingUser.email
-      token.image = existingUser.image
-      if (Object.values(UserRole).includes(existingUser.role as UserRole)){
-        token.role = existingUser.role as UserRole
-      } else {
-        token.role = UserRole.FREE
+        const existingAccount = await getAccountByUserId(existingUser.id)
+        token.isOAuth = !!existingAccount
+
+        if (Object.values(UserRole).includes(existingUser.role as UserRole)){
+          token.role = existingUser.role as UserRole
+        } else {
+          token.role = UserRole.FREE
+        }
+
+        token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+        token.isPro = existingUser.isPro
+
+        token.avatarColor = existingUser.avatarColor ?? null
       }
 
-      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
-      token.isPro = existingUser.isPro
+      if(trigger === "update" && session?.avatarColor !== undefined){
+        token.avatarColor = session.avatarColor
+      }
 
       return token
     },
