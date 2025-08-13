@@ -9,15 +9,15 @@ import {
   FaClock,
   FaGlobe,
 } from "react-icons/fa6";
-import  Hero  from '@/components/hero-landing'
-import Features from '@/components/features-landing'
-import UseCases from "@/components/useCase-landing";
-import DemoSection from "@/components/demo-landing";
+import  Hero  from '@/components/HeroLanding'
+import Features from '@/components/FeaturesLanding'
+import UseCases from "@/components/UseCases";
+import DemoSection from "@/components/DemoLanding";
 
 import Navbar from '@/components/navbarLanding'
 import Fotter from "@/components/Fotter";
 import AOSInit from "@/components/AOSInit";
-import PricingSection from "@/components/SeccionPlanes-landing";
+import PricingSection from "@/components/SeccionesPlanes";
 
 const features = [
   {

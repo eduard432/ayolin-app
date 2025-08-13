@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { FiltrosUso } from '@/components/filtrosUsos'
-import FastDataCard  from '@/components/dataCardUsos'
+import { FiltrosUso } from '@/components/FiltrosUsos'
+import FastDataCard  from '@/components/DataCardUsos'
 
 export default function UsoPage() {
   return (

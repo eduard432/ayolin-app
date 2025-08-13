@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React from 'react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils'
 import { useTheme } from 'next-themes'
 
 const ToggleTheme = () => {
-
 	const { theme, setTheme } = useTheme()
 
 	return (
@@ -16,13 +15,22 @@ const ToggleTheme = () => {
 			type="single"
 			onValueChange={(value) => setTheme(value)}
 		>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "system" && "")} value="system">
+			<ToggleGroupItem
+				className={cn('w-4 h-4 p-3', theme == 'system' && '')}
+				value="system"
+			>
 				<MonitorCog />
 			</ToggleGroupItem>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "light" && "")} value="light">
+			<ToggleGroupItem
+				className={cn('w-4 h-4 p-3', theme == 'light' && '')}
+				value="light"
+			>
 				<Sun />
 			</ToggleGroupItem>
-			<ToggleGroupItem className={cn('w-4 h-4 p-3', theme == "dark" && "")} value="dark">
+			<ToggleGroupItem
+				className={cn('w-4 h-4 p-3', theme == 'dark' && '')}
+				value="dark"
+			>
 				<MoonStar />
 			</ToggleGroupItem>
 		</ToggleGroup>

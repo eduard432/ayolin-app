@@ -17,7 +17,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
-import { GeneratedAvatar} from "@/components/generateAvatar"
+import { GeneratedAvatar} from "@/components/GeneratedAvatar"
 import { AVATAR_COLORS, type ColorClass} from '@/lib/avatar'
 import { DeleteAcountSection } from '@/components/DeleteAcount'
 

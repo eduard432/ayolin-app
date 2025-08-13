@@ -1,6 +1,6 @@
 import React from 'react'
-import NavbarDashboard from '@/components/navbarDashboard'
-import Navbar from '@/components/navbar'
+import NavbarDashboard from '@/components/NavbarDashboard'
+import Navbar from '@/components/Navbar'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import FooterDashboard from '@/components/FooterDashboard'

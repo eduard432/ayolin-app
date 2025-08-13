@@ -1,7 +1,7 @@
 "use client"
 
 import { BackButton } from '@/components/BackButton'
-import { SearchBar } from '@/components/search-bar'
+import { SearchBar } from '@/components/SearchBar'
 import {
 	Accordion,
 	AccordionContent,

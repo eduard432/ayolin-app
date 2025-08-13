@@ -1,6 +1,6 @@
 'use client';
 
-import { PricingCardDashboard } from "@/components/payment-card-dashboard";
+import { PricingCardDashboard } from "@/components/PaymentCardDashboard";
 
 export default function PricingPageTemp() {
 

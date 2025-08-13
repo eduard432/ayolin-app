@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
-import { FormError } from '@/components/form-error'
+import { FormError } from '@/components/FormError'
 import { FormSucces } from '@/components/form-succes'
 import Link from "next/link"
 import {
