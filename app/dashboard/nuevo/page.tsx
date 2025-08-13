@@ -20,7 +20,7 @@ import { FileSliders } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { PayWithStripe } from '@/components/StripeButton'
+import { PayWithStripe } from '@/components/ui/StripeButton'
 
 const Page = () => {
 	return (

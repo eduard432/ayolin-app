@@ -9,7 +9,7 @@ import {
 	BreadcrumbLink,
 } from '@/components/ui/breadcrumb'
 import { useSession } from 'next-auth/react'
-import { SearchBar } from './SearchBar'
+import { SearchBar } from './ui/SearchBar'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import { BookOpen, Search } from 'lucide-react'
@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { getAllowedNavbarRoutes, getChatbotFeatures } from '@/lib/navbarData'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { GeneratedAvatar } from '@/components/GeneratedAvatar'
+import { GeneratedAvatar } from '@/components/ui/GeneratedAvatar'
 import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
 
 const NavbarBreadcrumb = () => {

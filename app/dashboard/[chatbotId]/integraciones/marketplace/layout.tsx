@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import React from 'react'
 import IntegrationsNavbar from './CategoryNavbar'
-import { SearchBar } from '@/components/SearchBar'
+import { SearchBar } from '@/components/ui/SearchBar'
 
 const Layout = async ({
 	params,

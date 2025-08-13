@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form'
 import { z } from 'zod'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Card, CardContent } from './ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Binary, Hash, Trash, Type } from 'lucide-react'
 import { cn, fieldSchema } from '@/lib/utils'
 import { useForm } from 'react-hook-form'

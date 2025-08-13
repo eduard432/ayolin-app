@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import ToggleTheme from './ToggleTheme'
+import ToggleTheme from './ui/ToggleTheme'
 
 const FooterDashboard = () => {
 	return (

@@ -19,7 +19,7 @@ import { CalendarIcon, ClockIcon, Search } from 'lucide-react'
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale/es'
-import { PayWithStripe } from './StripeButton'
+import { PayWithStripe } from './ui/StripeButton'
 
 export function FiltrosUso() {
 	const [date, setDate] = useState<Date | undefined>(new Date())

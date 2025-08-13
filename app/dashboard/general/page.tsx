@@ -1,6 +1,6 @@
 'use client'
 
-import { SearchBar } from '@/components/SearchBar'
+import { SearchBar } from '@/components/ui/SearchBar'
 import {
 	Card,
 	CardContent,
@@ -12,7 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { PayWithStripe } from '@/components/StripeButton'
+import { PayWithStripe } from '@/components/ui/StripeButton'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'

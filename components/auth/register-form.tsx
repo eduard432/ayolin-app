@@ -7,8 +7,8 @@ import {useForm} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { RegisterSchema } from "@/schemas"
 import { Input } from "../ui/input"
-import { FormError} from "@/components/FormError"
-import { FormSucces } from "@/components/form-succes"
+import { FormError} from "@/components/ui/FormError"
+import { FormSucces } from "@/components/ui/FormSuccess"
 import { register } from "@/actions/register"
 import {
     Form,
