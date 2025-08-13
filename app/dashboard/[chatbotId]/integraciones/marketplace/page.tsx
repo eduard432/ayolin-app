@@ -1,6 +1,6 @@
 'use client'
 
-import { IntegrationCard, IntegrationCardSkeleton } from '@/components/IntegrationCard'
+import { IntegrationCard, IntegrationCardSkeleton } from '@/components/common/IntegrationCard'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import {

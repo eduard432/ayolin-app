@@ -1,5 +1,5 @@
 // SIN "use client"
-import { PricingCardLanding } from '@/components/PaymentCardLanding'
+import { PricingCardLanding } from '@/components/common/PaymentCardLanding'
 
 export default function PricingSection() {
 	return (

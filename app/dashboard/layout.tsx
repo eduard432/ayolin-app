@@ -1,9 +1,9 @@
 import React from 'react'
-import NavbarDashboard from '@/components/NavbarDashboard'
-import Navbar from '@/components/Navbar'
+import NavbarDashboard from '@/components/layout/NavbarDashboard'
+import Navbar from '@/components/layout/Navbar'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import FooterDashboard from '@/components/FooterDashboard'
+import FooterDashboard from '@/components/layout/FooterDashboard'
 import DashboardProvider from '@/components/provider/DashboardProvider'
 import { Metadata } from 'next'
 

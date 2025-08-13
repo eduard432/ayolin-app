@@ -19,7 +19,7 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { GeneratedAvatar} from "@/components/ui/GeneratedAvatar"
 import { AVATAR_COLORS, type ColorClass} from '@/lib/avatar'
-import { DeleteAcountSection } from '@/components/DeleteAcount'
+import { DeleteAcountSection } from '@/components/common/DeleteAcount'
 
 export default function UserSettings() {
 	const { data: session, update } = useSession()

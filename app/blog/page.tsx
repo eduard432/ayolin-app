@@ -3,9 +3,9 @@ export const runtime = "nodejs"
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
-import NavbarBLog from "@/components/navbarBlog"
-import TituloBlog from "@/components/TituloBlog"
-import GridPosts from "@/components/GridPosts"
+import NavbarBlog from "@/components/layout/blog/NavbarWrapper"
+import TituloBlog from "@/app/blog/(components)/TituloBlog"
+import GridPosts from "@/components/common/GridPosts"
 
 export default function BlogPage() {
   const postsDirectory = path.join(process.cwd(), "posts")
@@ -26,7 +26,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <NavbarBLog />
+      <NavbarBlog />
       <section className="relative px-6 md:px-20 py-16 min-h-screen pt-40 bg-gradient-to-br from-cyan-900 from-10% via-gray-900 via-40% to-black">
         
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>

@@ -6,7 +6,7 @@ import { FormEvent, KeyboardEventHandler, useRef, useState } from 'react'
 import { ObjectId } from 'bson'
 import ReactMarkdown from 'react-markdown'
 import { Send } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 type ChatProps = {

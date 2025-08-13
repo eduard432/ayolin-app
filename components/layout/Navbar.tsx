@@ -9,8 +9,8 @@ import {
 	BreadcrumbLink,
 } from '@/components/ui/breadcrumb'
 import { useSession } from 'next-auth/react'
-import { SearchBar } from './ui/SearchBar'
-import { Button } from './ui/button'
+import { SearchBar } from '../ui/SearchBar'
+import { Button } from '../ui/button'
 import Link from 'next/link'
 import { BookOpen, Search } from 'lucide-react'
 import {

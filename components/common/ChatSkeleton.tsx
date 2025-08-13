@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Send } from 'lucide-react'
 

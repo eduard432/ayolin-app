@@ -8,7 +8,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Float } from "@react-three/drei"
 import dynamic from "next/dynamic"
 
-const ThreeModel = dynamic(() => import("@/components/ThreeModel"), { ssr: false })
+const ThreeModel = dynamic(() => import("@/components/common/ThreeModel"), { ssr: false })
 
 export default function Hero() {
   const particlesInit = async (engine: Engine) => {
