@@ -14,7 +14,7 @@ import Features from '@/app/(components)/FeaturesLanding'
 import UseCases from "@/app/dashboard/(components)/UseCases";
 import DemoSection from "@/app/(components)/DemoLanding";
 
-import Navbar from '@/components/layout/Navbar'
+import Navbar from '@/components/layout/landing/index'
 import Fotter from "@/components/layout/Footer";
 import AOSInit from "@/components/common/AOSInit";
 import PricingSection from "@/app/(components)/SeccionesPlanes";
