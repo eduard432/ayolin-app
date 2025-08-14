@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { MoveLeft } from 'lucide-react'

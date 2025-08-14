@@ -5,8 +5,8 @@ import { getChatbot } from '@/data/chatbot/chatbot.client'
 import { convertToUIMessages } from '@/lib/utils'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import Chat from '@/components/Chat'
-import { ChatSkeleton } from '@/components/ChatSkeleton'
+import { ChatSkeleton } from '@/components/common/ChatSkeleton'
+import Chat from '@/components/common/Chat'
 
 const PruebaPage = () => {
 

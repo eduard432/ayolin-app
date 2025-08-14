@@ -1,6 +1,5 @@
 'use client'
 
-import { InputSchema } from '@/components/InputSchema'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -19,6 +18,7 @@ import {
 	FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { InputSchema } from '@/components/ui/InputSchema'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'

@@ -1,4 +1,4 @@
-import { BackButton } from '@/components/BackButton'
+import { BackButton } from '@/components/ui/BackButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'

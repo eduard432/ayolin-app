@@ -30,7 +30,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { InputSchema } from '@/components/InputSchema'
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
@@ -41,6 +40,7 @@ import { ObjectId } from 'bson'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CustomFetchToolSettingsSchema } from '@/schemas'
+import { InputSchema } from '@/components/ui/InputSchema'
 
 export const CustomToolFormSkeleton = () => {
 	return (
