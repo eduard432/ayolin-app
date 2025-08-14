@@ -69,6 +69,10 @@ const Page = () => {
 		onError: (_, __, context) => {
 			toast.error(`Error creating chatbot`)
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
+			queryClient.setQueryData(['user'], (old: any) => ({
+				...old,
+				chatbots: context?.previousChatbots,
+			}))
 		},
 		onMutate: async (newChatbot) => {
 			await queryClient.invalidateQueries({
