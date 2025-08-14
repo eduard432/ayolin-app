@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { handleApiError } from '@/lib/api/handleError'
-import { getChatBotsByUserId } from '@/data/chatbot.server'
+import { getChatBotsByUserId } from '@/data/chatbot/chatbot.server'
 import { auth } from '@/lib/auth'
 
 // GET: Get all chatbots from user:

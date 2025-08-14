@@ -27,7 +27,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { createChatbot } from '@/data/chatbot.client'
+import { createChatbot } from '@/data/chatbot/chatbot.client'
 import { modelPrices } from '@/lib/constants/models'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Chatbot } from '@prisma/client'

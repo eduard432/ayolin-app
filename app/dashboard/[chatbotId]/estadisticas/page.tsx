@@ -12,7 +12,7 @@ import {
 	CardContent,
 	CardFooter,
 } from '@/components/ui/card'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function EstadisticasPage() {

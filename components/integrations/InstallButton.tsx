@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useChatbot } from '@/data/chatbot.client'
-import { addTool } from '@/data/integrations.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
+import { addTool } from '@/data/integrations/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'

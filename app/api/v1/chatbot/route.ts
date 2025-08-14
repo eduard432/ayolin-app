@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { createChatBot, createChatbotBodySchema } from '@/data/chatbot.server'
+import { createChatBot, createChatbotBodySchema } from '@/data/chatbot/chatbot.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { NextResponse } from 'next/server'

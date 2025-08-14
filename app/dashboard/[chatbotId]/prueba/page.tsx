@@ -1,7 +1,7 @@
 'use client'
 
-import { getMessages } from '@/data/chat.client'
-import { getChatbot } from '@/data/chatbot.client'
+import { getMessages } from '@/data/chat/chat.client'
+import { getChatbot } from '@/data/chatbot/chatbot.client'
 import { convertToUIMessages } from '@/lib/utils'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'

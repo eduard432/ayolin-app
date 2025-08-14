@@ -9,9 +9,9 @@ import {
 	CardContent,
 	CardHeader,
 } from '@/components/ui/card'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 
-import { useIntegrations } from '@/data/integrations.client'
+import { useIntegrations } from '@/data/integrations/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import Image from 'next/image'

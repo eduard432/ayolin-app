@@ -1,7 +1,7 @@
 'use client'
 
 import { InstallToolButton } from '@/components/integrations/InstallButton'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 import React from 'react'
 
 const InstallClient = ({

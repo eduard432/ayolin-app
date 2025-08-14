@@ -1,6 +1,6 @@
 'use client'
 
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 import { useParams } from 'next/navigation'
 import React from 'react'
 import EditChatbotForm from './EditChatbotForm'
