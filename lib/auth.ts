@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { getUserById } from "@/data/user/user.server"
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation"
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor/two-factor-confirmation.server"
 import { getAccountByUserId } from "@/data/account/account"
 import { db } from "@/lib/db"
 import authConfig from "@/auth.config"
