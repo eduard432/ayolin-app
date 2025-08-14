@@ -35,31 +35,6 @@ export default function UserSettings() {
 	const [selected, setSelected] = useState<ColorClass | null>(null)
 	const [saving, setSaving] = useState(false)
 
-	useEffect(() => {
-		const color = (session?.user?.avatarColor ?? null) as ColorClass | null
-		setCurrentColor(color)
-		setSelected(color)
-	}, [session?.user?.avatarColor])
-
-	useEffect(() => {
-		if (!session?.user?.email) return
-
-		const fetchUserInfo = async () => {
-			const res = await fetch('/api/user/info', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email: session?.user.email }),
-			})
-
-			const data = await res.json()
-			if (res.ok) {
-				setUserInfo(data)
-			}
-		}
-
-		fetchUserInfo()
-	}, [session?.user?.email])
-
 	const handleSave = async () => {
 		if (selected === undefined) return
 		setSaving(true)
