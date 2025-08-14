@@ -19,7 +19,7 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { GeneratedAvatar } from '@/components/ui/GeneratedAvatar'
 import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
-import { DeleteAcountSection } from '@/components/common/DeleteAcount'
+import { DeleteAcountSection } from '@/app/dashboard/configuracion/cuenta/DeleteAcount'
 import { TwoFactorSection } from './TwoFactorSection'
 import { useGetUser } from '@/data/user/user.client'
 
@@ -91,7 +91,7 @@ export default function UserSettings() {
 			<h1 className="text-4xl font-bold text-foreground mt-5">Cuenta</h1>
 
 			<div className="space-y-4">
-				<Card>
+				 <Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<div className="flex items-center gap-2">
 							<Mail className="w-7 h-7 text-muted-foreground" />
@@ -106,7 +106,7 @@ export default function UserSettings() {
 							Este es el correo asociado a tu cuenta:
 						</Label>
 						<p className="text-base font-medium text-foreground mt-2">
-							{userInfo?.email || (
+							{user?.email || (
 								<span className="italic text-muted-foreground">
 									Cargando...
 								</span>
