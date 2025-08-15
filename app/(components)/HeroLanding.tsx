@@ -91,7 +91,10 @@ export default function Hero() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.5 }}
         >
-          <button className="h-20 px-8 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg hover:scale-105 transition-all shadow-lg">
+          <button 
+            className="h-20 px-8 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg hover:scale-105 transition-all shadow-lg"
+            
+          >
             Chatea con Ayolin
           </button>
         </motion.div>

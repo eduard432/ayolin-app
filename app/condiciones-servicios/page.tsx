@@ -23,7 +23,7 @@ export default function CondicionesServiciosPage() {
                         1. Aceptación de los Términos 
                     </h2>
                     <p>
-                        Al acceder y utilizar el sitio web de Ayolin, aceptas cumplir con estas Condicioens de servicio y todas las leyes y regulaciones aplicables. Si no estás de acuerdo, no uses este sitio.
+                        Al acceder y utilizar el sitio web de Ayolin, aceptas cumplir con estas Condiciones de servicio y todas las leyes y regulaciones aplicables. Si no estás de acuerdo, no uses este sitio.
                     </p>
                 </section>
 
