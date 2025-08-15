@@ -1,7 +1,7 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { convertToModelMessages, DefaultChatTransport, UIMessage } from 'ai'
+import { DefaultChatTransport, UIMessage } from 'ai'
 import {
 	FormEvent,
 	KeyboardEventHandler,
