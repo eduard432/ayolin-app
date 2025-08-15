@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { Mail, Check } from 'lucide-react'
@@ -15,7 +15,6 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { GeneratedAvatar } from '@/components/ui/GeneratedAvatar'
 import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
@@ -27,10 +26,6 @@ export default function UserSettings() {
 	const { data: session, update } = useSession()
 	const { data: user } = useGetUser(session?.user?.id || '')
 
-	const [userInfo, setUserInfo] = useState<{
-		email: string
-		role: string
-	} | null>(null)
 	const [currentColor, setCurrentColor] = useState<ColorClass | null>(null)
 	const [selected, setSelected] = useState<ColorClass | null>(null)
 	const [saving, setSaving] = useState(false)
@@ -169,72 +164,4 @@ export default function UserSettings() {
 			</div>
 		</div>
 	)
-}
-
-{
-	/* A lo mejor lo usamos despues para la foto de perfil
-
-	import { useTransition } from 'react'
-	import Image from 'next/image'
-
-	const [imageUrl, setImageUrl] = useState(session?.user?.image || '')
-	const [isPending, startTransition] = useTransition()
-
-	const handleSubmit = () => {
-		startTransition(async () => {
-			const res = await fetch('/api/v1/upload-avatar', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ image: imageUrl }),
-				credentials: 'include',
-			})
-
-			if (res.ok) {
-				const data = await res.json()
-				await update({ user: { ...session?.user, image: data.user.image } })
-				toast.success('Foto actualizada')
-				setImageUrl('')
-			} else {
-				toast.error('Error al actualizar la foto')
-			}
-		})
-	}
-
-					<Card>
-					<CardHeader>
-						<CardTitle className="text-foreground text-2xl">
-							Foto de Perfil
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<Label htmlFor="team-url" className="text-foreground mb-4">
-							Cambia tu foto de perfil.
-						</Label>
-
-						<div className="flex items-center gap-4">
-							<Image
-								src={imageUrl || 'https://github.com/shadcn.png'}
-								alt="Avatar"
-								width={64}
-								height={64}
-								className="rounded-full border border-neutral-300"
-							/>
-							<Input
-								id="avatar-url"
-								placeholder="https://..."
-								value={imageUrl}
-								onChange={(e) => setImageUrl(e.target.value)}
-								className="w-[3000px]"
-							/>
-						</div>
-					</CardContent>
-					<Separator />
-					<CardFooter className="flex justify-end">
-						<Button onClick={handleSubmit} disabled={isPending}>
-							{isPending ? 'Guardando...' : 'Guardar'}
-						</Button>
-					</CardFooter>
-				</Card>
-
-*/
 }
