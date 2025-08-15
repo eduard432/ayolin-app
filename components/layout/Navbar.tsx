@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react'
 import { SearchBar } from '../ui/SearchBar'
 import { Button } from '../ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 import { BookOpen, Search } from 'lucide-react'
 import {
 	DropdownMenu,
@@ -128,7 +129,14 @@ export default function Navbar() {
 						<div className="cursor-pointer">
 							{multiSrc ? (
 								<div className={cn("w-10 h-10 rounded-full flex items-center justify-center", safeColor ?? "bg-blue-500")}>
-									<img src={multiSrc} alt="avatar" className='w-10 h-10 rounded-full' />
+									<Image 
+										src={multiSrc} 
+										alt="avatar" 
+										height={40}
+										width={40}
+										className='w-10 h-10 rounded-full' 
+										unoptimized
+									/>
 								</div>
 							) : (
 								<GeneratedAvatar

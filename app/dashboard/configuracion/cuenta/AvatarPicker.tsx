@@ -7,6 +7,7 @@ import {
     AvatarImage 
 } from "@radix-ui/react-avatar"
 import { Button } from "@/components/ui/button"
+import  Image  from "next/image"
 import { 
     Card, 
     CardHeader, 
@@ -84,7 +85,14 @@ export default function AvatarPicker({
                             className="h-12 w-12 rounded-full border border-border hover:scale-105 transition flex items-center justify-center"
                             title={seed}
                         >
-                            <img src={url} alt={seed} className="h-10 w-10 rounded-full" />
+                            <Image
+                             src={url} 
+                             alt={seed} 
+                             width={40}
+                             height={40}
+                             className="h-10 w-10 rounded-full" 
+                             unoptimized
+                            />
                         </button>
                     ))}
                 </div>
