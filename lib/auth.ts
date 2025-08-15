@@ -70,6 +70,8 @@ export const authOptions: NextAuthConfig = {
         typeof token.isPro === "boolean" ? token.isPro : false
 
       session.user.avatarColor = (token.avatarColor as string | null) ?? null
+      session.user.avatarSeed = (token.avatarSeed as string | null) ?? null
+      session.user.avatarNoBg = typeof token.avatarNoBg === "boolean" ? token.avatarNoBg : true
 
       return session
     },
@@ -98,12 +100,18 @@ export const authOptions: NextAuthConfig = {
 
         token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
         token.isPro = existingUser.isPro
-
         token.avatarColor = existingUser.avatarColor ?? null
+        token.avatarSeed = existingUser.avatarSeed ?? null
+        token.avatarNoBg = existingUser.avatarNoBg ?? null
       }
 
       if(trigger === "update" && session?.avatarColor !== undefined){
         token.avatarColor = session.avatarColor
+      }
+      if(trigger === "update"){
+        if (session?.avatarColor !== undefined) token.avatarColor = session.avatarColor
+        if (session?.avatarSeed !== undefined) token.avatarSeed = session.avatarSeed as string | null
+        if (session?.avatarNoBg !== undefined) token.avatarNoBg = session.avatarNoBg as boolean
       }
 
       return token

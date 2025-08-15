@@ -11,6 +11,8 @@ declare module "next-auth" {
       isOAuth?: boolean;
       isPro?: boolean;
       avatarColor?: string | null;
+      avatarSeed?: string | null;
+      avatarNoBg?: boolean;
       name?: string | null;
       email?: string | null;
       image?: string | null;
@@ -23,6 +25,8 @@ declare module "next-auth" {
     isTwoFactorEnabled?: boolean;
     isPro?: boolean;
     avatarColor?: string | null;
+    avatarSeed?: string | null;
+    avatarNoBg?: boolean;
   }
 }
 
@@ -34,6 +38,8 @@ declare module "next-auth/jwt" {
     isOAuth?: boolean;
     isPro?: boolean;
     avatarColor?: string | null;
+    avatarSeed?: string | null;
+    avatarNoBg?: boolean;
     name?: string | null;
     email?: string | null;
     image?: string | null;

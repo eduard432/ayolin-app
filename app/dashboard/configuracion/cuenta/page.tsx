@@ -21,6 +21,7 @@ import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
 import { DeleteAcountSection } from '@/app/dashboard/configuracion/cuenta/DeleteAcount'
 import { TwoFactorSection } from './TwoFactorSection'
 import { useGetUser } from '@/data/user/user.client'
+import AvatarPicker from './AvatarPicker'
 
 export default function UserSettings() {
 	const { data: session, update } = useSession()
@@ -29,6 +30,10 @@ export default function UserSettings() {
 	const [currentColor, setCurrentColor] = useState<ColorClass | null>(null)
 	const [selected, setSelected] = useState<ColorClass | null>(null)
 	const [saving, setSaving] = useState(false)
+
+	const onSavedSeed = async (seed: string | null) => {
+		await update({avatarSeed: seed, avatarNoBg: true})
+	}
 
 	const handleSave = async () => {
 		if (selected === undefined) return
@@ -84,6 +89,13 @@ export default function UserSettings() {
 						</p>
 					</CardContent>
 				</Card>
+
+				<AvatarPicker
+					userId={session?.user?.id || 'user'}
+					currentSeed={session?.user?.avatarSeed ?? null}
+					noBg={session?.user?.avatarNoBg ?? true}
+					onSaved={onSavedSeed}
+				/>
 
 				<Card className="w-full">
 					<CardHeader>

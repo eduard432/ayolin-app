@@ -28,6 +28,7 @@ import { getAllowedNavbarRoutes, getChatbotFeatures } from '@/lib/navbarData'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { GeneratedAvatar } from '@/components/ui/GeneratedAvatar'
 import { AVATAR_COLORS, type ColorClass } from '@/lib/avatar'
+import { avatarSvg, svgToDataUrl } from '@/lib/multiavatar'
 
 const NavbarBreadcrumb = () => {
 	const pathname = usePathname()
@@ -97,6 +98,9 @@ export default function Navbar() {
 	// Estrechamos el color a ColorClass | null (Opción B)
 	const raw = session?.user?.avatarColor ?? null
 	const safeColor: ColorClass | null = isColorClass(raw) ? raw : null
+	const seed = session?.user?.avatarSeed || null
+	const noBg = session?.user?.avatarNoBg ?? true
+	const multiSrc = seed ? svgToDataUrl(avatarSvg(seed, {noBg})) : null
 
 	return (
 		<nav
@@ -122,11 +126,17 @@ export default function Navbar() {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<div className="cursor-pointer">
-							<GeneratedAvatar
-								name={session?.user?.name || session?.user?.email || 'U'}
-								size="w-10 h-10"
-								colorClass={safeColor} // <- ya validado y tipado
-							/>
+							{multiSrc ? (
+								<div className={cn("w-10 h-10 rounded-full flex items-center justify-center", safeColor ?? "bg-blue-500")}>
+									<img src={multiSrc} alt="avatar" className='w-10 h-10 rounded-full' />
+								</div>
+							) : (
+								<GeneratedAvatar
+									name={session?.user?.name || session?.user?.email || "U"}
+									size="w-10 h-10"
+									colorClass={safeColor}
+								/>
+							)}
 						</div>
 					</DropdownMenuTrigger>
 
