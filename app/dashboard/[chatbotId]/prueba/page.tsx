@@ -9,7 +9,6 @@ import { ChatSkeleton } from '@/components/common/ChatSkeleton'
 import Chat from '@/components/common/Chat'
 
 const PruebaPage = () => {
-
 	const params = useParams()
 	const chatbotId = params?.chatbotId as string
 
