@@ -30,7 +30,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { createChatbot } from '@/data/chatbot/chatbot.client'
 import { modelPrices } from '@/lib/constants/models'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Chatbot } from '@prisma/client'
+import { Chatbot, User } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -69,7 +69,7 @@ const Page = () => {
 		onError: (_, __, context) => {
 			toast.error(`Error creating chatbot`)
 			queryClient.setQueryData(['chatbots'], context?.previousChatbots)
-			queryClient.setQueryData(['user'], (old: any) => ({
+			queryClient.setQueryData(['user'], (old: User) => ({
 				...old,
 				chatbots: context?.previousChatbots,
 			}))

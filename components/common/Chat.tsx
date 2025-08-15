@@ -2,12 +2,19 @@
 
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, UIMessage } from 'ai'
-import { FormEvent, KeyboardEventHandler, useRef, useState } from 'react'
+import {
+	FormEvent,
+	KeyboardEventHandler,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import { ObjectId } from 'bson'
 import ReactMarkdown from 'react-markdown'
 import { Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -18,8 +25,10 @@ type ChatProps = {
 const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	const [input, setInput] = useState('')
 	const inputRef = useRef<HTMLTextAreaElement>(null)
+	const messagesEndRef = useRef<HTMLDivElement>(null)
+	const queryClient = useQueryClient()
 
-	const { messages, sendMessage, status } = useChat({
+	const { messages, sendMessage, status, setMessages } = useChat({
 		messages: initialMessages,
 		generateId: () => new ObjectId().toString(),
 		transport: new DefaultChatTransport({
@@ -34,7 +43,31 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 				}
 			},
 		}),
+		onFinish: () => {
+			queryClient.invalidateQueries({
+				queryKey: ['chatbot', chatId, 'messages'],
+			})
+		},
 	})
+
+	useEffect(() => {
+		setMessages(initialMessages)
+	}, [initialMessages, setMessages])
+
+	useEffect(() => {
+		if (status === 'streaming') {
+			const interval = setInterval(() => {
+				if (messagesEndRef.current) {
+					messagesEndRef.current.scrollIntoView({
+						behavior: 'smooth',
+						block: 'end',
+					})
+				}
+			}, 100) // Cada 100ms mientras está cargando
+
+			return () => clearInterval(interval)
+		}
+	}, [status])
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -90,6 +123,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 						}
 					})
 				)}
+				<div ref={messagesEndRef} />
 			</ul>
 			<form
 				onSubmit={handleSubmit}
