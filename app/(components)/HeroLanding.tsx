@@ -86,19 +86,6 @@ export default function Hero() {
           Miles de posibilidades en un solo lugar. ¿Qué esperas?
         </motion.p>
 
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <button 
-            className="h-20 px-8 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg hover:scale-105 transition-all shadow-lg"
-            
-          >
-            Chatea con Ayolin
-          </button>
-        </motion.div>
-
         {/* Modelo 3D */}
         <div className="relative z-10 mx-auto mt-16 w-[350px] h-[350px] md:w-[450px] md:h-[450px]">
           <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
