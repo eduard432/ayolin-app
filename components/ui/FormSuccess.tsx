@@ -9,7 +9,7 @@ export const FormSucces = ({
 }: FormSuccesProps) => {
     if(!message) return null
     return(
-        <div className="flex items-center gap-3 rounded-md border border-green-500 bg-green-100 px-4 py-3 text-green-800 shadow-sm justify-center">
+        <div className="flex items-center gap-3 rounded-md border px-4 py-3 border-white/20 bg-white/10 text-white/90 shadow-sm justify-center">
             <CheckCircledIcon className="h-4 w-4"/>
                 <p>{message}</p>
         </div>

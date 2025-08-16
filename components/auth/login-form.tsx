@@ -149,7 +149,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 						disabled={isPending}
 						type="submit"
 						variant="secondary"
-						className="w-full"
+						className="w-full h-10"
 					>
 						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>
