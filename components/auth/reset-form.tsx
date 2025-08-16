@@ -79,7 +79,12 @@ const ResetForm = () => {
           </div>
           <FormError message={error} />
           <FormSucces message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <Button 
+            disabled={isPending} 
+            type="submit" 
+            variant="secondary"
+            className="w-full h-10"
+          >
             Enviar correo de recuperación
           </Button>
         </form>
