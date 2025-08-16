@@ -45,7 +45,7 @@ export default auth((req) => {
 export const config = {
 	matcher: [
 		// Skip Next.js internals and all static files, unless found in search params
-		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/v1/stripe/webhook|api/webhooks/stripe|api/v1/webhook/telegram).*)',
+		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/v1/stripe/webhook|api/stripe/webhook|api/v1/webhook/telegram).*)',
 		// Always run for API routes
 		'/(api|trpc)(.*)',
 	],
