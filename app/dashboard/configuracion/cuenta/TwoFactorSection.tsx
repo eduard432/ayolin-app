@@ -29,7 +29,7 @@ export const TwoFactorSection = ({ user }: { user: User }) => {
 				throw new Error('Usuario no encontrado')
 			}
 
-			const res = await fetch('/api/v1/2fa', {
+			const res = await fetch('/api/v1/user/2fa', {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ enabled }),
