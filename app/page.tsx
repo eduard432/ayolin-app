@@ -12,7 +12,7 @@ import {
 import  Hero  from '@/app/(components)/HeroLanding'
 import Info from "@/app/(components)/InfoLanding"
 import Features from '@/app/(components)/FeaturesLanding'
-import UseCases from "@/app/dashboard/(components)/UseCases";
+import UseCases from "@/app/(components)/UseCases";
 import DemoSection from "@/app/(components)/DemoLanding";
 
 import Navbar from '@/components/layout/landing/index'
@@ -87,9 +87,8 @@ const useCases = [
     description: "Obtén ayuda con investigaciones, tareas y nuevos temas de estudio.",
   },
   {
-    title: "Generador de Ideas",
-    description:
-      "Transforma tus ideas en planes claros con ayuda de Ayolin.",
+    title: "Agente Vendedor",
+    description: "Dale el rol de vendedor y olvídate de las demás tareas.",
   },
 ];
 
@@ -106,7 +105,7 @@ export default function Home() {
 
       {/* Info Section */}
       <Info/>
-      
+
       {/* Features Section */}
       < Features features={features} />
 
