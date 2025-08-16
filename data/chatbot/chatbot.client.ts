@@ -1,5 +1,9 @@
 import { Chatbot } from '@prisma/client'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 type ChatBotInputData = {
@@ -8,7 +12,10 @@ type ChatBotInputData = {
 	model: string
 }
 
-export const updateChatbot = async (chatbotId: string, data: ChatBotInputData) => {
+export const updateChatbot = async (
+	chatbotId: string,
+	data: ChatBotInputData
+) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}`, {
 		method: 'PUT',
 		headers: {
