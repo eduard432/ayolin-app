@@ -5,17 +5,17 @@ export default function Info() {
     <section id="home" className="relative bg-black text-white py-16 md:py-20 px-6">
       <div className="mx-auto max-w-6xl">
         {/* Encabezado */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-16">
           <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
             ¿Qué es AYOLIN?
           </h2>
         </div>
 
-        {/* Grid principal */}
+        {/* Para hacer las dos columnas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
           {/* Columna izquierda (Texto) */}
-          <div className="text-center lg:text-left max-w-2xl mx-auto mt-5">
+          <div className="text-center lg:text-left max-w-2xl mx-auto mt-9">
             <p className="text-neutral-300 text-lg md:text-xl leading-relaxed">
               Un asistente personal en tus contactos, listo para ayudarte en lo que
               necesites: <span className="text-white font-semibold">ventas</span>,{" "}
@@ -68,6 +68,9 @@ export default function Info() {
           </div>
         </div>
 
+        {/* Separador sutil */} 
+        <div className="mx-auto mt-8 h-px w-70 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        
         {/* Chips debajo de ambas columnas (se ve super pro jijijiji) */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           {[
