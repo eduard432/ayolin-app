@@ -10,6 +10,7 @@ import {
   FaGlobe,
 } from "react-icons/fa6";
 import  Hero  from '@/app/(components)/HeroLanding'
+import Info from "@/app/(components)/InfoLanding"
 import Features from '@/app/(components)/FeaturesLanding'
 import UseCases from "@/app/dashboard/(components)/UseCases";
 import DemoSection from "@/app/(components)/DemoLanding";
@@ -103,6 +104,9 @@ export default function Home() {
       {/* Hero Section */}
       <Hero/>
 
+      {/* Info Section */}
+      <Info/>
+      
       {/* Features Section */}
       < Features features={features} />
 
