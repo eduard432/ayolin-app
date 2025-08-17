@@ -36,6 +36,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 		defaultValues: {
 			email: '',
 			password: '',
+			code: '',
 		},
 	})
 
@@ -59,7 +60,6 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 					setShowTwoFactor(true)
 				}
 			})
-			{/*.catch(() => setError("Algo salio mal"))*/}
 		})
 	}
 
@@ -85,7 +85,12 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											<Input
 												disabled={isPending}
 												{...field}
+												value={field.value ?? ''}
 												placeholder="XXXXXX"
+												type="text"
+												inputMode='numeric'
+												pattern='\d*'
+												maxLength={6}
 											/>
 										</FormControl>
 										<FormMessage className="text-red-500 mb-2" />
