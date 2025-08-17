@@ -36,7 +36,7 @@ export const POST = auth(async (request) => {
 			})
 		}
 
-		if(completeUser.maxCreditUsage === completeUser.chatbots.length) {
+		if(completeUser.maxChatbots === completeUser.chatbots.length) {
 			return NextResponse.json({
 				message: 'Max chatbots'
 			}, {
