@@ -43,50 +43,6 @@ export class NotFoundError extends ApiError {
 	}
 }
 
-export function handleApiError(error: unknown) {
-	console.error('Api Error', error)
-
-	if (error instanceof ApiError) {
-		return NextResponse.json(
-			{
-				success: false,
-				message: error.message,
-				code: error.code,
-				...(error instanceof ValidationError && { errors: error.errors }),
-			},
-			{
-				status: error.statusCode,
-			}
-		)
-	}
-
-	return NextResponse.json(
-		{
-			success: false,
-			message: 'Internal sever error',
-			code: 'INTERNAL_ERROR',
-		},
-		{
-			status: 500,
-		}
-	)
-}
-
-export function withErrorHandling<
-	T extends (request: NextApiRequest, context?: unknown) => Promise<Response>,
->(handler: T) {
-	return async (
-		request: NextApiRequest,
-		context?: unknown
-	): Promise<Response> => {
-		try {
-			return await handler(request, context)
-		} catch (error) {
-			return handleApiError(error)
-		}
-	}
-}
-
 export type Source = 'body' | 'query'
 
 export class ZodValidationError extends ValidationError {
@@ -189,7 +145,7 @@ export class ApiErrorHandler {
 			try {
 				return await handler(request, context)
 			} catch (error) {
-				return handleApiError(error)
+				return this.handle(error)
 			}
 		}
 	}
