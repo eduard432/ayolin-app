@@ -128,4 +128,3 @@ export const {
   signIn,
   signOut,
 } = NextAuth(authOptions)
-
