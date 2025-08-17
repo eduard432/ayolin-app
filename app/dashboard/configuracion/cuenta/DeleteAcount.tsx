@@ -27,7 +27,7 @@ export function DeleteAcountSection() {
 	const handleDelete = async () => {
 		setIsLoading(true)
 
-		const res = await fetch('/api/v1/user/delete', {
+		const res = await fetch('/api/v1/user', {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ password }),
