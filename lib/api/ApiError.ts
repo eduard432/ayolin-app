@@ -143,12 +143,12 @@ export class ApiErrorHandler {
 	static wrap<
 		T extends (
 			request: NextRequest,
-			context?: unknown
-		) => Promise<NextResponse>,
+			context: { params: Promise<Record<string, string>> }
+		) => Promise<NextResponse> | NextResponse,
 	>(handler: T) {
 		return async (
 			request: NextRequest,
-			context?: unknown
+			context: { params: Promise<Record<string, string>> }
 		): Promise<NextResponse> => {
 			try {
 				return await handler(request, context)
