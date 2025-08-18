@@ -1,4 +1,4 @@
-import { MessageSquare } from "lucide-react"
+import EjemploConversacion from "@/components/common/EjemploConversacion"
 
 export default function Info() {
   return (
@@ -38,34 +38,8 @@ export default function Info() {
           </div>
 
           {/* Columna derecha (Caja de mensajes de ejemplo) */}
-          <div className="mx-auto w-full max-w-sm sm:max-w-md">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
-              <div className="mb-4 flex items-center gap-2 text-neutral-300">
-                <MessageSquare className="h-5 w-5" />
-                <span className="text-sm">Ejemplo de conversación</span>
-              </div>
-
-              <div className="space-y-3">
-                <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm border border-white/10 bg-gradient-to-r from-blue-600/70 to-purple-600/70 px-3 py-2 text-sm text-white shadow-lg">
-                  Hola Ayolin, ¿puedes ayudarme a responder mensajes de clientes?
-                </div>
-                <div className="max-w-[85%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/10 px-3 py-2 text-sm text-neutral-100">
-                  ¡Claro! ¿Quieres que active el flujo de soporte y etiquete consultas urgentes?
-                </div>
-                <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm border border-white/10 bg-gradient-to-r from-blue-600/70 to-purple-600/70 px-3 py-2 text-sm text-white shadow-lg">
-                  Sí, y recuérdame llevar el coche a lavar mañana.
-                </div>
-                <div className="max-w-[85%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/10 px-3 py-2 text-sm text-neutral-100">
-                  Hecho. También puedo enviar un resumen al finalizar el día.
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center gap-2 rounded-xl border border-white/10 bg-black/40 px-3 py-2">
-                <div className="h-2 w-2 rounded-full bg-green-400" />
-                <span className="text-xs text-neutral-400">Escribe un mensaje…</span>
-              </div>
-            </div>
-          </div>
+          <EjemploConversacion/>
+          
         </div>
 
         {/* Separador sutil */} 
