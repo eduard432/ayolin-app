@@ -12,3 +12,10 @@ export const getToolFunctionByKeyName = async (
 
 	return toolFunction
 }
+
+
+export const getTools = async (): Promise<ToolFunction[]> => {
+	const tools = await db.toolFunction.findMany()
+
+	return tools
+}
