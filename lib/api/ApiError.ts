@@ -161,7 +161,7 @@ export class ApiErrorHandler {
 	static wrapAuth<
 		T extends (
 			request: NextRequest,
-			context: { params: Promise<unknown> },
+			context: { params: Promise<Record<string, string>> },
 			session: Session
 		) => Promise<NextResponse> | NextResponse,
 	>(handler: T) {

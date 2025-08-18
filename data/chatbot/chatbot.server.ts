@@ -1,4 +1,6 @@
+import { NotFoundError } from '@/lib/api/ApiError'
 import { db } from '@/lib/db'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { ObjectId } from 'bson'
 import z from 'zod'
 
@@ -54,23 +56,72 @@ export const createChatBot = async (
 			initialPrompt,
 			userId,
 			defaultChat: chat.id,
-			totalChats: 1
+			totalChats: 1,
 		},
 	})
 
 	return chatbot
 }
 
-export const getChatbotById = async (chatbotId: string) => {
+export const getChatbotById = async (chatbotId: string, userId?: string) => {
 	const chatbot = await db.chatbot.findUnique({
 		where: {
 			id: chatbotId,
+			userId,
 		},
 	})
 
 	if (!chatbot) {
-		return null
+		return new NotFoundError('Chatbot not found')
 	}
 
 	return chatbot
+}
+
+export const deleteChatbot = async (chatbotId: string, userId?: string) => {
+	try {
+		await db.chatbot.delete({
+			where: {
+				id: chatbotId,
+				userId,
+			},
+		})
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
+}
+
+export const updateChatbotBodySchema = z
+	.object({
+		name: z.string(),
+		model: z.string(),
+		initialPrompt: z.string(),
+	})
+	.strict()
+
+export const updateChatbot = async (
+	data: z.infer<typeof updateChatbotBodySchema>,
+	chatbotId: string,
+	userId?: string
+) => {
+	try {
+		const chatbot = await db.chatbot.update({
+			where: {
+				id: chatbotId,
+				userId,
+			},
+			data,
+		})
+		return chatbot
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
 }
