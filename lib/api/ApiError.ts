@@ -170,6 +170,7 @@ export class ApiErrorHandler {
 				const session = ApiValidator.requireAuth(request)
 				handler(request, context, session)
 			} catch (error) {
+				console.log(error)
 				return this.handleError(error)
 			}
 		})
