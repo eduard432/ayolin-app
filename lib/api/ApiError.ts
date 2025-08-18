@@ -1,6 +1,8 @@
-import { NextApiRequest } from 'next'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { ZodError } from 'zod'
+import { ApiValidator } from './ApiValidate'
+import { auth } from '@/lib/auth'
+import { Session } from 'next-auth'
 
 export class ApiError extends Error {
 	statusCode: number
@@ -37,6 +39,12 @@ export class ValidationError extends ApiError {
 	}
 }
 
+export class ValidateUsage extends ApiError {
+	constructor(message = 'Usage limit reached', code: string = 'USAGE_LIIMT') {
+		super(message, 400, code)
+	}
+}
+
 export class NotFoundError extends ApiError {
 	constructor(message = 'Resource not found') {
 		super(message, 404, 'NOT_FOUND')
@@ -69,11 +77,11 @@ export class ZodValidationError extends ValidationError {
 }
 
 export class ApiErrorHandler {
-	static handle(error: unknown) {
+	static handleError(error: unknown) {
 		console.log('API error:', error)
 
 		if (error instanceof ZodError) {
-			return ApiErrorHandler.handleZodError(error)
+			return this.handleZodError(error)
 		}
 
 		if (error instanceof ZodValidationError) {
@@ -132,21 +140,38 @@ export class ApiErrorHandler {
 		)
 	}
 
-	static withErrorHandling<
+	static wrap<
 		T extends (
-			request: NextApiRequest,
+			request: NextRequest,
 			context?: unknown
-		) => Promise<Response>,
+		) => Promise<NextResponse>,
 	>(handler: T) {
 		return async (
-			request: NextApiRequest,
+			request: NextRequest,
 			context?: unknown
-		): Promise<Response> => {
+		): Promise<NextResponse> => {
 			try {
 				return await handler(request, context)
 			} catch (error) {
-				return this.handle(error)
+				return this.handleError(error)
 			}
 		}
+	}
+
+	static wrapAuth<
+		T extends (
+			request: NextRequest,
+			context: { params: Promise<unknown> },
+			session: Session
+		) => Promise<NextResponse> | NextResponse,
+	>(handler: T) {
+		return auth(async (request, context) => {
+			try {
+				const session = ApiValidator.requireAuth(request)
+				handler(request, context, session)
+			} catch (error) {
+				return this.handleError(error)
+			}
+		})
 	}
 }

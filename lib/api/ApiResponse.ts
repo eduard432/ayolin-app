@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 export class ApiResponse {
-	static success(data = null, message = null, meta = null) {
+	static success(data: unknown, message = null, meta = null) {
 		return NextResponse.json({
 			success: true,
 			data,
@@ -9,7 +9,7 @@ export class ApiResponse {
 		})
 	}
 
-	static created(data = null, message = 'Resource created successfully') {
+	static created(data: unknown, message = 'Resource created successfully') {
 		return NextResponse.json(
 			{
 				success: true,
@@ -20,7 +20,7 @@ export class ApiResponse {
 		)
 	}
 
-	static updated(data = null, message = 'Resource updated successfully') {
+	static updated(data: unknown, message = 'Resource updated successfully') {
 		return NextResponse.json({
 			success: true,
 			data,
