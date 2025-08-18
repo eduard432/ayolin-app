@@ -63,7 +63,7 @@ export const updateUsageFields = async ({
 	ids,
 	messages = 1,
 	usage = 0,
-	newChats = 0
+	newChats = 0,
 }: UsageProps) => {
 	return await db.$transaction(async (tx) => {
 		// 1. Crear usageLog
@@ -90,7 +90,7 @@ export const updateUsageFields = async ({
 				},
 				status: {
 					pendingMessagesCount: 0,
-				}
+				},
 			},
 		})
 
@@ -112,8 +112,8 @@ export const updateUsageFields = async ({
 					},
 				},
 				totalChats: {
-					increment: newChats
-				}
+					increment: newChats,
+				},
 			},
 			include: {
 				usageLogs: true, // Si quieres devolverlos
@@ -148,4 +148,14 @@ export const updateUsageFields = async ({
 			user,
 		}
 	})
+}
+
+export const getChatsByChatbotId = async (chatbotId: string) => {
+	const chats = await db.chat.findMany({
+		where: {
+			chatbotId,
+		},
+	})
+
+	return chats
 }

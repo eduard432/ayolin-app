@@ -250,3 +250,77 @@ export const deleteChannel = async (
 		}
 	}
 }
+
+export const addToolSchema = z.object({
+	keyName: z.string(),
+	settings: z.record(z.string(), z.any()).optional(),
+})
+
+export const addTool = async (
+	data: z.infer<typeof addToolSchema>,
+	chatbotId: string,
+	userId: string
+) => {
+	try {
+		const updatedChatbot = await db.chatbot.update({
+			where: {
+				id: chatbotId,
+				userId,
+			},
+			data: {
+				tools: {
+					push: {
+						keyName: data.keyName,
+						settings: data.settings || {},
+					},
+				},
+			},
+		})
+
+		return updatedChatbot
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
+}
+
+export const deleteTool = async (
+	data: z.infer<typeof addToolSchema>,
+	chatbotId: string,
+	userId: string
+): Promise<Chatbot> => {
+	const chatbot = await getChatbotById(chatbotId, userId)
+	const tool = chatbot.tools.find((tool) => tool.keyName === data.keyName)
+
+	if (!tool) {
+		throw new NotFoundError('Tool not installed')
+	}
+
+	try {
+		const newTools = chatbot.tools.filter(
+			(tool) => tool.keyName !== data.keyName
+		) as { keyName: string; settings: InputJsonValue }[]
+
+		const updatedChatbot = await db.chatbot.update({
+			where: {
+				id: chatbotId,
+				userId,
+			},
+			data: {
+				tools: {
+					set: newTools,
+				},
+			},
+		})
+		return updatedChatbot
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
+}
