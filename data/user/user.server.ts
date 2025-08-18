@@ -2,7 +2,7 @@ import { NotFoundError, ValidateUsage } from '@/lib/api/ApiError'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
 import { Chatbot, User } from '@prisma/client'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { Prisma } from '@prisma/client'
 import z from 'zod'
 
 export const getUserByEmail = (email: string) =>
@@ -64,7 +64,7 @@ export const deleteUser = async (userId: string) => {
 
 		return user
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -85,7 +85,7 @@ export const update2FA = async (enabled: boolean, userId: string) => {
 
 		return user
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error

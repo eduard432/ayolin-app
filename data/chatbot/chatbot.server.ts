@@ -3,9 +3,8 @@ import { db } from '@/lib/db'
 import { DOMAIN_URL } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import {
-	InputJsonValue,
-	PrismaClientKnownRequestError,
-} from '@prisma/client/runtime/library'
+	Prisma
+} from '@prisma/client'
 import { ObjectId } from 'bson'
 import { Bot } from 'grammy'
 import z from 'zod'
@@ -93,7 +92,7 @@ export const deleteChatbot = async (chatbotId: string, userId?: string) => {
 			},
 		})
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -124,7 +123,7 @@ export const updateChatbot = async (
 		})
 		return chatbot
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -187,7 +186,7 @@ export const addChannel = async (
 		})
 		return chatbot
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -229,7 +228,7 @@ export const deleteChannel = async (
 	try {
 		const newChannels = chatbot.channels.filter(
 			(channel) => channel.keyName !== data.keyName
-		) as { keyName: string; settings: InputJsonValue }[]
+		) as { keyName: string; settings: Prisma.InputJsonValue }[]
 
 		const updatedChatbot = await db.chatbot.update({
 			where: {
@@ -243,7 +242,7 @@ export const deleteChannel = async (
 		})
 		return updatedChatbot
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -279,7 +278,7 @@ export const addTool = async (
 
 		return updatedChatbot
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
@@ -302,7 +301,7 @@ export const deleteTool = async (
 	try {
 		const newTools = chatbot.tools.filter(
 			(tool) => tool.keyName !== data.keyName
-		) as { keyName: string; settings: InputJsonValue }[]
+		) as { keyName: string; settings: Prisma.InputJsonValue }[]
 
 		const updatedChatbot = await db.chatbot.update({
 			where: {
@@ -317,7 +316,7 @@ export const deleteTool = async (
 		})
 		return updatedChatbot
 	} catch (error) {
-		if (error instanceof PrismaClientKnownRequestError) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
 		} else {
 			throw error
