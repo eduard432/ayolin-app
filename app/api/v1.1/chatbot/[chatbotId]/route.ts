@@ -28,6 +28,6 @@ export const PUT = ApiErrorHandler.wrapAuth(
 			updateChatbotBodySchema
 		)
 		await updateChatbot(data, chatbotId, session.user.id)
-		return ApiResponse.deleted('Chatbot deleted')
+		return ApiResponse.updated(data, 'Chatbot updated')
 	}
 )

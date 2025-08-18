@@ -1,7 +1,13 @@
 import { NotFoundError } from '@/lib/api/ApiError'
 import { db } from '@/lib/db'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { DOMAIN_URL } from '@/lib/utils'
+import { Chatbot } from '@prisma/client'
+import {
+	InputJsonValue,
+	PrismaClientKnownRequestError,
+} from '@prisma/client/runtime/library'
 import { ObjectId } from 'bson'
+import { Bot } from 'grammy'
 import z from 'zod'
 
 export const getChatBotsByUserId = async (userId: string) => {
@@ -72,7 +78,7 @@ export const getChatbotById = async (chatbotId: string, userId?: string) => {
 	})
 
 	if (!chatbot) {
-		return new NotFoundError('Chatbot not found')
+		throw new NotFoundError('Chatbot not found')
 	}
 
 	return chatbot
@@ -117,6 +123,125 @@ export const updateChatbot = async (
 			data,
 		})
 		return chatbot
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
+}
+
+export const addChannelSchema = z.discriminatedUnion('keyName', [
+	z
+		.object({
+			keyName: z.literal('telegram'),
+			settings: z.object({
+				token: z.string().min(1),
+			}),
+		})
+		.strict(),
+	z
+		.object({
+			keyName: z.literal('wa'),
+			settings: z.record(z.string(), z.any()),
+		})
+		.strict(),
+])
+
+export const addChannel = async (
+	data: z.infer<typeof addChannelSchema>,
+	chatbotId: string,
+	userId?: string
+) => {
+	// Implement the logic to add a channel based on the keyName and settings
+	switch (data.keyName) {
+		case 'telegram':
+			try {
+				const bot = new Bot(data.settings.token)
+				const endpoint = `${DOMAIN_URL}/api/v1/webhook/telegram/${chatbotId}`
+				await bot.api.setWebhook(endpoint)
+			} catch (error) {
+				console.log(error)
+				throw new Error('Failed to set Telegram webhook')
+			}
+			break
+		default:
+			throw new Error('Unsupported channel type')
+	}
+
+	try {
+		const chatbot = await db.chatbot.update({
+			where: {
+				id: chatbotId,
+				userId,
+			},
+			data: {
+				channels: {
+					push: {
+						keyName: data.keyName,
+						settings: data.settings,
+					},
+				},
+			},
+		})
+		return chatbot
+	} catch (error) {
+		if (error instanceof PrismaClientKnownRequestError) {
+			throw new NotFoundError('Chatbot not found')
+		} else {
+			throw error
+		}
+	}
+}
+
+export const deleteChannelSchema = z.object({
+	keyName: z.string(),
+})
+
+export const deleteChannel = async (
+	data: z.infer<typeof deleteChannelSchema>,
+	chatbotId: string,
+	userId: string
+): Promise<Chatbot> => {
+	const chatbot = await getChatbotById(chatbotId, userId)
+	const channel = chatbot.channels.find(
+		(channel) => channel.keyName === data.keyName
+	)
+
+	if (!channel) {
+		throw new NotFoundError('Channel not installed')
+	}
+
+	switch (data.keyName) {
+		case 'telegram':
+			const { token } = channel.settings as { token: string }
+
+			const bot = new Bot(token)
+			await bot.api.deleteWebhook()
+
+			break
+
+		default:
+			throw new Error('Channel not found')
+	}
+
+	try {
+		const newChannels = chatbot.channels.filter(
+			(channel) => channel.keyName !== data.keyName
+		) as { keyName: string; settings: InputJsonValue }[]
+
+		const updatedChatbot = await db.chatbot.update({
+			where: {
+				id: chatbotId,
+			},
+			data: {
+				channels: {
+					set: newChannels,
+				},
+			},
+		})
+		return updatedChatbot
 	} catch (error) {
 		if (error instanceof PrismaClientKnownRequestError) {
 			throw new NotFoundError('Chatbot not found')
