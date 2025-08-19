@@ -164,12 +164,12 @@ const DashboardOverview = () => {
 				)}
 				{user && data && user.maxChatbots === data.length ? (
 					<Button disabled size={isMobile ? 'icon' : 'default'}>
-						{isMobile ? <Plus /> : 'Add New'}
+						{isMobile ? <Plus /> : 'Crear chatbot'}
 					</Button>
 				) : (
 					<Button size={isMobile ? 'icon' : 'default'} asChild>
 						<Link href="/dashboard/nuevo">
-							{isMobile ? <Plus /> : 'Add New'}
+							{isMobile ? <Plus /> : 'Crear chatbot'}
 						</Link>
 					</Button>
 				)}
