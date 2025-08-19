@@ -86,7 +86,7 @@ export default function EjemploConversacion() {
               className={clsx(
                 "max-w-[60%] px-3 py-2 text-sm border border-white/10 rounded-2xl inline-flex items-center gap-2",
                 nextMsgType === "user"
-                  ? "self-end ml-auto rounded-br-sm bg-emerald-50"
+                  ? "self-end ml-auto rounded-br-sm bg-emerald-700/50 text-neutral-100"
                   : "self-start rounded-bl-sm bg-white/12 text-neutral-100"
               )}
             >
