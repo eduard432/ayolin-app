@@ -196,7 +196,7 @@ const IntegrationsPage = () => {
 					<Link
 						href={`/dashboard/${params.chatbotId}/integraciones/marketplace`}
 					>
-						Browse Marketplace
+						Explorar Marketplace
 					</Link>
 				</Button>
 			</section>
@@ -248,9 +248,9 @@ const IntegrationsPage = () => {
 						<div className="flex justify-center mb-4">
 							<Layers />
 						</div>
-						<CardTitle className="text-center">Latest Integrations</CardTitle>
+						<CardTitle className="text-center">Ultimas integraciones</CardTitle>
 						<CardDescription className="text-center">
-							Explore more integrations to expand yout Chatbot
+							Explora mas integraciones para conectar a tu chatbot
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="gap-y-6 flex flex-col">

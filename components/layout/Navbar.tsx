@@ -9,10 +9,9 @@ import {
   BreadcrumbLink,
 } from '@/components/ui/breadcrumb'
 import { useSession, signOut } from 'next-auth/react'
-import { SearchBar } from '../ui/SearchBar'
 import { Button } from '../ui/button'
 import Link from 'next/link'
-import { BookOpen, Search } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,13 +103,6 @@ export default function Navbar() {
       {isMobile ? <Title /> : <NavbarBreadcrumb />}
 
       <div className="flex items-center gap-x-2">
-        {isMobile ? (
-          <Button size="sm" variant="outline" className="rounded-full">
-            <Search />
-          </Button>
-        ) : (
-          <SearchBar className="h-8" placeholder="Find..." />
-        )}
 
         <Link href="/blog">
           <Button size="sm" variant="outline" className="rounded-full">

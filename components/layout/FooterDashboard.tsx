@@ -10,7 +10,7 @@ const FooterDashboard = () => {
 					Ayolin
 				</h2>
 				<div className="space-x-4 text-sm text-muted-foreground mt-4">
-					<Link href="/">Home</Link>
+					<Link href="/">Inicio</Link>
 					<Link href="/condiciones-servicios">Condiciones</Link>
 					<Link href="/politica-privacidad">Privacidad</Link>
 					<a href="mailto:ayolintm@gmail.com">Contacto</a>

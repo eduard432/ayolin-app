@@ -29,7 +29,7 @@ const CategoryButtons = () => {
 				<Link
 					href={`/dashboard/${params.chatbotId}/integraciones/marketplace`}
 				>
-					All Categories
+					Todas las Categorias
 				</Link>
 			</Button>
 			{Object.keys(integrationsData).map((category) => {

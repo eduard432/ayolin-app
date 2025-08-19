@@ -115,9 +115,9 @@ const Page = () => {
 	return (
 		<Card className="md:w-1/2 md:mx-auto">
 			<CardHeader>
-				<CardTitle className="text-xl">New Chatbot</CardTitle>
+				<CardTitle className="text-xl">Nuevo Chatbot</CardTitle>
 				<CardDescription>
-					Crate a chatbot with your own custom settings
+					Crea tu chatbot con tu configuración personalizada
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -128,8 +128,8 @@ const Page = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormDescription>Chatbot public name</FormDescription>
+									<FormLabel>Nombre</FormLabel>
+									<FormDescription>Nombre que tendra tu chatbot</FormDescription>
 									<FormControl>
 										<Input placeholder="Chatcito" {...field} />
 									</FormControl>
@@ -142,15 +142,15 @@ const Page = () => {
 							name="model"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Model</FormLabel>
-									<FormDescription>AI model for chatbot</FormDescription>
+									<FormLabel>Modelo</FormLabel>
+									<FormDescription>Modelo de IA que usara tu chatbot</FormDescription>
 									<Select
 										onValueChange={field.onChange}
 										defaultValue={field.value}
 									>
 										<FormControl>
 											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Select a model" />
+												<SelectValue placeholder="Seleccionar modelo" />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
@@ -188,14 +188,16 @@ const Page = () => {
 							name="initialPrompt"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Initial Prompt</FormLabel>
+									<FormLabel>Prompt inicial</FormLabel>
 									<FormDescription>
-										Prompt send to chatbot in all messages
+										Aquí defines la personalidad y rol de tu chatbot. Ejemplo: <br/>
+										“Eres un profesor de química” <br/>
+    									“Eres un vendedor de perfumes, responde a mis clientes con este catálogo”.
 									</FormDescription>
 									<FormControl>
 										<Textarea
 											className="resize-none"
-											placeholder="Prompt..."
+											placeholder='Escribe las instrucciones para tu chatbot...'
 											{...field}
 										/>
 									</FormControl>
@@ -211,7 +213,7 @@ const Page = () => {
 							type="submit"
 							className="w-full mt-8 disabled:opacity-50"
 						>
-							Create
+							Crear
 						</Button>
 					</form>
 				</Form>

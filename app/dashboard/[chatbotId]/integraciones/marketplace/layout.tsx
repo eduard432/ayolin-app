@@ -23,7 +23,7 @@ const Layout = async ({
 				</h4>
 				<Button variant="outline" asChild>
 					<Link href={`/dashboard/${chatbotId}/integraciones`}>
-						Installed Integrations
+						Integraciones instaladas
 					</Link>
 				</Button>
 			</section>
@@ -32,7 +32,7 @@ const Layout = async ({
 				<IntegrationsNavbar />
 			</section>
 			<section className="col-span-full md:col-span-9">
-                <SearchBar placeholder="Search integrations..." className="h-10 mb-8" />
+                <SearchBar placeholder="Buscar integraciones..." className="h-10 mb-8" />
                 {children}
             </section>
 		</div>

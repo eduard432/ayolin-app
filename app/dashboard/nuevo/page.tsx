@@ -88,6 +88,7 @@ const Page = () => {
 								</p>
 							</article>
 						))}
+						{/*
 						<div>
 							<Link
 								className="text-sm font-semibold hover:underline-offset-2 hover:underline"
@@ -96,6 +97,7 @@ const Page = () => {
 								Ver todas las plantillas →
 							</Link>
 						</div>
+						*/}
 					</CardContent>
 				</Card>
 			</section>
