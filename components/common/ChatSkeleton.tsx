@@ -69,7 +69,7 @@ export function ChatSkeleton({
 					disabled
 					size="icon"
 					variant="ghost"
-					className="rounded-full opacity-50"
+					className="rounded-full opacity-50 text-blue-400"
 				>
 					<Send />
 				</Button>

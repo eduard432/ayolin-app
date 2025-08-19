@@ -143,7 +143,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 					type="submit"
 					size="icon"
 					variant="ghost"
-					className="rounded-full"
+					className="rounded-full text-blue-400"
 				>
 					<Send />
 				</Button>
