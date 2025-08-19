@@ -60,13 +60,13 @@ export default function EjemploConversacion() {
         </div>
 
         {/* 🔧 CONTENEDOR FLEX para que self-start/end funcione */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 min-h-64">
           {visibles.map((msg, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 8, filter: "blur(2px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
               className={clsx(
                 "max-w-[85%] px-3 py-2 text-sm border border-white/10 rounded-2xl",
                 msg.tipo === "user"
@@ -84,7 +84,7 @@ export default function EjemploConversacion() {
               key="typing"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.35 }}
               className={clsx(
                 "max-w-[60%] px-3 py-2 text-sm border border-white/10 rounded-2xl inline-flex items-center gap-2 bg-white/12 text-neutral-100",
                 nextMsgType === "user"
