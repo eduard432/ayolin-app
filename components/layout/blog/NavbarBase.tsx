@@ -15,7 +15,7 @@ export default function NavbarBase() {
         {/* Links (solo desktop visible sin JS) */}
         <ul className="hidden md:flex md:space-x-8 text-lg font-medium">
           <li><Link href="/" className="text-white hover:text-blue-300">Inicio</Link></li>
-          <li><Link href="/auth/login" className="text-white hover:text-blue-300">Dashboard</Link></li>
+          <li><Link href="/auth/login" className="text-white hover:text-blue-300">Tablero</Link></li>
         </ul>
       </div>
     </nav>

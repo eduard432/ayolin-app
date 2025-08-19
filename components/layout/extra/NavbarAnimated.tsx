@@ -48,7 +48,7 @@ export default function NavbarAnimated() {
         {/* Menú desktop */}
         <ul className="hidden md:flex md:space-x-8 text-lg font-medium">
           <li><Link href="/" className="text-white hover:text-blue-300">Inicio</Link></li>
-          <li><Link href="/auth/login" className="text-white hover:text-blue-300">Login</Link></li>
+          <li><Link href="/auth/login" className="text-white hover:text-blue-300">Iniciar sesión</Link></li>
         </ul>
 
         {/* Menú móvil animado */}
@@ -63,7 +63,7 @@ export default function NavbarAnimated() {
               className="fixed top-0 left-0 w-full h-screen bg-black flex flex-col items-center justify-center gap-6 md:hidden"
             >
               <li><Link href="/" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">Inicio</Link></li>
-              <li><Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">Login</Link></li>
+              <li><Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-white text-2xl hover:text-blue-300">Iniciar sesión</Link></li>
             </motion.ul>
           )}
         </AnimatePresence>
