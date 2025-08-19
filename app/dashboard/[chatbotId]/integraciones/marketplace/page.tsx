@@ -48,6 +48,10 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 			</AspectRatio>
 			<CardContent>
 				<p className="font-semibold text-center">Integración personalizada</p>
+				<p className="text-sm text-neutral-600 truncate">
+					Personaliza tu propia función de fetch
+				</p>
+
 
 			</CardContent>
 		</Card>
