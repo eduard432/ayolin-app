@@ -59,7 +59,6 @@ export default function EjemploConversacion() {
           <span className="text-sm">Ejemplo de conversación</span>
         </div>
 
-        {/* 🔧 CONTENEDOR FLEX para que self-start/end funcione */}
         <div className="flex flex-col gap-3 min-h-64">
           {visibles.map((msg, i) => (
             <motion.div
@@ -70,7 +69,7 @@ export default function EjemploConversacion() {
               className={clsx(
                 "max-w-[85%] px-3 py-2 text-sm border border-white/10 rounded-2xl",
                 msg.tipo === "user"
-                  ? "self-end ml-auto rounded-br-sm bg-gradient-to-r from-blue-600/70 to-purple-600/70 text-white shadow-lg"
+                  ? "self-end ml-auto rounded-br-sm bg-emerald-700/50 text-neutral-100"
                   : "self-start rounded-bl-sm bg-white/10 text-neutral-100"
               )}
             >
@@ -78,7 +77,6 @@ export default function EjemploConversacion() {
             </motion.div>
           ))}
 
-          {/* “Escribiendo…” de un solo color, ALINEADO al lado del PRÓXIMO mensaje */}
           {isTyping && nextMsgType && (
             <motion.div
               key="typing"
@@ -86,10 +84,10 @@ export default function EjemploConversacion() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
               className={clsx(
-                "max-w-[60%] px-3 py-2 text-sm border border-white/10 rounded-2xl inline-flex items-center gap-2 bg-white/12 text-neutral-100",
+                "max-w-[60%] px-3 py-2 text-sm border border-white/10 rounded-2xl inline-flex items-center gap-2",
                 nextMsgType === "user"
-                  ? "self-end ml-auto rounded-br-sm"
-                  : "self-start rounded-bl-sm"
+                  ? "self-end ml-auto rounded-br-sm bg-emerald-700/50 text-neutral-100"
+                  : "self-start rounded-bl-sm bg-white/12 text-neutral-100"
               )}
             >
               <span className="sr-only">escribiendo…</span>
