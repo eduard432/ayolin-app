@@ -48,7 +48,7 @@ export async function POST(
 		if (!chatId) throw Error('chatId is needed')
 
 		requestBody = validateWithSource(bodySchema, body, 'body')
-	} catch (error) {
+	} catch {
 		return new ChatSDKError('bad_request:api').toResponse()
 	}
 
