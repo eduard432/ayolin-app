@@ -1,10 +1,7 @@
 'use client'
 
 import { SearchBar } from '@/components/ui/SearchBar'
-import {
-	Card,
-	CardContent,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -27,6 +24,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
 import { Chatbot } from '@prisma/client'
 import Usage, { UsageSkeleton } from './Usage'
+import { useGetUser } from '@/data/user/user.client'
 
 type LayoutType = 'grid' | 'list'
 
@@ -40,7 +38,6 @@ const ChatbotCard = ({
 	const router = useRouter()
 
 	const deleteMutation = useDeleteChatbot(chatbot)
-
 	return (
 		<Card
 			className={cn(
@@ -59,12 +56,12 @@ const ChatbotCard = ({
 					<Avatar className="w-10 h-10 ring-1 ring-violet-500/20">
 						<AvatarFallback
 							className={cn(
-								"w-full h-full flex items-center justify-center rounded-full bg-violet-500/10 text-violet-400"
+								'w-full h-full flex items-center justify-center rounded-full bg-violet-500/10 text-violet-400'
 							)}
 							aria-label={chatbot.name}
 						>
-							<Bot className='h-5 w-5' />
-						</AvatarFallback>		
+							<Bot className="h-5 w-5" />
+						</AvatarFallback>
 					</Avatar>
 					<div>
 						<h4 className="font-medium">{chatbot.name}</h4>
@@ -136,6 +133,8 @@ const DashboardOverview = () => {
 	const { data, isLoading } = useChatbots(session?.user?.id || '')
 	const isMobile = useIsMobile()
 
+	const { data: user } = useGetUser(session?.user?.id || '')
+
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-y-8">
 			<section className="flex items-center gap-x-4 col-span-full">
@@ -163,18 +162,24 @@ const DashboardOverview = () => {
 						</ToggleGroupItem>
 					</ToggleGroup>
 				)}
-				<Button size={isMobile ? 'icon' : 'default'} asChild>
-					<Link href="/dashboard/nuevo">
+				{user && data && user.maxChatbots === data.length ? (
+					<Button disabled size={isMobile ? 'icon' : 'default'}>
 						{isMobile ? <Plus /> : 'Add New'}
-					</Link>
-				</Button>
+					</Button>
+				) : (
+					<Button size={isMobile ? 'icon' : 'default'} asChild>
+						<Link href="/dashboard/nuevo">
+							{isMobile ? <Plus /> : 'Add New'}
+						</Link>
+					</Button>
+				)}
 			</section>
 			<section className="col-span-full md:col-span-8">
-				<div className='flex grid-cols-2 gap-10'>
+				<div className="flex grid-cols-2 gap-10">
 					<h4 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 						Chatbots
 					</h4>
-					< PayWithStripe />
+					<PayWithStripe />
 				</div>
 				<div
 					className={cn(
@@ -212,7 +217,11 @@ const DashboardOverview = () => {
 				<h4 className="col-span-full scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Uso
 				</h4>
-				{ (session && data) ? <Usage chatbots={data.length} session={session} /> : (<UsageSkeleton />) }
+				{user && data ? (
+					<Usage chatbots={data.length} user={user} />
+				) : (
+					<UsageSkeleton />
+				)}
 			</section>
 		</div>
 	)

@@ -27,11 +27,13 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { createChatbot } from '@/data/chatbot/chatbot.client'
+import { createChatbot, useChatbots } from '@/data/chatbot/chatbot.client'
+import { useGetUser } from '@/data/user/user.client'
 import { modelPrices } from '@/lib/constants/models'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Chatbot, User } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -55,6 +57,12 @@ const Page = () => {
 	})
 
 	const queryClient = useQueryClient()
+
+	const { data: session } = useSession()
+
+	const { data: chatbots } = useChatbots(session?.user?.id || '')
+
+	const { data: user } = useGetUser(session?.user?.id || '')
 
 	const mutation = useMutation<
 		Chatbot,
@@ -153,14 +161,14 @@ const Page = () => {
 													value={id}
 												>
 													{model.name}{' '}
-													<Badge className="bg-blue-600 text-neutral-50"  >
+													<Badge className="bg-blue-600 text-neutral-50">
 														{new Intl.NumberFormat('en-MX', {
 															style: 'currency',
 															currency: 'MXN',
 															maximumFractionDigits: 4,
 														}).format(model.input * 20)}
 													</Badge>
-													<Badge className="bg-teal-600 text-neutral-50"  >
+													<Badge className="bg-teal-600 text-neutral-50">
 														{new Intl.NumberFormat('en-MX', {
 															style: 'currency',
 															currency: 'MXN',
@@ -196,7 +204,10 @@ const Page = () => {
 							)}
 						/>
 						<Button
-							disabled={mutation.isPending}
+							disabled={
+								mutation.isPending ||
+								(user && chatbots && user.maxChatbots === chatbots.length)
+							}
 							type="submit"
 							className="w-full mt-8 disabled:opacity-50"
 						>
