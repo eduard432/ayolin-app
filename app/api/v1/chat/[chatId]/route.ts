@@ -3,7 +3,7 @@ import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
 import { convertToModelMessages, generateText } from 'ai'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
@@ -12,6 +12,7 @@ import { Prisma } from '@prisma/client'
 import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
 import { generateTools } from '@/lib/ai'
+import { ApiErrorHandler } from '@/lib/api/ApiError'
 
 const textPartSchema = z.object({
 	type: z.enum(['text']),
@@ -48,8 +49,8 @@ export async function POST(
 		if (!chatId) throw Error('chatId is needed')
 
 		requestBody = validateWithSource(bodySchema, body, 'body')
-	} catch {
-		return new ChatSDKError('bad_request:api').toResponse()
+	} catch (error) {
+		return new ChatSDKError('bad_request:api')
 	}
 
 	try {
@@ -66,7 +67,7 @@ export async function POST(
 		const chat = await getChatById(chatId)
 
 		if (!chat) {
-			return new ChatSDKError('not_found:chat').toResponse()
+			return new ChatSDKError('not_found:chat')
 		}
 
 		const user = await db.user.findFirst({
@@ -76,7 +77,7 @@ export async function POST(
 		})
 
 		if (!user) {
-			return new ChatSDKError('not_found:chat').toResponse()
+			return new ChatSDKError('not_found:chat')
 		}
 
 		let actualMaxUsagePricing = user.maxCreditUsage - user.creditUsage
@@ -96,7 +97,7 @@ export async function POST(
 		actualMaxUsagePricing -= aproxInputCreditUsage
 
 		if (actualMaxUsagePricing <= 0) {
-			return new ChatSDKError('rate_limit:chat').toResponse()
+			return new ChatSDKError('rate_limit:chat')
 		}
 
 		const messages = [
@@ -143,11 +144,11 @@ export async function POST(
 			usage: inputCreditUsage + outputCreditUsage,
 		})
 
-		return Response.json({
+		return NextResponse.json({
 			message: generatedMessage,
 		})
 	} catch (e) {
 		console.log(e)
-		return new ChatSDKError('forbidden:chat').toResponse()
+		ApiErrorHandler.handleError(e)
 	}
 }

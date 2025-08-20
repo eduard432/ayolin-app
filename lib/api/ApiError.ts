@@ -3,6 +3,7 @@ import { ZodError } from 'zod'
 import { ApiValidator } from './ApiValidate'
 import { auth } from '@/lib/auth'
 import { Session } from 'next-auth'
+import { ChatSDKError } from './chatError'
 
 export class ApiError extends Error {
 	statusCode: number
@@ -77,8 +78,12 @@ export class ZodValidationError extends ValidationError {
 }
 
 export class ApiErrorHandler {
-	static handleError(error: unknown) {
+	static handleError(error: unknown): NextResponse {
 		console.log('API error:', error)
+
+		if(error instanceof ChatSDKError) {
+			return error.toResponse()
+		}
 
 		if (error instanceof ZodError) {
 			return this.handleZodError(error)

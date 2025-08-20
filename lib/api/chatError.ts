@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export type ErrorType =
   | 'bad_request'
   | 'unauthorized'
@@ -63,13 +65,13 @@ export class ChatSDKError extends Error {
         cause,
       });
 
-      return Response.json(
+      return NextResponse.json(
         { code: '', message: 'Something went wrong. Please try again later.' },
         { status: statusCode },
       );
     }
 
-    return Response.json({ code, message, cause }, { status: statusCode });
+    return NextResponse.json({ code, message, cause }, { status: statusCode });
   }
 }
 
