@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from "next-auth/react";
-import { PricingCard } from "@/components/payment-card";
+import { PricingCard } from "@/components/common/PaymentCard";
 
 export default function PricingPage() {
 

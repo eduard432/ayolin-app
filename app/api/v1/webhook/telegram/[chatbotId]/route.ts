@@ -1,4 +1,4 @@
-import { saveMessages, updateUsageFields } from '@/data/chat.server'
+import { saveMessages, updateUsageFields } from '@/data/chat/chat.server'
 import { generateTools } from '@/lib/ai'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'

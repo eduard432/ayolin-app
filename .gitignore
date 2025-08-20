@@ -45,3 +45,4 @@ next-env.d.ts
 /lib/generated/prisma
 
 /generated/prisma
+.vscode/api-routes.code-snippets

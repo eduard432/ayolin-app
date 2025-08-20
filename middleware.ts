@@ -1,42 +1,50 @@
+// middleware.ts
 import { auth } from '@/lib/auth'
-import {
-	apiAuthPrefix,
-	authRoutes,
-	DEFAULT_LOGIN_REDIRECT,
-	publicRoutes,
-} from '@/routes'
+import { ROUTES, authCallbacks } from '@/routes'
 import { NextResponse } from 'next/server'
 
 export default auth((req) => {
 	const { nextUrl } = req
+	const pathname = nextUrl.pathname
 	const isLoggedIn = !!req.auth
 
-	const isTelegramWebhook = nextUrl.pathname.startsWith(
-		'/api/v1/webhook/telegram'
-	)
-
-	if (isTelegramWebhook) {
-		return NextResponse.next()
-	}
-
-	const isStripeWebhook = nextUrl.pathname.startsWith('/api/v1/stripe/webhook')
-	if (isStripeWebhook) return NextResponse.next()
-
-	const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-	const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
-	const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-
-	if (isApiAuthRoute) return NextResponse.next()
-
-	if (isAuthRoute) {
-		if (isLoggedIn) {
-			return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+	// --- API Auth routes ---
+	if (pathname.startsWith(ROUTES.apiAuthPrefix)) {
+		// Si es un callback de OAuth
+		for (const cb of authCallbacks) {
+			if (pathname.startsWith(`${ROUTES.apiAuthPrefix}${cb}`)) {
+				if (isLoggedIn) {
+					return NextResponse.redirect(
+						new URL(ROUTES.redirect.afterLogin, nextUrl)
+					)
+				}
+			}
 		}
 		return NextResponse.next()
 	}
 
-	if (!isLoggedIn && !isPublicRoute) {
-		return NextResponse.redirect(new URL('/auth/login', nextUrl))
+	// --- Auth routes (login/register/etc) ---
+	if ([...ROUTES.auth].some((route) => pathname.startsWith(route))) {
+		if (isLoggedIn) {
+			return NextResponse.redirect(
+				new URL(ROUTES.redirect.afterLogin, nextUrl)
+			)
+		}
+		return NextResponse.next()
+	}
+
+	// --- Public routes ---
+	const isPublicRoute =
+		ROUTES.publicExact.has(pathname) ||
+		ROUTES.publicPatterns.some((pattern) => pattern.test(pathname))
+
+	if (isPublicRoute) {
+		return NextResponse.next()
+	}
+
+	// --- Private routes ---
+	if (!isLoggedIn) {
+		return NextResponse.redirect(new URL(ROUTES.redirect.login, nextUrl))
 	}
 
 	return NextResponse.next()
@@ -44,9 +52,16 @@ export default auth((req) => {
 
 export const config = {
 	matcher: [
-		// Skip Next.js internals and all static files, unless found in search params
-		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/v1/stripe/webhook|api/webhooks/stripe|api/v1/webhook/telegram).*)',
-		// Always run for API routes
-		'/(api|trpc)(.*)',
+		// Todas las rutas, excepto:
+		// - Internals de Next.js (_next)
+		// - Archivos estáticos (.ico, .png, .jpg, .jpeg, .svg, .css, .js, .woff, .woff2)
+		// - Webhooks (api/v1/webhook)
+		'/((?!_next|.*\\.(?:ico|png|jpg|jpeg|svg|css|js|woff2?)$|api/v1/webhook).*)',
+
+		// Todas las API routes (excepto webhooks, ya excluidas arriba)
+		'/api/:path*',
+
+		// Todas las TRPC routes
+		'/trpc/:path*',
 	],
 }

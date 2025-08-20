@@ -6,148 +6,148 @@ export const integrationsData: {
     action: string
   }[]
 } = {
-  analytics: [
+  analitica: [
     {
       name: "Plausible",
-      description: "Privacy-focused web analytics",
+      description: "Analítica web enfocada en la privacidad",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
     {
       name: "PostHog",
-      description: "Product analytics you can self-host",
-      tag: "Template",
-      action: "More",
+      description: "Analítica de producto que puedes auto-hospedar",
+      tag: "Plantilla",
+      action: "Más",
     },
   ],
-  authentication: [
+  autenticacion: [
     {
       name: "Auth0",
-      description: "Authentication and authorization as a service",
-      tag: "Template",
-      action: "More",
+      description: "Autenticación y autorización como servicio",
+      tag: "Plantilla",
+      action: "Más",
     },
     {
       name: "Clerk",
-      description: "User management for modern web apps",
+      description: "Gestión de usuarios para aplicaciones web modernas",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
   cms: [
     {
       name: "Contentful",
-      description: "Headless CMS for structured content",
-      tag: "Template",
-      action: "More",
+      description: "CMS sin cabeza para contenido estructurado",
+      tag: "Plantilla",
+      action: "Más",
     },
     {
       name: "Sanity",
-      description: "Composable content platform",
+      description: "Plataforma de contenido componible",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  commerce: [
+  comercio: [
     {
       name: "BigCommerce",
-      description: "Bring your business online with Vercel",
-      tag: "Template",
-      action: "More",
+      description: "Lleva tu negocio en línea con Vercel",
+      tag: "Plantilla",
+      action: "Más",
     },
     {
       name: "Saleor",
-      description: "A fast, open and standards-based commerce API",
-      tag: "Template",
-      action: "More",
+      description: "API de comercio rápida, abierta y basada en estándares",
+      tag: "Plantilla",
+      action: "Más",
     },
     {
       name: "Salesforce Commerce Cloud",
-      description: "A customer-centric commerce platform",
-      tag: "Template",
-      action: "More",
+      description: "Plataforma de comercio centrada en el cliente",
+      tag: "Plantilla",
+      action: "Más",
     },
     {
       name: "Shopify",
-      description: "Headless, composable storefronts",
+      description: "Tiendas sin cabeza y componibles",
       tag: null,
-      action: "More",
+      action: "Más",
     },
     {
       name: "Sitecore OrderCloud",
-      description: "API-first B2X commerce",
+      description: "Comercio B2X con enfoque API-first",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  devtools: [
+  herramientas: [
     {
       name: "Sentry",
-      description: "Error tracking and performance monitoring",
+      description: "Seguimiento de errores y monitoreo de rendimiento",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
     {
       name: "LogRocket",
-      description: "Session replay and frontend monitoring",
+      description: "Reproducción de sesiones y monitoreo del frontend",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  experimentation: [
+  experimentacion: [
     {
       name: "Split.io",
-      description: "Feature flags and A/B testing",
+      description: "Feature flags y pruebas A/B",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  flags: [
+  funciones: [
     {
       name: "LaunchDarkly",
-      description: "Feature management platform",
-      tag: "Template",
-      action: "More",
+      description: "Plataforma de gestión de funcionalidades",
+      tag: "Plantilla",
+      action: "Más",
     },
   ],
-  logging: [
+  registros: [
     {
       name: "Datadog Logs",
-      description: "Log management and analysis",
+      description: "Gestión y análisis de registros",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  messagging: [
+  mensajeria: [
     {
       name: "Twilio",
-      description: "Cloud communications platform",
+      description: "Plataforma de comunicaciones en la nube",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  monitoring: [
+  monitoreo: [
     {
       name: "New Relic",
-      description: "Application performance monitoring",
+      description: "Monitoreo del rendimiento de aplicaciones",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  observability: [
+  observabilidad: [
     {
       name: "Grafana",
-      description: "Open-source analytics & monitoring solution",
+      description: "Solución de analítica y monitoreo de código abierto",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
-  productivity: [
+  productividad: [
     {
       name: "Slack",
-      description: "Team communication and alerts",
+      description: "Comunicación en equipo y alertas",
       tag: null,
-      action: "Add",
+      action: "Agregar",
     },
   ],
 }

@@ -12,9 +12,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 import { useParams } from 'next/navigation'
-import { useChats } from '@/data/chat.client'
+import { useChats } from '@/data/chat/chat.client'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const ChatTableSkeleton = () => {

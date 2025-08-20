@@ -9,15 +9,16 @@ import {
   FaClock,
   FaGlobe,
 } from "react-icons/fa6";
-import  Hero  from '@/components/hero-landing'
-import Features from '@/components/features-landing'
-import UseCases from "@/components/useCase-landing";
-import DemoSection from "@/components/demo-landing";
+import  Hero  from '@/app/(components)/HeroLanding'
+import Info from "@/app/(components)/InfoLanding"
+import Features from '@/app/(components)/FeaturesLanding'
+import UseCases from "@/app/(components)/UseCases";
+import DemoSection from "@/app/(components)/DemoLanding";
 
-import Navbar from '@/components/navbarLanding'
-import Fotter from "@/components/Fotter";
-import AOSInit from "@/components/AOSInit";
-import PricingSection from "@/components/SeccionPlanes-landing";
+import Navbar from '@/components/layout/landing/index'
+import Fotter from "@/components/layout/Footer";
+import AOSInit from "@/components/common/AOSInit";
+import PricingSection from "@/app/(components)/SeccionesPlanes";
 
 const features = [
   {
@@ -86,9 +87,8 @@ const useCases = [
     description: "Obtén ayuda con investigaciones, tareas y nuevos temas de estudio.",
   },
   {
-    title: "Generador de Ideas",
-    description:
-      "Transforma tus ideas en planes claros con ayuda de Ayolin.",
+    title: "Agente Vendedor",
+    description: "Dale el rol de vendedor y olvídate de las demás tareas.",
   },
 ];
 
@@ -102,6 +102,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero/>
+
+      {/* Info Section */}
+      <Info/>
 
       {/* Features Section */}
       < Features features={features} />

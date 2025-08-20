@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useParams } from 'next/navigation'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 
 export default function AlmacenamientoPage() {
     const params = useParams()

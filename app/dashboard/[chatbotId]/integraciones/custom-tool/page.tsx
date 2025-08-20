@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import CustomToolForm, { CustomToolFormSkeleton } from './CustomToolForm'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 
 const CustomToolPage = () => {
 	const params = useParams()

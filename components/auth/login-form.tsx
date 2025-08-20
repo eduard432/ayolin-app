@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
-import { FormError } from '@/components/form-error'
-import { FormSucces } from '@/components/form-succes'
+import { FormError } from '@/components/ui/FormError'
+import { FormSucces } from '@/components/ui/FormSuccess'
 import Link from "next/link"
 import {
 	Form,
@@ -36,6 +36,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 		defaultValues: {
 			email: '',
 			password: '',
+			code: '',
 		},
 	})
 
@@ -59,7 +60,6 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 					setShowTwoFactor(true)
 				}
 			})
-			{/*.catch(() => setError("Algo salio mal"))*/}
 		})
 	}
 
@@ -85,7 +85,12 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 											<Input
 												disabled={isPending}
 												{...field}
+												value={field.value ?? ''}
 												placeholder="XXXXXX"
+												type="text"
+												inputMode='numeric'
+												pattern='\d*'
+												maxLength={6}
 											/>
 										</FormControl>
 										<FormMessage className="text-red-500 mb-2" />
@@ -149,7 +154,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 						disabled={isPending}
 						type="submit"
 						variant="secondary"
-						className="w-full"
+						className="w-full h-10"
 					>
 						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 					</Button>

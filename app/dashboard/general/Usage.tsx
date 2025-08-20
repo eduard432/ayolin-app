@@ -6,9 +6,8 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useGetUser } from '@/data/user.client'
+import { User } from '@prisma/client'
 import { Bot, DollarSign } from 'lucide-react'
-import { Session } from 'next-auth'
 import React from 'react'
 
 export const UsageSkeleton = () => {
@@ -46,13 +45,12 @@ export const UsageSkeleton = () => {
 }
 
 const Usage = ({
-	session,
+	user,
 	chatbots = 0,
 }: {
-	session: Session
+	user: User
 	chatbots: number
 }) => {
-	const { data: user } = useGetUser(session.user.id)
 
 	return (
 		<>

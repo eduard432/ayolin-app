@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { Chatbot } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { removeChannel, removeTool } from '@/data/integrations.client'
+import { removeChannel, removeTool } from '@/data/integrations/integrations.client'
 
 type RemoveToolDataMutation = {
 	chatbot: Chatbot

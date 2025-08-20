@@ -20,7 +20,7 @@ import { FileSliders } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { PayWithStripe } from '@/components/stripe-button'
+import { PayWithStripe } from '@/components/ui/StripeButton'
 
 const Page = () => {
 	return (
@@ -28,11 +28,10 @@ const Page = () => {
 			<section className="col-span-full flex justify-between items-center flex-col md:flex-row space-y-4">
 				<div>
 					<h2 className="scroll-m-20 text-4xl font-semibold tracking-tight text-balance">
-						Lets build something new.
+						Crea tu chatbot
 					</h2>
 					<p className="leading-7 [&:not(:first-child)]:mt-6">
-						To deploy a new Project, import an existing template or build from
-						scratch
+						Para crear un proyecto, importa una plantilla existente o constrúyelo desde cero.
 					</p>
 				</div>
 				<PayWithStripe className="shadow-[0_0_12px_rgba(34,211,238,0.5)] px-12 w-full md:w-auto" />
@@ -40,10 +39,10 @@ const Page = () => {
 			<section className="col-span-full md:col-span-6 min-h-48 md:min-h-96">
 				<Card className="h-full flex items-center justify-center">
 					<CardContent className="flex flex-col gap-y-8 items-center">
-						<h3 className="text-2xl font-semibold">Custom Settings</h3>
+						<h3 className="text-2xl font-semibold">Ajustes personalizados</h3>
 						<FileSliders className="w-12 h-12 text-neutral-600" />
 						<Button asChild className="w-full" variant="outline">
-							<Link href="/dashboard/nuevo/personalizado">Start</Link>
+							<Link href="/dashboard/nuevo/personalizado">Empezar</Link>
 						</Button>
 					</CardContent>
 				</Card>
@@ -52,17 +51,17 @@ const Page = () => {
 				<Card className="h-full">
 					<CardHeader>
 						<CardTitle className="text-2xl font-semibold">
-							Clone Template
+							Plantillas 
 						</CardTitle>
 						<CardAction>
 							<Select>
 								<SelectTrigger className="border-none shadow-none">
-									<SelectValue placeholder="Framework" />
+									<SelectValue placeholder="Personalidad" />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="light">Light</SelectItem>
-									<SelectItem value="dark">Dark</SelectItem>
-									<SelectItem value="system">System</SelectItem>
+									<SelectItem value="light">Ventas</SelectItem>
+									<SelectItem value="dark">Estudio</SelectItem>
+									<SelectItem value="system">Asistente</SelectItem>
 								</SelectContent>
 							</Select>
 						</CardAction>
@@ -89,14 +88,16 @@ const Page = () => {
 								</p>
 							</article>
 						))}
+						{/*
 						<div>
 							<Link
 								className="text-sm font-semibold hover:underline-offset-2 hover:underline"
 								href="/dashboard/plantillas"
 							>
-								Browse All Templates →
+								Ver todas las plantillas →
 							</Link>
 						</div>
+						*/}
 					</CardContent>
 				</Card>
 			</section>

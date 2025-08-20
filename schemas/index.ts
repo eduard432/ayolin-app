@@ -8,7 +8,10 @@ export const LoginSchema = z.object({
 	password: z.string().min(1, {
 		message: 'La contraseña es obligatoria',
 	}),
-	code: z.optional(z.string()),
+	code: z
+    .union([z.literal(''), z.string().regex(/^\d{6}$/, { message: 'El código debe tener 6 dígitos' })])
+    .optional(),
+	
 })
 
 export const RegisterSchema = z

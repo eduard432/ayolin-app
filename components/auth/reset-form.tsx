@@ -18,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { FormError } from "@/components/form-error";
-import { FormSucces } from "@/components/form-succes";
+import { FormError } from "@/components/ui/FormError";
+import { FormSucces } from "@/components/ui/FormSuccess";
 
 import { reset } from "@/actions/reset";
 
@@ -79,7 +79,12 @@ const ResetForm = () => {
           </div>
           <FormError message={error} />
           <FormSucces message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <Button 
+            disabled={isPending} 
+            type="submit" 
+            variant="secondary"
+            className="w-full h-10"
+          >
             Enviar correo de recuperación
           </Button>
         </form>

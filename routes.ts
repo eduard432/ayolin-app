@@ -1,41 +1,45 @@
+// routes.ts
 /**
- * An array of routes that are accesible to the public
- * These routes do not require authentication
- * @type {string[]}
+ * Centralized routes configuration
  */
-export const publicRoutes = [
-    "/",
-    "/auth/new-verification",
-    "/api/webhooks/stripe",
-    "/condiciones-servicios",
-	"/politica-privacidad",
-]
+export const ROUTES: {
+	publicExact: Set<string>
+	publicPatterns: RegExp[]
+	auth: Set<string>
+	apiAuthPrefix: string
+	redirect: {
+		login: string
+		afterLogin: string
+	}
+} = {
+	publicExact: new Set([
+		'/',
+		'/auth/new-verification',
+		'/condiciones-servicios',
+		'/politica-privacidad',
+	]),
+
+	publicPatterns: [
+		/^\/api\/v1\/chat\/[^/]+$/, // /api/v1/chat/:chatId
+	],
+
+	auth: new Set([
+		'/auth/login',
+		'/auth/register',
+		'/auth/error',
+		'/auth/reset',
+		'/auth/new-password',
+	]),
+
+	apiAuthPrefix: '/api/v1/auth',
+
+	redirect: {
+		login: '/auth/login',
+		afterLogin: '/dashboard/general',
+	},
+}
 
 /**
- * An array of routes that are used for authentication
- * These routes will redirect logged in users to /settings
- * @type {string[]}
+ * Authentication callback routes (under apiAuthPrefix)
  */
-export const authRoutes = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/error",
-    "/auth/reset",
-    "/auth/new-password",
-    "/api/v1/auth/callback/google",
-    "/api/v1/auth/callback/github",
-]
-
-/**
- * The prefix for API authentication routes
- * Routes that start with this preffix are used for API authentication purposes
- * @type {string}
- */
-export const apiAuthPrefix = "/api/v1/auth"
-
-
-/**
- * The default redirect path after logging in
- * @type {string}
- */
-export const DEFAULT_LOGIN_REDIRECT = "/dashboard/general"
+export const authCallbacks = new Set(['/callback/google', '/callback/github'])

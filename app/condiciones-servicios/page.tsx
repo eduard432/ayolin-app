@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
-import NavbarExtra from "@/components/navbatExtra";
+import NavbarExtra from "@/components/layout/extra/NavbarWrapper"
 
 export const metadata: Metadata = {
     title: "Condiciones y Servicios | AYOLIN",
@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 export default function CondicionesServiciosPage() {
     return(
         <>
-            <NavbarExtra />
-
+            <NavbarExtra/>
             <main className="max-w-3xl mx-auto px-4 py-12 mt-20 text-white">
                 <h1 className="text-3xl font-bold mb-10"> Condiciones de Servicios</h1>
                 <p className="text-sm text-muted-foreground mb-4">
@@ -25,7 +24,7 @@ export default function CondicionesServiciosPage() {
                         1. Aceptación de los Términos 
                     </h2>
                     <p>
-                        Al acceder y utilizar el sitio web de Ayolin, aceptas cumplir con estas Condicioens de servicio y todas las leyes y regulaciones aplicables. Si no estás de acuerdo, no uses este sitio.
+                        Al acceder y utilizar el sitio web de Ayolin, aceptas cumplir con estas Condiciones de servicio y todas las leyes y regulaciones aplicables. Si no estás de acuerdo, no uses este sitio.
                     </p>
                 </section>
 

@@ -36,11 +36,13 @@ model User {
   // Extra fields for app:
   chatbots                Chatbot[]
   // Usage fields:
-  maxCreditUsage          Float                  @default(0.75)
+  maxCreditUsage          Float                  @default(0.075)
   maxChatbots             Int                    @default(3)
   creditUsage             Float                  @default(0)
   usageLogs               UsageLog[]
   avatarColor             String?                @default("bg-blue-500")
+  avatarSeed              String?                @default("") // Multiavatar
+  avatarNoBg              Boolean                @default(true) // Quitar circulo/fondo del SVG
 }
 
 model Account {

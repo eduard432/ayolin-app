@@ -1,6 +1,6 @@
 'use client'
 
-import { IntegrationCard, IntegrationCardSkeleton } from '@/components/IntegrationCard'
+import { IntegrationCard, IntegrationCardSkeleton } from '@/components/common/IntegrationCard'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,9 +9,9 @@ import {
 	CardContent,
 	CardHeader,
 } from '@/components/ui/card'
-import { useChatbot } from '@/data/chatbot.client'
+import { useChatbot } from '@/data/chatbot/chatbot.client'
 
-import { useIntegrations } from '@/data/integrations.client'
+import { useIntegrations } from '@/data/integrations/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import Image from 'next/image'
@@ -47,10 +47,12 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 				/>
 			</AspectRatio>
 			<CardContent>
-				<p className="font-semibold">Custom Fetch Tool</p>
+				<p className="font-semibold text-center">Integración personalizada</p>
 				<p className="text-sm text-neutral-600 truncate">
-					Custom your own tool fetch function
+					Personaliza tu propia función de fetch
 				</p>
+
+
 			</CardContent>
 		</Card>
 	)

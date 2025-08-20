@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 
@@ -12,33 +11,11 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { useGetUser } from '@/data/user/user.client'
 
 export default function UserSettings() {
     const { data: session } = useSession()
-    const [userInfo, setUserInfo] = useState<{
-        email: string
-        role: string
-    } | null>(null)
-
-	useEffect(() => {
-		if (!session?.user?.email) return
-
-		const fetchUserInfo = async () => {
-			const res = await fetch('/api/user/info', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email: session?.user.email }),
-			})
-
-			const data = await res.json()
-			if (res.ok) {
-				setUserInfo(data)
-			}
-		}
-
-		fetchUserInfo()
-	}, [session?.user?.email])
-
+    const { data: user } = useGetUser(session?.user?.id || '')
 
     const handlePortal = async () => {
         try{
@@ -78,7 +55,7 @@ export default function UserSettings() {
                             Esta cuenta está registrada como:
                         </Label>
                         <p className="text-lg font-semibold text-foreground mt-2 capitalize">
-                            {userInfo?.role || (
+                            {user?.role || (
                                 <span className="italic text-muted-foreground">
                                     Cargando...
                                 </span>
@@ -87,7 +64,7 @@ export default function UserSettings() {
                     </CardContent>
                 </Card>
 
-                {userInfo?.role === 'PRO' && (
+                {user?.role === 'PRO' && (
                     <Card>
                         <CardHeader>
                             <CardTitle className='text-foreground text-2xl'>

@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import React from 'react'
 import IntegrationsNavbar from './CategoryNavbar'
-import { SearchBar } from '@/components/search-bar'
+import { SearchBar } from '@/components/ui/SearchBar'
 
 const Layout = async ({
 	params,
@@ -23,7 +23,7 @@ const Layout = async ({
 				</h4>
 				<Button variant="outline" asChild>
 					<Link href={`/dashboard/${chatbotId}/integraciones`}>
-						Installed Integrations
+						Integraciones instaladas
 					</Link>
 				</Button>
 			</section>
@@ -32,7 +32,7 @@ const Layout = async ({
 				<IntegrationsNavbar />
 			</section>
 			<section className="col-span-full md:col-span-9">
-                <SearchBar placeholder="Search integrations..." className="h-10 mb-8" />
+                <SearchBar placeholder="Buscar integraciones..." className="h-10 mb-8" />
                 {children}
             </section>
 		</div>

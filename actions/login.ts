@@ -7,10 +7,11 @@ import { AuthError } from 'next-auth'
 import { generateVerificationToken, generateTwoFactorToken } from '@/lib/tokens'
 import { sendVerificationEmail, sendTwoFactorTokenEmail } from '@/lib/mail'
 import * as z from 'zod'
-import { getUserByEmail } from '@/data/user'
-import { getTwoFactorTokenByEmail } from '@/data/two-factor-token'
+import { getUserByEmail } from '@/data/user/user.server'
+import { getTwoFactorTokenByEmail } from '@/data/two-factor/two-factor-token.server'
 import { db } from '@/lib/db'
-import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation'
+import { getTwoFactorConfirmationByUserId } from '@/data/two-factor/two-factor-confirmation.server'
+import bcrypt from 'bcryptjs'
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedFields = LoginSchema.safeParse(values)
@@ -71,13 +72,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 				}
 			})
 		} else {
+			const ok = await bcrypt.compare(password, existingUser.password)
+			if(!ok){
+				return { error: "¡Credenciales inválidas!"}
+			}
 			const twoFactorToken = await generateTwoFactorToken(existingUser.email)
-			await sendTwoFactorTokenEmail(
-				twoFactorToken.email,
-				twoFactorToken.token,
-			);
-
-			return { twoFactor: true}
+			await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token)
+			return {twoFactor: true}
 		}
 	}
 

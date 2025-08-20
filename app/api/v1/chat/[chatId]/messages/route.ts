@@ -1,4 +1,4 @@
-import { getMessagesByChatId } from '@/data/chat.server'
+import { getMessagesByChatId } from '@/data/chat/chat.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { NextRequest, NextResponse } from 'next/server'

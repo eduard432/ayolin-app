@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { getChatbotById } from '@/data/chatbot.server'
+import { getChatbotById } from '@/data/chatbot/chatbot.server'
 import { handleApiError } from '@/lib/api/handleError'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'

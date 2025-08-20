@@ -1,4 +1,4 @@
-import { getChatById, updateUsageFields } from '@/data/chat.server'
+import { getChatById, updateUsageFields } from '@/data/chat/chat.server'
 import { ChatSDKError } from '@/lib/api/chatError'
 import { validateWithSource } from '@/lib/api/validate'
 import { convertToUIMessages } from '@/lib/utils'
@@ -7,7 +7,7 @@ import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { openai } from '@ai-sdk/openai'
 import { ObjectId } from 'bson'
-import { saveMessages } from '@/data/chat.server'
+import { saveMessages } from '@/data/chat/chat.server'
 import { Prisma } from '@prisma/client'
 import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
@@ -54,7 +54,6 @@ export async function POST(
 
 	try {
 		const { message } = requestBody
-
 		await saveMessages([
 			{
 				chatId,
@@ -80,7 +79,23 @@ export async function POST(
 			return new ChatSDKError('not_found:chat').toResponse()
 		}
 
-		if (user.creditUsage >= user.maxCreditUsage) {
+		let actualMaxUsagePricing = user.maxCreditUsage - user.creditUsage
+
+		const modelPricing = modelPrices[chat.chatbot.model as ModelId]
+		const modelInputPricing = modelPricing.input / 1_000_000
+		const modelOutputPricing = modelPricing.output / 1_000_000
+
+		let inputTokenUsage = 0
+		requestBody.message.parts.forEach((part) => {
+			if (part.type === 'text') {
+				inputTokenUsage += part.text.length / 4 // Rough estimate: 1 token = 4 characters
+			}
+		})
+
+		const aproxInputCreditUsage = inputTokenUsage * modelInputPricing
+		actualMaxUsagePricing -= aproxInputCreditUsage
+
+		if (actualMaxUsagePricing <= 0) {
 			return new ChatSDKError('rate_limit:chat').toResponse()
 		}
 
@@ -96,6 +111,7 @@ export async function POST(
 			messages: convertToModelMessages(messages),
 			system: chat.chatbot.initialPrompt,
 			tools,
+			maxOutputTokens: Math.floor(actualMaxUsagePricing / modelOutputPricing),
 		})
 
 		const generatedMessage: Prisma.MessageCreateManyInput = {
@@ -112,12 +128,10 @@ export async function POST(
 
 		await saveMessages([generatedMessage])
 
-		const modelPricing = modelPrices[chat.chatbot.model as ModelId]
-
 		const inputCreditUsage =
-			(result.totalUsage.inputTokens || 0) * (modelPricing.input / 1_000_000)
+			(result.totalUsage.inputTokens || 0) * modelInputPricing
 		const outputCreditUsage =
-			(result.totalUsage.outputTokens || 0) * (modelPricing.output / 1_000_000)
+			(result.totalUsage.outputTokens || 0) * modelOutputPricing
 
 		await updateUsageFields({
 			ids: {

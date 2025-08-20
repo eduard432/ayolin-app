@@ -1,0 +1,17 @@
+import { CheckCircledIcon } from "@radix-ui/react-icons"
+
+interface FormSuccesProps{
+    message?: string
+}
+
+export const FormSucces = ({
+    message, 
+}: FormSuccesProps) => {
+    if(!message) return null
+    return(
+        <div className="flex items-center gap-3 rounded-md border px-4 py-3 border-white/20 bg-white/10 text-white/90 shadow-sm justify-center">
+            <CheckCircledIcon className="h-4 w-4"/>
+                <p>{message}</p>
+        </div>
+    )
+}

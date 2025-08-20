@@ -18,8 +18,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWrapper } from '@/components/auth/card-wrapper'
-import { FormError } from '@/components/form-error'
-import { FormSucces } from '@/components/form-succes'
+import { FormError } from '@/components/ui/FormError'
+import { FormSucces } from '@/components/ui/FormSuccess'
 
 import { newPassword } from '@/actions/new-password'
 
