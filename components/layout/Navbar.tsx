@@ -132,7 +132,7 @@ export default function Navbar() {
               Subscription
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
-              Sign Out
+              Cerrar sesión
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
