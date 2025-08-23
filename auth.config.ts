@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/schemas";
@@ -5,8 +6,6 @@ import { getUserByEmail } from "@/data/user/user.server";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { UserRole } from "@prisma/client";
-
-export const runtime = "nodejs";
 
 export default {
   providers: [
@@ -22,29 +21,29 @@ export default {
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
-        if(!validatedFields.success) return null;
-
+        if (validatedFields.success) {
           const { email, password } = validatedFields.data;
           const user = await getUserByEmail(email);
 
           if (!user || !user.password) return null;
 
-          const { verifyPassword } = await import("@/lib/password");
+          const passwordsMatch = await bcrypt.compare(password, user.password);
 
-          const ok = await verifyPassword(password, user.password);
-          if(!ok) return null
-
-
-          return{
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            image: user.image,
-            role: user.role as UserRole,  
-            isPro: user.isPro,
+          if (passwordsMatch){
+            return{
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              emailVerified: user.emailVerified,
+              image: user.image,
+              role: user.role as UserRole,  
+              isPro: user.isPro,
+            }
           };
-        },
+        }
+
+        return null;
+      },
     }),
   ],
   secret: process.env.AUTH_SECRET,

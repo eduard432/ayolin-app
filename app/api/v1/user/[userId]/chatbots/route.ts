@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-
 import { NextResponse } from 'next/server'
 import { handleApiError } from '@/lib/api/handleError'
 import { getChatBotsByUserId } from '@/data/chatbot/chatbot.server'

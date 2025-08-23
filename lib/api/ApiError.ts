@@ -1,8 +1,7 @@
-import "server-only";
-
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { ApiValidator } from './ApiValidate'
+import { auth } from '@/lib/auth'
 import { Session } from 'next-auth'
 import { ChatSDKError } from './chatError'
 
@@ -82,7 +81,7 @@ export class ApiErrorHandler {
 	static handleError(error: unknown): NextResponse {
 		console.log('API error:', error)
 
-		if (error instanceof ChatSDKError) {
+		if(error instanceof ChatSDKError) {
 			return error.toResponse()
 		}
 
@@ -150,12 +149,12 @@ export class ApiErrorHandler {
 		T extends (
 			request: NextRequest,
 			context: { params: Promise<Record<string, string>> }
-		) => Promise<Response> | Response,
+		) => Promise<NextResponse> | NextResponse,
 	>(handler: T) {
 		return async (
 			request: NextRequest,
 			context: { params: Promise<Record<string, string>> }
-		): Promise<Response> => {
+		): Promise<NextResponse> => {
 			try {
 				return await handler(request, context)
 			} catch (error) {
@@ -164,43 +163,21 @@ export class ApiErrorHandler {
 		}
 	}
 
-	// -------------------------
-	//  Wrap autenticado (Node)
-	// -------------------------
-	static wrapAuth(handler: AuthenticatedHandler): RouteHandler {
-		return async (request, context) => {
-			// import dinámico para no “contaminar” bundles Edge
-			const { auth } = await import('@/lib/auth');
-
+	static wrapAuth<
+		T extends (
+			request: NextRequest,
+			context: { params: Promise<Record<string, string>> },
+			session: Session
+		) => Promise<NextResponse> | NextResponse,
+	>(handler: T) {
+		return auth(async (request, context) => {
 			try {
-				const maybeRes = await auth(async (requestWithAuth) => {
-					const session = ApiValidator.requireAuth(requestWithAuth) as Session;
-					return handler(requestWithAuth, context, session);
-				})(request, context);
-				return maybeRes ?? NextResponse.json(
-					{ success: false, message: 'Internal server error', code: 'INTERNAL_ERROR' },
-					{ status: 500}
-				);
+				const session = ApiValidator.requireAuth(request)
+				handler(request, context, session)
 			} catch (error) {
-				console.log(error);
-				return this.handleError(error);
+				console.log(error)
+				return this.handleError(error)
 			}
-		};
+		})
 	}
 }
-
-/* =========================
-   Tipos base para handlers
-   ========================= */
-type RouteContext = { params: Promise<Record<string, string>> };
-
-type RouteHandler = (
-	request: NextRequest,
-	context: RouteContext
-) => Promise<Response> | Response;
-
-type AuthenticatedHandler = (
-	request: NextRequest,
-	context: RouteContext,
-	session: Session
-) => Promise<Response> | Response;

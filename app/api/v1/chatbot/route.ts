@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-
 import { auth } from '@/lib/auth'
 import { createChatBot, createChatbotBodySchema } from '@/data/chatbot/chatbot.server'
 import { handleApiError } from '@/lib/api/handleError'

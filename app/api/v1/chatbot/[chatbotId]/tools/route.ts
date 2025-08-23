@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { auth } from '@/lib/auth'
