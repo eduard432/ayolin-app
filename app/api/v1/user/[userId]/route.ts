@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { handleApiError } from '@/lib/api/handleError'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'

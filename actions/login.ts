@@ -11,7 +11,8 @@ import { getUserByEmail } from '@/data/user/user.server'
 import { getTwoFactorTokenByEmail } from '@/data/two-factor/two-factor-token.server'
 import { db } from '@/lib/db'
 import { getTwoFactorConfirmationByUserId } from '@/data/two-factor/two-factor-confirmation.server'
-import bcrypt from 'bcryptjs'
+
+export const runtime = "nodejs";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedFields = LoginSchema.safeParse(values)
@@ -36,6 +37,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return {success: "Correo de confirmación enviado"}
     }
 
+	// 2FA habilitado
 	if(existingUser.isTwoFactorEnabled && existingUser.email){
 		if(code){
 			const twoFactorToken = await getTwoFactorTokenByEmail(
@@ -72,13 +74,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 				}
 			})
 		} else {
-			const ok = await bcrypt.compare(password, existingUser.password)
-			if(!ok){
-				return { error: "¡Credenciales inválidas!"}
-			}
+			const { verifyPassword } = await import('@/lib/password')
+			const ok = await verifyPassword(password, existingUser.password)
+			if(!ok) return {error: '¡Credenciales inválidas!'}
+
 			const twoFactorToken = await generateTwoFactorToken(existingUser.email)
 			await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token)
-			return {twoFactor: true}
+			return { twoFactor: true}
 		}
 	}
 

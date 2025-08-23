@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import React from 'react'
 import NavbarDashboard from '@/components/layout/NavbarDashboard'
 import Navbar from '@/components/layout/Navbar'

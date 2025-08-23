@@ -1,5 +1,4 @@
-// middleware.ts
-import { auth } from '@/lib/auth'
+import { auth } from '@/lib/auth-edge'
 import { ROUTES, authCallbacks } from '@/routes'
 import { NextResponse } from 'next/server'
 
