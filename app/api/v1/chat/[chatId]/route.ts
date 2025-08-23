@@ -13,28 +13,12 @@ import { ModelId, modelPrices } from '@/lib/constants/models'
 import { db } from '@/lib/db'
 import { generateTools } from '@/lib/ai'
 import { ApiErrorHandler } from '@/lib/api/ApiError'
-
-const textPartSchema = z.object({
-	type: z.enum(['text']),
-	text: z.string().min(1).max(2000),
-})
-
-const filePartSchema = z.object({
-	type: z.enum(['file']),
-	mediaType: z.enum(['image/jpeg', 'image/png']),
-	name: z.string().min(1).max(100),
-	url: z.string().url(),
-})
-
-const partSchema = z.union([textPartSchema, filePartSchema])
+import { messageSchema } from '@/lib/api/Chat'
 
 const bodySchema = z.object({
-	message: z.object({
-		id: z.string(),
-		role: z.enum(['user']),
-		parts: z.array(partSchema),
-	}),
+	message: messageSchema,
 })
+
 
 export async function POST(
 	req: NextRequest,
