@@ -138,7 +138,7 @@ const DashboardOverview = () => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-y-8">
 			<section className="flex items-center gap-x-4 col-span-full">
-				<SearchBar className="h-full bg-background rounded-md" />
+				<SearchBar className="h-full bg-background rounded-md" placeholder='Buscar' />
 				{!isMobile && (
 					<ToggleGroup
 						value={layout}
