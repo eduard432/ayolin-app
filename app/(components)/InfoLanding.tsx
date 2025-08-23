@@ -2,7 +2,7 @@ import EjemploConversacion from "@/components/common/EjemploConversacion"
 
 export default function Info() {
   return (
-    <section id="home" className="relative bg-black text-white py-16 md:py-20 px-6">
+    <section id="home" className="relative bg-black text-white pt-16 md:py-20 px-6">
       <div className="mx-auto max-w-6xl">
         {/* Encabezado */}
         <div className="text-center mb-12 mt-16">
@@ -42,27 +42,6 @@ export default function Info() {
           
         </div>
 
-        {/* Separador sutil */} 
-        <div className="mx-auto mt-8 h-px w-70 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-        
-        {/* Chips debajo de ambas columnas (se ve super pro jijijiji) */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          {[
-            "Telegram",
-            "Experto en lo que necesites",
-            "Servicio al cliente",
-            "Extensiones personalizadas",
-            "Vendedor",
-            "Asistente personal",
-          ].map((chip, i) => (
-            <span
-              key={i}
-              className="rounded-xl bg-white/5 border border-white/10 px-3 py-1 text-sm text-neutral-200"
-            >
-              {chip}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   )
