@@ -2,7 +2,7 @@ import EjemploConversacion from "@/components/common/EjemploConversacion"
 
 export default function Info() {
   return (
-    <section id="home" className="relative bg-black text-white pt-16 md:py-20 px-6">
+    <section id="home" className="relative bg-black text-white py-16 md:py-20 px-6">
       <div className="mx-auto max-w-6xl">
         {/* Encabezado */}
         <div className="text-center mb-12 mt-16">
