@@ -50,7 +50,7 @@ export const handleMessage = async (
 	const chat = await getChatById(chatId)
 
 	if (!chat) {
-		return new ChatSDKError('not_found:chat')
+		throw new ChatSDKError('not_found:chat')
 	}
 
 	const user = await db.user.findFirst({
@@ -60,7 +60,7 @@ export const handleMessage = async (
 	})
 
 	if (!user) {
-		return new ChatSDKError('not_found:chat')
+		throw new ChatSDKError('not_found:chat')
 	}
 
 	let actualMaxUsagePricing = user.maxCreditUsage - user.creditUsage
@@ -80,7 +80,7 @@ export const handleMessage = async (
 	actualMaxUsagePricing -= aproxInputCreditUsage
 
 	if (actualMaxUsagePricing <= 0) {
-		return new ChatSDKError('rate_limit:chat')
+		throw new ChatSDKError('rate_limit:chat')
 	}
 
 	const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
@@ -124,5 +124,5 @@ export const handleMessage = async (
 		usage: inputCreditUsage + outputCreditUsage,
 	})
 
-	return generatedMessage
+	return result.text
 }
