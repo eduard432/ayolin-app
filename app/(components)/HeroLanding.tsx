@@ -24,7 +24,7 @@ export default function Hero() {
           background: { color: "transparent" },
           particles: {
             color: { value: "#ffffff" },
-            links: { enable: true, distance: 150, color: "#ffffff", opacity: 0.2 },
+            links: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4 },
             move: { enable: true, speed: 1 },
             number: { value: 50 },
             opacity: { value: 0.2 },
