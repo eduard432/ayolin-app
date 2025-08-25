@@ -2,7 +2,6 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
-import { ThemeProvider } from '@/components/provider/ThemeProvider'
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
 
@@ -13,22 +12,15 @@ const DashboardProvider = ({
 	const [queryClient] = useState(() => new QueryClient())
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				enableSystem
-				disableTransitionOnChange
+			<SessionProvider
+				refetchWhenOffline={false}
+				refetchInterval={60 * 60 * 6}
+				session={session}
+				basePath="/api/v1/auth"
+				refetchOnWindowFocus={false}
 			>
-				<SessionProvider
-					refetchWhenOffline={false}
-					refetchInterval={60 * 60 * 6}
-					session={session}
-					basePath="/api/v1/auth"
-					refetchOnWindowFocus={false}
-				>
-					{children}
-				</SessionProvider>
-			</ThemeProvider>
+				{children}
+			</SessionProvider>
 		</QueryClientProvider>
 	)
 }
