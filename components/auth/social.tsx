@@ -19,7 +19,7 @@ export const Social = () => {
         size="lg"
         type="button"
         aria-label="Iniciar sesión con Google"
-        onClick={() => signIn('google')}
+        onClick={() => signIn('google', { redirectTo: '/dashboard/general' })}
         className={`flex-1 justify-center bg-neutral-900 text-white ${noHover}`}
       >
         <FcGoogle className="h-5 w-5" />
@@ -29,7 +29,7 @@ export const Social = () => {
         size="lg"
         type="button"
         aria-label="Iniciar sesión con GitHub"
-        onClick={() => signIn('github')}
+        onClick={() => signIn('github', { redirectTo: '/dashboard/general' })}
         className={`flex-1 justify-center bg-neutral-900 text-white ${noHover}`}
       >
         <FaGithub className="h-5 w-5" />
