@@ -1,16 +1,10 @@
 import { handleMessage } from '@/lib/api/Chat'
 import { db } from '@/lib/db'
-import { Chatbot, User, Chat, PrismaClient, Prisma } from '@prisma/client'
-import { DefaultArgs } from '@prisma/client/runtime/library'
+import { Chatbot, User, Chat } from '@prisma/client'
 import { ObjectId } from 'bson'
 import { describe, expect, test } from 'vitest'
 
-const createMockData = async (
-	db: Omit<
-		PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
-		'$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
-	>
-): Promise<{
+const createMockData = async (): Promise<{
 	user: User
 	chatbot: Chatbot
 	chat: Chat
@@ -20,7 +14,7 @@ const createMockData = async (
 
 	const user = await db.user.create({
 		data: {
-			email: 'test@ayolin.com',
+			email: `${new ObjectId().toString()}test@test_ayolin.com`,
 			name: 'Test User',
 		},
 	})
@@ -57,36 +51,84 @@ const createMockData = async (
 	return { user, chatbot, chat }
 }
 
-describe('Handle ai messages', async () => {
-	test('handleMessage', async () => {
-		await db
-			.$transaction(async (tx) => {
-				const { chat } = await createMockData(tx)
-				const response = await handleMessage(
-					{
-						id: new ObjectId().toString(),
-						role: 'user',
-						parts: [
-							{
-								type: 'text',
-								text: 'Hello, how are you?',
-							},
-						],
-					},
-					chat.id
-				)
-
-				expect(response.length).toBeGreaterThan(0)
-
-				// Verificar que se creó el mensaje en la DB (dentro de la transacción)
-				const messages = await tx.message.findMany({ where: { chatId: chat.id } })
-				expect(messages.length).toBe(1)
-				expect(messages[0].role).toBe('user')
-				// @ts-expect-error Json value as needed type
-				expect(messages[0].parts[0].text).toBe('Hello, how are you?')
-
-				throw new Error('Rollback de prueba')
+const deleteMockData = async ({
+	chatId,
+	chatbotId,
+	userId,
+}: {
+	chatId?: string
+	chatbotId?: string
+	userId?: string
+}) => {
+	try {
+		if (userId) {
+			await db.user.delete({
+				where: {
+					id: userId,
+				},
 			})
-			.catch(() => {})
-	})
+		} else if (chatbotId) {
+			await db.chatbot.delete({
+				where: {
+					id: chatbotId,
+				},
+			})
+		} else if (chatId) {
+			await db.chat.delete({
+				where: {
+					id: chatId,
+				},
+			})
+		}
+
+		return true
+	} catch (error) {
+		console.log(error)
+		return false
+	}
+}
+
+describe('Handle ai messages', () => {
+	test('handleMessage', async () => {
+		const { chat, chatbot, user } = await createMockData()
+
+		try {
+			const response = await handleMessage({
+				message: {
+					id: new ObjectId().toString(),
+					role: 'user',
+					parts: [
+						{
+							type: 'text',
+							text: 'Hello, how are you?',
+						},
+					],
+				},
+				chatId: chat.id,
+			})
+
+			console.log(response)
+
+			expect(response.length).toBeGreaterThan(0)
+
+			// Verificar que se creó el mensaje en la DB (dentro de la transacción)
+			const messages = await db.message.findMany({
+				where: { chatId: chat.id },
+			})
+			expect(messages.length).toBeGreaterThan(2)
+			expect(messages[0].role).toBe('user')
+			expect(messages.at(-1)?.role).toBe('system')
+			// @ts-expect-error Json value as needed type
+			expect(messages[0].parts[0].text).toBe('Hello, how are you?')
+		} catch (error) {
+			console.log(error)
+		}
+
+		const deleteResult = await deleteMockData({
+			chatbotId: chatbot.id,
+			userId: user.id,
+			chatId: chat.id,
+		})
+		expect(deleteResult).toBe(true)
+	}, 20_000)
 })

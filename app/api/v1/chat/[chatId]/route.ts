@@ -48,7 +48,7 @@ export async function POST(
 			},
 		])
 
-		const chat = await getChatById(chatId)
+		const chat = await getChatById(chatId, {})
 
 		if (!chat) {
 			return new ChatSDKError('not_found:chat')
