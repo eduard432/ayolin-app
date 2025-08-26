@@ -98,7 +98,16 @@ const NewPasswordForm = ({ token }: { token: string }) => {
 					</div>
 					<FormError message={error} />
 					<FormSucces message={success} />
-					<Button disabled={isPending} type="submit" className="w-full">
+					<Button 
+						disabled={isPending} 
+						type="submit" 
+                    	className="
+							w-full bg-white text-black
+							hover:!bg-white active:!bg-white
+							dark:hover:!bg-white dark:active:!bg-white
+							transition-none
+                    	"
+					>
 						Restablecer contraseña
 					</Button>
 				</form>
