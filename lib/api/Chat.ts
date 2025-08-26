@@ -7,7 +7,13 @@ import { z } from 'zod'
 import { ChatSDKError } from './chatError'
 import { db } from '../db'
 import { ObjectId } from 'bson'
-import { Prisma } from '@prisma/client'
+import {
+	Chat,
+	Chatbot,
+	Message,
+	Prisma,
+	User,
+} from '@prisma/client'
 import { convertToModelMessages, generateText } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateTools } from '../ai'
@@ -34,10 +40,24 @@ export const messageSchema = z.object({
 	parts: z.array(partSchema),
 })
 
-export const handleMessage = async (
-	message: z.infer<typeof messageSchema>,
+type FullChatType = Chat & { chatbot: Chatbot; messages: Message[] }
+
+type HandleMessageData = {
+	chat?: FullChatType
+	user?: User
+	message: z.infer<typeof messageSchema>
 	chatId: string
-) => {
+}
+
+export const handleMessage = async ({
+	message,
+	chatId,
+	chat: prevChat,
+	user: prevUser,
+}: HandleMessageData) => {
+	let chat: undefined | null | FullChatType = prevChat
+	let user: null | undefined | User = prevUser
+
 	await saveMessages([
 		{
 			chatId,
@@ -47,17 +67,21 @@ export const handleMessage = async (
 		},
 	])
 
-	const chat = await getChatById(chatId)
+	if (!chat) {
+		chat = await getChatById(chatId, {})
+	}
 
 	if (!chat) {
 		throw new ChatSDKError('not_found:chat')
 	}
 
-	const user = await db.user.findFirst({
-		where: {
-			id: chat.chatbot.userId,
-		},
-	})
+	if (!user) {
+		user = await db.user.findFirst({
+			where: {
+				id: chat.chatbot.userId,
+			},
+		})
+	}
 
 	if (!user) {
 		throw new ChatSDKError('not_found:chat')
