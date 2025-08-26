@@ -71,7 +71,7 @@ export const authOptions: NextAuthConfig = {
       return session
     },
 
-    // Rehidratación del JWT (clave para que siempre cargue la sesión completa)
+    // Rehidratación del JWT ( para que siempre cargue la sesión completa)
     async jwt({ token, user, trigger, session }) {
       if (!token.sub) return token
 
@@ -93,7 +93,7 @@ export const authOptions: NextAuthConfig = {
             role: true,
             isTwoFactorEnabled: true,
             isPro: true,
-            avatarColor: true, // solo este para el avatar
+            avatarColor: true,
           },
         })
 
