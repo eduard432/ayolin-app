@@ -1,4 +1,3 @@
-// middleware.ts
 import { auth } from '@/lib/auth'
 import { ROUTES, authCallbacks } from '@/routes'
 import { NextResponse } from 'next/server'
@@ -7,6 +6,11 @@ export default auth((req) => {
 	const { nextUrl } = req
 	const pathname = nextUrl.pathname
 	const isLoggedIn = !!req.auth
+
+	// --- NUNCA interceprar rutas de Auth.js ---
+	if(pathname.startsWith('/api/v1/auth')){
+		return NextResponse.next()
+	}
 
 	// --- API Auth routes ---
 	if (pathname.startsWith(ROUTES.apiAuthPrefix)) {

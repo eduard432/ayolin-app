@@ -8,32 +8,28 @@ import DashboardProvider from '@/components/provider/DashboardProvider'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: "Dashboard",
-	description: "Dashboard App"
+  title: 'Dashboard',
+  description: 'Dashboard App',
 }
 
-const layout = async ({
-	children,
-}: Readonly<{
-	children: React.ReactNode
-}>) => {
-	const session = await auth()
-	if (!session) redirect('/login')
+const layout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await auth()
+  if (!session) redirect('/auth/login')
 
-	return (
-		<DashboardProvider session={session}>
-			<div className="bg-background min-h-screen flex flex-col justify-between">
-				<div>
-					<Navbar />
-					<NavbarDashboard />
-				</div>
-				<main className="p-1 md:p-8 pb-16 pt-8 flex-1 flex flex-col mx-auto w-11/12">
-					{children}
-				</main>
-				<FooterDashboard />
-			</div>
-		</DashboardProvider>
-	)
+  return (
+    <DashboardProvider>
+      <div className="bg-background min-h-screen flex flex-col justify-between">
+        <div>
+          <Navbar />
+          <NavbarDashboard />
+        </div>
+        <main className="p-1 md:p-8 pb-16 pt-8 flex-1 flex flex-col mx-auto w-11/12">
+          {children}
+        </main>
+        <FooterDashboard />
+      </div>
+    </DashboardProvider>
+  )
 }
 
 export default layout

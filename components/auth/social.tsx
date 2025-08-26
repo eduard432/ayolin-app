@@ -12,14 +12,13 @@ export const Social = () => {
     hover:shadow-none hover:opacity-100
     transition-none
   `
-
   return (
     <div className="flex gap-x-2 w-full">
       <Button
         size="lg"
         type="button"
         aria-label="Iniciar sesión con Google"
-        onClick={() => signIn('google', { redirectTo: '/dashboard/general' })}
+        onClick={() => signIn('google', { callbackUrl: '/dashboard/general' })}
         className={`flex-1 justify-center bg-neutral-900 text-white ${noHover}`}
       >
         <FcGoogle className="h-5 w-5" />
@@ -29,7 +28,7 @@ export const Social = () => {
         size="lg"
         type="button"
         aria-label="Iniciar sesión con GitHub"
-        onClick={() => signIn('github', { redirectTo: '/dashboard/general' })}
+        onClick={() => signIn('github', { callbackUrl: '/dashboard/general' })}
         className={`flex-1 justify-center bg-neutral-900 text-white ${noHover}`}
       >
         <FaGithub className="h-5 w-5" />
