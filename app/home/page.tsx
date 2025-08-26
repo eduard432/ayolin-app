@@ -1,4 +1,6 @@
 import AOSInit from '@/components/common/AOSInit'
+import { ExampleConversation } from '@/components/common/ConversationExample'
+import EjemploConversacion from '@/components/common/EjemploConversacion'
 import NavbarBase from '@/components/layout/landing/NavbarBase'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -8,8 +10,12 @@ import React from 'react'
 const ClientButtons = () => {
 	return (
 		<div className="flex gap-x-2">
-			<Button variant="outline" size="sm">Iniciar Sesión</Button>
-			<Button variant="default" size="sm">Registrarse</Button>
+			<Button variant="outline" size="sm">
+				Iniciar Sesión
+			</Button>
+			<Button variant="default" size="sm">
+				Registrarse
+			</Button>
 			<Avatar>
 				<AvatarFallback />
 			</Avatar>
@@ -58,10 +64,11 @@ const Navbar = () => {
 
 const Hero = () => {
 	return (
-		<section className="pt-20 min-h-96 flex items-center justiyfy-center">
-			<div className="text-center w-full">
-				<h2 className="py-2 text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-violet-500 to-sky-500">
-					El poder de la IA, a tu servicio
+		<section className="min-h-96 py-48 flex items-center justiyfy-center">
+			<div className="text-start w-full">
+				<h2 className="py-2 text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-violet-500 to-sky-500">
+					Construye tu propia IA <br />
+					sin código
 				</h2>
 				<p className="text-neutral-400">
 					Miles de posibilidades en un solo lugar. ¿Que esperas?
@@ -80,14 +87,48 @@ const Hero = () => {
 }
 
 const Info = () => {
-	return <section></section>
+	return (
+		<section className="w-full grid grid-cols-2">
+			<div>
+				<h3 className="text-5xl max-w-full leading-16">
+					Asistente Personal, Ventas, Estudio
+				</h3>
+			</div>
+			<ExampleConversation
+				messages={[
+					{
+						texto:
+							'Hola Ayolin, ¿puedes ayudarme a responder mensajes de clientes?',
+						tipo: 'user',
+					},
+					{
+						texto:
+							'¡Claro! ¿Quieres que active el flujo de soporte y etiquete consultas urgentes?',
+						tipo: 'bot',
+					},
+					{
+						texto: 'Sí, y recuérdame llevar el coche a lavar mañana.',
+						tipo: 'user',
+					},
+					{
+						texto:
+							'Hecho. También puedo enviar un resumen al finalizar el día.',
+						tipo: 'bot',
+					},
+				]}
+			/>
+		</section>
+	)
 }
 
 const HomePage = () => {
 	return (
 		<>
 			<Navbar />
-			<Hero />
+			<div className="pt-20 px-4 w-full md:w-9/12 mx-auto space-y-20">
+				<Hero />
+				<Info />
+			</div>
 			<div className="text-white pt-20">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum magni
 				ut corporis autem, numquam voluptas nam itaque nemo ducimus quaerat
