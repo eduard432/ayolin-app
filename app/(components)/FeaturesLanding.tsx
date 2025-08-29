@@ -11,12 +11,12 @@ export default function Features({ features }: { features: Feature[] }) {
 		<section id="features" className="relative bg-black text-white py-20 px-6">
 			<div className="max-w-6xl mx-auto text-center mb-16">
 				<h2 className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
-					¿Por qué elegir Ayolin?
+					¿Por qué elegir AYOLIN?
 				</h2>
-				<p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-					Descubre cómo Ayolin combina tecnología de inteligencia artificial de
-					vanguardia con una comprensión genuina de la interacción humana para
-					ofrecer una experiencia conversacional sin igual.
+				<p className="text-white text-lg max-w-2xl mx-auto">
+					AYOLIN te permite crear chatbots 100% personalizables sin escribir
+					una sola línea de código. Conecta plugins, adáptalos a tu estilo
+					y ten tu propia IA lista para en tu teléfono o en ayolin.com
 				</p>
 			</div>
 

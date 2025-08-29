@@ -13,7 +13,7 @@ export default function UseCases({ useCases }: { useCases: UseCase[] }) {
 				<h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
 					Posibilidades Infinitas
 				</h2>
-				<p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-12">
+				<p className="text-white text-lg max-w-2xl mx-auto mb-12">
 					Desde asistencia personal hasta soporte profesional, Ayolin se adapta
 					a tus necesidades.
 				</p>

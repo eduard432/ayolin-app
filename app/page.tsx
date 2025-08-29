@@ -23,72 +23,74 @@ import PricingSection from "@/app/(components)/SeccionesPlanes";
 const features = [
   {
     icon: <FaMessage className="h-5 w-5" />,
-    title: "Conversaciones Naturales",
+    title: "Chat sin Código",
     description:
-      "Chatea con Ayolin de forma tan natural como lo harías con un amigo. Experimenta interacciones humanas impulsadas por IA avanzada.",
+      "Crea chatbots personalizados sin programar nada. Solo elige, arrastra y personaliza a tu estilo.",
   },
   {
     icon: <FaBrain className="h-5 w-5" />,
-    title: "Comprensión Contextual",
+    title: "Inteligencia Contextual",
     description:
-      "Ayolin entiende el contexto y recuerda tus conversaciones, haciendo que cada interacción sea más significativa.",
+      "Ayolin entiende el contexto, recuerda interacciones y se adapta a cada conversación.",
   },
   {
     icon: <FaHeart className="h-5 w-5" />,
-    title: "Respuestas Empáticas",
+    title: "Personalidad Única",
     description:
-      "Más que solo respuestas: Ayolin ofrece respuestas empáticas y reflexivas que realmente conectan.",
+      "Dale a tu chatbot el tono que quieras: formal, cercano o divertido. Tú decides cómo habla tu IA.",
   },
   {
     icon: <FaBolt className="h-5 w-5" />,
-    title: "Velocidad Relámpago",
+    title: "Rápido y Confiable",
     description:
-      "Recibe respuestas instantáneas las 24 horas, todos los días, gracias a tecnología de IA de última generación.",
+      "Respuestas inmediatas en todo momento, gracias a una infraestructura optimizada para velocidad.",
   },
   {
     icon: <FaShield className="h-5 w-5" />,
-    title: "Seguro y Privado",
+    title: "Privacidad Primero",
     description:
-      "Tus conversaciones con Ayolin están encriptadas y son completamente privadas. Tus datos siguen siendo tuyos.",
+      "Tus datos y los de tus clientes están protegidos. Conexiones seguras y cifrado de extremo a extremo.",
   },
   {
     icon: <FaGlobe className="h-5 w-5" />,
-    title: "Soporte Multilingüe",
+    title: "Disponible en Múltiples Canales",
     description:
-      "Comunícate con Ayolin en varios idiomas, eliminando barreras de lenguaje sin esfuerzo.",
+      "Integra tu chatbot en Telegram, y pronto también en WhatsApp y Discord.",
   },
   {
     icon: <FaWandMagicSparkles className="h-5 w-5" />,
-    title: "Aprendizaje Inteligente",
+    title: "Plugins a tu Medida",
     description:
-      "Ayolin aprende y se adapta continuamente para ofrecer respuestas cada vez más precisas y personalizadas.",
+      "Agrega funciones extras como catálogos de productos, flujos de soporte o recordatorios con solo un clic.",
   },
   {
     icon: <FaClock className="h-5 w-5" />,
-    title: "Disponible Siempre",
+    title: "Siempre Activo",
     description:
-      "Obtén ayuda en cualquier momento y lugar. Ayolin está disponible las 24/7, sin descansos.",
+      "Ayolin trabaja 24/7 para ti, sin pausas, sin descansos, siempre listo para ayudar.",
   },
 ];
-
 
 const useCases = [
   {
     title: "Soporte al Cliente",
-    description: "Brinda soporte instantáneo a tus clientes las 24 horas del día.",
+    description:
+      "Atiende dudas frecuentes, canaliza consultas urgentes y brinda servicio 24/7 sin contratar más personal.",
   },
   {
     title: "Asistente Personal",
     description:
-      "Deja que Ayolin te ayude a gestionar tu agenda, recordatorios y tareas diarias.",
+      "Organiza tu agenda, envía recordatorios y hasta gestiona tareas pendientes directamente desde tu teléfono.",
   },
   {
-    title: "Compañero de Aprendizaje",
-    description: "Obtén ayuda con investigaciones, tareas y nuevos temas de estudio.",
+    title: "Educación y Aprendizaje",
+    description:
+      "Explica temas, responde preguntas y acompaña a estudiantes o profesionales en su proceso de formación.",
   },
   {
-    title: "Agente Vendedor",
-    description: "Dale el rol de vendedor y olvídate de las demás tareas.",
+    title: "Ventas Automatizadas",
+    description:
+      "Convierte a Ayolin en tu mejor vendedor: muestra productos, responde cotizaciones y cierra pedidos automáticamente.",
   },
 ];
 
