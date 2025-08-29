@@ -80,7 +80,7 @@ const useCases = [
   {
     title: "Asistente Personal",
     description:
-      "Organiza tu agenda, envía recordatorios y hasta gestiona tareas pendientes directamente desde tu teléfono.",
+      "Organiza tu agenda y hasta gestiona tareas pendientes directamente desde tu teléfono.",
   },
   {
     title: "Educación y Aprendizaje",
