@@ -90,7 +90,7 @@ const useCases = [
   {
     title: "Ventas Automatizadas",
     description:
-      "Convierte a Ayolin en tu mejor vendedor: muestra productos, responde cotizaciones y cierra pedidos automáticamente.",
+      "Convierte a Ayolin en tu mejor vendedor: muestra productos, responde cotizaciones y cierra pedidos automáticamente. (Proximamente)",
   },
 ];
 
