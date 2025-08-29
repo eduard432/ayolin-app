@@ -8,6 +8,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Float } from "@react-three/drei"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const ThreeModel = dynamic(() => import("@/components/common/ThreeModel"), { ssr: false })
 
@@ -39,9 +40,9 @@ export default function Hero() {
       <noscript>
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-50">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-100 pb-5">
-            Dile Hola a{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600">
-              AYOLIN
+              Construye tu propia IA<br/>
+              sin código
             </span>
           </h1>
           <p className="text-neutral-400 text-lg md:text-xl max-w-xl mx-auto mb-10">
@@ -82,9 +83,11 @@ export default function Hero() {
             </motion.p>
 
             <motion.div className="mt-10 space-x-4 justify-center md:justify-start" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-              <Button className="px-12 h-15 w-40 text-lg text-black font-black" size="lg">
-                Probar
-              </Button>
+              <Link href="/dashboard/general">
+                <Button className="px-12 h-15 w-40 text-lg text-black font-black" size="lg" >
+                  Probar
+                </Button>
+              </Link>
             </motion.div>
           </div>
 
