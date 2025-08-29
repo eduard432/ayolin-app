@@ -7,6 +7,7 @@ import type { Engine } from "tsparticles-engine"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Float } from "@react-three/drei"
 import dynamic from "next/dynamic"
+import { Button } from "@/components/ui/button"
 
 const ThreeModel = dynamic(() => import("@/components/common/ThreeModel"), { ssr: false })
 
@@ -50,62 +51,64 @@ export default function Hero() {
       </noscript>
 
       {/* Contenido principal (con animaciones y 3D) */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-30">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-6 text-lg text-neutral-300"
-        >
-          Conoce a tu asistente personal
-        </motion.div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-10 md:pt-40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-star">
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-100 pb-5">
-            Dile Hola a{" "}
-            <motion.span
-              className="bg-clip-text text-transparent bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600 bg-[length:200%_200%]"
-              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-              transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+          <div className="text-center lg:text-left max-w-2xl mx-auto pt-30 lg:pt-40">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
             >
-              AYOLIN
-            </motion.span>
-          </h1>
-        </motion.div>
+              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-100 pb-5">
+                <motion.span
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600 bg-[length:200%_200%]"
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+                >
+                  Construye tu propia IA <br/>
+                  <span className="text-white">sin código</span>
+                </motion.span>
+              </h1>
+            </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-neutral-400 text-lg md:text-xl max-w-xl mx-auto mb-10"
-        >
-          Miles de posibilidades en un solo lugar. ¿Qué esperas?
-        </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="text-neutral-400 text-lg md:text-xl max-w-xl mx-auto mb-10"
+            >
+              Miles de posibilidades en un solo lugar. ¿Qué esperas?
+            </motion.p>
 
-        {/* Modelo 3D */}
-        <div className="relative z-10 mx-auto mt-16 w-[350px] h-[350px] md:w-[450px] md:h-[450px]">
-          <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
-            <ambientLight intensity={0.6} />
-            <pointLight position={[5, 5, 5]} intensity={1.5} color="#00f0ff" />
-            <pointLight position={[-5, -5, -5]} intensity={0.8} color="#ff00ff" />
-            <Float speed={2} rotationIntensity={1.5} floatIntensity={1}>
-              <group>
-                <ThreeModel />
-              </group>
-            </Float>
-            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.2} />
-          </Canvas>
+            <motion.div className="mt-10 space-x-4 justify-center md:justify-start" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+              <Button className="px-12 h-15 w-40 text-lg text-black font-black" size="lg">
+                Probar
+              </Button>
+            </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute inset-0 rounded-full bg-blue-500/15 blur-2xl"
-          />
+          {/* Modelo 3D */}
+          <div className="relative z-10 mx-auto mt-16 w-[350px] h-[350px] md:w-[450px] md:h-[450px]">
+            <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
+              <ambientLight intensity={0.6} />
+              <pointLight position={[5, 5, 5]} intensity={1.5} color="#00f0ff" />
+              <pointLight position={[-5, -5, -5]} intensity={0.8} color="#ff00ff" />
+              <Float speed={2} rotationIntensity={1.5} floatIntensity={1}>
+                <group>
+                  <ThreeModel />
+                </group>
+              </Float>
+              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.2} />
+            </Canvas>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="absolute inset-0 rounded-full bg-blue-500/15 blur-2xl"
+            />
+          </div>
         </div>
       </div>
 
