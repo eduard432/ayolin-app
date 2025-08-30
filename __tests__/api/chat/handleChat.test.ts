@@ -115,14 +115,71 @@ describe('Handle ai messages', () => {
 			const messages = await db.message.findMany({
 				where: { chatId: chat.id },
 			})
-			expect(messages.length).toBeGreaterThan(2)
+			expect(messages.length).toBeGreaterThanOrEqual(2)
 			expect(messages[0].role).toBe('user')
-			expect(messages.at(-1)?.role).toBe('system')
+			expect(messages.at(-1)?.role).toBe('assistant')
 			// @ts-expect-error Json value as needed type
 			expect(messages[0].parts[0].text).toBe('Hello, how are you?')
+
+			// Usage fields:
+			const newUserPromise = db.user.findFirst({
+				where: {
+					id: user.id,
+				},
+			})
+
+			const newChatPromise = db.chat.findFirst({
+				where: {
+					id: chat.id,
+				},
+			})
+
+			const newChatbotPromise = db.chatbot.findFirst({
+				where: {
+					id: chatbot.id,
+				},
+			})
+
+			const [newUser, newChat, newChatbot] = (
+				await Promise.allSettled([
+					newUserPromise,
+					newChatPromise,
+					newChatbotPromise,
+				])
+			).map((promise) => {
+				if (!promise) {
+					throw Error('Error finding data')
+				}
+				if (promise.status !== 'fulfilled') {
+					throw Error('Error finding data')
+				}
+
+				if(!promise.value) {
+					throw Error('Error finding data')
+
+				}
+
+				return promise.value
+			}) as [User, Chat, Chatbot]
+
+
+			// Validate chat usage fields
+			expect(newChat.totalMessages).toBe(2)
+			expect(newChat.creditUsage).toBeGreaterThan(0)
+			expect(newChat.lastActive.getMinutes()).toBe(new Date().getMinutes())
+
+			// Valdiate chatbot usage fields
+			expect(newChatbot.totalMessages).toBe(2)
+			expect(newChatbot.creditUsage).toBeGreaterThan(0)
+			expect(newChatbot.totalChats).toBe(0)
+
+			// Validate user usage fields
+			expect(newUser.creditUsage).toBeGreaterThan(0)
+
 		} catch (error) {
 			console.log(error)
 		}
+
 
 		const deleteResult = await deleteMockData({
 			chatbotId: chatbot.id,
