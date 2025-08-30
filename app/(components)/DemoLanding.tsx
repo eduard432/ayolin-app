@@ -11,7 +11,7 @@ export default function DemoSection() {
 					Mira a Ayolin en Acción
 				</h2>
 
-				<p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-12 transition-opacity duration-700">
+				<p className="text-white text-lg max-w-2xl mx-auto mb-12 transition-opacity duration-700">
 					Observa cómo Ayolin maneja conversaciones reales ofreciendo
 					respuestas inteligentes y contextuales que hacen que cada interacción
 					se sienta natural.

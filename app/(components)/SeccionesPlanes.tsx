@@ -14,7 +14,7 @@ export default function PricingSection() {
 				<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
 					Próximamente
 				</h2>
-				<p className="text-neutral-400 text-lg max-w-xl mx-auto">
+				<p className="text-white text-lg max-w-xl mx-auto">
 					Podrás seleccionar el plan que mejor se adapte a tus necesidades.
 				</p>
 			</div>

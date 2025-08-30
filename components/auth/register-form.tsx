@@ -145,7 +145,12 @@ export const RegisterForm = () => {
                     disabled={isPending}
                     type="submit"
                     variant="secondary"
-                    className="w-full"
+                    className="
+                        w-full bg-white text-black
+                        hover:!bg-white active:!bg-white
+                        dark:hover:!bg-white dark:active:!bg-white
+                        transition-none
+                    "
                 >
                     Crear cuenta
                 </Button>

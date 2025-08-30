@@ -8,11 +8,12 @@ import clsx from "clsx"
 type Msg = { texto: string; tipo: "user" | "bot" }
 
 const MENSAJES: Msg[] = [
-  { texto: "Hola Ayolin, ¿puedes ayudarme a responder mensajes de clientes?", tipo: "user" },
-  { texto: "¡Claro! ¿Quieres que active el flujo de soporte y etiquete consultas urgentes?", tipo: "bot" },
-  { texto: "Sí, y recuérdame llevar el coche a lavar mañana.", tipo: "user" },
-  { texto: "Hecho. También puedo enviar un resumen al finalizar el día.", tipo: "bot" },
+  { texto: "Hola Ayolin, estoy atorado con un problema de cálculo, ¿me ayudas?", tipo: "user" },
+  { texto: "Claro. Cuéntame, ¿qué tema estás revisando: derivadas, integrales o límites?", tipo: "bot" },
+  { texto: "Es una integral, no sé cómo resolver ∫(2x) dx.", tipo: "user" },
+  { texto: "La integral de 2x es x² + C. ¿Quieres que te muestre el procedimiento paso a paso?", tipo: "bot" },
 ]
+
 
 export default function EjemploConversacion() {
   const containerRef = useRef<HTMLDivElement | null>(null)

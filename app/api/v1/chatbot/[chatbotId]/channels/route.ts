@@ -153,7 +153,9 @@ export const DELETE = auth(
 						const { token } = channel.settings as {token: string} 
 
 						const bot = new Bot(token)
-						await bot.api.deleteWebhook()
+						await bot.api.deleteWebhook({
+							drop_pending_updates: true,
+						}).catch(() => {})
 					} catch (error) {
 						console.log(error)
 						return NextResponse.json(

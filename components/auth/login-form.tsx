@@ -64,102 +64,109 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 	}
 
 	return (
-		<CardWrapper
-			headerLabel="Bienvenido de vuelta"
-			backButtonLabel="No tienes cuenta?"
-			backButtonHref="/auth/register"
-			showSocial
-		>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-					<div className="space-y-4">
-						{showTwoFactor && (
+		<div className='light'>
+			<CardWrapper
+				headerLabel="Bienvenido de vuelta"
+				backButtonLabel="No tienes cuenta?"
+				backButtonHref="/auth/register"
+				showSocial
+			>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						<div className="space-y-4">
+							{showTwoFactor && (
 
-							<FormField
-								control={form.control}
-								name="code"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Codigo 2FA</FormLabel>
-										<FormControl>
-											<Input
-												disabled={isPending}
-												{...field}
-												value={field.value ?? ''}
-												placeholder="XXXXXX"
-												type="text"
-												inputMode='numeric'
-												pattern='\d*'
-												maxLength={6}
-											/>
-										</FormControl>
-										<FormMessage className="text-red-500 mb-2" />
-									</FormItem>
-								)}
-							/>
-						)}
-						{!showTwoFactor && (
-							<>
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Correo electrónico</FormLabel>
-										<FormControl>
-											<Input
-												disabled={isPending}
-												{...field}
-												placeholder="ejem@gmail.com"
-												type="email"
-											/>
-										</FormControl>
-										<FormMessage className="text-red-500 mb-2" />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel className="mt-4">Contraseña</FormLabel>
-										<FormControl>
-											<Input
-												disabled={isPending}
-												{...field}
-												type="password"
-											/>
-										</FormControl>
-										<FormMessage className="text-red-500 mb-2" />
-										<Button
-											size="sm"
-											variant="link"
-											asChild
-											className='font-normal text-sm flex justify-start pt'
-										>
-											<Link href="/auth/reset" className='text-white'>
-												Olvidaste tu contraseña? 
-											</Link>
-										</Button>
-									</FormItem>
-								)}
-							/>
-							</>
-						)}
-					</div>
-					<FormError message={error} />
-					<FormSucces message={succes} />
-					<Button
-						disabled={isPending}
-						type="submit"
-						variant="secondary"
-						className="w-full h-10"
-					>
-						{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
-					</Button>
-				</form>
-			</Form>
-		</CardWrapper>
+								<FormField
+									control={form.control}
+									name="code"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Codigo 2FA</FormLabel>
+											<FormControl>
+												<Input
+													disabled={isPending}
+													{...field}
+													value={field.value ?? ''}
+													placeholder="XXXXXX"
+													type="text"
+													inputMode='numeric'
+													pattern='\d*'
+													maxLength={6}
+												/>
+											</FormControl>
+											<FormMessage className="text-red-500 mb-2" />
+										</FormItem>
+									)}
+								/>
+							)}
+							{!showTwoFactor && (
+								<>
+								<FormField
+									control={form.control}
+									name="email"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Correo electrónico</FormLabel>
+											<FormControl>
+												<Input
+													disabled={isPending}
+													{...field}
+													placeholder="ejem@gmail.com"
+													type="email"
+												/>
+											</FormControl>
+											<FormMessage className="text-red-500 mb-2" />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="password"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className="mt-4">Contraseña</FormLabel>
+											<FormControl>
+												<Input
+													disabled={isPending}
+													{...field}
+													type="password"
+												/>
+											</FormControl>
+											<FormMessage className="text-red-500 mb-2" />
+											<Button
+												size="sm"
+												variant="link"
+												asChild
+												className='font-normal text-sm flex justify-start pt'
+											>
+												<Link href="/auth/reset" className='text-white'>
+													Olvidaste tu contraseña? 
+												</Link>
+											</Button>
+										</FormItem>
+									)}
+								/>
+								</>
+							)}
+						</div>
+						<FormError message={error} />
+						<FormSucces message={succes} />
+						<Button
+							disabled={isPending}
+							type="submit"
+							variant="secondary"
+							className="
+								w-full bg-white text-black
+								hover:!bg-white active:!bg-white
+								dark:hover:!bg-white dark:active:!bg-white
+								transition-none
+							"
+						>
+							{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
+						</Button>
+					</form>
+				</Form>
+			</CardWrapper>
+		</div>
 	)
 }

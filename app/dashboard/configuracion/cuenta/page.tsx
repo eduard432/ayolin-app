@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { Mail, Check } from 'lucide-react'
@@ -29,6 +29,13 @@ export default function UserSettings() {
 	const [currentColor, setCurrentColor] = useState<ColorClass | null>(null)
 	const [selected, setSelected] = useState<ColorClass | null>(null)
 	const [saving, setSaving] = useState(false)
+
+	useEffect(() => {
+		const color = (session?.user?.avatarColor ?? null) as ColorClass | null
+
+		setCurrentColor(color)
+		setSelected(color)
+	}, [session?.user?.avatarColor])
 
 	const handleSave = async () => {
 		if (selected === undefined) return
@@ -101,10 +108,7 @@ export default function UserSettings() {
 								colorClass={selected ?? currentColor}
 							/>
 							<div className="text-sm text-muted-foreground">
-								Vista previa •{' '}
-								{selected
-									? selected.replace('bg-', '').replace('-500', '')
-									: 'automático'}
+								Vista previa • {selected ? selected.replace("bg-", "").replace("-500", "") : "automatico"}
 							</div>
 						</div>
 

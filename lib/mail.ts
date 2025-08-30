@@ -7,7 +7,7 @@ export const sendVerificationEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmLink = `${process.env.NEXTAUTH_URL}/auth/new-verification?token=${token}`
+  const confirmLink = `${process.env.AUTH_URL}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
     from: "Ayolin <onboarding@ayolin.com>",
@@ -39,7 +39,7 @@ export const sendVerificationEmail = async (
 
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `${process.env.NEXTAUTH_URL}/auth/new-password?token=${token}`;
+  const resetLink = `${process.env.AUTH_URL}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "Ayolin <onboarding@ayolin.com>",

@@ -27,7 +27,13 @@ export const getMessagesByChatId = async (id: string): Promise<Message[]> => {
 	return chatResult.messages
 }
 
-export const getChatById = async (id: string, maxMessages = 20) => {
+export const getChatById = async (
+	id: string,
+	{
+		maxMessages = 20,
+		chatbot = true,
+	}: { maxMessages?: number; chatbot?: boolean }
+) => {
 	const chatResult = await db.chat.findUnique({
 		where: {
 			id,
@@ -39,7 +45,7 @@ export const getChatById = async (id: string, maxMessages = 20) => {
 				},
 				take: maxMessages,
 			},
-			chatbot: true,
+			chatbot,
 		},
 	})
 

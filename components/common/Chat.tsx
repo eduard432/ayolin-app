@@ -10,11 +10,11 @@ import {
 	useState,
 } from 'react'
 import { ObjectId } from 'bson'
-import ReactMarkdown from 'react-markdown'
 import { Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
+import { MarkdownRender } from './MarkdownRender'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -113,7 +113,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 													: 'bg-[#f5f5f5] dark:bg-[#4b5563] rounded-bl-none'
 											)}
 										>
-											<ReactMarkdown>{part.text}</ReactMarkdown>
+											<MarkdownRender>{part.text}</MarkdownRender>
 										</div>
 									</li>
 								)
