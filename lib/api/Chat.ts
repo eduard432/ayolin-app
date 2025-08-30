@@ -7,13 +7,7 @@ import { z } from 'zod'
 import { ChatSDKError } from './chatError'
 import { db } from '../db'
 import { ObjectId } from 'bson'
-import {
-	Chat,
-	Chatbot,
-	Message,
-	Prisma,
-	User,
-} from '@prisma/client'
+import { Chat, Chatbot, Message, Prisma, User } from '@prisma/client'
 import { convertToModelMessages, generateText } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateTools } from '../ai'
@@ -34,10 +28,18 @@ export const filePartSchema = z.object({
 
 export const partSchema = z.union([textPartSchema, filePartSchema])
 
-export const messageSchema = z.object({
-	id: z.string(),
+const schemaFields = {
 	role: z.enum(['user']),
 	parts: z.array(partSchema),
+}
+
+export const messageSchema = z.object({
+	...schemaFields,
+})
+
+export const streamMessageSchema = z.object({
+	id: z.string(),
+	...schemaFields,
 })
 
 type FullChatType = Chat & { chatbot: Chatbot; messages: Message[] }
@@ -61,7 +63,7 @@ export const handleMessage = async ({
 	await saveMessages([
 		{
 			chatId,
-			id: message.id,
+			id: new ObjectId().toString(),
 			parts: message.parts,
 			role: message.role,
 		},
