@@ -7,23 +7,6 @@ import clsx from 'clsx'
 
 type Msg = { texto: string; tipo: 'user' | 'bot' }
 
-const MENSAJES: Msg[] = [
-	{
-		texto: 'Hola Ayolin, ¿puedes ayudarme a responder mensajes de clientes?',
-		tipo: 'user',
-	},
-	{
-		texto:
-			'¡Claro! ¿Quieres que active el flujo de soporte y etiquete consultas urgentes?',
-		tipo: 'bot',
-	},
-	{ texto: 'Sí, y recuérdame llevar el coche a lavar mañana.', tipo: 'user' },
-	{
-		texto: 'Hecho. También puedo enviar un resumen al finalizar el día.',
-		tipo: 'bot',
-	},
-]
-
 export const ExampleConversation = ({ messages }: { messages: Msg[] }) => {
 	const containerRef = useRef<HTMLDivElement | null>(null)
 	const inView = useInView(containerRef, {
@@ -66,11 +49,11 @@ export const ExampleConversation = ({ messages }: { messages: Msg[] }) => {
 		timeouts.push(tEnd)
 
 		return () => timeouts.forEach(clearTimeout)
-	}, [inView])
+	}, [inView, messages])
 
 	const visibles = useMemo(
 		() => messages.slice(0, visibleCount),
-		[visibleCount]
+		[visibleCount, messages]
 	)
 	const nextMsgType = messages[visibleCount]?.tipo
 
