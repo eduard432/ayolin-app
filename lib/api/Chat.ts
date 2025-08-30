@@ -144,7 +144,7 @@ export const handleMessage = async ({
 		ids: {
 			chatId: chat.id,
 			chatbotId: chat.chatbot.id,
-			userId: chat.chatbot.userId,
+			userId: user.id,
 		},
 		messages: 2,
 		usage: inputCreditUsage + outputCreditUsage,

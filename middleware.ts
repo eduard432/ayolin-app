@@ -1,11 +1,16 @@
 import { auth } from '@/lib/auth'
 import { ROUTES, authCallbacks } from '@/routes'
 import { NextResponse } from 'next/server'
+import path from 'path'
 
 export default auth((req) => {
 	const { nextUrl } = req
 	const pathname = nextUrl.pathname
 	const isLoggedIn = !!req.auth
+
+	if(pathname.includes("webhook")){
+		return NextResponse.next()
+	}
 
 	// --- NUNCA interceprar rutas de Auth.js ---
 	if(pathname.startsWith('/api/v1/auth')){
