@@ -9,12 +9,12 @@ export const dashboardFeatures = [
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
-  { name: 'Editar', href: `/dashboard/${chatbotId}/editar` },
   { name: 'Estadísticas', href: `/dashboard/${chatbotId}/estadisticas` },
   // { name: 'Almacenamiento', href: `/dashboard/${chatbotId}/almacenamiento` },
   { name: 'Chats', href: `/dashboard/${chatbotId}/chats` },
   { name: 'Prueba', href: `/dashboard/${chatbotId}/prueba`},
   { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
+  { name: 'Editar', href: `/dashboard/${chatbotId}/editar` },
   //{ name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
 ]
 
