@@ -25,7 +25,7 @@ export default function NavbarBase() {
           {isPostPage && (
             <Link
               href="/blog"
-              className="text-white hover:text-blue-300"
+              className="text-white hover:text-blue-300 font-black"
             >
               ← Regresar al Blog
             </Link>

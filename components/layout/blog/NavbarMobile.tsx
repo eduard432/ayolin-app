@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import {
   Sheet,
   SheetTrigger,
@@ -13,8 +12,6 @@ import {
 import { Menu } from 'lucide-react'
 
 export default function NavbarMobile() {
-  const pathname = usePathname() || ''
-  const isPostPage = pathname.startsWith('/blog') && pathname !== '/blog'
 
   return (
     <div className="md:hidden">
@@ -39,13 +36,6 @@ export default function NavbarMobile() {
 
           <nav className="mt-6" aria-label="Navegación móvil">
             <ul className="flex flex-col gap-5 text-xl font-medium">
-                {isPostPage && (
-                    <li>
-                        <Link href="/blog" className="block hover:text-blue-300 text-2xl">
-                            ← Regresar al Blog
-                        </Link>
-                    </li>
-                )}
                 <li>
                     <SheetClose asChild>
                         <Link href="/" className="block hover:text-blue-300 text-2xl">Inicio</Link>
