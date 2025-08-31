@@ -26,7 +26,7 @@ export default async function NavbarBase() {
 
         {/* Menú desktop */}
         <ul className="hidden md:flex md:space-x-8 text-lg font-medium items-center">
-          <li><a href="#home" className="text-white hover:text-blue-300">Inicio</a></li>
+          <li><Link href="/" className="text-white hover:text-blue-300">Inicio</Link></li>
           <LegalLinks variant="desktop" />
           {isLoggedIn ? (
             <li>

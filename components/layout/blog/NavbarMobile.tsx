@@ -1,0 +1,65 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
+import { Menu } from 'lucide-react'
+
+export default function NavbarMobile() {
+  const pathname = usePathname() || ''
+  const isPostPage = pathname.startsWith('/blog') && pathname !== '/blog'
+
+  return (
+    <div className="md:hidden">
+      <Sheet>
+        <SheetTrigger
+          aria-label="Abrir menú"
+          className="p-2 rounded-md text-white/90 hover:text-white hover:bg-white/10 transition"
+        >
+          <Menu className="size-6" />
+        </SheetTrigger>
+
+        <SheetContent
+          side="left"
+          className="bg-black text-white p-6"
+          aria-describedby={undefined} 
+        >
+          {/* Título accesible (no visible) */}
+          <SheetHeader className="sr-only">
+            <SheetTitle>Menú de navegación</SheetTitle>
+            {/* <SheetDescription>Navega por las secciones del sitio</SheetDescription> */}
+          </SheetHeader>
+
+          <nav className="mt-6" aria-label="Navegación móvil">
+            <ul className="flex flex-col gap-5 text-xl font-medium">
+                {isPostPage && (
+                    <li>
+                        <Link href="/blog" className="block hover:text-blue-300 text-2xl">
+                            ← Regresar al Blog
+                        </Link>
+                    </li>
+                )}
+                <li>
+                    <SheetClose asChild>
+                        <Link href="/" className="block hover:text-blue-300 text-2xl">Inicio</Link>
+                    </SheetClose>
+                </li>
+                <li>
+                    <SheetClose asChild>
+                        <Link href="/dashboard/general" className="block hover:text-blue-300 text-2xl">Tablero</Link>
+                    </SheetClose>
+                </li>
+            </ul>
+          </nav>
+        </SheetContent>
+      </Sheet>
+    </div>
+  )
+}

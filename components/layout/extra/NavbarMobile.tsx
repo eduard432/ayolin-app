@@ -45,7 +45,7 @@ export default function NavbarMobile({ isLoggedIn }: Props) {
             <ul className="flex flex-col gap-5 text-xl font-medium">
               <li>
                 <SheetClose asChild>
-                  <a href="#home" className="block hover:text-blue-300 text-2xl">Inicio</a>
+                  <Link href="/" className="block hover:text-blue-300 text-2xl">Inicio</Link>
                 </SheetClose>
               </li>
               {/* Mostrar solo el enlace de la página legal en la que NO estamos */}
