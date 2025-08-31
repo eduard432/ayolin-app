@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   Sheet,
   SheetTrigger,
@@ -16,6 +17,9 @@ type Props = {
 }
 
 export default function NavbarMobile({ isLoggedIn }: Props) {
+  const pathname = usePathname() || ''
+  const onCondiciones = pathname.startsWith('/condiciones-servicios')
+  const onPrivacidad = pathname.startsWith('/politica-privacidad')
   return (
     <div className="md:hidden">
       <Sheet>
@@ -44,6 +48,43 @@ export default function NavbarMobile({ isLoggedIn }: Props) {
                   <a href="#home" className="block hover:text-blue-300 text-2xl">Inicio</a>
                 </SheetClose>
               </li>
+              {/* Mostrar solo el enlace de la página legal en la que NO estamos */}
+              {onCondiciones && (
+                <li>
+                  <SheetClose asChild>
+                    <Link href="/politica-privacidad" className="block hover:text-blue-300 text-2xl">
+                      Política de privacidad
+                    </Link>
+                  </SheetClose>
+                </li>
+              )}
+              {onPrivacidad && (
+                <li>
+                  <SheetClose asChild>
+                    <Link href="/condiciones-servicios" className="block hover:text-blue-300 text-2xl">
+                      Condiciones de servicio
+                    </Link>
+                  </SheetClose>
+                </li>
+              )}
+              {!onCondiciones && !onPrivacidad && (
+                <>
+                  <li>
+                    <SheetClose asChild>
+                      <Link href="/condiciones-servicios" className="block hover:text-blue-300 text-2xl">
+                        Condiciones de servicio
+                      </Link>
+                    </SheetClose>
+                  </li>
+                  <li>
+                    <SheetClose asChild>
+                      <Link href="/politica-privacidad" className="block hover:text-blue-300 text-2xl">
+                        Política de privacidad
+                      </Link>
+                    </SheetClose>
+                  </li>
+                </>
+              )}
               {isLoggedIn ? (
                 <li>
                   <SheetClose asChild>

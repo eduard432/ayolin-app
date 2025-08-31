@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { auth } from "@/lib/auth"
 import NavbarMobile from "./NavbarMobile"
+import LegalLinks from "./LegalLinks"
 
 export default async function NavbarBase() {
   const session = await auth()
@@ -8,7 +9,7 @@ export default async function NavbarBase() {
 
   return (
     <nav
-      data-navbar="landing"
+      data-navbar="extra"
       className="fixed top-0 left-0 w-full z-50 bg-transparent transition-all duration-300 data-[scrolled=true]:backdrop-blur-md data-[scrolled=true]:bg-black/40 data-[scrolled=true]:border-b data-[scrolled=true]:border-white/10"
     >
       <div className="max-w-6xl mx-auto px-6 py-7 flex justify-between items-center">
@@ -26,6 +27,7 @@ export default async function NavbarBase() {
         {/* Menú desktop */}
         <ul className="hidden md:flex md:space-x-8 text-lg font-medium items-center">
           <li><a href="#home" className="text-white hover:text-blue-300">Inicio</a></li>
+          <LegalLinks variant="desktop" />
           {isLoggedIn ? (
             <li>
               <Link href="/dashboard/general" className="text-white hover:text-blue-300">Tablero</Link>
