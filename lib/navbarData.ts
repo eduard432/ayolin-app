@@ -5,7 +5,7 @@ export const dashboardFeatures = [
   // { name: 'Soporte', href: '/dashboard/soporte' },
   { name: 'Configuración', href: '/dashboard/configuracion/cuenta' },
   // { name: 'Pro', href: '/dashboard/planes' },
-  { name: 'Planes', href: '/dashboard/planes-temp'},
+  { name: 'Planes', href: '/dashboard/planes-temp'}, // Ruta temporal
 ]
 
 export const getChatbotFeatures = (chatbotId: string) => [
