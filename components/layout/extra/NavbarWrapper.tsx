@@ -1,15 +1,11 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import NavbarAnimated from './NavbarAnimated'
-import NavbarBase from './NavbarBase'
+import NavbarBase from "./NavbarBase";
+import NavbarEnhance from "./NavbarEnhance";
 
 export default function NavbarWrapper() {
-  const [hasJS, setHasJS] = useState(false)
-
-  useEffect(() => {
-    setHasJS(true)
-  }, [])
-
-  return hasJS ? <NavbarAnimated /> : <NavbarBase />
+  return(
+    <>
+      <NavbarBase />
+      <NavbarEnhance />
+    </>
+  )
 }
