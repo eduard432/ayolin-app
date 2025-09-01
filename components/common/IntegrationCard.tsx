@@ -1,9 +1,4 @@
 'use client'
-
-import {
-	InstallChannelButton,
-	InstallToolButton,
-} from '@/components/integrations/InstallButton'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import {
 	Card,
@@ -16,10 +11,21 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import React from 'react'
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 
-const channels = ['telegram']
 
 export const IntegrationCardSkeleton = () => {
 	return (
@@ -45,18 +51,56 @@ export const IntegrationCardSkeleton = () => {
 
 export const IntegrationCard = ({
 	integration,
-	chatbot,
 }: {
 	integration: ToolFunction | Channel
 	chatbot: Chatbot
 }) => {
-	const router = useRouter()
 
 	return (
 		<Card className="pt-0 justify-start relative">
 			<CardHeader className="absolute right-20 top-4 z-10">
 				<CardAction>
-					{!channels.includes(integration.keyName) ? (
+					<Dialog>
+						<form>
+							<DialogTrigger asChild>
+								<Button variant="outline">Agregar</Button>
+							</DialogTrigger>
+							<DialogContent className="sm:max-w-[425px]">
+								<DialogHeader>
+									<DialogTitle>Edit profile</DialogTitle>
+									<DialogDescription>
+										Make changes to your profile here. Click save when
+										you&apos;re done.
+									</DialogDescription>
+								</DialogHeader>
+								<div className="grid gap-4">
+									<div className="grid gap-3">
+										<Label htmlFor="name-1">Name</Label>
+										<Input
+											id="name-1"
+											name="name"
+											defaultValue="Pedro Duarte"
+										/>
+									</div>
+									<div className="grid gap-3">
+										<Label htmlFor="username-1">Username</Label>
+										<Input
+											id="username-1"
+											name="username"
+											defaultValue="@peduarte"
+										/>
+									</div>
+								</div>
+								<DialogFooter>
+									<DialogClose asChild>
+										<Button variant="outline">Cancel</Button>
+									</DialogClose>
+									<Button type="submit">Save changes</Button>
+								</DialogFooter>
+							</DialogContent>
+						</form>
+					</Dialog>
+					{/* {!channels.includes(integration.keyName) ? (
 						<InstallToolButton
 							variant="outline"
 							className="cursor-pointer"
@@ -70,21 +114,11 @@ export const IntegrationCard = ({
 							variant="outline"
 							className="cursor-pointer"
 						/>
-					)}
+					)} */}
 				</CardAction>
 			</CardHeader>
 			<AspectRatio
 				ratio={16 / 9}
-				className={cn(
-					'bg-muted rounded-lg rounded-b-none',
-					!channels.includes(integration.keyName) && 'cursor-pointer'
-				)}
-				onClick={() =>
-					!channels.includes(integration.keyName) &&
-					router.push(
-						`/dashboard/${chatbot.id}/integraciones/${integration.keyName}`
-					)
-				}
 			>
 				<Image
 					src={integration.imageUrl}
