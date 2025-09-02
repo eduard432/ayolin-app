@@ -29,7 +29,11 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { InputUrl, UrlValueSchema } from '@/components/fields/InputUrl'
-import { IntegrationCard } from '@/components/common/IntegrationCard'
+import {
+	InstallIntegrationCard,
+	IntegrationCard,
+} from '@/components/common/IntegrationCard'
+import { MarkdownRender } from '@/components/common/MarkdownRender'
 
 const formSchema = z.object({
 	name: z.string(),
@@ -268,7 +272,8 @@ const ToolsPage = () => {
 					</Button>
 				</CardFooter>
 			</Card>
-			<div className="col-span-1 md:col-span-4">
+			<div className="col-span-1 md:col-span-4 space-y-4">
+				<h3 className="text-current font-semibold text-xl">Visualización:</h3>
 				<IntegrationCard
 					className="w-full md:w-[300px]"
 					integration={{
@@ -281,8 +286,7 @@ const ToolsPage = () => {
 							'Descripción corta de la tool function',
 						id: 'tool_function',
 						apiUrl:
-							form.watch('endpoint').url ||
-							'https://api.example.com/endpoint',
+							form.watch('endpoint').url || 'https://api.example.com/endpoint',
 						tags: [],
 						fnType: 'external',
 						aiDesc: form.watch('aiDesc') || 'Descripción para IA',
@@ -291,8 +295,33 @@ const ToolsPage = () => {
 						shortDesc:
 							form.watch('shortDesc') ||
 							'Descripción corta de la tool function',
-						inputSchema: {},
-						settingsSchema: {},
+						inputSchema: form.watch('inputSchema') || [],
+						settingsSchema: form.watch('settingsSchema') || [],
+					}}
+				/>
+				<InstallIntegrationCard
+					className="w-full md:w-[400px]"
+					integration={{
+						keyName:
+							form.watch('name').replaceAll(' ', '_').toLowerCase() ||
+							'tool_function',
+						name: form.watch('name') || 'Tool Function',
+						description:
+							form.watch('shortDesc') ||
+							'Descripción corta de la tool function',
+						id: 'tool_function',
+						apiUrl:
+							form.watch('endpoint').url || 'https://api.example.com/endpoint',
+						tags: [],
+						fnType: 'external',
+						aiDesc: form.watch('aiDesc') || 'Descripción para IA',
+						imageUrl:
+							'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80',
+						shortDesc:
+							form.watch('shortDesc') ||
+							'Descripción corta de la tool function',
+						inputSchema: form.watch('inputSchema') || [],
+						settingsSchema: form.watch('settingsSchema') || [],
 					}}
 				/>
 			</div>

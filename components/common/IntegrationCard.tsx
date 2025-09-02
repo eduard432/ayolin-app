@@ -23,9 +23,153 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
+import { MarkdownRender } from './MarkdownRender'
 
+// Componente base reutilizable
+const IntegrationContent = ({
+	integration,
+	onInstall,
+}: {
+	integration: ToolFunction | Channel
+	onInstall?: () => void
+}) => {
+	const [showSettings, setShowSettings] = React.useState(false)
+
+	const handleInstall = () => {
+		console.log('exec')
+		console.log(integration)
+		if(integration.settingsSchema.length > 0) {
+			console.log('exec 2')
+			setShowSettings(true)
+		}
+	}
+
+	if (showSettings) {
+		return (
+			<>
+				<div className="space-y-2 mb-4">
+					<h3 className="text-xl font-semibold">Configuración</h3>
+					<p className="text-muted-foreground">{integration.shortDesc}</p>
+				</div>
+				<div className="my-4">
+					Config
+				</div>
+				<Button className="w-full" onClick={onInstall}>
+					Instalar
+				</Button>
+				<Button onClick={() => setShowSettings(false)} className="w-full"  variant="link" size="sm" >
+					Volver
+				</Button>
+			</>
+		)
+	}
+
+	if (!showSettings) {
+		return (
+			<>
+				<div className="space-y-2 mb-4">
+					<h3 className="text-xl font-semibold">{integration.name}</h3>
+					<p className="text-muted-foreground">{integration.shortDesc}</p>
+				</div>
+				<div className="bg-accent p-4 rounded-md text-sm mb-4">
+					<MarkdownRender>{integration.description}</MarkdownRender>
+				</div>
+				<Button className="w-full" onClick={handleInstall}>
+					Instalar
+				</Button>
+			</>
+		)
+	}
+}
+
+// Versión Card
+export const InstallIntegrationCard = ({
+	integration,
+	className,
+	onInstall,
+}: {
+	integration: ToolFunction | Channel
+	className?: string
+	onInstall?: () => void
+}) => {
+	return (
+		<Card className={className}>
+			<CardContent>
+				<IntegrationContent integration={integration} onInstall={onInstall} />
+			</CardContent>
+		</Card>
+	)
+}
+
+// Versión Dialog
+export const InstallIntegrationDialog = ({
+	integration,
+	className,
+	onInstall,
+}: {
+	integration: ToolFunction | Channel
+	className?: string
+	onInstall?: () => void
+}) => {
+	return (
+		<DialogContent className={cn('sm:max-w-[425px]', className)}>
+			<DialogHeader>
+				<DialogTitle>{integration.name}</DialogTitle>
+				<DialogDescription>{integration.shortDesc}</DialogDescription>
+			</DialogHeader>
+			<div className="bg-accent p-4 rounded-md text-sm">
+				<MarkdownRender>{integration.description}</MarkdownRender>
+			</div>
+			<DialogFooter>
+				<Button className="w-full" type="submit" onClick={onInstall}>
+					Instalar
+				</Button>
+			</DialogFooter>
+		</DialogContent>
+	)
+}
+
+// Alternativa: Componente completamente unificado con prop variant
+export const InstallIntegration = ({
+	integration,
+	variant = 'card',
+	className,
+	onInstall,
+}: {
+	integration: ToolFunction | Channel
+	variant?: 'card' | 'dialog'
+	className?: string
+	onInstall?: () => void
+}) => {
+	const content = (
+		<IntegrationContent integration={integration} onInstall={onInstall} />
+	)
+
+	if (variant === 'dialog') {
+		return (
+			<DialogContent className={cn('sm:max-w-[425px]', className)}>
+				<DialogHeader>
+					<DialogTitle>{integration.name}</DialogTitle>
+					<DialogDescription>{integration.shortDesc}</DialogDescription>
+				</DialogHeader>
+				<div className="bg-accent p-4 rounded-md text-sm">
+					<MarkdownRender>{integration.description}</MarkdownRender>
+				</div>
+				<DialogFooter>
+					<Button className="w-full" type="submit" onClick={onInstall}>
+						Instalar
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		)
+	}
+
+	return (
+		<Card className={className}>
+			<CardContent className="">{content}</CardContent>
+		</Card>
+	)
+}
 
 export const IntegrationCardSkeleton = () => {
 	return (
@@ -51,14 +195,13 @@ export const IntegrationCardSkeleton = () => {
 
 export const IntegrationCard = ({
 	integration,
-	className
+	className,
 }: {
 	integration: ToolFunction | Channel
 	className?: string
 }) => {
-
 	return (
-		<Card className={cn("pt-0 justify-start relative", className)}>
+		<Card className={cn('pt-0 justify-start relative', className)}>
 			<CardHeader className="absolute right-20 top-4 z-10">
 				<CardAction>
 					<Dialog>
@@ -66,39 +209,7 @@ export const IntegrationCard = ({
 							<DialogTrigger asChild>
 								<Button variant="outline">Agregar</Button>
 							</DialogTrigger>
-							<DialogContent className="sm:max-w-[425px]">
-								<DialogHeader>
-									<DialogTitle>Edit profile</DialogTitle>
-									<DialogDescription>
-										Make changes to your profile here. Click save when
-										you&apos;re done.
-									</DialogDescription>
-								</DialogHeader>
-								<div className="grid gap-4">
-									<div className="grid gap-3">
-										<Label htmlFor="name-1">Name</Label>
-										<Input
-											id="name-1"
-											name="name"
-											defaultValue="Pedro Duarte"
-										/>
-									</div>
-									<div className="grid gap-3">
-										<Label htmlFor="username-1">Username</Label>
-										<Input
-											id="username-1"
-											name="username"
-											defaultValue="@peduarte"
-										/>
-									</div>
-								</div>
-								<DialogFooter>
-									<DialogClose asChild>
-										<Button variant="outline">Cancel</Button>
-									</DialogClose>
-									<Button type="submit">Save changes</Button>
-								</DialogFooter>
-							</DialogContent>
+							<InstallIntegration integration={integration} variant="dialog" />
 						</form>
 					</Dialog>
 					{/* {!channels.includes(integration.keyName) ? (
@@ -118,9 +229,7 @@ export const IntegrationCard = ({
 					)} */}
 				</CardAction>
 			</CardHeader>
-			<AspectRatio
-				ratio={16 / 9}
-			>
+			<AspectRatio ratio={16 / 9}>
 				<Image
 					src={integration.imageUrl}
 					alt={`Tool Function image for ${integration.name}`}
