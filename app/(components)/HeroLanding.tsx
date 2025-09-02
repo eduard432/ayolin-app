@@ -84,7 +84,7 @@ export default function Hero() {
 
             <motion.div className=" space-x-4 justify-center md:justify-start" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay:0.7, duration: 1 }}>
               <Link href="/dashboard/general">
-                <Button className="px-12 h-15 w-40 text-lg text-black" size="lg" >
+                <Button className="px-12 h-15 w-40 text-lg text-black bg-white hover:bg-white/80" size="lg" >
                   Probar
                 </Button>
               </Link>
