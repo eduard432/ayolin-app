@@ -167,7 +167,7 @@ type ToolFunctionInstance {
 
 enum ToolFunctionType {
   code
-  fetch
+  native
 }
 
 model ToolFunction {
@@ -181,7 +181,7 @@ model ToolFunction {
   tags            String[]
   inputSchema     Json?
   apiUrl          String?
-  fnType            ToolFunctionType
+  fnType          ToolFunctionType
 }
 
 type ChannelInstance {
