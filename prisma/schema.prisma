@@ -166,7 +166,7 @@ type ToolFunctionInstance {
 }
 
 enum ToolFunctionType {
-  code
+  external
   native
 }
 
@@ -182,6 +182,7 @@ model ToolFunction {
   inputSchema     Json?
   apiUrl          String?
   fnType          ToolFunctionType
+  aiDesc          String? 
 }
 
 type ChannelInstance {

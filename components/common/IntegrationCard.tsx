@@ -51,13 +51,14 @@ export const IntegrationCardSkeleton = () => {
 
 export const IntegrationCard = ({
 	integration,
+	className
 }: {
 	integration: ToolFunction | Channel
-	chatbot: Chatbot
+	className?: string
 }) => {
 
 	return (
-		<Card className="pt-0 justify-start relative">
+		<Card className={cn("pt-0 justify-start relative", className)}>
 			<CardHeader className="absolute right-20 top-4 z-10">
 				<CardAction>
 					<Dialog>
@@ -130,7 +131,7 @@ export const IntegrationCard = ({
 			<CardContent>
 				<p className="font-semibold">{integration.name}</p>
 				<p className="text-sm text-neutral-600 truncate">
-					{integration.blogDescription}
+					{integration.shortDesc}
 				</p>
 			</CardContent>
 		</Card>
