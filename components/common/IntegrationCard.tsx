@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { cn } from '@/lib/utils'
+import { cn, fieldsToZod } from '@/lib/utils'
 import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
@@ -24,6 +24,18 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '../ui/button'
 import { MarkdownRender } from './MarkdownRender'
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+} from '../ui/form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Input } from '../ui/input'
+import { Checkbox } from '../ui/checkbox'
 
 // Componente base reutilizable
 const IntegrationContent = ({
@@ -35,13 +47,17 @@ const IntegrationContent = ({
 }) => {
 	const [showSettings, setShowSettings] = React.useState(false)
 
+	const form = useForm({
+		resolver: zodResolver(fieldsToZod(integration.settingsSchema)),
+	})
+
+	form.handleSubmit
+
 	const handleInstall = () => {
-		console.log('exec')
-		console.log(integration)
-		if(integration.settingsSchema.length > 0) {
-			console.log('exec 2')
+		if (integration.settingsSchema.length > 0 && !showSettings) {
 			setShowSettings(true)
 		}
+		console.log('Install')
 	}
 
 	if (showSettings) {
@@ -51,13 +67,54 @@ const IntegrationContent = ({
 					<h3 className="text-xl font-semibold">Configuración</h3>
 					<p className="text-muted-foreground">{integration.shortDesc}</p>
 				</div>
-				<div className="my-4">
-					Config
-				</div>
+				<Form {...form}>
+					<div className="space-y-4 mb-4" >
+						{integration.settingsSchema.map((integrationField) => (
+							<FormField
+								control={form.control}
+								name={integrationField.name}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>{integrationField.name}</FormLabel>
+										<FormControl>
+											{(() => {
+												switch (integrationField.type) {
+													case 'string':
+														return <Input type="text" {...field} />
+													case 'number':
+														return <Input type="number" {...field} />
+													case 'boolean':
+														return (
+															<Checkbox
+																checked={field.value || false}
+																onCheckedChange={(checked) => {
+																	field.onChange(checked)
+																}}
+															/>
+														)
+													default:
+														return null
+												}
+											})()}
+										</FormControl>
+										<FormDescription>
+											{integrationField.description}
+										</FormDescription>
+									</FormItem>
+								)}
+							/>
+						))}
+					</div>
+				</Form>
 				<Button className="w-full" onClick={onInstall}>
 					Instalar
 				</Button>
-				<Button onClick={() => setShowSettings(false)} className="w-full"  variant="link" size="sm" >
+				<Button
+					onClick={() => setShowSettings(false)}
+					className="w-full"
+					variant="link"
+					size="sm"
+				>
 					Volver
 				</Button>
 			</>
@@ -156,7 +213,7 @@ export const InstallIntegration = ({
 					<MarkdownRender>{integration.description}</MarkdownRender>
 				</div>
 				<DialogFooter>
-					<Button className="w-full" type="submit" onClick={onInstall}>
+					<Button className="w-full" type="submit">
 						Instalar
 					</Button>
 				</DialogFooter>

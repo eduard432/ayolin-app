@@ -197,7 +197,7 @@ model Channel {
   description     String
   shortDesc       String
   imageUrl        String
-  settingsSchema  Json?
+  settingsSchema  SchemaField[]
   tags            String[]
 }
 
