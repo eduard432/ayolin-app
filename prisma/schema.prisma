@@ -177,9 +177,9 @@ model ToolFunction {
   description     String
   shortDesc       String
   imageUrl        String
-  settingsSchema  Json?
+  settingsSchema  SchemaField[]
   tags            String[]
-  inputSchema     Json?
+  inputSchema     SchemaField[]
   apiUrl          String?
   fnType          ToolFunctionType
   aiDesc          String? 
@@ -209,4 +209,17 @@ model UsageLog {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   chatbotId   String   @db.ObjectId
   chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+}
+
+enum SchemaFieldType {
+  string
+  number
+  boolean
+}
+
+type SchemaField {
+  name        String
+  description String
+  type        SchemaFieldType
+  required    Boolean @default(true)
 }
