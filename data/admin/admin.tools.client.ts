@@ -3,7 +3,7 @@ import { ToolFunction } from "@prisma/client";
 import { z } from 'zod'
 
 export const createTool = async (data: z.infer<typeof createToolSchema>) => {
-    const response = await fetch(`/api/v1.1/admin/tools`, {
+    const response = await fetch(`/api/v1.1/tools`, {
         method: 'POST',
         headers: {
 			'Content-Type': 'application/json',
