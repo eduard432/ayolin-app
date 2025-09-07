@@ -307,6 +307,7 @@ const ToolsPage = () => {
 			<div className="col-span-1 md:col-span-4 space-y-4">
 				<h3 className="text-current font-semibold text-xl">Visualización:</h3>
 				<IntegrationCard
+					chatbotId=""
 					className="w-full md:w-[300px]"
 					integration={{
 						keyName:
@@ -330,6 +331,7 @@ const ToolsPage = () => {
 					}}
 				/>
 				<InstallIntegration
+					chatbotId=""
 					variant="card"
 					className="w-full md:w-[400px]"
 					integration={{

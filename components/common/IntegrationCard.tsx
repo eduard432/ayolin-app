@@ -11,7 +11,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { cn, fieldsToZod } from '@/lib/utils'
-import { Channel, ToolFunction } from '@prisma/client'
+import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 import {
@@ -36,14 +36,21 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/input'
 import { Checkbox } from '../ui/checkbox'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+	addTool,
+	AddToolDataType,
+} from '@/data/integrations/integrations.client'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 // Componente base reutilizable
 const IntegrationContent = ({
 	integration,
-	onInstall,
+	chatbotId,
 }: {
 	integration: ToolFunction | Channel
-	onInstall?: () => void
+	chatbotId: string
 }) => {
 	const [showSettings, setShowSettings] = React.useState(false)
 
@@ -51,20 +58,81 @@ const IntegrationContent = ({
 		resolver: zodResolver(fieldsToZod(integration.settingsSchema)),
 	})
 
+	const queryClient = useQueryClient()
+	const router = useRouter()
+
+	const mutation = useMutation<
+		Chatbot,
+		Error,
+		AddToolDataType,
+		{ previousChatbot: Chatbot }
+	>({
+		mutationFn: async (data) => {
+			const result = await addTool({
+				chatbotId: data.chatbotId,
+				keyName: data.keyName,
+			})
+			return result.chatbot
+		},
+		onError: (_, data, context) => {
+			toast.error('Error adding tool')
+			queryClient.setQueryData(
+				['chatbot', data.chatbotId],
+				context?.previousChatbot
+			)
+		},
+		onMutate: async (data) => {
+			await queryClient.cancelQueries({
+				queryKey: ['chatbot', data.chatbotId],
+			})
+
+			const previousChatbot = queryClient.getQueryData<Chatbot>([
+				'chatbot',
+				data.chatbotId,
+			]) as Chatbot
+
+			queryClient.setQueryData(['chatbot', data.chatbotId], (old: Chatbot) => {
+				if (!old) return old
+				return {
+					...old,
+					tools: [...old.tools, { keyName: data.keyName }],
+				}
+			})
+
+			return { previousChatbot }
+		},
+		onSuccess: (chatbot) => {
+			toast.success('Tool added successfully')
+			router.push(`/dashboard/${chatbot.id}/integraciones`)
+		},
+	})
+
 	const handleInstall = () => {
 		// Validate if exists config
 		if (integration.settingsSchema.length > 0 && !showSettings) {
 			setShowSettings(true)
 		} else {
-			console.log({integration})
+			mutation.mutate({ chatbotId, keyName: integration.keyName })
 		}
+	}
+
+	const onSubmit = (values: Record<string, string>) => {
+		mutation.mutate({
+			chatbotId,
+			keyName: integration.keyName,
+			settings: values,
+		})
 	}
 
 	if (showSettings) {
 		return (
 			<>
 				<Form {...form}>
-					<div className="space-y-4">
+					<form
+						id="settings-form"
+						className="space-y-4"
+						onSubmit={form.handleSubmit(onSubmit)}
+					>
 						{integration.settingsSchema.map((integrationField) => (
 							<FormField
 								key={integrationField.name}
@@ -101,9 +169,9 @@ const IntegrationContent = ({
 								)}
 							/>
 						))}
-					</div>
+					</form>
 				</Form>
-				<Button className="w-full" onClick={onInstall}>
+				<Button className="w-full" form="settings-form" type="submit">
 					Instalar
 				</Button>
 				<Button
@@ -137,15 +205,18 @@ export const InstallIntegration = ({
 	integration,
 	variant = 'card',
 	className,
-	onInstall,
+	chatbotId,
 }: {
 	integration: ToolFunction | Channel
 	variant?: 'card' | 'dialog'
 	className?: string
-	onInstall?: () => void
+	chatbotId: string
 }) => {
 	const content = (
-		<IntegrationContent integration={integration} onInstall={onInstall} />
+		<IntegrationContent
+			chatbotId={chatbotId}
+			integration={integration}
+		/>
 	)
 
 	if (variant === 'dialog') {
@@ -198,9 +269,11 @@ export const IntegrationCardSkeleton = () => {
 export const IntegrationCard = ({
 	integration,
 	className,
+	chatbotId,
 }: {
 	integration: ToolFunction | Channel
 	className?: string
+	chatbotId: string
 }) => {
 	return (
 		<Card className={cn('pt-0 justify-start relative', className)}>
@@ -211,7 +284,11 @@ export const IntegrationCard = ({
 							<DialogTrigger asChild>
 								<Button variant="outline">Agregar</Button>
 							</DialogTrigger>
-							<InstallIntegration integration={integration} variant="dialog" />
+							<InstallIntegration
+								chatbotId={chatbotId}
+								integration={integration}
+								variant="dialog"
+							/>
 						</form>
 					</Dialog>
 					{/* {!channels.includes(integration.keyName) ? (
