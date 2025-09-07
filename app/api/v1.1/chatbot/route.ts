@@ -13,9 +13,9 @@ export const POST = ApiErrorHandler.wrapAuth(async (request, _, session) => {
 		createChatbotBodySchema
 	)
 	await validateMaxChatbot(session.user.id)
-	await createChatBot({
+	const chatbot = await createChatBot({
 		...data,
 		userId: session.user.id,
 	})
-	return ApiResponse.created(data)
+	return ApiResponse.created({chatbot})
 })

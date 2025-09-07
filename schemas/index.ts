@@ -97,3 +97,21 @@ export const CustomFetchToolSettingsSchema = z.object({
 	inputSchema: fieldSchema.array().optional(),
 	isBodyParams: z.boolean(),
 })
+
+export const UrlValueSchema = z.object({
+	url: z.string().url('Debe ser una URL válida'),
+	method: z.enum(['get', 'post', 'put', 'delete']),
+})
+
+export const createToolSchema = z.object({
+	name: z.string(),
+	keyName: z.string(),
+	shortDesc: z.string(),
+	description: z.string(),
+	aiDesc: z.string(),
+	settingsSchema: fieldSchema.array().optional(),
+	inputSchema: fieldSchema.array().optional(),
+	endpoint: UrlValueSchema,
+	imageUrl: z.string(),
+	fnType: z.enum(['external', 'native']),
+})

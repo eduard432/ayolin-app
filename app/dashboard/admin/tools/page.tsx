@@ -28,12 +28,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { InputUrl, UrlValueSchema } from '@/components/fields/InputUrl'
+import { InputUrl } from '@/components/fields/InputUrl'
 import {
-	InstallIntegrationCard,
+	InstallIntegration,
 	IntegrationCard,
 } from '@/components/common/IntegrationCard'
-import { MarkdownRender } from '@/components/common/MarkdownRender'
+import { UrlValueSchema } from '@/schemas'
+import { useMutation } from '@tanstack/react-query'
+import { createTool } from '@/data/admin/admin.tools.client'
+import { ToolFunction } from '@prisma/client'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
 	name: z.string(),
@@ -43,26 +47,50 @@ const formSchema = z.object({
 	settingsSchema: fieldSchema.array().optional(),
 	inputSchema: fieldSchema.array().optional(),
 	endpoint: UrlValueSchema,
+	imageUrl: z.string(),
 })
 
 const ToolsPage = () => {
 	const [isSettingsSchema, setIsSettingSchema] = useState(false)
 	const [isInputSchema, setIsInputSchema] = useState(false)
 
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			name: '',
-			endpoint: { url: '', method: 'get' },
+	const mutation = useMutation<
+		ToolFunction,
+		Error,
+		z.infer<typeof formSchema>
+	>({
+		mutationFn: async (data) => {
+			const result = await createTool({
+				...data,
+				fnType: 'external',
+				keyName: data.name.replaceAll(' ', '_').toLowerCase(),
+			})
+			return result
+		},
+		onError: () => {
+			toast.error('Error creating tool')
+		},
+		onSuccess: () => {
+			form.reset()
 		},
 	})
 
-	const handleSubmit = () => {
-		form.handleSubmit((values) => {
-			console.log('exec')
-			console.log('Formulario enviado:', values)
-			// Tu lógica aquí
-		})() // ← Nota los paréntesis extra para ejecutar
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			name: 'Poke API',
+			shortDesc: 'Consulta toda la información de pokemones',
+			description:
+				'Esta tool sirve para consultar toda la info de pokemones, desc larga',
+			aiDesc: 'Tool to get pokemon descriptions',
+			endpoint: { url: 'http://localhost:4000', method: 'get' },
+			imageUrl:
+				'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80',
+		},
+	})
+
+	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		mutation.mutate(values)
 	}
 
 	return (
@@ -76,7 +104,11 @@ const ToolsPage = () => {
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
-						<form className="space-y-4" onSubmit={() => {}}>
+						<form
+							id="hook-form"
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="space-y-4"
+						>
 							<Separator />
 							<section className="space-y-4">
 								<h3 className="text-current font-semibold text-xl">
@@ -267,7 +299,7 @@ const ToolsPage = () => {
 					</Form>
 				</CardContent>
 				<CardFooter>
-					<Button type="button" onClick={handleSubmit}>
+					<Button disabled={mutation.isPending} type="submit" form="hook-form">
 						Publicar
 					</Button>
 				</CardFooter>
@@ -299,7 +331,8 @@ const ToolsPage = () => {
 						settingsSchema: form.watch('settingsSchema') || [],
 					}}
 				/>
-				<InstallIntegrationCard
+				<InstallIntegration
+					variant="card"
 					className="w-full md:w-[400px]"
 					integration={{
 						keyName:

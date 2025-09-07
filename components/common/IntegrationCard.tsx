@@ -4,20 +4,20 @@ import {
 	Card,
 	CardAction,
 	CardContent,
+	CardDescription,
 	CardHeader,
+	CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { cn, fieldsToZod } from '@/lib/utils'
-import { Channel, Chatbot, ToolFunction } from '@prisma/client'
+import { Channel, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -51,26 +51,23 @@ const IntegrationContent = ({
 		resolver: zodResolver(fieldsToZod(integration.settingsSchema)),
 	})
 
-	form.handleSubmit
-
 	const handleInstall = () => {
+		// Validate if exists config
 		if (integration.settingsSchema.length > 0 && !showSettings) {
 			setShowSettings(true)
+		} else {
+			console.log({integration})
 		}
-		console.log('Install')
 	}
 
 	if (showSettings) {
 		return (
 			<>
-				<div className="space-y-2 mb-4">
-					<h3 className="text-xl font-semibold">Configuración</h3>
-					<p className="text-muted-foreground">{integration.shortDesc}</p>
-				</div>
 				<Form {...form}>
-					<div className="space-y-4 mb-4" >
+					<div className="space-y-4">
 						{integration.settingsSchema.map((integrationField) => (
 							<FormField
+								key={integrationField.name}
 								control={form.control}
 								name={integrationField.name}
 								render={({ field }) => (
@@ -124,10 +121,6 @@ const IntegrationContent = ({
 	if (!showSettings) {
 		return (
 			<>
-				<div className="space-y-2 mb-4">
-					<h3 className="text-xl font-semibold">{integration.name}</h3>
-					<p className="text-muted-foreground">{integration.shortDesc}</p>
-				</div>
 				<div className="bg-accent p-4 rounded-md text-sm mb-4">
 					<MarkdownRender>{integration.description}</MarkdownRender>
 				</div>
@@ -137,53 +130,6 @@ const IntegrationContent = ({
 			</>
 		)
 	}
-}
-
-// Versión Card
-export const InstallIntegrationCard = ({
-	integration,
-	className,
-	onInstall,
-}: {
-	integration: ToolFunction | Channel
-	className?: string
-	onInstall?: () => void
-}) => {
-	return (
-		<Card className={className}>
-			<CardContent>
-				<IntegrationContent integration={integration} onInstall={onInstall} />
-			</CardContent>
-		</Card>
-	)
-}
-
-// Versión Dialog
-export const InstallIntegrationDialog = ({
-	integration,
-	className,
-	onInstall,
-}: {
-	integration: ToolFunction | Channel
-	className?: string
-	onInstall?: () => void
-}) => {
-	return (
-		<DialogContent className={cn('sm:max-w-[425px]', className)}>
-			<DialogHeader>
-				<DialogTitle>{integration.name}</DialogTitle>
-				<DialogDescription>{integration.shortDesc}</DialogDescription>
-			</DialogHeader>
-			<div className="bg-accent p-4 rounded-md text-sm">
-				<MarkdownRender>{integration.description}</MarkdownRender>
-			</div>
-			<DialogFooter>
-				<Button className="w-full" type="submit" onClick={onInstall}>
-					Instalar
-				</Button>
-			</DialogFooter>
-		</DialogContent>
-	)
 }
 
 // Alternativa: Componente completamente unificado con prop variant
@@ -204,25 +150,24 @@ export const InstallIntegration = ({
 
 	if (variant === 'dialog') {
 		return (
-			<DialogContent className={cn('sm:max-w-[425px]', className)}>
-				<DialogHeader>
-					<DialogTitle>{integration.name}</DialogTitle>
-					<DialogDescription>{integration.shortDesc}</DialogDescription>
-				</DialogHeader>
-				<div className="bg-accent p-4 rounded-md text-sm">
-					<MarkdownRender>{integration.description}</MarkdownRender>
-				</div>
-				<DialogFooter>
-					<Button className="w-full" type="submit">
-						Instalar
-					</Button>
-				</DialogFooter>
-			</DialogContent>
+			<>
+				<DialogContent className={cn('sm:max-w-[425px]', className)}>
+					<DialogHeader>
+						<DialogTitle>{integration.name}</DialogTitle>
+						<DialogDescription>{integration.shortDesc}</DialogDescription>
+					</DialogHeader>
+					{content}
+				</DialogContent>
+			</>
 		)
 	}
 
 	return (
 		<Card className={className}>
+			<CardHeader>
+				<CardTitle>{integration.name}</CardTitle>
+				<CardDescription>{integration.shortDesc}</CardDescription>
+			</CardHeader>
 			<CardContent className="">{content}</CardContent>
 		</Card>
 	)

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Input } from '../ui/input'
 import {
 	Select,
@@ -9,11 +9,9 @@ import {
 } from '../ui/select'
 import { cn } from '@/lib/utils'
 import z from 'zod'
+import { UrlValueSchema } from '@/schemas'
 
-export const UrlValueSchema = z.object({
-	url: z.string().url('Debe ser una URL válida'),
-	method: z.enum(['get', 'post', 'put', 'delete']),
-})
+
 
 type UrlFieldProps = {
 	value: z.infer<typeof UrlValueSchema>
@@ -41,6 +39,7 @@ export const InputUrl = ({
 	return (
 		<div className={cn('flex gap-x-2 gap-y-4', className)}>
 			<Select
+				value={value.method}
 				onValueChange={(newValue) =>
 					onChange({
 						...value,

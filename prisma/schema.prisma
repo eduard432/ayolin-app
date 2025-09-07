@@ -182,7 +182,20 @@ model ToolFunction {
   inputSchema     SchemaField[]
   apiUrl          String?
   fnType          ToolFunctionType
-  aiDesc          String? 
+  aiDesc          String?
+  endpoint        Endpoint
+}
+
+enum HTTPMethod {
+  get
+  post
+  put
+  delete
+}
+
+type Endpoint {
+  method    HTTPMethod
+  url       String
 }
 
 type ChannelInstance {
