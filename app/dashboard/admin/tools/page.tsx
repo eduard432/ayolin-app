@@ -317,8 +317,6 @@ const ToolsPage = () => {
 							form.watch('shortDesc') ||
 							'Descripción corta de la tool function',
 						id: 'tool_function',
-						apiUrl:
-							form.watch('endpoint').url || 'https://api.example.com/endpoint',
 						tags: [],
 						fnType: 'external',
 						aiDesc: form.watch('aiDesc') || 'Descripción para IA',
@@ -343,8 +341,6 @@ const ToolsPage = () => {
 							form.watch('shortDesc') ||
 							'Descripción corta de la tool function',
 						id: 'tool_function',
-						apiUrl:
-							form.watch('endpoint').url || 'https://api.example.com/endpoint',
 						tags: [],
 						fnType: 'external',
 						aiDesc: form.watch('aiDesc') || 'Descripción para IA',

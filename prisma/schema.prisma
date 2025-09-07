@@ -180,10 +180,9 @@ model ToolFunction {
   settingsSchema  SchemaField[]
   tags            String[]
   inputSchema     SchemaField[]
-  apiUrl          String?
   fnType          ToolFunctionType
   aiDesc          String?
-  endpoint        Endpoint
+  endpoint        Endpoint?
 }
 
 enum HTTPMethod {
