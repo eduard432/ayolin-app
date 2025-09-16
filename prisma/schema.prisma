@@ -163,6 +163,7 @@ enum MessageRole {
 type ToolFunctionInstance {
   keyName  String
   settings Json
+  fnType ToolFunctionType
 }
 
 enum ToolFunctionType {

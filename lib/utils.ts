@@ -20,6 +20,9 @@ export function convertToUIMessages(messages: Message[]): UIMessage[] {
 	}))
 }
 
+export const toSnakeCase = (text: string) => text.replaceAll(' ', '_').toLowerCase()
+export const toTitleCase = (text: string) => text.replaceAll('_', ' ')
+
 export const fieldSchema = z.object({
 	name: z.string().min(1),
 	description: z.string().min(3),

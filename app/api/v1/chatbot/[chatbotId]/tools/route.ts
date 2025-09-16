@@ -6,9 +6,15 @@ import { InputJsonValue } from '@prisma/client/runtime/library'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-const bodySchema = z.object({
+
+const bodySchema = {
 	keyName: z.string(),
+}
+
+const bodySchemaCreate = z.object({
+	...bodySchema,
 	settings: z.record(z.string(), z.any()).optional(),
+	fnType: z.enum(['external', 'native']),
 })
 
 export const POST = auth(
@@ -17,7 +23,11 @@ export const POST = auth(
 			const { chatbotId } = await params
 
 			const body = await request.json()
-			const { keyName, settings } = validateWithSource(bodySchema, body, 'body')
+			const { keyName, settings, fnType } = validateWithSource(
+				bodySchemaCreate,
+				body,
+				'body'
+			)
 
 			const updatedChatbot = await db.chatbot.update({
 				where: {
@@ -28,6 +38,7 @@ export const POST = auth(
 						push: {
 							keyName,
 							settings: settings || {},
+							fnType,
 						},
 					},
 				},
@@ -36,7 +47,7 @@ export const POST = auth(
 			return NextResponse.json({
 				message: 'Tool installed',
 				ok: true,
-                chatbot: updatedChatbot
+				chatbot: updatedChatbot,
 			})
 		} catch (error) {
 			return handleApiError(error)
@@ -44,13 +55,17 @@ export const POST = auth(
 	}
 )
 
+const deleteBodySchema = z.object({
+	...bodySchema
+})
+
 export const DELETE = auth(
 	async (request, { params }: { params: Promise<{ chatbotId: string }> }) => {
 		try {
 			const { chatbotId } = await params
 
 			const body = await request.json()
-			const { keyName } = validateWithSource(bodySchema, body, 'body')
+			const { keyName } = validateWithSource(deleteBodySchema, body, 'body')
 
 			const chatbot = await db.chatbot.findFirst({
 				where: {
@@ -69,7 +84,11 @@ export const DELETE = auth(
 
 			const newTools = chatbot.tools.filter(
 				(tool) => tool.keyName !== keyName
-			) as { keyName: string; settings: InputJsonValue }[]
+			) as {
+				keyName: string
+				settings: InputJsonValue
+				fnType: 'external' | 'native'
+			}[]
 
 			const updatedChatbot = await db.chatbot.update({
 				where: {
@@ -85,9 +104,10 @@ export const DELETE = auth(
 			return NextResponse.json({
 				message: 'Tool removed',
 				ok: true,
-                chatbot: updatedChatbot
+				chatbot: updatedChatbot,
 			})
 		} catch (error) {
+			console.log(error)
 			return handleApiError(error)
 		}
 	}

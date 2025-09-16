@@ -75,6 +75,7 @@ const IntegrationsPage = () => {
 				chatbot &&
 				integrations.map((integration) => (
 					<IntegrationCard
+						chatbot={chatbot}
 						key={integration.keyName}
 						integration={integration}
 						chatbotId={chatbot.id}

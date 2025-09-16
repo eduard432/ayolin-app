@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { cn, fieldsToZod } from '@/lib/utils'
+import { cn, fieldsToZod, toTitleCase } from '@/lib/utils'
 import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
@@ -71,6 +71,7 @@ const IntegrationContent = ({
 			const result = await addTool({
 				chatbotId: data.chatbotId,
 				keyName: data.keyName,
+				settings: data.settings,
 			})
 			return result.chatbot
 		},
@@ -112,7 +113,11 @@ const IntegrationContent = ({
 		if (integration.settingsSchema.length > 0 && !showSettings) {
 			setShowSettings(true)
 		} else {
-			mutation.mutate({ chatbotId, keyName: integration.keyName })
+			mutation.mutate({
+				chatbotId,
+				keyName: integration.keyName,
+				settings: { integration },
+			})
 		}
 	}
 
@@ -120,7 +125,7 @@ const IntegrationContent = ({
 		mutation.mutate({
 			chatbotId,
 			keyName: integration.keyName,
-			settings: values,
+			settings: { config: {...values}, integration },
 		})
 	}
 
@@ -140,7 +145,9 @@ const IntegrationContent = ({
 								name={integrationField.name}
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>{integrationField.name}</FormLabel>
+										<FormLabel className="capitalize">
+											{toTitleCase(integrationField.name)}
+										</FormLabel>
 										<FormControl>
 											{(() => {
 												switch (integrationField.type) {
@@ -213,10 +220,7 @@ export const InstallIntegration = ({
 	chatbotId: string
 }) => {
 	const content = (
-		<IntegrationContent
-			chatbotId={chatbotId}
-			integration={integration}
-		/>
+		<IntegrationContent chatbotId={chatbotId} integration={integration} />
 	)
 
 	if (variant === 'dialog') {
@@ -270,20 +274,46 @@ export const IntegrationCard = ({
 	integration,
 	className,
 	chatbotId,
+	chatbot,
 }: {
 	integration: ToolFunction | Channel
 	className?: string
 	chatbotId: string
+	chatbot?: Chatbot
 }) => {
+	const router = useRouter()
+
+	const alredyInstall =
+		chatbot &&
+		chatbot.tools.some((tool) => tool.keyName === integration.keyName)
+
 	return (
 		<Card className={cn('pt-0 justify-start relative', className)}>
-			<CardHeader className="absolute right-20 top-4 z-10">
+			<CardHeader
+				className={cn(
+					'absolute top-4 z-10',
+					alredyInstall ? 'right-24' : 'right-20'
+				)}
+			>
 				<CardAction>
 					<Dialog>
 						<form>
-							<DialogTrigger asChild>
-								<Button variant="outline">Agregar</Button>
-							</DialogTrigger>
+							{alredyInstall ? (
+								<Button
+									type="button"
+									variant="outline"
+									className=""
+									onClick={() =>
+										router.push(`/dashboard/${chatbot.id}/integraciones`)
+									}
+								>
+									Configurar
+								</Button>
+							) : (
+								<DialogTrigger asChild>
+									<Button variant="outline">Agregar</Button>
+								</DialogTrigger>
+							)}
 							<InstallIntegration
 								chatbotId={chatbotId}
 								integration={integration}

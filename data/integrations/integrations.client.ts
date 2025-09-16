@@ -5,12 +5,14 @@ export type AddToolDataType = {
 	keyName: string
 	chatbotId: string
 	settings?: Record<string, unknown>
+	fnType?: 'external' | 'native'
 }
 
 export const addTool = async ({
 	keyName,
 	chatbotId,
 	settings,
+	fnType = "external"
 }: AddToolDataType) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
 		method: 'POST',
@@ -20,6 +22,7 @@ export const addTool = async ({
 		body: JSON.stringify({
 			keyName,
 			settings,
+			fnType
 		}),
 	})
 

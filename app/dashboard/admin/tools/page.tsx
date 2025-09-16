@@ -72,6 +72,7 @@ const ToolsPage = () => {
 		},
 		onSuccess: () => {
 			form.reset()
+			toast.success("Tool created")
 		},
 	})
 
