@@ -8,7 +8,7 @@ import { ChatSDKError } from './chatError'
 import { db } from '../db'
 import { ObjectId } from 'bson'
 import { Chat, Chatbot, Message, Prisma, User } from '@prisma/client'
-import { convertToModelMessages, generateText } from 'ai'
+import { convertToModelMessages, generateText, stepCountIs } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateTools } from '../ai'
 import { convertToUIMessages } from '../utils'
@@ -119,6 +119,7 @@ export const handleMessage = async ({
 		system: chat.chatbot.initialPrompt,
 		tools,
 		maxOutputTokens: Math.floor(actualMaxUsagePricing / modelOutputPricing),
+		stopWhen: stepCountIs(5)
 	})
 
 	const generatedMessage: Prisma.MessageCreateManyInput = {
