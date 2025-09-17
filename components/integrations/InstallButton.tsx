@@ -46,6 +46,7 @@ export const InstallToolButton = ({
 			const result = await addTool({
 				chatbotId: data.chatbot.id,
 				keyName: data.keyName,
+				fnType: "external"
 			})
 			return result.chatbot
 		},

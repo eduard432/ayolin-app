@@ -163,25 +163,39 @@ enum MessageRole {
 type ToolFunctionInstance {
   keyName  String
   settings Json
+  fnType ToolFunctionType
 }
 
 enum ToolFunctionType {
-  code
-  fetch
+  external
+  native
 }
 
 model ToolFunction {
   id              String           @id @default(auto()) @map("_id") @db.ObjectId
   keyName         String           @unique
   name            String
-  description     String?
-  blogDescription String
+  description     String
+  shortDesc       String
   imageUrl        String
-  inputSchema     Json?
-  settingsSchema  Json?
+  settingsSchema  SchemaField[]
   tags            String[]
-  apiUrl          String?
-  type            ToolFunctionType
+  inputSchema     SchemaField[]
+  fnType          ToolFunctionType
+  aiDesc          String?
+  endpoint        Endpoint?
+}
+
+enum HTTPMethod {
+  get
+  post
+  put
+  delete
+}
+
+type Endpoint {
+  method    HTTPMethod
+  url       String
 }
 
 type ChannelInstance {
@@ -190,11 +204,13 @@ type ChannelInstance {
 }
 
 model Channel {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  keyName         String   @unique
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  keyName         String           @unique
   name            String
-  blogDescription String
+  description     String
+  shortDesc       String
   imageUrl        String
+  settingsSchema  SchemaField[]
   tags            String[]
 }
 
@@ -206,4 +222,17 @@ model UsageLog {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   chatbotId   String   @db.ObjectId
   chatbot     Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+}
+
+enum SchemaFieldType {
+  string
+  number
+  boolean
+}
+
+type SchemaField {
+  name        String
+  description String
+  type        SchemaFieldType
+  required    Boolean @default(true)
 }

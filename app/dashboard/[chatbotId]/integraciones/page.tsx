@@ -25,7 +25,7 @@ import {
 	Activity,
 	Puzzle,
 } from "lucide-react"
-import { cn } from '@/lib/utils'
+import { cn, toTitleCase } from '@/lib/utils'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -117,7 +117,7 @@ const IntegrationCard = ({
 								)
 							})()}
 							<div>
-								<h4 className="font-medium">{integration.keyName}</h4>
+								<h4 className="font-medium capitalize">{toTitleCase(integration.keyName)}</h4>
 								<p className="text-sm font-medium text-neutral-500">
 									{isTool ? 'Herramienta' : 'Canal'}
 								</p>

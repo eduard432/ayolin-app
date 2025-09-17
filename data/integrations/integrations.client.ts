@@ -1,15 +1,19 @@
 import { Channel, Chatbot, ToolFunction } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 
+export type AddToolDataType = {
+	keyName: string
+	chatbotId: string
+	settings?: Record<string, unknown>
+	fnType?: 'external' | 'native'
+}
+
 export const addTool = async ({
 	keyName,
 	chatbotId,
-	settings
-}: {
-	keyName: string
-	chatbotId: string,
-	settings?: Record<string, any>
-}) => {
+	settings,
+	fnType = "external"
+}: AddToolDataType) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
 		method: 'POST',
 		headers: {
@@ -18,6 +22,7 @@ export const addTool = async ({
 		body: JSON.stringify({
 			keyName,
 			settings,
+			fnType
 		}),
 	})
 
@@ -125,7 +130,9 @@ export const getChannels = async (): Promise<Channel[]> => {
 	return data.channels
 }
 
-export const getIntegrations = async (): Promise<(ToolFunction | Channel)[]> => {
+export const getIntegrations = async (): Promise<
+	(ToolFunction | Channel)[]
+> => {
 	const data = await Promise.allSettled([getToolFunctions(), getChannels()])
 
 	const res: (ToolFunction | Channel)[] =

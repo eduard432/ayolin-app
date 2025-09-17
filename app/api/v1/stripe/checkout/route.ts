@@ -37,8 +37,8 @@ export async function POST() {
         payment_method_types: ['card'],
         customer: stripeCustomerId,
         line_items: [{ price: process.env.STRIPE_PRO_MONTHLY_PRICE_ID, quantity: 1}],
-        success_url: `${process.env.NEXTAUTH_URL}/dashboard?checkout=success`,
-        cancel_url: `${process.env.NEXTAUTH_URL}/dashboard?checkout=cancelled`, 
+        success_url: `${process.env.AUTH_URL}/dashboard?checkout=success`,
+        cancel_url: `${process.env.AUTH_URL}/dashboard?checkout=cancelled`, 
     })
 
     return NextResponse.json({ url: checkoutSession.url })

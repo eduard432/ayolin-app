@@ -40,7 +40,7 @@ import { ObjectId } from 'bson'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CustomFetchToolSettingsSchema } from '@/schemas'
-import { InputSchema } from '@/components/ui/InputSchema'
+import { InputSchema } from '@/components/fields/InputSchema'
 
 export const CustomToolFormSkeleton = () => {
 	return (

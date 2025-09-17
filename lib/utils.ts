@@ -20,6 +20,9 @@ export function convertToUIMessages(messages: Message[]): UIMessage[] {
 	}))
 }
 
+export const toSnakeCase = (text: string) => text.replaceAll(' ', '_').toLowerCase()
+export const toTitleCase = (text: string) => text.replaceAll('_', ' ')
+
 export const fieldSchema = z.object({
 	name: z.string().min(1),
 	description: z.string().min(3),
@@ -60,6 +63,6 @@ export function fieldsToZod(fields: z.infer<typeof fieldSchema>[]): ZodObject<Re
 }
 
 
-export const DOMAIN_URL = process.env.NEXTAUTH_URL || `https://${process.env.VERCEL_URL}`
+export const DOMAIN_URL = process.env.AUTH_URL || `https://${process.env.VERCEL_URL}`
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

@@ -20,7 +20,7 @@ import { z } from 'zod'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent } from '@/components/ui/card'
 import { Binary, Hash, Trash, Type } from 'lucide-react'
-import { cn, fieldSchema } from '@/lib/utils'
+import { cn, fieldSchema, toSnakeCase, toTitleCase } from '@/lib/utils'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -54,7 +54,10 @@ export const InputSchema = ({
 	}, [fields, onChange])
 
 	const handleAddField = form.handleSubmit((newField) => {
-		setFields((prevFields) => [...prevFields, newField])
+		setFields((prevFields) => [
+			...prevFields,
+			{ ...newField, name: toSnakeCase(newField.name) },
+		])
 		form.reset()
 	})
 
@@ -149,7 +152,7 @@ export const InputSchema = ({
 									{type === 'boolean' && <Binary size={16} />}
 								</span>
 
-								<span className="mx-2">{name}</span>
+								<span className="mx-2 capitalize">{toTitleCase(name)}</span>
 							</p>
 							<Button
 								onClick={() => handleDeleteField(i)}

@@ -173,7 +173,7 @@ export class ApiErrorHandler {
 		return auth(async (request, context) => {
 			try {
 				const session = ApiValidator.requireAuth(request)
-				handler(request, context, session)
+				return handler(request, context, session)
 			} catch (error) {
 				console.log(error)
 				return this.handleError(error)
