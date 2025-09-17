@@ -1,6 +1,10 @@
 'use client'
 
-import { IntegrationCard, IntegrationCardSkeleton } from '@/components/common/IntegrationCard'
+import { TelegramIntegrationCard } from '@/components/channels/TelegramCard'
+import {
+	IntegrationCard,
+	IntegrationCardSkeleton,
+} from '@/components/common/IntegrationCard'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 import {
@@ -51,8 +55,6 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 				<p className="text-sm text-neutral-600 truncate">
 					Personaliza tu propia función de fetch
 				</p>
-
-
 			</CardContent>
 		</Card>
 	)
@@ -81,6 +83,12 @@ const IntegrationsPage = () => {
 						chatbotId={chatbot.id}
 					/>
 				))}
+			{chatbot && (
+				<TelegramIntegrationCard
+					chatbotId={chatbot.id}
+					imageUrl="https://jiaq9ymgisc0ie2r.public.blob.vercel-storage.com/telegram_channel.png"
+				/>
+			)}
 			{chatbot && (
 				<>
 					<CustomToolCard chatbot={chatbot} />
