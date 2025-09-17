@@ -253,12 +253,13 @@ export const deleteChannel = async (
 export const addToolSchema = z.object({
 	keyName: z.string(),
 	settings: z.record(z.string(), z.any()).optional(),
+	fnType: z.enum(['native', 'external'])
 })
 
 export const addTool = async (
 	data: z.infer<typeof addToolSchema>,
 	chatbotId: string,
-	userId: string
+	userId: string,
 ) => {
 	try {
 		const updatedChatbot = await db.chatbot.update({
@@ -271,6 +272,7 @@ export const addTool = async (
 					push: {
 						keyName: data.keyName,
 						settings: data.settings || {},
+						fnType: data.fnType
 					},
 				},
 			},
@@ -301,7 +303,7 @@ export const deleteTool = async (
 	try {
 		const newTools = chatbot.tools.filter(
 			(tool) => tool.keyName !== data.keyName
-		) as { keyName: string; settings: Prisma.InputJsonValue }[]
+		) as { keyName: string; settings: Prisma.InputJsonValue, fnType: 'native' | 'external' }[]
 
 		const updatedChatbot = await db.chatbot.update({
 			where: {

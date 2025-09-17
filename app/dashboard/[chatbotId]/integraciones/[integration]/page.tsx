@@ -81,7 +81,7 @@ const Page = async ({
 			<section className="col-span-full md:col-span-9 space-y-4">
 				<div className="space-y-2">
 					<h3 className="text-lg font-semibold">Overview</h3>
-					<p className="text-primary">{toolFunction.blogDescription}</p>
+					<p className="text-primary">{toolFunction.description}</p>
 				</div>
 				<AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
 					<Image
