@@ -63,6 +63,6 @@ export function fieldsToZod(fields: z.infer<typeof fieldSchema>[]): ZodObject<Re
 }
 
 
-export const DOMAIN_URL = process.env.NEXTAUTH_URL || `https://${process.env.VERCEL_URL}`
+export const DOMAIN_URL = process.env.AUTH_URL || `https://${process.env.VERCEL_URL}`
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
