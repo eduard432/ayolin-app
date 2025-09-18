@@ -132,7 +132,7 @@ export const generateTools = (
 			// const settings = tool.settings as z.infer<
 			// 	typeof CustomFetchToolSettingsSchema
 			// >
-
+			
 			// generateCustomFetchTool(settings)
 		} else if (tool.fnType === 'external') {
 			const settings = tool.settings as {

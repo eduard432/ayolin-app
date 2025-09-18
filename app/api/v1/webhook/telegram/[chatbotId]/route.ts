@@ -17,37 +17,61 @@ const createChatbotInstance = (
 	const { name } = chatbot
 
 	bot.command('start', async (ctx) => {
-		const { chatId } = ctx
+		try {
+			const chatId = ctx.chat?.id
+			if (!chatId) {
+				await ctx.reply('Error: No se pudo obtener el ID del chat.')
+				return
+			}
 
-		await db.chat.create({
-			data: {
-				chatbotId: chatbot.id,
-				messages: {
-					create: [],
+			// Verificar si ya existe el chat
+			const existingChat = await db.chat.findFirst({
+				where: {
+					channelId: chatId.toString(),
+					chatbotId: chatbot.id,
 				},
-				channelId: chatId.toString(),
-				settings: {
-					maxBatchReplyDelay: 5000, // Default delay for batch replies
-				},
-				status: {
-					pendingMessagesCount: 0,
-				},
-			},
-			include: {
-				messages: true,
-			},
-		})
+			})
 
-		await db.chatbot.update({
-			where: { id: chatbot.id },
-			data: {
-				totalChats: {
-					increment: 1,
-				},
-			},
-		})
+			if (existingChat) {
+				await ctx.reply(`¡Hola de nuevo! Soy ${name}, tu asistente personalizado.`)
+				return
+			}
 
-		return ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
+			// Crear nuevo chat
+			await db.chat.create({
+				data: {
+					chatbotId: chatbot.id,
+					messages: {
+						create: [],
+					},
+					channelId: chatId.toString(),
+					settings: {
+						maxBatchReplyDelay: 5000,
+					},
+					status: {
+						pendingMessagesCount: 0,
+					},
+				},
+				include: {
+					messages: true,
+				},
+			})
+
+			// Incrementar contador de chats
+			await db.chatbot.update({
+				where: { id: chatbot.id },
+				data: {
+					totalChats: {
+						increment: 1,
+					},
+				},
+			})
+
+			await ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
+		} catch (error) {
+			console.error('Error in /start command:', error)
+			await ctx.reply('Error al inicializar el chat. Intenta nuevamente.')
+		}
 	})
 
 	bot.on('message:text', async (ctx) => {
@@ -56,12 +80,13 @@ const createChatbotInstance = (
 
 			const chat = await db.chat.findFirst({
 				where: {
+					 chatbotId: chatbot.id,
 					channelId: chatId.toString(),
 				},
 				include: {
 					messages: {
 						orderBy: {
-							createdAt: 'asc',
+							createdAt: 'desc',
 						},
 						take: 20,
 					},
@@ -70,9 +95,10 @@ const createChatbotInstance = (
 			})
 
 			if (!chat) {
-				return ctx.reply(
+				await ctx.reply(
 					'No se encontró un chat activo. Por favor, inicia un nuevo chat con /start.'
 				)
+				return 
 			}
 
 			const response = await handleMessage({
@@ -90,10 +116,11 @@ const createChatbotInstance = (
 				user,
 			})
 
-			return ctx.reply(response)
+			await ctx.reply(response)
+			return
 		} catch (error) {
 			console.log(error)
-			ctx.reply(
+			await ctx.reply(
 				'Ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.'
 			)
 		}
@@ -148,7 +175,8 @@ export const POST = async (
 		const bot = createChatbotInstance(token, chatbot, chatbot.user)
 
 		const handleUpdate = webhookCallback(bot, 'std/http')
-		return await handleUpdate(request)
+		const response = await handleUpdate(request)
+		return response
 	} catch (error) {
 		return handleApiError(error)
 	}
