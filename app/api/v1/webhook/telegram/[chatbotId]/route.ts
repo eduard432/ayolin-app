@@ -71,6 +71,7 @@ const createChatbotInstance = (
 		} catch (error) {
 			console.error('Error in /start command:', error)
 			await ctx.reply('Error al inicializar el chat. Intenta nuevamente.')
+			return
 		}
 	})
 
@@ -123,6 +124,7 @@ const createChatbotInstance = (
 			await ctx.reply(
 				'Ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.'
 			)
+			return
 		}
 	})
 
