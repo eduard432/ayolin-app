@@ -15,12 +15,14 @@ import {
 } from '@/components/ui/card'
 import { useChatbot } from '@/data/chatbot/chatbot.client'
 
-import { useIntegrations } from '@/data/integrations/integrations.client'
+import { useIntegrations, useToolFunctions } from '@/data/integrations/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
+import { IntegrationCard as IC2, IntegrationCardSkeleton as IC2Skeleton } from '@/components/integrations/IntegrationCard'
+import { ToolFunctionCard } from '@/components/integrations/ToolFunctionCard'
 
 const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 	const router = useRouter()
@@ -61,7 +63,7 @@ const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
 }
 
 const IntegrationsPage = () => {
-	const { data: integrations } = useIntegrations()
+	const { data: toolFunctions } = useToolFunctions()
 	const params = useParams()
 	const chatbotId = params?.chatbotId as string
 
@@ -73,14 +75,14 @@ const IntegrationsPage = () => {
 				Array.from({ length: 3 }).map((_, i) => {
 					return <IntegrationCardSkeleton key={i} />
 				})}
-			{integrations &&
+
+			{toolFunctions &&
 				chatbot &&
-				integrations.map((integration) => (
-					<IntegrationCard
+				toolFunctions.map((integration) => (
+					<ToolFunctionCard
 						chatbot={chatbot}
 						key={integration.keyName}
-						integration={integration}
-						chatbotId={chatbot.id}
+						toolFunction={integration}
 					/>
 				))}
 			{chatbot && (

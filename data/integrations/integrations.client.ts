@@ -12,7 +12,7 @@ export const addTool = async ({
 	keyName,
 	chatbotId,
 	settings,
-	fnType = "external"
+	fnType = 'external',
 }: AddToolDataType) => {
 	const response = await fetch(`/api/v1/chatbot/${chatbotId}/tools`, {
 		method: 'POST',
@@ -22,7 +22,7 @@ export const addTool = async ({
 		body: JSON.stringify({
 			keyName,
 			settings,
-			fnType
+			fnType,
 		}),
 	})
 
@@ -141,6 +141,14 @@ export const getIntegrations = async (): Promise<
 			: []
 
 	return res
+}
+
+export const useToolFunctions = () => {
+	return useQuery({
+		queryKey: ['tools', 'allToolFunctions'],
+		queryFn: () => getToolFunctions(),
+		refetchOnWindowFocus: false,
+	})
 }
 
 export const useIntegrations = () => {
