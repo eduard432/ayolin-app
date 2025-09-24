@@ -34,6 +34,7 @@ import { createChannel } from '@/data/integrations/integrations.client'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { IntegrationCard } from '../integrations/IntegrationCard'
 
 const telegramSchema = z.object({
 	token: z.string().min(1, 'Token requerido'),
@@ -110,10 +111,17 @@ export const TelegramIntegrationCard = ({
 	}
 
 	return (
-		<Card className="pt-0 justify-start relative">
-			<CardHeader className="absolute right-20 top-4 z-10">
-				<CardAction>
-					<Dialog>
+		<IntegrationCard
+			title="Telegram"
+			imageUrl={imageUrl}
+			description="Integra tu chatbot con Telegram y empieza a responder desde un canal."
+		>
+			<Dialog>
+				<Form {...form}>
+					<form
+						className="space-y-6 absolute z-10 right-0 p-4"
+						onSubmit={form.handleSubmit(onSubmit)}
+					>
 						<DialogTrigger asChild>
 							<Button variant="outline">Agregar</Button>
 						</DialogTrigger>
@@ -125,50 +133,28 @@ export const TelegramIntegrationCard = ({
 								</DialogDescription>
 							</DialogHeader>
 
-							<Form {...form}>
-								<form
-									className="space-y-6"
-									onSubmit={form.handleSubmit(onSubmit)}
-								>
-									<FormField
-										control={form.control}
-										name="token"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Token</FormLabel>
-												<FormDescription>
-													Introduce el token del bot de Telegram
-												</FormDescription>
-												<FormControl>
-													<Input placeholder="token" {...field} />
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-									<Button type="submit" className="w-full">
-										Instalar canal
-									</Button>
-								</form>
-							</Form>
+							<FormField
+								control={form.control}
+								name="token"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Token</FormLabel>
+										<FormDescription>
+											Introduce el token del bot de Telegram
+										</FormDescription>
+										<FormControl>
+											<Input placeholder="token" {...field} />
+										</FormControl>
+									</FormItem>
+								)}
+							/>
+							<Button type="submit" className="w-full">
+								Instalar canal
+							</Button>
 						</DialogContent>
-					</Dialog>
-				</CardAction>
-			</CardHeader>
-
-			<AspectRatio ratio={16 / 9}>
-				<Image
-					src={imageUrl}
-					alt="Telegram Integration"
-					fill
-					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
-				/>
-			</AspectRatio>
-			<CardContent>
-                <p className="font-semibold">Telegram</p>
-				<p className="text-sm text-neutral-600 truncate">
-					Integra tu chatbot con Telegram y empieza a responder desde un canal.
-				</p>
-			</CardContent>
-		</Card>
+					</form>
+				</Form>
+			</Dialog>
+		</IntegrationCard>
 	)
 }
