@@ -321,21 +321,6 @@ export const IntegrationCard = ({
 							/>
 						</form>
 					</Dialog>
-					{/* {!channels.includes(integration.keyName) ? (
-						<InstallToolButton
-							variant="outline"
-							className="cursor-pointer"
-							chatbot={chatbot}
-							keyName={integration.keyName}
-						/>
-					) : (
-						<InstallChannelButton
-							chatbotId={chatbot.id}
-							keyName={integration.keyName}
-							variant="outline"
-							className="cursor-pointer"
-						/>
-					)} */}
 				</CardAction>
 			</CardHeader>
 			<AspectRatio ratio={16 / 9}>
