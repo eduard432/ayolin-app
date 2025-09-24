@@ -1,12 +1,5 @@
 'use client'
 
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import {
-	Card,
-	CardAction,
-	CardContent,
-	CardHeader,
-} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -33,7 +26,6 @@ import { Chatbot } from '@prisma/client'
 import { createChannel } from '@/data/integrations/integrations.client'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { IntegrationCard } from '../integrations/IntegrationCard'
 
 const telegramSchema = z.object({

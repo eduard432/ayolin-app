@@ -2,7 +2,6 @@
 
 import { TelegramIntegrationCard } from '@/components/channels/TelegramCard'
 import {
-	IntegrationCard,
 	IntegrationCardSkeleton,
 } from '@/components/common/IntegrationCard'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
@@ -15,13 +14,12 @@ import {
 } from '@/components/ui/card'
 import { useChatbot } from '@/data/chatbot/chatbot.client'
 
-import { useIntegrations, useToolFunctions } from '@/data/integrations/integrations.client'
+import { useToolFunctions } from '@/data/integrations/integrations.client'
 import { cn } from '@/lib/utils'
 import { Chatbot } from '@prisma/client'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
-import { IntegrationCard as IC2, IntegrationCardSkeleton as IC2Skeleton } from '@/components/integrations/IntegrationCard'
 import { ToolFunctionCard } from '@/components/integrations/ToolFunctionCard'
 
 const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
