@@ -142,6 +142,7 @@ model Chat {
   creditUsage          Float     @default(0)
   status ChatStatus     
   settings ChatSettings  
+  channelMessageId     String?   @db.ObjectId
 }
 
 model Message {
