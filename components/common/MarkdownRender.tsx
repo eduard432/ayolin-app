@@ -9,7 +9,7 @@ export const MarkdownRender = ({ children }: { children: string }) => {
 	return (
 		<ReactMarkdown
 			components={{
-				h1: ({ node, ...props }) => (
+				h1: ({ ...props }) => (
 					<h1
 						className={cn(
 							'scroll-m-20 text-4xl font-extrabold tracking-tight mb-4'
@@ -17,7 +17,7 @@ export const MarkdownRender = ({ children }: { children: string }) => {
 						{...props}
 					/>
 				),
-				h2: ({ node, ...props }) => (
+				h2: ({ ...props }) => (
 					<h2
 						className={cn(
 							'scroll-m-20 text-2xl font-semibold tracking-tight mb-3'
@@ -25,10 +25,10 @@ export const MarkdownRender = ({ children }: { children: string }) => {
 						{...props}
 					/>
 				),
-				p: ({ node, ...props }) => (
+				p: ({ ...props }) => (
 					<p className="leading-7 [&:not(:first-child)]:mt-4" {...props} />
 				),
-				a: ({ node, ...props }) => (
+				a: ({ ...props }) => (
 					<a
 						className="font-medium text-blue-600 underline underline-offset-4 hover:text-blue-800"
 						target="_blank"
@@ -36,13 +36,13 @@ export const MarkdownRender = ({ children }: { children: string }) => {
 						{...props}
 					/>
 				),
-				ul: ({ node, ...props }) => (
+				ul: ({ ...props }) => (
 					<ul className="my-4 ml-6 list-disc [&>li]:mt-2" {...props} />
 				),
-				ol: ({ node, ...props }) => (
+				ol: ({ ...props }) => (
 					<ol className="my-4 ml-6 list-decimal [&>li]:mt-2" {...props} />
 				),
-				blockquote: ({ node, ...props }) => (
+				blockquote: ({ ...props }) => (
 					<blockquote
 						className="mt-6 border-l-4 border-gray-300 pl-6 italic text-gray-600"
 						{...props}
@@ -59,12 +59,12 @@ export const MarkdownRender = ({ children }: { children: string }) => {
 						</CardContent>
 					</Card>
 				),
-				strong: ({ node, ...props }) => (
+				strong: ({ ...props }) => (
 					<span className="font-semibold text-foreground" {...props} />
 				),
-				em: ({ node, ...props }) => (
+				em: ({ ...props }) => (
 					<span className="italic text-foreground/80" {...props} />
-				)
+				),
 			}}
 			remarkPlugins={[remarkMath]}
 			rehypePlugins={[rehypeKatex]}

@@ -4,8 +4,8 @@ import Navbar from '@/components/layout/Navbar'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import FooterDashboard from '@/components/layout/FooterDashboard'
-import DashboardProvider from '@/components/provider/DashboardProvider'
 import { Metadata } from 'next'
+import QueryProvider from '@/components/providers/QueryProvider'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -17,7 +17,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!session) redirect('/auth/login')
 
   return (
-    <DashboardProvider>
+    <QueryProvider>
       <div className="bg-background min-h-screen flex flex-col justify-between">
         <div>
           <Navbar />
@@ -28,7 +28,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         </main>
         <FooterDashboard />
       </div>
-    </DashboardProvider>
+    </QueryProvider>
   )
 }
 
