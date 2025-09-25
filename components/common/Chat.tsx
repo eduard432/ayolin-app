@@ -89,11 +89,11 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	return (
 		<section
 			className={cn(
-				'rounded-md border h-full border-border p-4 w-full flex flex-col justify-between gap-4 flex-1',
+				'w-full flex flex-col justify-between gap-4 flex-1 ',
 				className
 			)}
 		>
-			<ul className="overflow-y-auto h-96 px-4">
+			<ul className="overflow-y-auto h-[500px] w-10/12 mx-auto">
 				{messages.map((message) =>
 					message.parts.map((part) => {
 						switch (part.type) {
@@ -101,16 +101,17 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 								return (
 									<li
 										key={`${message.id}:${part.type}`}
-										className={`my-6 flex ${
-											message.role == 'user' ? 'justify-end' : 'justify-start'
-										}`}
+										className={cn("my-6 flex", {
+											'justify-end': message.role == 'user',
+											'w-full': message.role != 'user',
+										})}
 									>
 										<div
 											className={cn(
-												'px-4 py-1 rounded-md max-w-10/12 md:max-w-2/3',
+												'px-4 py-1 rounded-md text-foreground',
 												message.role == 'user'
-													? 'bg-[#e0e0e0] dark:bg-[#374151] rounded-br-none'
-													: 'bg-[#f5f5f5] dark:bg-[#4b5563] rounded-bl-none'
+													? 'bg-[#e0e0e0] dark:bg-[#374151] rounded-br-none max-w-10/12 md:max-w-2/3'
+													: 'bg-transparent rounded-bl-none'
 											)}
 										>
 											<MarkdownRender>{part.text}</MarkdownRender>
@@ -127,7 +128,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded-md border border-border w-full flex items-center"
+				className="rounded-full border border-border w-10/12 mx-auto flex items-center bg-neutral-800"
 			>
 				<textarea
 					ref={inputRef}
@@ -135,8 +136,9 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Escribe algo..."
-					className="w-full py-2 px-4 outline-none rounded"
+					className="w-full py-2 px-4 outline-none"
 					onKeyDown={handleSubmitKey}
+					rows={1}
 				/>
 				<Button
 					disabled={status != 'ready'}
