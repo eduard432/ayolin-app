@@ -10,19 +10,26 @@ import {
 	useState,
 } from 'react'
 import { ObjectId } from 'bson'
-import { Send } from 'lucide-react'
+import { ArrowLeft, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { MarkdownRender } from './MarkdownRender'
+import Link from 'next/link'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
 	chatId: string
 	className?: string
+	chatbotId?: string
 }
 
-const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
+const Chat = ({
+	initialMessages,
+	chatId,
+	className,
+	chatbotId,
+}: ChatProps) => {
 	const [input, setInput] = useState('')
 	const inputRef = useRef<HTMLTextAreaElement>(null)
 	const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -87,12 +94,27 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	}
 
 	return (
-		<section
-			className={cn(
-				'w-full',
-				className
-			)}
-		>
+		<section className={cn('w-full', className)}>
+			<Button asChild variant="outline" className="left-0 fixed z-10 m-4">
+				<Link
+					href={
+						chatbotId
+							? `/dashboard/${chatbotId}/estadisticas`
+							: '/dashboard/general'
+					}
+				>
+					<ArrowLeft /> Dashboard
+				</Link>
+			</Button>
+			<div className="items-center p-4 px-8 flex justify-center fixed w-full bg-neutral-950/90 top-0">
+				<Link
+					href="/"
+					className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
+				>
+					AYOLIN
+				</Link>
+			</div>
+			<div className="py-12" />
 			<ul className="h-screen px-2 w-11/12 md:w-8/12 mx-auto">
 				{messages.map((message) =>
 					message.parts.map((part) => {
@@ -101,7 +123,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 								return (
 									<li
 										key={`${message.id}:${part.type}`}
-										className={cn("my-6 flex", {
+										className={cn('my-6 flex', {
 											'justify-end': message.role == 'user',
 											'w-full': message.role != 'user',
 										})}
@@ -128,26 +150,38 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className={cn("w-full flex items-center bottom-0 fixed py-8 ")}
+				className={cn('w-full flex items-center bottom-0 fixed py-8 ')}
 			>
-					<div className={cn("border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 px-2 py-2", input.split('\n').length > 1 ? 'rounded-md items-end' : 'rounded-full items-center')} >
-					<textarea
-					ref={inputRef}
-					disabled={status != 'ready'}
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					placeholder="Escribe algo..."
-					className={cn("w-full outline-none transition-all ease-in-out duration-100 resize-none overflow-hidden pl-2", input.split('\n').length > 1 ? 'rounded-md min-h-20' : 'rounded-l-full h-8 pt-1')}
-					onKeyDown={handleSubmitKey}
-				/>
-				<Button
-					disabled={status != 'ready'}
-					type="submit"
-					size="icon"
-					className="rounded-full"
+				<div
+					className={cn(
+						'border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 px-2 py-2',
+						input.split('\n').length > 1
+							? 'rounded-md items-end'
+							: 'rounded-full items-center'
+					)}
 				>
-					<Send />
-				</Button>
+					<textarea
+						ref={inputRef}
+						disabled={status != 'ready'}
+						value={input}
+						onChange={(e) => setInput(e.target.value)}
+						placeholder="Escribe algo..."
+						className={cn(
+							'w-full outline-none transition-all ease-in-out duration-100 resize-none overflow-hidden pl-2',
+							input.split('\n').length > 1
+								? 'rounded-md min-h-20'
+								: 'rounded-l-full h-8 pt-1'
+						)}
+						onKeyDown={handleSubmitKey}
+					/>
+					<Button
+						disabled={status != 'ready'}
+						type="submit"
+						size="icon"
+						className="rounded-full"
+					>
+						<Send />
+					</Button>
 				</div>
 			</form>
 		</section>

@@ -1,8 +1,9 @@
 import Chat from '@/components/common/Chat'
-import { getMessagesByChatId } from '@/data/chat/chat.server'
+import { getChatById } from '@/data/chat/chat.server'
 import { convertToUIMessages } from '@/lib/utils'
-import { notFound } from 'next/navigation'
+import { notFound, unauthorized } from 'next/navigation'
 import React from 'react'
+import { auth } from '@/lib/auth'
 
 const ChatPage = async ({
 	params,
@@ -10,12 +11,19 @@ const ChatPage = async ({
 	params: Promise<{ chatId: string }>
 }) => {
 	const { chatId } = await params
-	const messages = await getMessagesByChatId(chatId)
+	const chat = await getChatById(chatId, { maxMessages: 30, chatbot: true })
+	const session = await auth()
 
-	if (!messages) return notFound()
+	if (!chat || !session) return notFound()
+
+	if (chat.chatbot.userId !== session.user.id) return unauthorized()
 
 	return (
-		<Chat chatId={chatId} initialMessages={convertToUIMessages(messages)} />
+		<Chat
+			chatId={chatId}
+			initialMessages={convertToUIMessages(chat.messages)}
+			chatbotId={chat.chatbot.id}
+		/>
 	)
 }
 

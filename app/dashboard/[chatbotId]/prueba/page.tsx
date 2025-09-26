@@ -1,28 +1,22 @@
 'use client'
 
-import { useMessages } from '@/data/chat/chat.client'
 import { useChatbot } from '@/data/chatbot/chatbot.client'
-import { convertToUIMessages } from '@/lib/utils'
-import { useParams } from 'next/navigation'
-import { ChatSkeleton } from '@/components/common/ChatSkeleton'
-import Chat from '@/components/common/Chat'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const PruebaPage = () => {
 	const params = useParams()
-	const chatbotId = params?.chatbotId as string
+  const chatbotId = params?.chatbotId as string
+  const { data: chatbot } = useChatbot(chatbotId)
+  const router = useRouter()
 
-	const { data: chatbot } = useChatbot(chatbotId)
+  useEffect(() => {
+    if (chatbot?.defaultChat) {
+      router.replace(`/chat/${chatbot.defaultChat}`)
+    }
+  }, [chatbot, router])
 
-	const { data: initialMessages } = useMessages(chatbot?.defaultChat || '')
-
-	return chatbot && initialMessages ? (
-		<Chat
-			chatId={chatbot.defaultChat}
-			initialMessages={convertToUIMessages(initialMessages)}
-		/>
-	) : (
-		<ChatSkeleton className="mx-auto w-full md:w-2/3" messageCount={3} />
-	)
+  return null // mientras redirige no mostramos nada
 }
 
 export default PruebaPage
