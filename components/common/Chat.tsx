@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { MarkdownRender } from './MarkdownRender'
-import { Textarea } from '../ui/textarea'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -94,7 +93,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 				className
 			)}
 		>
-			<ul className="overflow-y-auto h-[82vh] px-2 md:px-40 pt-8">
+			<ul className="h-screen px-2 w-11/12 md:w-8/12 mx-auto">
 				{messages.map((message) =>
 					message.parts.map((part) => {
 						switch (part.type) {
@@ -125,19 +124,20 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 						}
 					})
 				)}
-				<div ref={messagesEndRef} />
+				<div className="py-12" ref={messagesEndRef} />
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className={cn("border border-border w-11/12 md:w-8/12 mx-auto flex  bg-neutral-800 mb-8 my-8 px-2 py-2", input.split('\n').length > 1 ? 'rounded-md items-end' : 'rounded-full items-center')}
+				className={cn("w-full flex items-center bottom-0 fixed py-8 ")}
 			>
-				<textarea
+					<div className={cn("border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 px-2 py-2", input.split('\n').length > 1 ? 'rounded-md items-end' : 'rounded-full items-center')} >
+					<textarea
 					ref={inputRef}
 					disabled={status != 'ready'}
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Escribe algo..."
-					className={cn("w-full outline-none transition-all resize-none overflow-hidden pl-2", input.split('\n').length > 1 ? 'rounded-md min-h-20' : 'rounded-l-full h-8 pt-1')}
+					className={cn("w-full outline-none transition-all ease-in-out duration-100 resize-none overflow-hidden pl-2", input.split('\n').length > 1 ? 'rounded-md min-h-20' : 'rounded-l-full h-8 pt-1')}
 					onKeyDown={handleSubmitKey}
 				/>
 				<Button
@@ -148,6 +148,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 				>
 					<Send />
 				</Button>
+				</div>
 			</form>
 		</section>
 	)
