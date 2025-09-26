@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { MarkdownRender } from './MarkdownRender'
+import { Textarea } from '../ui/textarea'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -89,11 +90,11 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	return (
 		<section
 			className={cn(
-				'w-full flex flex-col justify-between gap-4 flex-1 ',
+				'w-full',
 				className
 			)}
 		>
-			<ul className="overflow-y-auto h-[500px] w-10/12 mx-auto">
+			<ul className="overflow-y-auto h-[82vh] px-2 md:px-40 pt-8">
 				{messages.map((message) =>
 					message.parts.map((part) => {
 						switch (part.type) {
@@ -128,7 +129,7 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded-full border border-border w-10/12 mx-auto flex items-center bg-neutral-800"
+				className={cn("border border-border w-11/12 md:w-8/12 mx-auto flex  bg-neutral-800 mb-8 my-8 px-2 py-2", input.split('\n').length > 1 ? 'rounded-md items-end' : 'rounded-full items-center')}
 			>
 				<textarea
 					ref={inputRef}
@@ -136,16 +137,14 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					placeholder="Escribe algo..."
-					className="w-full py-2 px-4 outline-none"
+					className={cn("w-full outline-none transition-all resize-none overflow-hidden pl-2", input.split('\n').length > 1 ? 'rounded-md min-h-20' : 'rounded-l-full h-8 pt-1')}
 					onKeyDown={handleSubmitKey}
-					rows={1}
 				/>
 				<Button
 					disabled={status != 'ready'}
 					type="submit"
 					size="icon"
-					variant="ghost"
-					className="rounded-full text-blue-400"
+					className="rounded-full"
 				>
 					<Send />
 				</Button>
