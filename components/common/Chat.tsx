@@ -95,7 +95,7 @@ const Chat = ({
 
 	return (
 		<section className={cn('w-full', className)}>
-			<Button asChild variant="outline" className="left-0 fixed z-10 m-4">
+			<Button asChild variant="outline" className="left-0 fixed z-20 m-4">
 				<Link
 					href={
 						chatbotId
@@ -106,7 +106,7 @@ const Chat = ({
 					<ArrowLeft /> Dashboard
 				</Link>
 			</Button>
-			<div className="items-center p-4 px-8 flex justify-center fixed w-full bg-neutral-950/90 top-0">
+			<div className="z-10 items-center p-4 px-8 flex justify-center fixed w-full bg-neutral-950/90 top-0 backdrop-blur-sm border-b-card border-b">
 				<Link
 					href="/"
 					className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
@@ -154,7 +154,7 @@ const Chat = ({
 			>
 				<div
 					className={cn(
-						'border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 px-2 py-2',
+						'border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 backdrop-blur-sm px-2 py-2',
 						input.split('\n').length > 1
 							? 'rounded-md items-end'
 							: 'rounded-full items-center'
