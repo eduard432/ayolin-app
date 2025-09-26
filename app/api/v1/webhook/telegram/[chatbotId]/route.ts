@@ -17,115 +17,132 @@ const createChatbotInstance = (
 	const { name } = chatbot
 
 	bot.command('start', async (ctx) => {
-		try {
-			const chatId = ctx.chat?.id
-			if (!chatId) {
-				await ctx.reply('Error: No se pudo obtener el ID del chat.')
+		;(async () => {
+			const { chatId } = ctx
+			try {
+				if (!chatId) {
+					await ctx.api.sendMessage(
+						chatId,
+						'Error: No se pudo obtener el ID del chat.'
+					)
+					return
+				}
+
+				// Verificar si ya existe el chat
+				const existingChat = await db.chat.findFirst({
+					where: {
+						channelId: chatId.toString(),
+						chatbotId: chatbot.id,
+					},
+				})
+
+				if (existingChat) {
+					await ctx.api.sendMessage(
+						chatId,
+						`¡Hola de nuevo! Soy ${name}, tu asistente personalizado.`
+					)
+					return
+				}
+
+				// Crear nuevo chat
+				await db.chat.create({
+					data: {
+						chatbotId: chatbot.id,
+						messages: {
+							create: [],
+						},
+						channelId: chatId.toString(),
+						settings: {
+							maxBatchReplyDelay: 5000,
+						},
+						status: {
+							pendingMessagesCount: 0,
+						},
+					},
+					include: {
+						messages: true,
+					},
+				})
+
+				// Incrementar contador de chats
+				await db.chatbot.update({
+					where: { id: chatbot.id },
+					data: {
+						totalChats: {
+							increment: 1,
+						},
+					},
+				})
+
+				await ctx.api.sendMessage(
+					chatId,
+					`¡Hola! Soy ${name}, tu asistente personalizado.`
+				)
+			} catch (error) {
+				console.error('Error in /start command:', error)
+				await ctx.api.sendMessage(
+					chatId,
+					'Error al inicializar el chat. Intenta nuevamente.'
+				)
 				return
 			}
-
-			// Verificar si ya existe el chat
-			const existingChat = await db.chat.findFirst({
-				where: {
-					channelId: chatId.toString(),
-					chatbotId: chatbot.id,
-				},
-			})
-
-			if (existingChat) {
-				await ctx.reply(`¡Hola de nuevo! Soy ${name}, tu asistente personalizado.`)
-				return
-			}
-
-			// Crear nuevo chat
-			await db.chat.create({
-				data: {
-					chatbotId: chatbot.id,
-					messages: {
-						create: [],
-					},
-					channelId: chatId.toString(),
-					settings: {
-						maxBatchReplyDelay: 5000,
-					},
-					status: {
-						pendingMessagesCount: 0,
-					},
-				},
-				include: {
-					messages: true,
-				},
-			})
-
-			// Incrementar contador de chats
-			await db.chatbot.update({
-				where: { id: chatbot.id },
-				data: {
-					totalChats: {
-						increment: 1,
-					},
-				},
-			})
-
-			await ctx.reply(`¡Hola! Soy ${name}, tu asistente personalizado.`)
-		} catch (error) {
-			console.error('Error in /start command:', error)
-			await ctx.reply('Error al inicializar el chat. Intenta nuevamente.')
-			return
-		}
+		})()
 	})
 
 	bot.on('message:text', async (ctx) => {
-		try {
+		;(async () => {
 			const { chatId } = ctx
-
-			const chat = await db.chat.findFirst({
-				where: {
-					 chatbotId: chatbot.id,
-					channelId: chatId.toString(),
-				},
-				include: {
-					messages: {
-						orderBy: {
-							createdAt: 'desc',
-						},
-						take: 20,
+			try {
+				const chat = await db.chat.findFirst({
+					where: {
+						chatbotId: chatbot.id,
+						channelId: chatId.toString(),
 					},
-					chatbot: true,
-				},
-			})
-
-			if (!chat) {
-				await ctx.reply(
-					'No se encontró un chat activo. Por favor, inicia un nuevo chat con /start.'
-				)
-				return 
-			}
-
-			const response = await handleMessage({
-				chatId: chat.id,
-				message: {
-					parts: [
-						{
-							type: 'text',
-							text: ctx.message.text,
+					include: {
+						messages: {
+							orderBy: {
+								createdAt: 'desc',
+							},
+							take: 20,
 						},
-					],
-					role: 'user',
-				},
-				chat,
-				user,
-			})
+						chatbot: true,
+					},
+				})
 
-			await ctx.reply(response)
-			return
-		} catch (error) {
-			console.log(error)
-			await ctx.reply(
-				'Ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.'
-			)
-			return
-		}
+				if (!chat) {
+					await ctx.api.sendMessage(
+						chatId,
+						'No se encontró un chat activo. Por favor, inicia un nuevo chat con /start.'
+					)
+					return
+				}
+
+				const response = await handleMessage({
+					chatId: chat.id,
+					message: {
+						parts: [
+							{
+								type: 'text',
+								text: ctx.message.text,
+							},
+						],
+						role: 'user',
+					},
+					chat,
+					user,
+				})
+
+				await ctx.api.sendMessage(chatId, response)
+				return
+			} catch (error) {
+				console.log(error)
+				await ctx.api.sendMessage(
+					chatId,
+					'Ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.'
+				)
+				return
+			}
+		})()
 	})
 
 	return bot
