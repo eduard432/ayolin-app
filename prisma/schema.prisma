@@ -43,6 +43,7 @@ model User {
   avatarColor             String?                @default("bg-blue-500")
   avatarSeed              String?                @default("") // Multiavatar
   avatarNoBg              Boolean                @default(true) // Quitar circulo/fondo del SVG
+  billingCycleStart       DateTime               @default(now())
 }
 
 model Account {

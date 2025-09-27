@@ -42,6 +42,20 @@ export const streamMessageSchema = z.object({
 	...schemaFields,
 })
 
+const getTotalUsage = async (user: User): Promise<number> => {
+	const totalUsage = await db.usageLog.aggregate({
+		_sum: {
+			creditUsage: true,
+		},
+		where: {
+			userId: user.id,
+			createdAt: { gte: user?.billingCycleStart }
+		},
+	})
+
+	return totalUsage._sum.creditUsage ?? 0
+}
+
 type FullChatType = Chat & { chatbot: Chatbot; messages: Message[] }
 
 type HandleMessageData = {
@@ -89,8 +103,9 @@ export const handleMessage = async ({
 		throw new ChatSDKError('not_found:chat')
 	}
 
-	let actualMaxUsagePricing = user.maxCreditUsage - user.creditUsage
-
+	const userCreditUsage = await getTotalUsage(user)
+	let actualMaxUsagePricing = user.maxCreditUsage - userCreditUsage
+	
 	const modelPricing = modelPrices[chat.chatbot.model as ModelId]
 	const modelInputPricing = modelPricing.input / 1_000_000
 	const modelOutputPricing = modelPricing.output / 1_000_000
@@ -98,12 +113,13 @@ export const handleMessage = async ({
 	let inputTokenUsage = 0
 	message.parts.forEach((part) => {
 		if (part.type === 'text') {
-			inputTokenUsage += part.text.length / 4 // Rough estimate: 1 token = 4 characters
+			inputTokenUsage += part.text.length / 4
 		}
 	})
 
 	const aproxInputCreditUsage = inputTokenUsage * modelInputPricing
 	actualMaxUsagePricing -= aproxInputCreditUsage
+
 
 	if (actualMaxUsagePricing <= 0) {
 		throw new ChatSDKError('rate_limit:chat')
@@ -119,7 +135,7 @@ export const handleMessage = async ({
 		system: chat.chatbot.initialPrompt,
 		tools,
 		maxOutputTokens: Math.floor(actualMaxUsagePricing / modelOutputPricing),
-		stopWhen: stepCountIs(5)
+		stopWhen: stepCountIs(5),
 	})
 
 	const generatedMessage: Prisma.MessageCreateManyInput = {
