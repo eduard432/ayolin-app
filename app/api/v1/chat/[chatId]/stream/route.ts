@@ -60,8 +60,12 @@ export async function POST(
 			streaming: true,
 		})
 		return new Response(stream.pipeThrough(new JsonToSseTransformStream()))
-	} catch (e) {
-		console.log(e)
-		return new ChatSDKError('forbidden:chat').toResponse()
+	} catch (error) {
+		console.log(error)
+		if (error instanceof ChatSDKError) {
+			return error.toResponse()
+		} else {
+			return new ChatSDKError('bad_request:api').toResponse()
+		}
 	}
 }

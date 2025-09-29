@@ -57,8 +57,8 @@ const Chat = ({
 			})
 		},
 		onError: (error) => {
-			console.log({error})
-			toast.error(error.message)
+			const data = JSON.parse(error.message)
+			toast.error(data.message)
 		}
 	})
 
