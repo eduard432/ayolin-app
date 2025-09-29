@@ -3,7 +3,7 @@ import { validateWithSource } from '@/lib/api/validate'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { ApiErrorHandler } from '@/lib/api/ApiError'
-import { handleMessage, messageSchema } from '@/lib/api/Chat'
+import { handleMessage, handleMessage2, messageSchema } from '@/lib/api/Chat'
 import { ApiResponse } from '@/lib/api/ApiResponse'
 
 const bodySchema = z.object({
@@ -30,15 +30,15 @@ export async function POST(
 
 	try {
 		const { message } = requestBody
-		const response = await handleMessage({
+		const { text } = await handleMessage2({
 			chatId,
-			message
+			message,
+			streaming: false,
 		})
 
 		return ApiResponse.success({
-			response
+			response: text,
 		})
-
 	} catch (e) {
 		console.log(e)
 		ApiErrorHandler.handleError(e)

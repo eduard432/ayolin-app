@@ -1,4 +1,4 @@
-import { handleMessage } from '@/lib/api/Chat'
+import { handleMessage, handleMessage2 } from '@/lib/api/Chat'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { db } from '@/lib/db'
@@ -117,7 +117,7 @@ const createChatbotInstance = (
 					return
 				}
 
-				const response = await handleMessage({
+				const { text } = await handleMessage2({
 					chatId: chat.id,
 					message: {
 						parts: [
@@ -128,11 +128,12 @@ const createChatbotInstance = (
 						],
 						role: 'user',
 					},
+					streaming: false,
 					chat,
 					user,
 				})
 
-				await ctx.api.sendMessage(chatId, response)
+				await ctx.api.sendMessage(chatId, text)
 				return
 			} catch (error) {
 				console.log(error)

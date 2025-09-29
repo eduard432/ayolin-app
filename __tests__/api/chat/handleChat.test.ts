@@ -1,4 +1,4 @@
-import { handleMessage } from '@/lib/api/Chat'
+import { handleMessage2 } from '@/lib/api/Chat'
 import { db } from '@/lib/db'
 import { Chatbot, User, Chat } from '@prisma/client'
 import { ObjectId } from 'bson'
@@ -93,9 +93,8 @@ describe('Handle ai messages', () => {
 		const { chat, chatbot, user } = await createMockData()
 
 		try {
-			const response = await handleMessage({
+			const { text } = await handleMessage2({
 				message: {
-					id: new ObjectId().toString(),
 					role: 'user',
 					parts: [
 						{
@@ -105,11 +104,12 @@ describe('Handle ai messages', () => {
 					],
 				},
 				chatId: chat.id,
+				streaming: false
 			})
 
-			console.log(response)
+			console.log(text)
 
-			expect(response.length).toBeGreaterThan(0)
+			expect(text.length).toBeGreaterThan(0)
 
 			// Verificar que se creó el mensaje en la DB (dentro de la transacción)
 			const messages = await db.message.findMany({
