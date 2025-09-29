@@ -49,20 +49,41 @@ export const streamMessageSchema = z.object({
 	...schemaFields,
 })
 
+const getBillingCycleStart = (date: Date, startDay: number): Date => {
+	// startDay = día del mes en que empieza el ciclo (ej: 5)
+	const year = date.getUTCFullYear()
+	const month = date.getUTCMonth()
+	const day = date.getUTCDate()
+
+	if (day >= startDay) {
+		// ciclo empezó este mes
+		return new Date(Date.UTC(year, month, startDay))
+	} else {
+		// ciclo empezó el mes pasado
+		return new Date(Date.UTC(year, month - 1, startDay))
+	}
+}
+
 const getTotalUsage = async (user: User): Promise<number> => {
+	// suponiendo que guardas en user.billingCycleStart el día de inicio (ej: 5)
+	const today = new Date()
+	const cycleStart = getBillingCycleStart(
+		today,
+		user.billingCycleStart.getUTCDate()
+	)
+
 	const totalUsage = await db.usageLog.aggregate({
 		_sum: {
 			creditUsage: true,
 		},
 		where: {
 			userId: user.id,
-			createdAt: { gte: user?.billingCycleStart },
+			createdAt: { gte: cycleStart },
 		},
 	})
 
 	return totalUsage._sum.creditUsage ?? 0
 }
-
 type FullChatType = Chat & { chatbot: Chatbot; messages: Message[] }
 
 type HandleMessageData = {
@@ -198,138 +219,157 @@ export async function handleMessage2({
 	user: prevUser,
 	streaming = false,
 }: HandleMessageData2) {
-	let chat: undefined | null | FullChatType = prevChat
-	let user: null | undefined | User = prevUser
+	try {
+		let chat: undefined | null | FullChatType = prevChat
+		let user: null | undefined | User = prevUser
 
-	// Save incoming user message
-	await saveMessages([
-		{
-			chatId,
-			id: new ObjectId().toString(),
-			parts: message.parts,
-			role: message.role,
-		},
-	])
+		// Save incoming user message
+		await saveMessages([
+			{
+				chatId,
+				id: new ObjectId().toString(),
+				parts: message.parts,
+				role: message.role,
+			},
+		])
 
-	if (!chat) {
-		chat = await getChatById(chatId, {})
-	}
-	if (!chat) throw new ChatSDKError('not_found:chat')
-
-	if (!user) {
-		user = await db.user.findFirst({ where: { id: chat.chatbot.userId } })
-	}
-	if (!user) throw new ChatSDKError('not_found:auth')
-
-	// ---- Credit Calculation ----
-	const userCreditUsage = await getTotalUsage(user)
-	let actualMaxUsagePricing = user.maxCreditUsage - userCreditUsage
-
-	const modelPricing = modelPrices[chat.chatbot.model as ModelId]
-	const modelInputPricing = modelPricing.input / 1_000_000
-	const modelOutputPricing = modelPricing.output / 1_000_000
-
-	let inputTokenUsage = 0
-	message.parts.forEach((part) => {
-		if (part.type === 'text') {
-			inputTokenUsage += part.text.length / 4
+		if (!chat) {
+			chat = await getChatById(chatId, {})
 		}
-	})
+		if (!chat) throw new ChatSDKError('not_found:chat')
 
-	const aproxInputCreditUsage = inputTokenUsage * modelInputPricing
-	actualMaxUsagePricing -= aproxInputCreditUsage
-	if (actualMaxUsagePricing <= 0) {
-		throw new ChatSDKError('rate_limit:chat')
-	}
-
-	const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
-	const tools = generateTools(chat.chatbot.tools)
-
-	// ---- Normal vs Streaming ----
-	if (!streaming) {
-		const result = await generateText({
-			model: openai(chat.chatbot.model),
-			messages: convertToModelMessages(messages),
-			system: chat.chatbot.initialPrompt,
-			tools,
-			maxOutputTokens: Math.floor(actualMaxUsagePricing / modelOutputPricing),
-			stopWhen: stepCountIs(5),
-		})
-
-		const generatedMessage: Prisma.MessageCreateManyInput = {
-			id: new ObjectId().toString(),
-			chatId,
-			role: 'assistant',
-			parts: [{ type: 'text', text: result.text }],
+		if (!user) {
+			user = await db.user.findFirst({ where: { id: chat.chatbot.userId } })
 		}
-		await saveMessages([generatedMessage])
+		if (!user) throw new ChatSDKError('not_found:auth')
 
-		const inputCreditUsage =
-			(result.totalUsage.inputTokens || 0) * modelInputPricing
-		const outputCreditUsage =
-			(result.totalUsage.outputTokens || 0) * modelOutputPricing
+		// ---- Credit Calculation ----
+		const userCreditUsage = await getTotalUsage(user)
+		let actualMaxUsagePricing = user.maxCreditUsage - userCreditUsage
 
-		await updateUsageFields({
-			ids: {
-				chatId: chat.id,
-				chatbotId: chat.chatbot.id,
-				userId: user.id,
-			},
-			messages: 2,
-			usage: inputCreditUsage + outputCreditUsage,
+		const modelPricing = modelPrices[chat.chatbot.model as ModelId]
+		const modelInputPricing = modelPricing.input / 1_000_000
+		const modelOutputPricing = modelPricing.output / 1_000_000
+
+		let inputTokenUsage = 0
+		message.parts.forEach((part) => {
+			if (part.type === 'text') {
+				inputTokenUsage += part.text.length / 4
+			}
 		})
 
-		return { text: result.text }
-	} else {
-		let resultTokens: Promise<LanguageModelUsage>
-
-		const stream = createUIMessageStream({
-			execute: async ({ writer }) => {
-				const result = streamText({
-					model: openai(chat.chatbot.model),
-					messages: convertToModelMessages(messages),
-					system: chat.chatbot.initialPrompt,
-					tools,
-					stopWhen: stepCountIs(3),
-				})
-
-				resultTokens = result.totalUsage
-				result.consumeStream()
-				writer.merge(result.toUIMessageStream())
-			},
-			generateId: () => new ObjectId().toString(),
-			onFinish: async ({ messages }) => {
-				const generatedMessages: Prisma.MessageCreateManyInput[] =
-					messages.map((uiMessage) => ({
-						id: uiMessage.id,
-						chatId,
-						parts:
-							typeof uiMessage.parts === 'string'
-								? JSON.parse(uiMessage.parts)
-								: uiMessage.parts,
-						role: uiMessage.role,
-					}))
-
-				await saveMessages(generatedMessages)
-
-				const totalTokens = await resultTokens
-				const inputCreditUsage =
-					(totalTokens.inputTokens || 0) * modelInputPricing
-				const outputCreditUsage =
-					(totalTokens.outputTokens || 0) * modelOutputPricing
-
-				await updateUsageFields({
-					ids: {
-						chatId: chat.id,
-						chatbotId: chat.chatbot.id,
-						userId: chat.chatbot.userId,
-					},
-					messages: 2,
-					usage: inputCreditUsage + outputCreditUsage,
-				})
-			},
+		const aproxInputCreditUsage = inputTokenUsage * modelInputPricing
+		actualMaxUsagePricing -= aproxInputCreditUsage
+		console.log({
+			actualMaxUsagePricing,
+			aproxInputCreditUsage,
+			inputTokenUsage,
+			userCreditUsage,
 		})
+		if (actualMaxUsagePricing <= 0) {
+			throw new ChatSDKError('rate_limit:chat')
+		}
 
-		return { stream }
+		const messages = [
+			...convertToUIMessages(chat.messages.slice(-20)),
+			message,
+		]
+		const tools = generateTools(chat.chatbot.tools)
+
+		// ---- Normal vs Streaming ----
+		if (!streaming) {
+			const result = await generateText({
+				model: openai(chat.chatbot.model),
+				messages: convertToModelMessages(messages),
+				system: chat.chatbot.initialPrompt,
+				tools,
+				maxOutputTokens: Math.floor(
+					actualMaxUsagePricing / modelOutputPricing
+				),
+				stopWhen: stepCountIs(5),
+			})
+
+			const generatedMessage: Prisma.MessageCreateManyInput = {
+				id: new ObjectId().toString(),
+				chatId,
+				role: 'assistant',
+				parts: [{ type: 'text', text: result.text }],
+			}
+			await saveMessages([generatedMessage])
+
+			const inputCreditUsage =
+				(result.totalUsage.inputTokens || 0) * modelInputPricing
+			const outputCreditUsage =
+				(result.totalUsage.outputTokens || 0) * modelOutputPricing
+
+			await updateUsageFields({
+				ids: {
+					chatId: chat.id,
+					chatbotId: chat.chatbot.id,
+					userId: user.id,
+				},
+				messages: 2,
+				usage: inputCreditUsage + outputCreditUsage,
+			})
+
+			return { text: result.text }
+		} else {
+			let resultTokens: Promise<LanguageModelUsage>
+
+			const stream = createUIMessageStream({
+				execute: async ({ writer }) => {
+					const result = streamText({
+						model: openai(chat.chatbot.model),
+						messages: convertToModelMessages(messages),
+						system: chat.chatbot.initialPrompt,
+						tools,
+						stopWhen: stepCountIs(3),
+					})
+
+					resultTokens = result.totalUsage
+					result.consumeStream()
+					writer.merge(result.toUIMessageStream())
+				},
+				generateId: () => new ObjectId().toString(),
+				onFinish: async ({ messages }) => {
+					const generatedMessages: Prisma.MessageCreateManyInput[] =
+						messages.map((uiMessage) => ({
+							id: uiMessage.id,
+							chatId,
+							parts:
+								typeof uiMessage.parts === 'string'
+									? JSON.parse(uiMessage.parts)
+									: uiMessage.parts,
+							role: uiMessage.role,
+						}))
+
+					await saveMessages(generatedMessages)
+
+					const totalTokens = await resultTokens
+					const inputCreditUsage =
+						(totalTokens.inputTokens || 0) * modelInputPricing
+					const outputCreditUsage =
+						(totalTokens.outputTokens || 0) * modelOutputPricing
+
+					await updateUsageFields({
+						ids: {
+							chatId: chat.id,
+							chatbotId: chat.chatbot.id,
+							userId: chat.chatbot.userId,
+						},
+						messages: 2,
+						usage: inputCreditUsage + outputCreditUsage,
+					})
+				},
+			})
+
+			return { stream }
+		}
+	} catch (error) {
+		if (error instanceof ChatSDKError) {
+			return error.toResponse()
+		} else {
+			return new ChatSDKError("bad_request:api")
+		}
 	}
 }

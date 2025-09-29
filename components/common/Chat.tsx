@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { MarkdownRender } from './MarkdownRender'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
@@ -55,6 +56,10 @@ const Chat = ({
 				queryKey: ['chatbot', chatId, 'messages'],
 			})
 		},
+		onError: (error) => {
+			console.log({error})
+			toast.error(error.message)
+		}
 	})
 
 	useEffect(() => {
