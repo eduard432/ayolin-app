@@ -9,9 +9,13 @@ export const LoginSchema = z.object({
 		message: 'La contraseña es obligatoria',
 	}),
 	code: z
-    .union([z.literal(''), z.string().regex(/^\d{6}$/, { message: 'El código debe tener 6 dígitos' })])
-    .optional(),
-	
+		.union([
+			z.literal(''),
+			z
+				.string()
+				.regex(/^\d{6}$/, { message: 'El código debe tener 6 dígitos' }),
+		])
+		.optional(),
 })
 
 export const RegisterSchema = z
@@ -103,6 +107,12 @@ export const UrlValueSchema = z.object({
 	method: z.enum(['get', 'post', 'put', 'delete']),
 })
 
+export const FileSchema = z
+  .instanceof(File, { message: 'Must be a valid file' })
+  .refine((file) => file.size <= 5 * 1024 * 1024, {
+    message: 'File size must be less than 5MB',
+  })
+
 export const createToolSchema = z.object({
 	name: z.string(),
 	keyName: z.string(),
@@ -112,6 +122,10 @@ export const createToolSchema = z.object({
 	settingsSchema: fieldSchema.array().optional(),
 	inputSchema: fieldSchema.array().optional(),
 	endpoint: UrlValueSchema,
-	imageUrl: z.string(),
 	fnType: z.enum(['external', 'native']),
+	imageUrl: z.string()
+})
+
+export const createFileSchema = z.object({
+	filename: z.string().min(1, 'Filename is required'),
 })

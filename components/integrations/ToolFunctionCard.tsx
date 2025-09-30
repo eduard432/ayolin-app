@@ -213,6 +213,7 @@ export const ToolFunctionCard = ({
 		<IntegrationCard
 			title={toolFunction.name}
 			description={toolFunction.shortDesc}
+			imageUrl={toolFunction.imageUrl}
 		>
 			<Dialog>
 				<form className="absolute z-10 right-0 p-4">
