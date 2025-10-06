@@ -101,6 +101,13 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
+type InputFile {
+  url      String
+  filename String
+  size     Int
+  type     String
+}
+
 model Chatbot {
   id            String                 @id @default(auto()) @map("_id") @db.ObjectId
   name          String
@@ -116,6 +123,7 @@ model Chatbot {
   totalChats    Int                    @default(0)
   creditUsage   Float                  @default(0)
   usageLogs     UsageLog[]
+  filesInput    InputFile[]
 }
 
 type ChatStatus {

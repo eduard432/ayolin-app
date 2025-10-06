@@ -1,10 +1,43 @@
-import { Chatbot } from '@prisma/client'
-import {
-	useMutation,
-	useQuery,
-	useQueryClient,
-} from '@tanstack/react-query'
+import { Chatbot, InputFile } from '@prisma/client'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+
+export const deleteChatbotContent = async (chatbotId: string, url: string) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}/content`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			url,
+		}),
+	})
+
+	if (!response.ok) throw new Error('Failed to delete chatbot content')
+
+	const result = await response.json()
+	return result.chatbot as Chatbot
+}
+
+export const addChatbotContent = async (
+	chatbotId: string,
+	inputFile: InputFile
+) => {
+	const response = await fetch(`/api/v1/chatbot/${chatbotId}/content`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			content: inputFile,
+		}),
+	})
+
+	if (!response.ok) throw new Error('Failed to update chatbot')
+
+	const result = await response.json()
+	return result.chatbot as Chatbot
+}
 
 type ChatBotInputData = {
 	name: string

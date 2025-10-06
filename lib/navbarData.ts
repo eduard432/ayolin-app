@@ -15,6 +15,7 @@ export const getChatbotFeatures = (chatbotId: string) => [
   { name: 'Prueba', href: `/dashboard/${chatbotId}/prueba`},
   { name: 'Integraciones', href: `/dashboard/${chatbotId}/integraciones` },
   { name: 'Editar', href: `/dashboard/${chatbotId}/editar` },
+  { name: 'Contenido', href: `/dashboard/${chatbotId}/contenido` },
   //{ name: 'Configuración', href: `/dashboard/${chatbotId}/settings` },
 ]
 
@@ -33,5 +34,5 @@ export const getAllowedNavbarRoutes = (chatbotId?: string) => [
   chatbotId && `/dashboard/${chatbotId}/chats`,
   chatbotId && `/dashboard/${chatbotId}/prueba`,
   chatbotId && `/dashboard/${chatbotId}/integraciones`,
-  chatbotId && `/dashboard/${chatbotId}/settings`,
+  chatbotId && `/dashboard/${chatbotId}/contenido`,
 ].filter(Boolean)
