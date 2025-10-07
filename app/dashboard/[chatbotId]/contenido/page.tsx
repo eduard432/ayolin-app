@@ -41,6 +41,7 @@ import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import { Separator } from '@radix-ui/react-separator'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CloudUpload, Ellipsis, FileTextIcon, X } from 'lucide-react'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { use } from 'react'
 import { useForm } from 'react-hook-form'
@@ -67,47 +68,47 @@ const InputFileCard = ({
 	const queryClient = useQueryClient()
 
 	const deleteMutation = useMutation<
-			Chatbot,
-			Error,
-			string,
-			{ previousChatbot: Chatbot }
-		>({
-			mutationFn: async () => {
-				const result = await deleteChatbotContent(chatbotId, url)
-				return result
-			},
-			onError: (_, chatbotId, context) => {
-				toast.error('Error updating chatbot')
-				queryClient.setQueryData(
-					['chatbot', chatbotId],
-					context?.previousChatbot
-				)
-			},
-			onMutate: async (chatbotId) => {
-				await queryClient.cancelQueries({
-					queryKey: ['chatbot', chatbotId],
-				})
-	
-				const previousChatbot = queryClient.getQueryData<Chatbot>([
-					'chatbot',
-					chatbotId,
-				]) as Chatbot
-	
-				queryClient.setQueryData(['chatbot', chatbotId], (old: Chatbot) => {
-					console.log({old})
-					if (!old) return old
-					return {
-						...old,
-						fileInput: old.filesInput.filter((f) => f.url !== url),
-					}
-				})
-	
-				return { previousChatbot }
-			},
-			onSuccess: () => {
-				toast.success('Chatbot updated successfully')
-			},
-		})
+		Chatbot,
+		Error,
+		string,
+		{ previousChatbot: Chatbot }
+	>({
+		mutationFn: async () => {
+			const result = await deleteChatbotContent(chatbotId, url)
+			return result
+		},
+		onError: (_, chatbotId, context) => {
+			toast.error('Error updating chatbot')
+			queryClient.setQueryData(
+				['chatbot', chatbotId],
+				context?.previousChatbot
+			)
+		},
+		onMutate: async (chatbotId) => {
+			await queryClient.cancelQueries({
+				queryKey: ['chatbot', chatbotId],
+			})
+
+			const previousChatbot = queryClient.getQueryData<Chatbot>([
+				'chatbot',
+				chatbotId,
+			]) as Chatbot
+
+			queryClient.setQueryData(['chatbot', chatbotId], (old: Chatbot) => {
+				if (!old) return old
+				const newChatbot: Chatbot = {
+					...old,
+					filesInput: old.filesInput.filter((f) => f.url !== url),
+				}
+				return newChatbot
+			})
+
+			return { previousChatbot }
+		},
+		onSuccess: () => {
+			toast.success('Chatbot updated successfully')
+		},
+	})
 
 	return (
 		<Card
@@ -121,12 +122,13 @@ const InputFileCard = ({
 					<Avatar className="w-10 h-10 ">
 						<AvatarFallback
 							className={cn(
-								'w-full h-full flex items-center justify-center rounded-full bg-violet-500/10 text-violet-400'
+								'w-full h-full flex items-center justify-center rounded-full bg-violet-500/10 text-violet-400 '
 							)}
 						>
 							<FileTextIcon />
 						</AvatarFallback>
 					</Avatar>
+
 					<div>
 						<h4 className="font-medium">{filename}</h4>
 						<p className="text-sm font-medium text-muted-foreground">
@@ -222,11 +224,7 @@ const Page = () => {
 				</p>
 			</section>
 			<Form {...form}>
-				<form
-					id="hook-form"
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="space-y-4"
-				>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<FormField
 						control={form.control}
 						name="file"
@@ -281,9 +279,11 @@ const Page = () => {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" className="w-full">
-						Guardar
-					</Button>
+					<div className="flex justify-end">
+						<Button type="submit" className="">
+							Guardar
+						</Button>
+					</div>
 				</form>
 			</Form>
 			<Separator />

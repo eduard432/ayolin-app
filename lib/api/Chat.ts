@@ -13,8 +13,11 @@ import {
 	createUIMessageStream,
 	generateText,
 	LanguageModelUsage,
+	ModelMessage,
 	stepCountIs,
 	streamText,
+	UIMessage,
+	UIMessagePart,
 } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateTools } from '../ai'
@@ -259,24 +262,38 @@ export async function handleMessage2({
 
 	const aproxInputCreditUsage = inputTokenUsage * modelInputPricing
 	actualMaxUsagePricing -= aproxInputCreditUsage
-	console.log({
-		actualMaxUsagePricing,
-		aproxInputCreditUsage,
-		inputTokenUsage,
-		userCreditUsage,
-	})
 	if (actualMaxUsagePricing <= 0) {
 		throw new ChatSDKError('rate_limit:chat')
 	}
 
-	const messages = [...convertToUIMessages(chat.messages.slice(-20)), message]
+	const contentMessages: ModelMessage[] = chat.chatbot.filesInput.map(
+		(file) => {
+			return {
+				role: 'user',
+				content: [
+					{
+						type: 'file',
+						mediaType: file.type,
+						data: file.url,
+						filename: file.filename,
+					},
+				],
+			}
+		}
+	)
+
+
+	const uiMessages = [...convertToUIMessages(chat.messages.slice(-20)), message]
+
 	const tools = generateTools(chat.chatbot.tools)
+	const messages = [...contentMessages, ...convertToModelMessages(uiMessages)]
+	console.log({message: JSON.stringify(messages[0], null, 2)})
 
 	// ---- Normal vs Streaming ----
 	if (!streaming) {
 		const result = await generateText({
 			model: openai(chat.chatbot.model),
-			messages: convertToModelMessages(messages),
+			messages,
 			system: chat.chatbot.initialPrompt,
 			tools,
 			maxOutputTokens: Math.floor(actualMaxUsagePricing / modelOutputPricing),
@@ -314,7 +331,7 @@ export async function handleMessage2({
 			execute: async ({ writer }) => {
 				const result = streamText({
 					model: openai(chat.chatbot.model),
-					messages: convertToModelMessages(messages),
+					messages,
 					system: chat.chatbot.initialPrompt,
 					tools,
 					stopWhen: stepCountIs(3),
