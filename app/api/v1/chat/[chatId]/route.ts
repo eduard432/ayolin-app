@@ -3,7 +3,7 @@ import { validateWithSource } from '@/lib/api/validate'
 import { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { ApiErrorHandler } from '@/lib/api/ApiError'
-import { handleMessage, handleMessage2, messageSchema } from '@/lib/api/Chat'
+import { handleMessage2, messageSchema } from '@/lib/api/Chat'
 import { ApiResponse } from '@/lib/api/ApiResponse'
 
 const bodySchema = z.object({

@@ -16,8 +16,6 @@ import {
 	ModelMessage,
 	stepCountIs,
 	streamText,
-	UIMessage,
-	UIMessagePart,
 } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { generateTools } from '../ai'

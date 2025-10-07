@@ -1,4 +1,4 @@
-import { handleMessage, handleMessage2 } from '@/lib/api/Chat'
+import { handleMessage2 } from '@/lib/api/Chat'
 import { handleApiError } from '@/lib/api/handleError'
 import { validateWithSource } from '@/lib/api/validate'
 import { db } from '@/lib/db'

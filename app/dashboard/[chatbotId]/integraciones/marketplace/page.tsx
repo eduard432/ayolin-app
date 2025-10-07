@@ -4,21 +4,10 @@ import { TelegramIntegrationCard } from '@/components/channels/TelegramCard'
 import {
 	IntegrationCardSkeleton,
 } from '@/components/common/IntegrationCard'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardAction,
-	CardContent,
-	CardHeader,
-} from '@/components/ui/card'
 import { useChatbot } from '@/data/chatbot/chatbot.client'
 
 import { useToolFunctions } from '@/data/integrations/integrations.client'
-import { cn } from '@/lib/utils'
-import { Chatbot } from '@prisma/client'
-import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import React from 'react'
 import { ToolFunctionCard } from '@/components/integrations/ToolFunctionCard'
 
