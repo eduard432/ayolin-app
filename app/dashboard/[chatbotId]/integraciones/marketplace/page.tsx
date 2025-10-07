@@ -22,44 +22,6 @@ import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { ToolFunctionCard } from '@/components/integrations/ToolFunctionCard'
 
-const CustomToolCard = ({ chatbot }: { chatbot: Chatbot }) => {
-	const router = useRouter()
-
-	return (
-		<Card className="pt-0 justify-start relative">
-			<CardHeader className="absolute right-20 top-4 z-10">
-				<CardAction>
-					<Button
-						onClick={() =>
-							router.push(`/dashboard/${chatbot.id}/integraciones/custom-tool`)
-						}
-						variant="outline"
-					>
-						Agregar
-					</Button>
-				</CardAction>
-			</CardHeader>
-			<AspectRatio
-				ratio={16 / 9}
-				className={cn('bg-muted rounded-lg rounded-b-none')}
-			>
-				<Image
-					src="https://jiaq9ymgisc0ie2r.public.blob.vercel-storage.com/custom-fetch_tool.webp"
-					alt={`Tool Function image for custom tool`}
-					fill
-					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
-				/>
-			</AspectRatio>
-			<CardContent>
-				<p className="font-semibold text-center">Integración personalizada</p>
-				<p className="text-sm text-neutral-600 truncate">
-					Personaliza tu propia función de fetch
-				</p>
-			</CardContent>
-		</Card>
-	)
-}
-
 const IntegrationsPage = () => {
 	const { data: toolFunctions } = useToolFunctions()
 	const params = useParams()
@@ -88,11 +50,6 @@ const IntegrationsPage = () => {
 					chatbotId={chatbot.id}
 					imageUrl="https://jiaq9ymgisc0ie2r.public.blob.vercel-storage.com/telegram_channel.png"
 				/>
-			)}
-			{chatbot && (
-				<>
-					<CustomToolCard chatbot={chatbot} />
-				</>
 			)}
 		</div>
 	)
