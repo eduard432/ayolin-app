@@ -10,19 +10,27 @@ import {
 	useState,
 } from 'react'
 import { ObjectId } from 'bson'
-import { Send } from 'lucide-react'
+import { ArrowLeft, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { MarkdownRender } from './MarkdownRender'
+import Link from 'next/link'
+import { toast } from 'sonner'
 
 type ChatProps = {
 	initialMessages: UIMessage[]
 	chatId: string
 	className?: string
+	chatbotId?: string
 }
 
-const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
+const Chat = ({
+	initialMessages,
+	chatId,
+	className,
+	chatbotId,
+}: ChatProps) => {
 	const [input, setInput] = useState('')
 	const inputRef = useRef<HTMLTextAreaElement>(null)
 	const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -48,6 +56,10 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 				queryKey: ['chatbot', chatId, 'messages'],
 			})
 		},
+		onError: (error) => {
+			const data = JSON.parse(error.message)
+			toast.error(data.message)
+		}
 	})
 
 	useEffect(() => {
@@ -87,13 +99,28 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 	}
 
 	return (
-		<section
-			className={cn(
-				'rounded-md border h-full border-border p-4 w-full flex flex-col justify-between gap-4 flex-1',
-				className
-			)}
-		>
-			<ul className="overflow-y-auto h-96 px-4">
+		<section className={cn('w-full', className)}>
+			<Button asChild variant="outline" className="left-0 fixed z-20 m-4">
+				<Link
+					href={
+						chatbotId
+							? `/dashboard/${chatbotId}/estadisticas`
+							: '/dashboard/general'
+					}
+				>
+					<ArrowLeft /> Dashboard
+				</Link>
+			</Button>
+			<div className="z-10 items-center p-4 px-8 flex justify-center fixed w-full bg-neutral-950/90 top-0 backdrop-blur-sm border-b-card border-b">
+				<Link
+					href="/"
+					className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
+				>
+					AYOLIN
+				</Link>
+			</div>
+			<div className="py-12" />
+			<ul className="h-screen px-2 w-11/12 md:w-8/12 mx-auto">
 				{messages.map((message) =>
 					message.parts.map((part) => {
 						switch (part.type) {
@@ -101,16 +128,17 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 								return (
 									<li
 										key={`${message.id}:${part.type}`}
-										className={`my-6 flex ${
-											message.role == 'user' ? 'justify-end' : 'justify-start'
-										}`}
+										className={cn('my-6 flex', {
+											'justify-end': message.role == 'user',
+											'w-full': message.role != 'user',
+										})}
 									>
 										<div
 											className={cn(
-												'px-4 py-1 rounded-md max-w-10/12 md:max-w-2/3',
+												'px-4 py-1 rounded-md text-foreground',
 												message.role == 'user'
-													? 'bg-[#e0e0e0] dark:bg-[#374151] rounded-br-none'
-													: 'bg-[#f5f5f5] dark:bg-[#4b5563] rounded-bl-none'
+													? 'bg-[#e0e0e0] dark:bg-[#374151] rounded-br-none max-w-10/12 md:max-w-2/3'
+													: 'bg-transparent rounded-bl-none'
 											)}
 										>
 											<MarkdownRender>{part.text}</MarkdownRender>
@@ -123,30 +151,43 @@ const Chat = ({ initialMessages, chatId, className }: ChatProps) => {
 						}
 					})
 				)}
-				<div ref={messagesEndRef} />
+				<div className="py-12" ref={messagesEndRef} />
 			</ul>
 			<form
 				onSubmit={handleSubmit}
-				className="rounded-md border border-border w-full flex items-center"
+				className={cn('w-full flex items-center bottom-0 fixed py-8 ')}
 			>
-				<textarea
-					ref={inputRef}
-					disabled={status != 'ready'}
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					placeholder="Escribe algo..."
-					className="w-full py-2 px-4 outline-none rounded"
-					onKeyDown={handleSubmitKey}
-				/>
-				<Button
-					disabled={status != 'ready'}
-					type="submit"
-					size="icon"
-					variant="ghost"
-					className="rounded-full text-blue-400"
+				<div
+					className={cn(
+						'border border-border w-11/12 md:w-8/12 mx-auto flex bg-neutral-950/90 backdrop-blur-sm px-2 py-2',
+						input.split('\n').length > 1
+							? 'rounded-md items-end'
+							: 'rounded-full items-center'
+					)}
 				>
-					<Send />
-				</Button>
+					<textarea
+						ref={inputRef}
+						disabled={status != 'ready'}
+						value={input}
+						onChange={(e) => setInput(e.target.value)}
+						placeholder="Escribe algo..."
+						className={cn(
+							'w-full outline-none transition-all ease-in-out duration-100 resize-none overflow-hidden pl-2',
+							input.split('\n').length > 1
+								? 'rounded-md min-h-20'
+								: 'rounded-l-full h-8 pt-1'
+						)}
+						onKeyDown={handleSubmitKey}
+					/>
+					<Button
+						disabled={status != 'ready'}
+						type="submit"
+						size="icon"
+						className="rounded-full"
+					>
+						<Send />
+					</Button>
+				</div>
 			</form>
 		</section>
 	)

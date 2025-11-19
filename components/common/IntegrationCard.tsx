@@ -125,7 +125,7 @@ const IntegrationContent = ({
 		mutation.mutate({
 			chatbotId,
 			keyName: integration.keyName,
-			settings: { config: {...values}, integration },
+			settings: { config: { ...values }, integration },
 		})
 	}
 
@@ -275,11 +275,13 @@ export const IntegrationCard = ({
 	className,
 	chatbotId,
 	chatbot,
+	imageFile,
 }: {
 	integration: ToolFunction | Channel
 	className?: string
 	chatbotId: string
 	chatbot?: Chatbot
+	imageFile?: File
 }) => {
 	const router = useRouter()
 
@@ -321,30 +323,28 @@ export const IntegrationCard = ({
 							/>
 						</form>
 					</Dialog>
-					{/* {!channels.includes(integration.keyName) ? (
-						<InstallToolButton
-							variant="outline"
-							className="cursor-pointer"
-							chatbot={chatbot}
-							keyName={integration.keyName}
-						/>
-					) : (
-						<InstallChannelButton
-							chatbotId={chatbot.id}
-							keyName={integration.keyName}
-							variant="outline"
-							className="cursor-pointer"
-						/>
-					)} */}
 				</CardAction>
 			</CardHeader>
 			<AspectRatio ratio={16 / 9}>
-				<Image
-					src={integration.imageUrl}
-					alt={`Tool Function image for ${integration.name}`}
-					fill
-					className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
-				/>
+				{imageFile ? (
+					<Image
+						src={URL.createObjectURL(imageFile)}
+						onLoad={(event) => {
+							if (!(event.target instanceof HTMLImageElement)) return
+							URL.revokeObjectURL(event.target.src)
+						}}
+						alt={`Tool Function image for ${integration.name}`}
+						fill
+						className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
+					/>
+				) : (
+					<Image
+						src={integration.imageUrl}
+						alt={`Tool Function image for ${integration.name}`}
+						fill
+						className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale rounded-b-none"
+					/>
+				)}
 			</AspectRatio>
 			<CardContent>
 				<p className="font-semibold">{integration.name}</p>

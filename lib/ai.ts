@@ -81,17 +81,21 @@ export const generateExternalToolFunction = ({
 	const execute = async (input: Record<string, unknown>) => {
 		try {
 			const {endpoint} = integration
-			if(!endpoint) throw new Error('No endpoint provided')
-			const response = await fetch(endpoint.url, {
+			if(!endpoint) throw new Error('No endpoint provided');
+			
+			const options: RequestInit = {
 				method: endpoint.method,
-				headers: {
-						'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
+			}
+			if(endpoint.method !=  "get") {
+				options.headers = {
+					'Content-Type': 'application/json',
+				}
+				options.body = JSON.stringify({
 					config,
 					input
 				})
-			})
+			}
+			const response = await fetch(endpoint.url, options)
 
 			if(!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`)
@@ -132,7 +136,7 @@ export const generateTools = (
 			// const settings = tool.settings as z.infer<
 			// 	typeof CustomFetchToolSettingsSchema
 			// >
-
+			
 			// generateCustomFetchTool(settings)
 		} else if (tool.fnType === 'external') {
 			const settings = tool.settings as {

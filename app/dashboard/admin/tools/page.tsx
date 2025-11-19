@@ -16,6 +16,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { InputSchema } from '@/components/fields/InputSchema'
@@ -33,11 +34,23 @@ import {
 	InstallIntegration,
 	IntegrationCard,
 } from '@/components/common/IntegrationCard'
-import { UrlValueSchema } from '@/schemas'
+import { FileSchema, UrlValueSchema } from '@/schemas'
 import { useMutation } from '@tanstack/react-query'
 import { createTool } from '@/data/admin/admin.tools.client'
 import { ToolFunction } from '@prisma/client'
 import { toast } from 'sonner'
+import {
+	FileUpload,
+	FileUploadDropzone,
+	FileUploadItem,
+	FileUploadItemDelete,
+	FileUploadItemMetadata,
+	FileUploadItemPreview,
+	FileUploadList,
+	FileUploadTrigger,
+} from '@/components/ui/file-upload'
+import { CloudUpload, X } from 'lucide-react'
+import { uploadFile } from '@/data/admin/admin.upload.client'
 
 const formSchema = z.object({
 	name: z.string(),
@@ -47,7 +60,7 @@ const formSchema = z.object({
 	settingsSchema: fieldSchema.array().optional(),
 	inputSchema: fieldSchema.array().optional(),
 	endpoint: UrlValueSchema,
-	imageUrl: z.string(),
+	imageFile: z.array(FileSchema).length(1, 'Please select at least one file'),
 })
 
 const ToolsPage = () => {
@@ -60,10 +73,13 @@ const ToolsPage = () => {
 		z.infer<typeof formSchema>
 	>({
 		mutationFn: async (data) => {
+			const { url } = await uploadFile(data.imageFile[0])
+			console.log({ url })
 			const result = await createTool({
 				...data,
 				fnType: 'external',
 				keyName: data.name.replaceAll(' ', '_').toLowerCase(),
+				imageUrl: url,
 			})
 			return result
 		},
@@ -72,7 +88,7 @@ const ToolsPage = () => {
 		},
 		onSuccess: () => {
 			form.reset()
-			toast.success("Tool created")
+			toast.success('Tool created')
 		},
 	})
 
@@ -85,8 +101,7 @@ const ToolsPage = () => {
 				'Esta tool sirve para consultar toda la info de pokemones, desc larga',
 			aiDesc: 'Tool to get pokemon descriptions',
 			endpoint: { url: 'http://localhost:4000', method: 'get' },
-			imageUrl:
-				'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80',
+			imageFile: [],
 		},
 	})
 
@@ -199,6 +214,66 @@ const ToolsPage = () => {
 											<FormControl>
 												<Textarea className="resize-none" {...field} />
 											</FormControl>
+										</FormItem>
+									)}
+								/>
+							</section>
+							<Separator />
+							<section className="space-y-4">
+								<h3 className="text-current font-semibold text-xl">
+									Cover Image
+								</h3>
+								<FormField
+									control={form.control}
+									name="imageFile"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Attachments</FormLabel>
+											<FormControl>
+												<FileUpload
+													value={field.value}
+													onValueChange={field.onChange}
+													accept="image/*"
+													maxFiles={2}
+													maxSize={5 * 1024 * 1024}
+													onFileReject={(_, message) => {
+														form.setError('imageFile', {
+															message,
+														})
+													}}
+												>
+													<FileUploadDropzone className="flex-row border-dotted">
+														<CloudUpload className="size-4" />
+														Drag and drop or
+														<FileUploadTrigger asChild>
+															<Button variant="link" size="sm" className="p-0">
+																choose files
+															</Button>
+														</FileUploadTrigger>
+														to upload
+													</FileUploadDropzone>
+													<FileUploadList>
+														{field.value.map((file, index) => (
+															<FileUploadItem key={index} value={file}>
+																<FileUploadItemPreview />
+																<FileUploadItemMetadata />
+																<FileUploadItemDelete asChild>
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="size-7"
+																	>
+																		<X />
+																		<span className="sr-only">Delete</span>
+																	</Button>
+																</FileUploadItemDelete>
+															</FileUploadItem>
+														))}
+													</FileUploadList>
+												</FileUpload>
+											</FormControl>
+											<FormDescription>Upload up to 5MB.</FormDescription>
+											<FormMessage />
 										</FormItem>
 									)}
 								/>
@@ -330,6 +405,7 @@ const ToolsPage = () => {
 						inputSchema: form.watch('inputSchema') || [],
 						settingsSchema: form.watch('settingsSchema') || [],
 					}}
+					imageFile={form.watch('imageFile')[0]}
 				/>
 				<InstallIntegration
 					chatbotId=""

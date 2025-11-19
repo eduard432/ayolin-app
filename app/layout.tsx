@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { Analytics } from '@vercel/analytics/next'
-import { ThemeProvider } from '@/components/provider/ThemeProvider'
-import Providers from './providers'
+import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import Providers from '@/components/providers/Providers'
 import { auth } from '@/lib/auth'
 
 const geistSans = Geist({

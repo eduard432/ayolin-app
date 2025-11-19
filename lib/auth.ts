@@ -25,10 +25,11 @@ export const authOptions: NextAuthConfig = {
   // Marca email verificado al vincular cuenta OAuth
   events: {
     async linkAccount({ user }: { user: AdapterUser | User }) {
+      const date = new Date()
       if ('id' in user) {
         await db.user.update({
           where: { id: user.id },
-          data: { emailVerified: new Date() },
+          data: { emailVerified: date, billingCycleStart: date},
         })
       }
     },
