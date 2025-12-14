@@ -13,7 +13,7 @@ import { PayWithStripe } from '@/components/ui/StripeButton'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Ellipsis, LayoutGrid, List, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Bot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
@@ -24,7 +24,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import Link from 'next/link'
 import { Chatbot } from '@prisma/client'
 import Usage, { UsageSkeleton } from './Usage'
-import { useGetUser } from '@/data/user/user.client'
+import { useGetUser, useGetUserUsage } from '@/data/user/user.client'
 
 type LayoutType = 'grid' | 'list'
 
@@ -134,11 +134,21 @@ const DashboardOverview = () => {
 	const isMobile = useIsMobile()
 
 	const { data: user } = useGetUser(session?.user?.id || '')
+	const { data: usage } = useGetUserUsage(session?.user?.id || '')
+
+	useEffect(() => {
+		console.log({usage})
+
+	}, [usage])
+	
 
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-y-8">
 			<section className="flex items-center gap-x-4 col-span-full">
-				<SearchBar className="h-full bg-background rounded-md" placeholder='Buscar' />
+				<SearchBar
+					className="h-full bg-background rounded-md"
+					placeholder="Buscar"
+				/>
 				{!isMobile && (
 					<ToggleGroup
 						value={layout}
@@ -217,8 +227,8 @@ const DashboardOverview = () => {
 				<h4 className="col-span-full scroll-m-20 text-3xl font-semibold tracking-tight mb-4">
 					Uso
 				</h4>
-				{user && data ? (
-					<Usage chatbots={data.length} user={user} />
+				{user && data && usage != undefined ? (
+					<Usage usage={usage} chatbots={data.length} user={user} />
 				) : (
 					<UsageSkeleton />
 				)}

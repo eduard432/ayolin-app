@@ -16,3 +16,16 @@ export const useGetUser = (userId: string) => {
 		refetchOnWindowFocus: false,
 	})
 }
+
+export const useGetUserUsage = (userId: string) => {
+	return useQuery({
+		queryKey: ['user-usage', userId],
+		queryFn: async () => {
+			const res = await fetch(`/api/v1.1/user/usage`)
+			const data: { data: { usage: number } } = await res.json()
+			return data.data.usage
+		},
+		enabled: !!userId,
+		refetchOnWindowFocus: false,
+	})
+}

@@ -65,7 +65,7 @@ const getBillingCycleStart = (date: Date, startDay: number): Date => {
 	}
 }
 
-const getTotalUsage = async (user: User): Promise<number> => {
+export const getTotalUsage = async (user: User): Promise<number> => {
 	// suponiendo que guardas en user.billingCycleStart el día de inicio (ej: 5)
 	const today = new Date()
 	const cycleStart = getBillingCycleStart(
