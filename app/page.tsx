@@ -16,8 +16,7 @@ import UseCases from "@/app/(components)/UseCases";
 import DemoSection from "@/app/(components)/DemoLanding";
 
 import Navbar from '@/components/layout/landing/index'
-import Fotter from "@/components/layout/Footer";
-import AOSInit from "@/components/common/AOSInit";
+import Footer from "@/components/layout/Footer";
 import PricingSection from "@/app/(components)/SeccionesPlanes";
 
 const features = [
@@ -98,7 +97,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen ">
-      <AOSInit />
       {/* Navbar */}
       <Navbar/>
 
@@ -123,7 +121,7 @@ export default function Home() {
       <div className="relative z-10 bg-black border-t border-white/10 w-full"></div>
       
       {/*Seccion de footer   */}
-      <Fotter />
+      <Footer />
 
     </div>
   );
