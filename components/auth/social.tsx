@@ -10,7 +10,7 @@ export const Social = () => {
     dark:hover:!bg-neutral-900 dark:active:!bg-neutral-900
     hover:shadow-none hover:opacity-100
     transition-none
-  `
+  `             
   return (
     <div className="flex gap-x-2 w-full">
       <Button
