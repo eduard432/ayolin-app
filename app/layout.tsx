@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Ayolin App',
+  title: 'Dev Ayolin App',
   description: 'Crea tu propio chatbot',
 }
 
