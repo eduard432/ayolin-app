@@ -19,7 +19,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Button } from '../ui/button'
-import { login } from '@/actions/login'
+import { login } from '@/actions/login' // falta arreglar el auth
 
 export const LoginForm = ({error: errorSign}: {error: string}) => {
 	const [error, setError] = useState<string | undefined>('')
