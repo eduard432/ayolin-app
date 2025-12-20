@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { Metadata } from 'next'
 
 const links = [
@@ -30,9 +31,12 @@ export default function ConfiguracionLayout({
 						<ul >
 							{links.map((link) => (
 								<li key={link.href}>
-									<Button  className="font-bold text-lg hover:text-sky-500 hover:no-underline underline-offset-0" variant="link" asChild >
-										<Link href={link.href}>{link.name}</Link>
-									</Button>
+									<Link 
+										href={link.href}
+										className={cn(buttonVariants ({variant: "link"}), "font-bold text-lg hover:text-sky-500 hover:no-underline underline-offset-0" )}
+									>
+										{link.name}
+									</Link>
 								</li>
 							))}
 						</ul>

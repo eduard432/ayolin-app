@@ -6,7 +6,7 @@ export default function DemoSection() {
 
 			<div className="relative z-10 max-w-6xl mx-auto text-center">
 				{/* Título */}
-				<h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400 transition-all duration-700">
+				<h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-white via-blue-300 to-purple-400 transition-all duration-700">
 					Mira a Ayolin en Acción
 				</h2>
 

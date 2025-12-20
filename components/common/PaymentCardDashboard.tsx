@@ -22,11 +22,11 @@ export const PricingCardDashboard = ({
 	return (
 		<Card
 			className={cn(
-				'w-[350px] h-[390px] flex flex-col justify-between rounded-xl p-6 transition-all duration-300 hover:scale-105 backdrop-blur-md shadow-lg border',
+				'w-87.5 h-97.5 flex flex-col justify-between rounded-xl p-6 transition-all duration-300 hover:scale-105 backdrop-blur-md shadow-lg border',
 				// Fondo y bordes adaptativos
 				'bg-white/70 border-gray-200 text-gray-900 dark:bg-white/5 dark:border-white/10 dark:text-white',
 				featured &&
-					'bg-gradient-to-b from-blue-200/40 to-purple-200/40 border-blue-300/60 dark:from-blue-600/30 dark:to-purple-600/30 dark:border-blue-400/40'
+					'bg-linear-to-b from-blue-200/40 to-purple-200/40 border-blue-300/60 dark:from-blue-600/30 dark:to-purple-600/30 dark:border-blue-400/40'
 			)}
 		>
 			<CardHeader className="space-y-2 text-center">

@@ -28,7 +28,7 @@ export const CardWrapper = ({
   return (
     <Card
       className={`
-        w-[400px]
+        w-100
         bg-white/10 backdrop-blur-lg
         border border-white/20
         shadow-xl text-white

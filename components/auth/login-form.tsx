@@ -156,8 +156,8 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 							variant="secondary"
 							className="
 								w-full bg-white text-black
-								hover:!bg-white active:!bg-white
-								dark:hover:!bg-white dark:active:!bg-white
+								hover:bg-white! active:bg-white!
+								dark:hover:bg-white! dark:active:bg-white!
 								transition-none
 							"
 						>

@@ -6,7 +6,7 @@ export default function Info() {
       <div className="mx-auto max-w-6xl">
         {/* Encabezado */}
         <div className="text-center mb-12 mt-16">
-          <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
+          <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white via-blue-300 to-purple-400">
             ¿Qué es AYOLIN?
           </h2>
         </div>

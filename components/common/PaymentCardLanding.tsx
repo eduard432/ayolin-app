@@ -22,9 +22,9 @@ export const PricingCardLanding = ({
 	return (
 		<Card
 			className={cn(
-				'w-[350px] h-[390px] flex flex-col justify-between rounded-xl p-6 transition-all duration-300 hover:scale-105 backdrop-blur-md bg-white/5 border border-white/10 shadow-lg',
+				'w-87.5 h-390px flex flex-col justify-between rounded-xl p-6 transition-all duration-300 hover:scale-105 backdrop-blur-md bg-white/5 border border-white/10 shadow-lg',
 				featured &&
-					'bg-gradient-to-b from-blue-600/30 to-purple-600/30 border-blue-400/40'
+					'bg-linear-to-b from-blue-600/30 to-purple-600/30 border-blue-400/40'
 			)}
 		>
 			<CardHeader className="space-y-2 text-center">

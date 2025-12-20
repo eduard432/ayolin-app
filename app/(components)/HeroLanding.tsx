@@ -40,7 +40,7 @@ export default function Hero() {
       <noscript>
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-50">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-100 pb-5">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-sky-700 via-violet-500 to-rose-600">
               Construye tu propia IA<br/>
               sin código
             </span>
@@ -63,7 +63,7 @@ export default function Hero() {
             >
               <h1 className="text-4xl md:text-5xl font-extrabold text-gray-100 pb-5">
                 <motion.span
-                  className="bg-clip-text text-transparent bg-gradient-to-r from-sky-700 via-violet-500 to-rose-600 bg-[length:200%_200%]"
+                  className="bg-clip-text text-transparent bg-linear-to-r from-sky-700 via-violet-500 to-rose-600 bg-size-[200%_200%]"
                   animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
                   transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
                 >
@@ -92,7 +92,7 @@ export default function Hero() {
           </div>
 
           {/* Modelo 3D */}
-          <div className="relative z-10 mx-auto mt-16 w-[350px] h-[350px] md:w-[450px] md:h-[450px]">
+          <div className="relative z-10 mx-auto mt-16 w-87.5 h-87.5 md:w-112.5 md:h-112.5">
             <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
               <ambientLight intensity={0.6} />
               <pointLight position={[5, 5, 5]} intensity={1.5} color="#00f0ff" />
@@ -115,7 +115,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-black"></div>
+      <div className="absolute bottom-0 left-0 w-full h-40 bg-linear-to-b from-transparent to-black"></div>
     </section>
   )
 }

@@ -10,7 +10,7 @@ export default function Features({ features }: { features: Feature[] }) {
 	return (
 		<section id="features" className="relative bg-black text-white py-20 px-6">
 			<div className="max-w-6xl mx-auto text-center mb-16">
-				<h2 className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
+				<h2 className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-white via-blue-300 to-purple-400">
 					¿Por qué elegir AYOLIN?
 				</h2>
 				<p className="text-white text-lg max-w-2xl mx-auto">

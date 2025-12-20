@@ -10,7 +10,7 @@ export default function PricingSection() {
 
 			{/* Encabezado */}
 			<div className="relative z-10 max-w-6xl mx-auto text-center mb-12 transition-all duration-700">
-				<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-400">
+				<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-white via-blue-300 to-purple-400">
 					Próximamente
 				</h2>
 				<p className="text-white text-lg max-w-xl mx-auto">

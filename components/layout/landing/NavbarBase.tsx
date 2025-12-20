@@ -15,7 +15,7 @@ export default async function NavbarBase() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
+          className="text-2xl md:text-3xl font-bold bg-linear-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
         >
           AYOLIN
         </Link>
