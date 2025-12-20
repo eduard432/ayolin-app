@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { IconMenu2 } from "@tabler/icons-react"
+import { IconMenu } from "@tabler/icons-react"
 
 type Props = {
   isLoggedIn: boolean
@@ -29,7 +29,7 @@ export default function NavbarMobile({ isLoggedIn }: Props) {
           aria-label="Abrir menú"
           className="p-2 rounded-md text-white/90 hover:text-white hover:bg-white/10 transition"
         >
-          <IconMenu2 className="size-6" />
+          <IconMenu className="size-6" />
         </SheetTrigger>
 
         <SheetContent
