@@ -39,6 +39,8 @@
     "react-dom": "19.2.1",
     "react-hook-form": "^7.68.0",
     "react-tsparticles": "^2.12.2",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "shadcn": "^3.6.2",
     "sonner": "^2.0.7",
     "stripe": "^20.1.0",
