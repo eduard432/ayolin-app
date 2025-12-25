@@ -124,7 +124,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db), // hay que checar esta linea
   session: { strategy: 'jwt' },
   ...authConfig,
 }
