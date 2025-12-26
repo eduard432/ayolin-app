@@ -25,13 +25,13 @@ const ToggleTheme = () => {
 				<IconDeviceDesktopCog />
 			</ToggleGroupItem>
 			<ToggleGroupItem
-				className={cn('w-4 h-4 p-3', theme == 'light' && '')}
+				className={cn('w-4 h-4 p-3', theme == 'dark' && '')}
 				value="light"
 			>
 				<IconMoonStars />
 			</ToggleGroupItem>
 			<ToggleGroupItem
-				className={cn('w-4 h-4 p-3', theme == 'dark' && '')}
+				className={cn('w-4 h-4 p-3', theme == 'light' && '')}
 				value="dark"
 			>
 				<IconSun />

@@ -46,7 +46,7 @@ export const CardWrapper = ({
 
       {/* Social login */}
       {showSocial && (
-        <CardFooter>
+        <CardFooter className="bg-transparent border-white/20">
           <Social />
         </CardFooter>
       )}
