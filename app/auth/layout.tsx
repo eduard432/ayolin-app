@@ -39,7 +39,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         />
 
         {/* Contenedor del contenido (card transparente) */}
-        <div className="flex justify-center z-10 w-full max-w-md p-12 md:px-0"> // si no se ve bien en telefono le movemos aqui
+        <div className="flex justify-center z-10 w-full max-w-md p-12 md:px-0"> {/* si no se ve bien en telefono le movemos aqui */}
           
           {children}
           
