@@ -20,6 +20,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Button, buttonVariants } from '../ui/button'
+import { login } from '@/actions/login'
 
 export const LoginForm = ({error: errorSign}: {error: string}) => {
 	const [error, setError] = useState<string | undefined>('')
@@ -45,7 +46,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 		setSucces('')
 
 		startTransition(() => {
-			login(values).then((data) => { // se tipa con actions/login
+			login(values).then((data) => {
 				if(data?.error){
 					form.reset();
 					setError(data.error)
@@ -72,7 +73,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 				showSocial
 			>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6"> 
 						<div className="space-y-4">
 							{showTwoFactor && (
 
@@ -151,12 +152,7 @@ export const LoginForm = ({error: errorSign}: {error: string}) => {
 							disabled={isPending}
 							type="submit"
 							variant="secondary"
-							className="
-								w-full bg-white text-black
-								hover:bg-white! active:bg-white!
-								dark:hover:bg-white! dark:active:bg-white!
-								transition-none
-							"
+							className=" w-full bg-white text-black hover:bg-white/90 h-10 mt-4"
 						>
 							{showTwoFactor ? "Confirmar" : "Iniciar sesión"}
 						</Button>
